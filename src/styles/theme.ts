@@ -18,7 +18,7 @@ const theme = createTheme({
 		},
 		action: {
 			active: '#E5BDC4',
-			hover: '#E5BDC4',
+			hover: '#387171',
 		},
 	},
 	typography: {
@@ -45,7 +45,7 @@ const theme = createTheme({
 			fontFamily: 'Karma, serif',
 			fontWeight: 700,
 			fontSize: '1.777rem',
-			color: '#64fcf2',
+			color: '#dbfeff',
 		},
 		h5: {
 			fontFamily: 'Karma, serif',
