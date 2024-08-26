@@ -1,7 +1,22 @@
-import { Typography } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 
 function Airing() {
-	return <Typography variant="h2">Welcome to the Airing Page</Typography>;
+	return (
+		<Grid container spacing={2}>
+			<Grid item xs={12}>
+				<Typography
+					variant="h1"
+					sx={{
+						textAlign: 'center',
+						marginTop: '1rem',
+						marginBottom: '2rem',
+					}}
+				>
+					Now on the screens
+				</Typography>
+			</Grid>
+		</Grid>
+	);
 }
 
 export default Airing;

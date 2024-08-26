@@ -11,6 +11,8 @@ import Popularity from './pages/Popularity/Popularity';
 import Airing from './pages/Airing/Airing';
 import Randomizer from './pages/Randomizer/Randomizer';
 import News from './pages/News/News';
+import Settings from './pages/Settings/Settings';
+import Profile from './pages/Profile/Profile';
 
 import Header from './components/Header/Header';
 
@@ -36,6 +38,11 @@ function App() {
 								/>
 								<Route path="/airing" element={<Airing />} />
 								<Route path="/news" element={<News />} />
+								<Route
+									path="/settings"
+									element={<Settings />}
+								/>
+								<Route path="/profile" element={<Profile />} />
 							</Routes>
 						</Grid>
 					</Grid>

@@ -41,7 +41,7 @@ const AccountMenu = () => {
 			>
 				<MenuItem
 					component={Link}
-					to="/search"
+					to="/profile"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -49,7 +49,7 @@ const AccountMenu = () => {
 				</MenuItem>
 				<MenuItem
 					component={Link}
-					to="/popularity"
+					to="/settings"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
