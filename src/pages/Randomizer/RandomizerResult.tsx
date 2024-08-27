@@ -1,42 +1,69 @@
 import { useEffect, useState } from 'react';
-import { JikanResponse, Anime, RandomClient } from '@tutkli/jikan-ts';
+import { useLocation } from 'react-router-dom';
 import { Grid, Typography } from '@mui/material';
-
-import RandomCard from '../../components/RandomCard';
+import { JikanResponse, Anime, AnimeClient } from '@tutkli/jikan-ts';
 import StyledButton from '../../components/StyledButton';
+import RandomCard from '../../components/RandomCard';
+import { useNavigate } from 'react-router-dom';
 
 function RandomizerResult() {
+	const location = useLocation();
+	const animeClient = new AnimeClient();
+	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
+	const navigate = useNavigate();
+
+	const getQueryParams = (query: string) => {
+		return new URLSearchParams(query);
+	};
+
+	const getRandomPage = (min: number, max: number) => {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	};
+
+	const getRandomAnimeFromList = (list: Anime[]) => {
+		const randomIndex = Math.floor(Math.random() * list.length);
+		return list[randomIndex];
+	};
 
 	useEffect(() => {
-		const fetchRandomAnime = async () => {
-			try {
-				const randomClient = new RandomClient();
-				const response: JikanResponse<Anime> =
-					await randomClient.getRandomAnime();
-				setRandomAnime(response.data);
-			} catch (error) {
-				console.error('Failed to fetch random anime:', error);
-			}
-		};
+		const queryParams = getQueryParams(location.search);
+		const genreId = queryParams.get('genre');
+		const randomPage = getRandomPage(1, 5);
 
-		fetchRandomAnime();
-	}, []);
+		if (genreId && animeList.length === 0) {
+			animeClient
+				.getAnimeSearch({
+					page: randomPage,
+					limit: 25,
+					sort: 'asc',
+					order_by: 'popularity',
+					genres: genreId,
+				})
+				.then((response: JikanResponse<Anime[]>) => {
+					console.log(response, 'resp');
+					console.log(response.data, 'res');
+					setAnimeList(response.data);
+
+					const randomAnime = getRandomAnimeFromList(response.data);
+					setRandomAnime(randomAnime);
+					console.log(randomAnime, 'randomAnime');
+				})
+				.catch((err) => {
+					console.log(err, 'err');
+				});
+		}
+	}, [location.search, animeClient, animeList]);
 
 	const handleRandomize = () => {
-		const fetchRandomAnime = async () => {
-			try {
-				const randomClient = new RandomClient();
-				const response: JikanResponse<Anime> =
-					await randomClient.getRandomAnime();
-				console.log('Received data:', response.data);
-				setRandomAnime(response.data);
-			} catch (error) {
-				console.error('Failed to fetch random anime:', error);
-			}
-		};
+		if (animeList.length > 0) {
+			const randomAnime = getRandomAnimeFromList(animeList);
+			setRandomAnime(randomAnime);
+		}
+	};
 
-		fetchRandomAnime();
+	const handleReturnToFilter = () => {
+		navigate(`/randomizer`);
 	};
 
 	return (
@@ -53,15 +80,15 @@ function RandomizerResult() {
 			<Grid item xs={3}>
 				{randomAnime && (
 					<RandomCard
-						imageUrl={randomAnime.images.jpg.image_url}
 						title={randomAnime.title}
+						imageUrl={randomAnime.images.jpg.image_url}
 					/>
 				)}
 			</Grid>
 			<Grid item xs={1} />
 			<Grid item xs={4}>
 				<Typography variant="h3">
-					{randomAnime?.title || 'Title'}
+					{randomAnime ? randomAnime.title : 'Title'}
 				</Typography>
 				<Typography
 					variant="body1"
@@ -74,8 +101,7 @@ function RandomizerResult() {
 						WebkitBoxOrient: 'vertical',
 					}}
 				>
-					{randomAnime?.synopsis ||
-						'Reach the top, and everything will be yours. At the top of the tower exists everything in this world, and all of it can be yours. You can become a god. This is the story of the beginning and the end of Rachel, the girl who climbed the tower so she could see the stars, and Bam, the boy who needed nothing but her.'}
+					{randomAnime ? randomAnime.synopsis : 'NOT FOUND'}
 				</Typography>
 				<Grid container spacing={2}>
 					<Grid item xs={6}>
@@ -84,7 +110,9 @@ function RandomizerResult() {
 						</StyledButton>
 					</Grid>
 					<Grid item xs={6}>
-						<StyledButton>New Filter</StyledButton>
+						<StyledButton onClick={handleReturnToFilter}>
+							New Filter
+						</StyledButton>
 					</Grid>
 				</Grid>
 			</Grid>

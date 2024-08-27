@@ -38,7 +38,7 @@ function App() {
 									element={<Randomizer />}
 								/>
 								<Route
-									path="/randomizerresult"
+									path="/randomizersearch"
 									element={<RandomizerResult />}
 								/>
 								<Route path="/airing" element={<Airing />} />

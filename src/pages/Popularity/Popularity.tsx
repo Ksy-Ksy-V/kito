@@ -6,47 +6,27 @@ import {
 } from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
 
-interface Anime {
-	// mal_id: number;
-	// url: string;
-	// approved: boolean;
-	title: string;
-	// title_english?: string;
-	// title_japanese: string;
-	// title_synonyms: string[];
-	// source: string;
-	// episodes: number;
-	// airing: boolean;
-	// duration: string;
-	// score: number;
-	// scored_by: number;
-	// rank: number;
-	// popularity: number;
-	// members: number;
-	// favorites: number;
-	// synopsis: string;
-	// background: string;
-	// year: number;
-}
-
 function Popularity() {
 	const animeClient = new AnimeClient();
 	const [animeList, setAnimeList] = useState<GeneralAnime[]>([]);
-	const [anime, setAnime] = useState<Anime>();
+
 	useEffect(() => {
-		if (!anime) {
-			animeClient
-				.getAnimeById(1)
-				.then((response: JikanResponse<GeneralAnime>) => {
-					setAnime({ title: response.data.title });
-				});
-		}
 		if (animeList.length === 0) {
 			animeClient
-				.getAnimeSearch()
+				.getAnimeSearch({
+					page: 1,
+					limit: 1,
+					sort: 'asc',
+					order_by: 'popularity',
+					genres: '9,8',
+				})
 				.then((response: JikanResponse<GeneralAnime[]>) => {
+					console.log(response, 'resp');
 					console.log(response.data, 'res');
 					setAnimeList(response.data);
+				})
+				.catch((err) => {
+					console.log(err, 'err');
 				});
 		}
 	}, [anime, animeClient, animeList]);
@@ -63,7 +43,6 @@ function Popularity() {
 					}}
 				>
 					Top Anime by Popularity
-					{anime?.title}
 					{animeList.length === 0 ? 'Not loaded' : animeList[0].title}
 				</Typography>
 			</Grid>

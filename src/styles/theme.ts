@@ -17,7 +17,7 @@ const theme = createTheme({
 			secondary: '#E5BDC4',
 		},
 		action: {
-			active: '#E5BDC4',
+			active: '#387171',
 			hover: '#387171',
 		},
 	},
