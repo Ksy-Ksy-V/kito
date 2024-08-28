@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid, Typography } from '@mui/material';
+import { Grid2, Typography } from '@mui/material';
 import { JikanResponse, Anime, AnimeClient } from '@tutkli/jikan-ts';
 import StyledButton from '../../components/StyledButton';
 import RandomCard from '../../components/RandomCard';
 import { useNavigate } from 'react-router-dom';
 
-function RandomizerResult() {
+function RandomiserResult() {
 	const location = useLocation();
 	const animeClient = new AnimeClient();
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -27,6 +27,7 @@ function RandomizerResult() {
 	};
 
 	useEffect(() => {
+		const animeClient = new AnimeClient();
 		const queryParams = getQueryParams(location.search);
 		const genreId = queryParams.get('genre');
 		const randomPage = getRandomPage(1, 5);
@@ -63,11 +64,11 @@ function RandomizerResult() {
 	};
 
 	const handleReturnToFilter = () => {
-		navigate(`/randomizer`);
+		navigate(`/randomiser`);
 	};
 
 	return (
-		<Grid
+		<Grid2
 			container
 			spacing={2}
 			sx={{
@@ -76,17 +77,15 @@ function RandomizerResult() {
 				alignItems: 'center',
 			}}
 		>
-			<Grid item xs={2} />
-			<Grid item xs={3}>
+			<Grid2 size={{ xs: 3 }} offset={{ xs: 2 }}>
 				{randomAnime && (
 					<RandomCard
 						title={randomAnime.title}
 						imageUrl={randomAnime.images.jpg.image_url}
 					/>
 				)}
-			</Grid>
-			<Grid item xs={1} />
-			<Grid item xs={4}>
+			</Grid2>
+			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
 				<Typography variant="h3">
 					{randomAnime ? randomAnime.title : 'Title'}
 				</Typography>
@@ -103,22 +102,23 @@ function RandomizerResult() {
 				>
 					{randomAnime ? randomAnime.synopsis : 'NOT FOUND'}
 				</Typography>
-				<Grid container spacing={2}>
-					<Grid item xs={6}>
+
+				<Grid2 container spacing={2}>
+					<Grid2 size={{ xs: 6 }}>
 						<StyledButton onClick={handleRandomize}>
 							Randomize
 						</StyledButton>
-					</Grid>
-					<Grid item xs={6}>
+					</Grid2>
+
+					<Grid2 size={{ xs: 6 }}>
 						<StyledButton onClick={handleReturnToFilter}>
 							New Filter
 						</StyledButton>
-					</Grid>
-				</Grid>
-			</Grid>
-			<Grid item xs={2} />
-		</Grid>
+					</Grid2>
+				</Grid2>
+			</Grid2>
+		</Grid2>
 	);
 }
 
-export default RandomizerResult;
+export default RandomiserResult;

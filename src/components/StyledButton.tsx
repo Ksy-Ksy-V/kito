@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonProps, useTheme } from '@mui/material';
 
-const StyledButton: React.FC<ButtonProps> = ({ children, ...props }) => {
+const StyledButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 	const theme = useTheme();
 
 	return (
@@ -9,7 +9,6 @@ const StyledButton: React.FC<ButtonProps> = ({ children, ...props }) => {
 			variant="outlined"
 			fullWidth
 			sx={{
-				margin: '1rem',
 				backgroundColor: theme.palette.action.hover,
 				color: theme.palette.secondary.main,
 				borderColor: theme.palette.secondary.main,
@@ -17,6 +16,7 @@ const StyledButton: React.FC<ButtonProps> = ({ children, ...props }) => {
 					backgroundColor: theme.palette.background.default,
 					borderColor: theme.palette.secondary.main,
 				},
+				...sx,
 			}}
 			{...props}
 		>

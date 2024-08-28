@@ -66,6 +66,19 @@ const theme = createTheme({
 			color: '#dbfeff',
 		},
 	},
+
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				body: {
+					scrollbarColor: '#387171 #2b2b2b',
+					'&::-webkit-scrollbar': {
+						backgroundColor: '#2b2b2b',
+					},
+				},
+			},
+		},
+	},
 });
 
 export default theme;
