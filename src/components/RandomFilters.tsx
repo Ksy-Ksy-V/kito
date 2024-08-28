@@ -1,19 +1,19 @@
+import { useState, useEffect } from 'react';
 import {
-	MenuItem,
-	Select,
+	TextField,
+	Checkbox,
 	Grid2,
-	InputLabel,
 	FormControl,
-	SelectChangeEvent,
+	Autocomplete,
+	Chip,
 } from '@mui/material';
 import { GenresClient, JikanResponse, Genre } from '@tutkli/jikan-ts';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
-	const [selectedGenre, setSelectedGenre] = useState<string | ''>('');
+	const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -22,7 +22,6 @@ const RandomFilters = () => {
 				const genresClient = new GenresClient();
 				const response: JikanResponse<Genre[]> =
 					await genresClient.getAnimeGenres();
-				console.log('Received genres:', response.data);
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
@@ -34,146 +33,64 @@ const RandomFilters = () => {
 		}
 	}, [animeGenres]);
 
-	const handleGenreChange = (event: SelectChangeEvent<string>) => {
-		setSelectedGenre(event.target.value as string);
+	const handleGenreChange = (
+		_event: React.SyntheticEvent,
+		newValue: Genre[]
+	) => {
+		if (newValue.length <= 3) {
+			setSelectedGenres(newValue);
+		}
 	};
 
 	const handleRandomise = () => {
-		navigate(`/randomisersearch?genre=${selectedGenre}`);
+		const selectedGenresQuery = selectedGenres
+			.map((genre) => genre.mal_id)
+			.join(',');
+		navigate(`/randomisersearch?genre=${selectedGenresQuery}`);
 	};
 
 	return (
 		<Grid2 container spacing={2}>
 			<Grid2 size={{ xs: 6 }} offset={{ xs: 3 }}>
 				<FormControl fullWidth variant="filled">
-					<InputLabel>Genre</InputLabel>
-					<Select
-						value={selectedGenre}
+					<Autocomplete
+						multiple
+						options={animeGenres}
+						disableCloseOnSelect
+						getOptionLabel={(option) => option.name}
+						value={selectedGenres}
 						onChange={handleGenreChange}
-						label="Genre"
-						MenuProps={{
-							PaperProps: {
-								style: {
-									maxHeight: 200,
-									width: 'auto',
-								},
-							},
-							anchorOrigin: {
-								vertical: 'bottom',
-								horizontal: 'left',
-							},
-							transformOrigin: {
-								vertical: 'top',
-								horizontal: 'left',
-							},
-						}}
-					>
-						{animeGenres.map((genre) => (
-							<MenuItem key={genre.mal_id} value={genre.mal_id}>
-								{genre.name}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
-
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Airing status</InputLabel>
-					<Select
-						value={selectedGenre}
-						onChange={handleGenreChange}
-						label="Genre"
-						MenuProps={{
-							PaperProps: {
-								style: {
-									maxHeight: 200,
-									width: 'auto',
-								},
-							},
-							anchorOrigin: {
-								vertical: 'bottom',
-								horizontal: 'left',
-							},
-							transformOrigin: {
-								vertical: 'top',
-								horizontal: 'left',
-							},
-						}}
-					></Select>
-				</FormControl>
-
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Format</InputLabel>
-					<Select
-						value={selectedGenre}
-						onChange={handleGenreChange}
-						label="Genre"
-						MenuProps={{
-							PaperProps: {
-								style: {
-									maxHeight: 200,
-									width: 'auto',
-								},
-							},
-							anchorOrigin: {
-								vertical: 'bottom',
-								horizontal: 'left',
-							},
-							transformOrigin: {
-								vertical: 'top',
-								horizontal: 'left',
-							},
-						}}
-					></Select>
-				</FormControl>
-
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Rating</InputLabel>
-					<Select
-						value={selectedGenre}
-						onChange={handleGenreChange}
-						label="Genre"
-						MenuProps={{
-							PaperProps: {
-								style: {
-									maxHeight: 200,
-									width: 'auto',
-								},
-							},
-							anchorOrigin: {
-								vertical: 'bottom',
-								horizontal: 'left',
-							},
-							transformOrigin: {
-								vertical: 'top',
-								horizontal: 'left',
-							},
-						}}
-					></Select>
-				</FormControl>
-
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Episodes</InputLabel>
-					<Select
-						value={selectedGenre}
-						onChange={handleGenreChange}
-						label="Genre"
-						MenuProps={{
-							PaperProps: {
-								style: {
-									maxHeight: 200,
-									width: 'auto',
-								},
-							},
-							anchorOrigin: {
-								vertical: 'bottom',
-								horizontal: 'left',
-							},
-							transformOrigin: {
-								vertical: 'top',
-								horizontal: 'left',
-							},
-						}}
-					></Select>
+						limitTags={3}
+						renderTags={(value, getTagProps) =>
+							value
+								.slice(0, 3)
+								.map((option, index) => (
+									<Chip
+										label={option.name}
+										{...getTagProps({ index })}
+									/>
+								))
+						}
+						renderOption={(props, option, { selected }) => (
+							<li {...props}>
+								<Checkbox
+									checked={selected}
+									sx={{
+										color: 'primary.main',
+									}}
+								/>
+								{option.name}
+							</li>
+						)}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								variant="filled"
+								label="Genres"
+								placeholder="Select 3 or less"
+							/>
+						)}
+					/>
 				</FormControl>
 
 				<StyledButton

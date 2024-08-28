@@ -29,17 +29,17 @@ function RandomiserResult() {
 	useEffect(() => {
 		const animeClient = new AnimeClient();
 		const queryParams = getQueryParams(location.search);
-		const genreId = queryParams.get('genre');
+		const genreIds = queryParams.get('genre');
 		const randomPage = getRandomPage(1, 5);
 
-		if (genreId && animeList.length === 0) {
+		if (genreIds && animeList.length === 0) {
 			animeClient
 				.getAnimeSearch({
 					page: randomPage,
 					limit: 25,
 					sort: 'asc',
 					order_by: 'popularity',
-					genres: genreId,
+					genres: genreIds,
 				})
 				.then((response: JikanResponse<Anime[]>) => {
 					console.log(response, 'resp');

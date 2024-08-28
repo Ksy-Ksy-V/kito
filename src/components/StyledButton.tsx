@@ -9,7 +9,7 @@ const StyledButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 			variant="outlined"
 			fullWidth
 			sx={{
-				backgroundColor: theme.palette.action.hover,
+				backgroundColor: theme.palette.primary.main,
 				color: theme.palette.secondary.main,
 				borderColor: theme.palette.secondary.main,
 				'&:hover': {
