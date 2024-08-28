@@ -16,6 +16,7 @@ import Settings from './pages/Settings/Settings';
 import Profile from './pages/Profile/Profile';
 
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 function App() {
 	return (
@@ -49,6 +50,7 @@ function App() {
 								/>
 								<Route path="/profile" element={<Profile />} />
 							</Routes>
+							<Footer />
 						</Grid>
 					</Grid>
 				</Container>
