@@ -12,6 +12,7 @@ import Airing from './pages/Airing/Airing';
 import Randomizer from './pages/Randomizer/Randomizer';
 import RandomizerResult from './pages/Randomizer/RandomizerResult';
 import News from './pages/News/News';
+import NewsDetail from './pages/News/NewsDetail';
 import Settings from './pages/Settings/Settings';
 import Profile from './pages/Profile/Profile';
 
@@ -43,6 +44,10 @@ function App() {
 								/>
 								<Route path="/airing" element={<Airing />} />
 								<Route path="/news" element={<News />} />
+								<Route
+									path="/news-detail"
+									element={<NewsDetail />}
+								/>
 								<Route
 									path="/settings"
 									element={<Settings />}
