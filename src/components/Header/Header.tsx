@@ -1,4 +1,10 @@
-import { AppBar, Toolbar, IconButton, Grid, useTheme } from '@mui/material';
+import {
+	AppBar,
+	Toolbar,
+	IconButton,
+	useTheme,
+	Grid2,
+} from '@mui/material';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -21,18 +27,16 @@ const Header = () => {
 			}}
 		>
 			<Toolbar>
-				<Grid container alignItems="center" spacing={2}>
-					<Grid item xs={2}>
+				<Grid2 container alignItems="center" spacing={2}>
+					<Grid2 size={{ xs: 2 }}>
 						<Logo />
-					</Grid>
+					</Grid2>
 
-					<Grid item xs={2}>
+					<Grid2 size={{ xs: 2 }}>
 						<NavBar />
-					</Grid>
+					</Grid2>
 
-					<Grid item xs={6} />
-
-					<Grid item xs={1}>
+					<Grid2 size={{ xs: 1 }} offset={{ xs: 6 }}>
 						<IconButton
 							component={Link}
 							to="/search"
@@ -45,12 +49,12 @@ const Header = () => {
 						>
 							<SearchIcon sx={{ fontSize: '2rem' }} />
 						</IconButton>
-					</Grid>
+					</Grid2>
 
-					<Grid item xs={1}>
+					<Grid2 size={{ xs: 1 }}>
 						<AccountMenu />
-					</Grid>
-				</Grid>
+					</Grid2>
+				</Grid2>
 			</Toolbar>
 		</AppBar>
 	);
