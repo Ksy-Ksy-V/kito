@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Grid2, Typography } from '@mui/material';
-import { JikanResponse, Anime, AnimeClient } from '@tutkli/jikan-ts';
+import { JikanResponse, Anime, AnimeClient, AnimeType } from '@tutkli/jikan-ts';
 import StyledButton from '../../components/StyledButton';
 import RandomCard from '../../components/RandomCard';
 import { useNavigate } from 'react-router-dom';
 
 function RandomiserResult() {
 	const location = useLocation();
-	const animeClient = new AnimeClient();
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const navigate = useNavigate();
@@ -29,17 +28,20 @@ function RandomiserResult() {
 	useEffect(() => {
 		const animeClient = new AnimeClient();
 		const queryParams = getQueryParams(location.search);
-		const genreIds = queryParams.get('genre');
+		const genre = queryParams.get('genre') || undefined;
+		const type = queryParams.get('type') as AnimeType || undefined;
 		const randomPage = getRandomPage(1, 5);
 
-		if (genreIds && animeList.length === 0) {
+		if (animeList.length === 0) {
 			animeClient
 				.getAnimeSearch({
 					page: randomPage,
 					limit: 25,
 					sort: 'asc',
 					order_by: 'popularity',
-					genres: genreIds,
+					genres: genre,
+					type,
+
 				})
 				.then((response: JikanResponse<Anime[]>) => {
 					console.log(response, 'resp');
@@ -54,7 +56,7 @@ function RandomiserResult() {
 					console.log(err, 'err');
 				});
 		}
-	}, [location.search, animeClient, animeList]);
+	}, [location.search, animeList]);
 
 	const handleRandomize = () => {
 		if (animeList.length > 0) {

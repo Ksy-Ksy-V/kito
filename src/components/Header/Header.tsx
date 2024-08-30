@@ -27,7 +27,7 @@ const Header = () => {
 			}}
 		>
 			<Toolbar>
-				<Grid2 container alignItems="center" spacing={2}>
+				<Grid2 container alignItems="center" spacing={2} size={{ xs: 12 }}>
 					<Grid2 size={{ xs: 2 }}>
 						<Logo />
 					</Grid2>

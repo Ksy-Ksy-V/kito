@@ -1,19 +1,27 @@
 import { useState, useEffect } from 'react';
 import {
 	TextField,
-	Checkbox,
 	Grid2,
 	FormControl,
 	Autocomplete,
-	Chip,
+	Select,
+	SelectChangeEvent,
+	MenuItem,
+	InputLabel,
+	InputAdornment,
+	IconButton
 } from '@mui/material';
-import { GenresClient, JikanResponse, Genre } from '@tutkli/jikan-ts';
+import { GenresClient, JikanResponse, Genre, AnimeType } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
+import ClearIcon from '@mui/icons-material/Clear';
 import StyledButton from './StyledButton';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
-	const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+	const animeTypes: AnimeType[] = ['TV', 'Movie', 'Ova', 'Special', 'Ona', 'Music'];
+
+	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -22,31 +30,53 @@ const RandomFilters = () => {
 				const genresClient = new GenresClient();
 				const response: JikanResponse<Genre[]> =
 					await genresClient.getAnimeGenres();
+
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
 			}
 		};
-
-		if (animeGenres.length === 0) {
+		if (!animeGenres || animeGenres.length === 0) {
 			fetchAnimeGenres();
 		}
 	}, [animeGenres]);
 
+
 	const handleGenreChange = (
 		_event: React.SyntheticEvent,
-		newValue: Genre[]
+		newValue: Genre | null
 	) => {
-		if (newValue.length <= 3) {
-			setSelectedGenres(newValue);
-		}
+		setSelectedGenre(newValue);
+	};
+
+	const handleTypeChange = (
+		event: SelectChangeEvent<AnimeType>,
+	) => {
+		setSelectedType(event.target.value as AnimeType);
 	};
 
 	const handleRandomise = () => {
-		const selectedGenresQuery = selectedGenres
-			.map((genre) => genre.mal_id)
-			.join(',');
-		navigate(`/randomisersearch?genre=${selectedGenresQuery}`);
+		const queryParams: string[] = [];
+		// Add genre to query params if it's defined
+		if (selectedGenre) {
+			queryParams.push(`genre=${selectedGenre.mal_id}`);
+		}
+
+		// Add type to query params if it's defined
+		if (selectedType) {
+			queryParams.push(`type=${selectedType}`);
+		}
+
+		// Add other query params here similarly
+		// if (anotherParam) {
+		//     queryParams.push(`anotherParam=${anotherParam}`);
+		// }
+
+		// Construct the query string
+		const queryString = queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
+
+		// Navigate to the constructed URL
+		navigate(`/randomiser-search${queryString}`);
 	};
 
 	return (
@@ -54,43 +84,59 @@ const RandomFilters = () => {
 			<Grid2 size={{ xs: 6 }} offset={{ xs: 3 }}>
 				<FormControl fullWidth variant="filled">
 					<Autocomplete
-						multiple
 						options={animeGenres}
-						disableCloseOnSelect
 						getOptionLabel={(option) => option.name}
-						value={selectedGenres}
+						value={selectedGenre}
 						onChange={handleGenreChange}
-						limitTags={3}
-						renderTags={(value, getTagProps) =>
-							value
-								.slice(0, 3)
-								.map((option, index) => (
-									<Chip
-										label={option.name}
-										{...getTagProps({ index })}
-									/>
-								))
-						}
-						renderOption={(props, option, { selected }) => (
-							<li {...props}>
-								<Checkbox
-									checked={selected}
-									sx={{
-										color: 'primary.main',
-									}}
-								/>
-								{option.name}
-							</li>
-						)}
+						renderOption={(props, option) => {
+							const { key, ...rest } = props;
+							return (
+								<li key={key} {...rest}>
+									{option.name}
+								</li>
+							);
+						}}
 						renderInput={(params) => (
 							<TextField
 								{...params}
 								variant="filled"
-								label="Genres"
-								placeholder="Select 3 or less"
+								label="Genre"
 							/>
 						)}
 					/>
+				</FormControl>
+
+				<FormControl fullWidth variant="filled">
+					<InputLabel >Type</InputLabel>
+					<Select
+						value={selectedType}
+						onChange={handleTypeChange}
+						endAdornment={
+							selectedType && (
+								<InputAdornment position="end">
+									<IconButton
+										color="inherit"
+										size="small"
+										onClick={() => {
+											setSelectedType('');
+										}}
+									>
+										<ClearIcon sx={{ fontSize: '20px', marginRight: '20px' }} />
+									</IconButton>
+								</InputAdornment>
+							)
+						}
+					>
+						{animeTypes.map((type) => (
+							<MenuItem
+								key={type}
+								id={type}
+								value={type}
+							>
+								{type}
+							</MenuItem>
+						))}
+					</Select>
 				</FormControl>
 
 				<StyledButton
@@ -99,8 +145,8 @@ const RandomFilters = () => {
 				>
 					Randomise
 				</StyledButton>
-			</Grid2>
-		</Grid2>
+			</Grid2 >
+		</Grid2 >
 	);
 };
 

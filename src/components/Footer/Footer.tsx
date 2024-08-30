@@ -184,7 +184,7 @@ const Footer = () => {
 					<Grid2 size={{ xs: 2 }}>
 						<Typography
 							component={Link}
-							to="/randomizer"
+							to="/randomiser"
 							sx={{
 								display: 'block',
 								color: theme.palette.primary.main,
@@ -196,7 +196,7 @@ const Footer = () => {
 								},
 							}}
 						>
-							Randomizer
+							Randomiser
 						</Typography>
 						<Typography
 							component={Link}
