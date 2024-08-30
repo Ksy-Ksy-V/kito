@@ -62,7 +62,7 @@ const theme = createTheme({
 		body2: {
 			fontFamily: 'DM Sans, sans-serif',
 			fontWeight: 400,
-			fontSize: '0.750rem',
+			fontSize: '0.550rem',
 			color: '#dbfeff',
 		},
 	},
