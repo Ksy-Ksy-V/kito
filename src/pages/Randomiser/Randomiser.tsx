@@ -1,11 +1,11 @@
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid2 } from '@mui/material';
 
 import RandomFilters from '../../components/RandomFilters';
 
-function Randomizer() {
+function Randomiser() {
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
+		<Grid2 container spacing={2}>
+			<Grid2 size={{ xs: 12 }}>
 				<Typography
 					variant="h1"
 					sx={{
@@ -16,12 +16,12 @@ function Randomizer() {
 				>
 					Choose Your Preferences
 				</Typography>
-			</Grid>
-			<Grid item xs={12}>
+			</Grid2>
+			<Grid2 size={{ xs: 12 }}>
 				<RandomFilters />
-			</Grid>
-		</Grid>
+			</Grid2>
+		</Grid2>
 	);
 }
 
-export default Randomizer;
+export default Randomiser;
