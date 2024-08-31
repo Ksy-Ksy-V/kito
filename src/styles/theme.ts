@@ -18,7 +18,7 @@ const theme = createTheme({
 		},
 		action: {
 			active: '#64fcf2',
-			hover: '#64fcf2',
+			hover: '#387171',
 		},
 	},
 	typography: {

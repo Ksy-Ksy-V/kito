@@ -1,7 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Grid2, Typography } from '@mui/material';
-import { JikanResponse, Anime, AnimeClient, AnimeType } from '@tutkli/jikan-ts';
+import {
+	JikanResponse,
+	Anime,
+	AnimeClient,
+	AnimeType,
+	AnimeSearchStatus,
+	AnimeRating,
+} from '@tutkli/jikan-ts';
 import StyledButton from '../../components/StyledButton';
 import RandomCard from '../../components/RandomCard';
 import { useNavigate } from 'react-router-dom';
@@ -26,35 +33,48 @@ function RandomiserResult() {
 	};
 
 	useEffect(() => {
-		const animeClient = new AnimeClient();
-		const queryParams = getQueryParams(location.search);
-		const genre = queryParams.get('genre') || undefined;
-		const type = queryParams.get('type') as AnimeType || undefined;
-		const randomPage = getRandomPage(1, 5);
+		const fetchAnimeList = async () => {
+			try {
+				const animeClient = new AnimeClient();
+				const queryParams = getQueryParams(location.search);
+				const genre = queryParams.get('genre') || undefined;
+				const type =
+					(queryParams.get('type') as AnimeType) || undefined;
 
-		if (animeList.length === 0) {
-			animeClient
-				.getAnimeSearch({
-					page: randomPage,
-					limit: 25,
-					sort: 'asc',
-					order_by: 'popularity',
-					genres: genre,
-					type,
+				const status =
+					(queryParams.get('status') as AnimeSearchStatus) ||
+					undefined;
 
-				})
-				.then((response: JikanResponse<Anime[]>) => {
-					console.log(response, 'resp');
-					console.log(response.data, 'res');
+				const rating =
+					(queryParams.get('rating') as AnimeRating) || undefined;
+				const randomPage = getRandomPage(1, 5);
+
+				const response: JikanResponse<Anime[]> =
+					await animeClient.getAnimeSearch({
+						page: randomPage,
+						limit: 25,
+						sort: 'asc',
+						order_by: 'popularity',
+						genres: genre,
+						type,
+						status,
+						rating,
+					});
+
+				if (response.data && response.data.length > 0) {
 					setAnimeList(response.data);
-
 					const randomAnime = getRandomAnimeFromList(response.data);
 					setRandomAnime(randomAnime);
-					console.log(randomAnime, 'randomAnime');
-				})
-				.catch((err) => {
-					console.log(err, 'err');
-				});
+				} else {
+					console.warn('No anime found');
+				}
+			} catch (err) {
+				console.error('Error fetching anime list:', err);
+			}
+		};
+
+		if (animeList.length === 0) {
+			fetchAnimeList();
 		}
 	}, [location.search, animeList]);
 
