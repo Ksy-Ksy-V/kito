@@ -17,6 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
 import SelectForm from './SelectForm';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
@@ -114,6 +115,11 @@ const RandomFilters = () => {
 						options={animeGenres}
 						getOptionLabel={(option) => option.name}
 						value={selectedGenre}
+						clearIcon={<ClearIcon
+							sx={[
+								{ visibility: 'visible' },
+							]}
+							fontSize="small" />}
 						onChange={handleGenreChange}
 						renderOption={(props, option) => {
 							const { key, ...rest } = props;
@@ -122,12 +128,12 @@ const RandomFilters = () => {
 									key={key}
 									{...rest}
 									onMouseEnter={(e) =>
-										(e.currentTarget.style.backgroundColor =
-											theme.palette.primary.main)
+									(e.currentTarget.style.backgroundColor =
+										theme.palette.primary.main)
 									}
 									onMouseLeave={(e) =>
-										(e.currentTarget.style.backgroundColor =
-											'inherit')
+									(e.currentTarget.style.backgroundColor =
+										'inherit')
 									}
 								>
 									{option.name}

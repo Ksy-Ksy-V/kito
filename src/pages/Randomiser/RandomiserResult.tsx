@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Grid2, Typography, Skeleton } from '@mui/material';
 import {
@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
 
 function RandomiserResult() {
 	const location = useLocation();
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
@@ -33,26 +32,38 @@ function RandomiserResult() {
 		return list[randomIndex];
 	};
 
-	useEffect(() => {
-		const fetchAnimeList = async () => {
-			try {
-				const animeClient = new AnimeClient();
-				const queryParams = getQueryParams(location.search);
-				const genre = queryParams.get('genre') || undefined;
-				const type =
-					(queryParams.get('type') as AnimeType) || undefined;
+	const fetchAnimeList = useCallback(async () => {
+		try {
+			setLoading(true);
+			const animeClient = new AnimeClient();
+			const queryParams = getQueryParams(location.search);
+			const genre = queryParams.get('genre') || undefined;
+			const type =
+				(queryParams.get('type') as AnimeType) || undefined;
 
-				const status =
-					(queryParams.get('status') as AnimeSearchStatus) ||
-					undefined;
+			const status =
+				(queryParams.get('status') as AnimeSearchStatus) ||
+				undefined;
 
-				const rating =
-					(queryParams.get('rating') as AnimeRating) || undefined;
-				const randomPage = getRandomPage(1, 5);
+			const rating =
+				(queryParams.get('rating') as AnimeRating) || undefined;
+			const randomPage = getRandomPage(1, 5);
 
-				const response: JikanResponse<Anime[]> =
+			let response: JikanResponse<Anime[]> =
+				await animeClient.getAnimeSearch({
+					page: randomPage,
+					limit: 25,
+					sort: 'asc',
+					order_by: 'popularity',
+					genres: genre,
+					type,
+					status,
+					rating,
+				});
+			if (response.data.length === 0) {
+				response =
 					await animeClient.getAnimeSearch({
-						page: randomPage,
+						page: 1,
 						limit: 25,
 						sort: 'asc',
 						order_by: 'popularity',
@@ -61,31 +72,25 @@ function RandomiserResult() {
 						status,
 						rating,
 					});
-
-				if (response.data && response.data.length > 0) {
-					setAnimeList(response.data);
-					const randomAnime = getRandomAnimeFromList(response.data);
-					setRandomAnime(randomAnime);
-				} else {
-					console.warn('No anime found');
-				}
-			} catch (err) {
-				console.error('Error fetching anime list:', err);
-			} finally {
-				setLoading(false);
 			}
-		};
 
-		if (animeList.length === 0) {
-			fetchAnimeList();
+			if (response.data && response.data.length > 0) {
+				const randomAnime = getRandomAnimeFromList(response.data);
+				setRandomAnime(randomAnime);
+			}
+		} catch (err) {
+			console.error('Error fetching anime list:', err);
+		} finally {
+			setLoading(false);
 		}
-	}, [location.search, animeList]);
+	}, [location.search]);
+
+	useEffect(() => {
+		fetchAnimeList();
+	}, [fetchAnimeList]);
 
 	const handleRandomize = () => {
-		if (animeList.length > 0) {
-			const randomAnime = getRandomAnimeFromList(animeList);
-			setRandomAnime(randomAnime);
-		}
+		fetchAnimeList()
 	};
 
 	const handleReturnToFilter = () => {
@@ -105,26 +110,30 @@ function RandomiserResult() {
 			<Grid2 size={{ xs: 3 }} offset={{ xs: 2 }}>
 				{loading ? (
 					<Skeleton variant="rectangular" width="100%" height={300} />
-				) : (
-					randomAnime && (
+				) : randomAnime ?
+					(
 						<RandomCard
 							title={randomAnime.title}
 							imageUrl={randomAnime.images.jpg.image_url}
 						/>
-					)
-				)}
+					) : (
+						///#TODO: Add a default image
+						<Skeleton variant="rectangular" width="100%" height={300} />
+					)}
 			</Grid2>
 			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
 				{loading ? (
 					<Skeleton variant="text" width="80%" height={40} />
 				) : (
 					<Typography variant="h3">
-						{randomAnime ? randomAnime.title : 'Title'}
+						{randomAnime ? randomAnime.title : 'Not found'}
 					</Typography>
 				)}
 				<Typography
 					variant="body1"
-					margin="1rem"
+					// margin={loading ? 0 : '1rem'}
+					marginBottom='2rem'
+					marginTop='2rem'
 					sx={{
 						display: '-webkit-box',
 						overflow: 'hidden',
@@ -136,13 +145,14 @@ function RandomiserResult() {
 					{loading ? (
 						<>
 							<Skeleton variant="text" />
-							<Skeleton variant="text" width="90%" />
-							<Skeleton variant="text" width="80%" />
+							<Skeleton variant="text" />
+							<Skeleton variant="text" />
+							<Skeleton variant="text" />
 						</>
 					) : randomAnime ? (
 						randomAnime.synopsis
 					) : (
-						'NOT FOUND'
+						'Sorry, no information available for provided filters.'
 					)}
 				</Typography>
 
@@ -150,7 +160,7 @@ function RandomiserResult() {
 					<Grid2 size={{ xs: 6 }}>
 						<StyledButton
 							onClick={handleRandomize}
-							disabled={loading}
+							disabled={loading || !randomAnime}
 						>
 							Randomize
 						</StyledButton>
