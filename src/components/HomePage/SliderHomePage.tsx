@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, IconButton, Grid2, useTheme } from '@mui/material';
-import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
@@ -15,7 +14,7 @@ const SliderHomePage: React.FC = () => {
 	// const top = new TopClient();
 	// const [topList, setTopList] = useState<Anime[]>([]);
 	const theme = useTheme();
-
+	const [currentIndex, setCurrentIndex] = useState(0);
 	const [items, setItems] = useState<SliderItem[]>([
 		{
 			title: 'Lossless Youths',
@@ -31,13 +30,6 @@ const SliderHomePage: React.FC = () => {
 			backgroundImage: 'https://i.redd.it/tc0aqpv92pn21.jpg',
 		},
 		{
-			title: 'The Gate Keeper',
-			description:
-				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
-			backgroundImage:
-				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
-		},
-		{
 			title: 'веапвапвапавп',
 			description:
 				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
@@ -45,7 +37,7 @@ const SliderHomePage: React.FC = () => {
 				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
 		},
 	]);
-
+	console.log(setItems);
 	// useEffect(() => {
 	// 	const fetchTopAnime = async () => {
 	// 		try {
@@ -66,14 +58,17 @@ const SliderHomePage: React.FC = () => {
 	// }, [topList, TopClient]);
 
 	const handleNext = () => {
-		setItems((prevItems) => [...prevItems.slice(1), prevItems[0]]);
+		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
 	};
 
 	const handlePrev = () => {
-		setItems((prevItems) => [
-			prevItems[prevItems.length - 1],
-			...prevItems.slice(0, prevItems.length - 1),
-		]);
+		setCurrentIndex(
+			(prevIndex) => (prevIndex - 1 + items.length) % items.length
+		);
+	};
+
+	const handleThumbnailClick = (index: number) => {
+		setCurrentIndex(index);
 	};
 
 	return (
@@ -99,13 +94,12 @@ const SliderHomePage: React.FC = () => {
 						backgroundImage: `url(${item.backgroundImage})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
-						transition: 'transform 0.75s ease-in-out',
-						transform:
-							index === 0 ? 'translateX(0)' : `translateX(-100%)`,
-						zIndex: index === 0 ? 1 : 0,
+						transition: 'opacity 0.75s ease-in-out',
+						opacity: index === currentIndex ? 1 : 0,
+						zIndex: index === currentIndex ? 1 : 0,
 					}}
 				>
-					{index === 0 && (
+					{index === currentIndex && (
 						<Grid2
 							container
 							sx={{
@@ -150,13 +144,13 @@ const SliderHomePage: React.FC = () => {
 									marginRight: '13rem',
 								}}
 							>
-								{items.slice(1, 4).map((item, index) => (
+								{items.map((thumbItem, thumbIndex) => (
 									<Box
-										key={index}
+										key={thumbIndex}
 										sx={{
 											width: '150px',
 											height: '250px',
-											backgroundImage: `url(${item.backgroundImage})`,
+											backgroundImage: `url(${thumbItem.backgroundImage})`,
 											backgroundSize: 'cover',
 											backgroundPosition: 'center',
 											borderRadius: '10px',
@@ -164,8 +158,15 @@ const SliderHomePage: React.FC = () => {
 											cursor: 'pointer',
 											border: `2px solid ${theme.palette.secondary.main}`,
 											marginLeft:
-												index > 0 ? '10px' : '0',
+												thumbIndex > 0 ? '10px' : '0',
+											opacity:
+												thumbIndex === currentIndex
+													? 1
+													: 0.5,
 										}}
+										onClick={() =>
+											handleThumbnailClick(thumbIndex)
+										}
 									/>
 								))}
 							</Grid2>
