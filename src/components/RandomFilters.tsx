@@ -1,13 +1,19 @@
-import { MenuItem, Grid } from '@mui/material';
+import { useState, useEffect } from 'react';
+import {
+	TextField,
+	Checkbox,
+	Grid2,
+	FormControl,
+	Autocomplete,
+	Chip,
+} from '@mui/material';
 import { GenresClient, JikanResponse, Genre } from '@tutkli/jikan-ts';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from './StyledButton';
-import StyledTextField from './SearchFilter';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
-	const [selectedGenre, setSelectedGenre] = useState<string | ''>('');
+	const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -16,7 +22,6 @@ const RandomFilters = () => {
 				const genresClient = new GenresClient();
 				const response: JikanResponse<Genre[]> =
 					await genresClient.getAnimeGenres();
-				console.log('Received genres:', response.data);
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
@@ -28,33 +33,74 @@ const RandomFilters = () => {
 		}
 	}, [animeGenres]);
 
-	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setSelectedGenre(event.target.value);
+	const handleGenreChange = (
+		_event: React.SyntheticEvent,
+		newValue: Genre[]
+	) => {
+		if (newValue.length <= 3) {
+			setSelectedGenres(newValue);
+		}
 	};
 
-	const handleRandomize = () => {
-		navigate(`/randomizersearch?genre=${selectedGenre}`);
+	const handleRandomise = () => {
+		const selectedGenresQuery = selectedGenres
+			.map((genre) => genre.mal_id)
+			.join(',');
+		navigate(`/randomisersearch?genre=${selectedGenresQuery}`);
 	};
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={3} />
-			<Grid item xs={6}>
-				<StyledTextField
-					select
-					label="Genre"
-					value={selectedGenre}
-					onChange={handleGenreChange}
+		<Grid2 container spacing={2}>
+			<Grid2 size={{ xs: 6 }} offset={{ xs: 3 }}>
+				<FormControl fullWidth variant="filled">
+					<Autocomplete
+						multiple
+						options={animeGenres}
+						disableCloseOnSelect
+						getOptionLabel={(option) => option.name}
+						value={selectedGenres}
+						onChange={handleGenreChange}
+						limitTags={3}
+						renderTags={(value, getTagProps) =>
+							value
+								.slice(0, 3)
+								.map((option, index) => (
+									<Chip
+										label={option.name}
+										{...getTagProps({ index })}
+									/>
+								))
+						}
+						renderOption={(props, option, { selected }) => (
+							<li {...props}>
+								<Checkbox
+									checked={selected}
+									sx={{
+										color: 'primary.main',
+									}}
+								/>
+								{option.name}
+							</li>
+						)}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								variant="filled"
+								label="Genres"
+								placeholder="Select 3 or less"
+							/>
+						)}
+					/>
+				</FormControl>
+
+				<StyledButton
+					onClick={handleRandomise}
+					sx={{ marginTop: '1rem' }}
 				>
-					{animeGenres.map((genre) => (
-						<MenuItem key={genre.mal_id} value={genre.mal_id}>
-							{genre.name}
-						</MenuItem>
-					))}
-				</StyledTextField>
-				<StyledButton onClick={handleRandomize}>Randomize</StyledButton>
-			</Grid>
-		</Grid>
+					Randomise
+				</StyledButton>
+			</Grid2>
+		</Grid2>
 	);
 };
 

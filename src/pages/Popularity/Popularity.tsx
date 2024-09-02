@@ -1,52 +1,129 @@
-import { Typography, Grid } from '@mui/material';
-import {
-	AnimeClient,
-	JikanResponse,
-	Anime as GeneralAnime,
-} from '@tutkli/jikan-ts';
+import { Typography, IconButton, Box } from '@mui/material';
+import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
 
+import PopularAnimeCard from '../../components/PopularAnimeCard';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 function Popularity() {
-	const animeClient = new AnimeClient();
-	const [animeList, setAnimeList] = useState<GeneralAnime[]>([]);
+	const top = new TopClient();
+	const [topList, setTopList] = useState<Anime[]>([]);
+	const [currentSlide, setCurrentSlide] = useState(0);
 
 	useEffect(() => {
-		if (animeList.length === 0) {
-			animeClient
-				.getAnimeSearch({
+		const fetchTopAnime = async () => {
+			try {
+				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
-					limit: 1,
-					sort: 'asc',
-					order_by: 'popularity',
-					genres: '9,8',
-				})
-				.then((response: JikanResponse<GeneralAnime[]>) => {
-					console.log(response, 'resp');
-					console.log(response.data, 'res');
-					setAnimeList(response.data);
-				})
-				.catch((err) => {
-					console.log(err, 'err');
+					limit: 10,
 				});
+
+				setTopList(response.data);
+			} catch (err) {
+				console.error('Failed to fetch anime:', err);
+			}
+		};
+
+		if (topList.length === 0) {
+			fetchTopAnime();
 		}
-	}, [anime, animeClient, animeList]);
+	}, [topList, TopClient]);
+
+	const slideCount = 5;
+
+	const handlePrevSlide = () => {
+		setCurrentSlide((prev) =>
+			prev === 0 ? topList.length - slideCount : prev - 1
+		);
+	};
+
+	const handleNextSlide = () => {
+		setCurrentSlide((prev) =>
+			prev === topList.length - slideCount ? 0 : prev + 1
+		);
+	};
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Typography
-					variant="h1"
+		<Box sx={{ position: 'relative', width: '100%' }}>
+			<Typography
+				variant="h1"
+				sx={{
+					textAlign: 'center',
+					marginTop: '1rem',
+					marginBottom: '2rem',
+				}}
+			>
+				Top 10 Anime by Popularity
+			</Typography>
+
+			<Box
+				sx={{
+					display: 'flex',
+					overflow: 'hidden',
+					width: '100%',
+					position: 'relative',
+				}}
+			>
+				<Box
 					sx={{
-						textAlign: 'center',
-						marginTop: '1rem',
-						marginBottom: '2rem',
+						display: 'flex',
+						transition: 'transform 0.5s ease-in-out',
+						transform: `translateX(-${
+							currentSlide * (100 / slideCount)
+						}%)`,
+						width: `${(topList.length / slideCount) * 100}%`,
 					}}
 				>
-					Top Anime by Popularity
-					{animeList.length === 0 ? 'Not loaded' : animeList[0].title}
-				</Typography>
-			</Grid>
-		</Grid>
+					{topList.map((anime) => (
+						<Box
+							key={anime.mal_id}
+							sx={{
+								minWidth: `${100 / slideCount}%`,
+								boxSizing: 'border-box',
+								padding: '0 8px',
+							}}
+						>
+							<PopularAnimeCard
+								title={anime.title}
+								// excerpt={
+								// 	anime.synopsis ||
+								// 	'No description available.'
+								// }
+								imageUrl={anime.images.jpg.image_url}
+								// newsUrl={anime.url}
+							/>
+						</Box>
+					))}
+				</Box>
+			</Box>
+
+			<IconButton
+				onClick={handlePrevSlide}
+				sx={{
+					position: 'absolute',
+					top: '50%',
+					left: '0',
+					transform: 'translateY(-50%)',
+					zIndex: 10,
+				}}
+			>
+				<ArrowBackIosIcon />
+			</IconButton>
+
+			<IconButton
+				onClick={handleNextSlide}
+				sx={{
+					position: 'absolute',
+					top: '50%',
+					right: '0',
+					transform: 'translateY(-50%)',
+					zIndex: 10,
+				}}
+			>
+				<ArrowForwardIosIcon />
+			</IconButton>
+		</Box>
 	);
 }
 

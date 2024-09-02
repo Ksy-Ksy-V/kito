@@ -1,4 +1,4 @@
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid2 } from '@mui/material';
 import { AnimeClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
 
@@ -26,8 +26,8 @@ function Search() {
 	}, [animeList, animeClient]);
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
+		<Grid2 container spacing={2}>
+			<Grid2 size={{ xs: 12 }}>
 				<Typography
 					variant="h1"
 					sx={{
@@ -38,26 +38,24 @@ function Search() {
 				>
 					There's something for everyone
 				</Typography>
-			</Grid>
+			</Grid2>
 
-			<Grid item xs={12}>
+			<Grid2 size={{ xs: 12 }}>
 				<SearchFilter />
-			</Grid>
+			</Grid2>
 
-			<Grid container spacing={2}>
-				{animeList.map((anime) => (
-					<Grid item xs={3} key={anime.mal_id}>
-						<CardAnime
-							title={anime.title}
-							description={
-								anime.synopsis || 'No description available.'
-							}
-							imageUrl={anime.images.jpg.image_url || ''}
-						/>
-					</Grid>
-				))}
-			</Grid>
-		</Grid>
+			{animeList.map((anime) => (
+				<Grid2 size={{ xs: 3 }} key={anime.mal_id}>
+					<CardAnime
+						title={anime.title}
+						description={
+							anime.synopsis || 'No description available.'
+						}
+						imageUrl={anime.images.jpg.image_url || ''}
+					/>
+				</Grid2>
+			))}
+		</Grid2>
 	);
 }
 
