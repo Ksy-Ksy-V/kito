@@ -1,7 +1,45 @@
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Typography, Grid2, Box } from '@mui/material';
+import { AnimeClient, JikanResponse, JikanNews } from '@tutkli/jikan-ts';
 import newsImg from '../../images/animeCardPoster.png';
 
 const NewsDetail = () => {
+	const { newsId } = useParams<{ newsId: string }>();
+	const [news, setNews] = useState<JikanNews | null>(null);
+	const animeClient = new AnimeClient();
+	useEffect(() => {
+		const fetchNews = async () => {
+			try {
+				const response: JikanResponse<JikanNews[]> =
+					await animeClient.getAnimeNews(1, 10);
+
+				console.log('Fetched news:', response.data);
+				console.log('Looking for news with ID:', newsId);
+
+				const foundNews = response.data.find(
+					(n) => n.mal_id.toString() === newsId
+				);
+
+				if (foundNews) {
+					setNews(foundNews);
+				} else {
+					console.error('News not found');
+				}
+			} catch (error) {
+				console.error('Failed to fetch news detail:', error);
+			}
+		};
+
+		if (newsId) {
+			fetchNews();
+		}
+	}, [animeClient, newsId]);
+
+	if (!news) {
+		return <Typography variant="h5">Loading...</Typography>;
+	}
+
 	return (
 		<Box
 			sx={{
@@ -24,7 +62,9 @@ const NewsDetail = () => {
 						position: 'relative',
 						height: '400px',
 						width: '100%',
-						backgroundImage: `url(${newsImg})`,
+						backgroundImage: `url(${
+							news.images?.jpg?.image_url || newsImg
+						})`,
 						backgroundSize: 'cover',
 						backgroundPosition: 'center',
 						marginTop: '1rem',
@@ -67,8 +107,10 @@ const NewsDetail = () => {
 							textAlign: 'center',
 						}}
 					>
-						<Typography variant="h2">News Title</Typography>
-						<Typography variant="h4">News Author</Typography>
+						<Typography variant="h2">{news.title}</Typography>
+						<Typography variant="h4">
+							{news.author_username}
+						</Typography>
 
 						<Box
 							sx={{
@@ -81,16 +123,13 @@ const NewsDetail = () => {
 								borderRadius: '5px',
 								boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
 								backdropFilter: 'blur(4.9px)',
-								webkitBackdropFilter: 'blur(4.9px)',
 								border: '1px solid rgba(29, 51, 53, 0.3)',
 							}}
 						>
 							<Typography variant="body1">
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit, sed do eiusmod tempor
-								incididunt ut labore et dolore magna aliqua...
+								{news.excerpt}
 							</Typography>
-							<Typography variant="body2">News Date</Typography>
+							<Typography variant="body2">{news.date}</Typography>
 						</Box>
 					</Grid2>
 				</Grid2>

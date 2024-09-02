@@ -6,6 +6,7 @@ import {
 	Button,
 	useTheme,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface NewsCardProps {
 	title: string;
@@ -13,7 +14,7 @@ interface NewsCardProps {
 	author: string;
 	excerpt: string;
 	imageUrl: string;
-	newsUrl: string;
+	newsId: number;
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({
@@ -22,9 +23,14 @@ const NewsCard: React.FC<NewsCardProps> = ({
 	author,
 	excerpt,
 	imageUrl,
-	newsUrl,
+	newsId,
 }) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
+
+	const handleClick = () => {
+		navigate(`/news-detail/${newsId.toString()}`);
+	};
 
 	return (
 		<Card
@@ -33,13 +39,14 @@ const NewsCard: React.FC<NewsCardProps> = ({
 				backgroundImage: `url(${imageUrl})`,
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
-				height: '60vh',
+				height: '50vh',
 				boxShadow:
 					'0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.2)',
 				'&:hover .data': {
 					transform: 'translateY(0)',
 				},
 			}}
+			onClick={handleClick}
 		>
 			<Box
 				sx={{
@@ -101,8 +108,7 @@ const NewsCard: React.FC<NewsCardProps> = ({
 				</Typography>
 				<Button
 					sx={{ color: theme.palette.secondary.main, margin: '1rem' }}
-					href={newsUrl}
-					target="_blank"
+					onClick={handleClick}
 				>
 					See More
 				</Button>

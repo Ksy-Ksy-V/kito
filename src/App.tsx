@@ -46,7 +46,7 @@ function App() {
 								<Route path="/airing" element={<Airing />} />
 								<Route path="/news" element={<News />} />
 								<Route
-									path="/news-detail"
+									path="/news-detail/:newsId"
 									element={<NewsDetail />}
 								/>
 								<Route
