@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, IconButton, Grid2, useTheme } from '@mui/material';
+import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
@@ -11,6 +12,10 @@ interface SliderItem {
 }
 
 const SliderHomePage: React.FC = () => {
+	// const top = new TopClient();
+	// const [topList, setTopList] = useState<Anime[]>([]);
+	const theme = useTheme();
+
 	const [items, setItems] = useState<SliderItem[]>([
 		{
 			title: 'Lossless Youths',
@@ -32,9 +37,33 @@ const SliderHomePage: React.FC = () => {
 			backgroundImage:
 				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
 		},
+		{
+			title: 'веапвапвапавп',
+			description:
+				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
+			backgroundImage:
+				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
+		},
 	]);
 
-	const theme = useTheme();
+	// useEffect(() => {
+	// 	const fetchTopAnime = async () => {
+	// 		try {
+	// 			const response: JikanResponse<Anime[]> = await top.getTopAnime({
+	// 				page: 1,
+	// 				limit: 5,
+	// 			});
+
+	// 			setTopList(response.data);
+	// 		} catch (err) {
+	// 			console.error('Failed to fetch anime:', err);
+	// 		}
+	// 	};
+
+	// 	if (topList.length === 0) {
+	// 		fetchTopAnime();
+	// 	}
+	// }, [topList, TopClient]);
 
 	const handleNext = () => {
 		setItems((prevItems) => [...prevItems.slice(1), prevItems[0]]);
@@ -89,8 +118,11 @@ const SliderHomePage: React.FC = () => {
 						>
 							<Grid2
 								size={{ xs: 3 }}
-								sx={{ marginTop: '2rem', marginLeft: '3rem' }}
+								sx={{ marginTop: '2rem', marginLeft: '10rem' }}
 							>
+								<Typography variant="body2">
+									№{index + 1} by Kito opinion
+								</Typography>
 								<Typography variant="h3">
 									{item.title}
 								</Typography>
@@ -107,10 +139,41 @@ const SliderHomePage: React.FC = () => {
 
 								<StyledButton>Read More</StyledButton>
 							</Grid2>
+
+							<Grid2
+								container
+								direction="row"
+								sx={{
+									position: 'absolute',
+									right: '10px',
+									zIndex: 2,
+									marginRight: '13rem',
+								}}
+							>
+								{items.slice(1, 4).map((item, index) => (
+									<Box
+										key={index}
+										sx={{
+											width: '150px',
+											height: '250px',
+											backgroundImage: `url(${item.backgroundImage})`,
+											backgroundSize: 'cover',
+											backgroundPosition: 'center',
+											borderRadius: '10px',
+											marginBottom: '10px',
+											cursor: 'pointer',
+											border: `2px solid ${theme.palette.secondary.main}`,
+											marginLeft:
+												index > 0 ? '10px' : '0',
+										}}
+									/>
+								))}
+							</Grid2>
 						</Grid2>
 					)}
 				</Box>
 			))}
+
 			<IconButton
 				sx={{
 					position: 'absolute',
