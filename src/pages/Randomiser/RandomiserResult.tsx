@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid2, Typography } from '@mui/material';
+import { Grid2, Typography, Skeleton } from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -17,6 +17,7 @@ function RandomiserResult() {
 	const location = useLocation();
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
+	const [loading, setLoading] = useState(true);
 	const navigate = useNavigate();
 
 	const getQueryParams = (query: string) => {
@@ -70,6 +71,8 @@ function RandomiserResult() {
 				}
 			} catch (err) {
 				console.error('Error fetching anime list:', err);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -100,17 +103,25 @@ function RandomiserResult() {
 			}}
 		>
 			<Grid2 size={{ xs: 3 }} offset={{ xs: 2 }}>
-				{randomAnime && (
-					<RandomCard
-						title={randomAnime.title}
-						imageUrl={randomAnime.images.jpg.image_url}
-					/>
+				{loading ? (
+					<Skeleton variant="rectangular" width="100%" height={300} />
+				) : (
+					randomAnime && (
+						<RandomCard
+							title={randomAnime.title}
+							imageUrl={randomAnime.images.jpg.image_url}
+						/>
+					)
 				)}
 			</Grid2>
 			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
-				<Typography variant="h3">
-					{randomAnime ? randomAnime.title : 'Title'}
-				</Typography>
+				{loading ? (
+					<Skeleton variant="text" width="80%" height={40} />
+				) : (
+					<Typography variant="h3">
+						{randomAnime ? randomAnime.title : 'Title'}
+					</Typography>
+				)}
 				<Typography
 					variant="body1"
 					margin="1rem"
@@ -122,12 +133,25 @@ function RandomiserResult() {
 						WebkitBoxOrient: 'vertical',
 					}}
 				>
-					{randomAnime ? randomAnime.synopsis : 'NOT FOUND'}
+					{loading ? (
+						<>
+							<Skeleton variant="text" />
+							<Skeleton variant="text" width="90%" />
+							<Skeleton variant="text" width="80%" />
+						</>
+					) : randomAnime ? (
+						randomAnime.synopsis
+					) : (
+						'NOT FOUND'
+					)}
 				</Typography>
 
 				<Grid2 container spacing={2}>
 					<Grid2 size={{ xs: 6 }}>
-						<StyledButton onClick={handleRandomize}>
+						<StyledButton
+							onClick={handleRandomize}
+							disabled={loading}
+						>
 							Randomize
 						</StyledButton>
 					</Grid2>
