@@ -1,16 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-	TextField,
 	Grid2,
+	useTheme,
 	FormControl,
 	Autocomplete,
-	Select,
-	SelectChangeEvent,
-	MenuItem,
-	InputLabel,
-	InputAdornment,
-	IconButton,
-	useTheme,
+	TextField,
 } from '@mui/material';
 import {
 	GenresClient,
@@ -21,8 +15,8 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import ClearIcon from '@mui/icons-material/Clear';
 import StyledButton from './StyledButton';
+import SelectForm from './SelectForm';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
@@ -75,19 +69,19 @@ const RandomFilters = () => {
 		setSelectedGenre(newValue);
 	};
 
-	const handleTypeChange = (event: SelectChangeEvent<AnimeType>) => {
-		setSelectedType(event.target.value as AnimeType);
-	};
+	// const handleTypeChange = (event: SelectChangeEvent<AnimeType>) => {
+	// 	setSelectedType(event.target.value as AnimeType);
+	// };
 
-	const handleStatusChange = (
-		event: SelectChangeEvent<AnimeSearchStatus>
-	) => {
-		setSelectedStatus(event.target.value as AnimeSearchStatus);
-	};
+	// const handleStatusChange = (
+	// 	event: SelectChangeEvent<AnimeSearchStatus>
+	// ) => {
+	// 	setSelectedStatus(event.target.value as AnimeSearchStatus);
+	// };
 
-	const handleRatingChange = (event: SelectChangeEvent<AnimeRating>) => {
-		setSelectedRating(event.target.value as AnimeRating);
-	};
+	// const handleRatingChange = (event: SelectChangeEvent<AnimeRating>) => {
+	// 	setSelectedRating(event.target.value as AnimeRating);
+	// };
 
 	const handleRandomise = () => {
 		const queryParams: string[] = [];
@@ -150,108 +144,39 @@ const RandomFilters = () => {
 					/>
 				</FormControl>
 
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Type</InputLabel>
-					<Select
-						value={selectedType}
-						onChange={handleTypeChange}
-						endAdornment={
-							selectedType && (
-								<InputAdornment position="end">
-									<IconButton
-										color="inherit"
-										size="small"
-										onClick={() => {
-											setSelectedType('');
-										}}
-									>
-										<ClearIcon
-											sx={{
-												fontSize: '20px',
-												marginRight: '20px',
-											}}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
-						}
-					>
-						{animeTypes.map((type) => (
-							<MenuItem key={type} id={type} value={type}>
-								{type}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<SelectForm
+					label="Type"
+					value={selectedType}
+					onChange={(event) =>
+						setSelectedType(event.target.value as AnimeType)
+					}
+					options={animeTypes}
+					clearValue={() => setSelectedType('')}
+				/>
 
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Status</InputLabel>
-					<Select
-						value={selectedStatus}
-						onChange={handleStatusChange}
-						endAdornment={
-							selectedType && (
-								<InputAdornment position="end">
-									<IconButton
-										color="inherit"
-										size="small"
-										onClick={() => {
-											setSelectedStatus('');
-										}}
-									>
-										<ClearIcon
-											sx={{
-												fontSize: '20px',
-												marginRight: '20px',
-											}}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
-						}
-					>
-						{animeStatuses.map((status) => (
-							<MenuItem key={status} id={status} value={status}>
-								{status.charAt(0).toUpperCase() +
-									status.slice(1).toLowerCase()}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<SelectForm
+					label="Status"
+					value={selectedStatus}
+					onChange={(event) =>
+						setSelectedStatus(
+							event.target.value as AnimeSearchStatus
+						)
+					}
+					options={animeStatuses}
+					clearValue={() => setSelectedStatus('')}
+					capitalizeOptions
+				/>
 
-				<FormControl fullWidth variant="filled">
-					<InputLabel>Rating</InputLabel>
-					<Select
-						value={selectedRating}
-						onChange={handleRatingChange}
-						endAdornment={
-							selectedType && (
-								<InputAdornment position="end">
-									<IconButton
-										color="inherit"
-										size="small"
-										onClick={() => {
-											setSelectedRating('');
-										}}
-									>
-										<ClearIcon
-											sx={{
-												fontSize: '20px',
-												marginRight: '20px',
-											}}
-										/>
-									</IconButton>
-								</InputAdornment>
-							)
-						}
-					>
-						{animeRatings.map((rating) => (
-							<MenuItem key={rating} id={rating} value={rating}>
-								{rating.toUpperCase()}
-							</MenuItem>
-						))}
-					</Select>
-				</FormControl>
+				<SelectForm
+					label="Rating"
+					value={selectedRating}
+					onChange={(event) =>
+						setSelectedRating(event.target.value as AnimeRating)
+					}
+					options={animeRatings}
+					clearValue={() => setSelectedRating('')}
+					upperCaseOptions
+				/>
 
 				<StyledButton
 					onClick={handleRandomise}
