@@ -1,10 +1,4 @@
-import {
-	AppBar,
-	Toolbar,
-	IconButton,
-	useTheme,
-	Grid2,
-} from '@mui/material';
+import { AppBar, Toolbar, IconButton, useTheme, Grid2 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -27,7 +21,12 @@ const Header = () => {
 			}}
 		>
 			<Toolbar>
-				<Grid2 container alignItems="center" spacing={2}>
+				<Grid2
+					container
+					alignItems="center"
+					spacing={2}
+					size={{ xs: 12 }}
+				>
 					<Grid2 size={{ xs: 2 }}>
 						<Logo />
 					</Grid2>

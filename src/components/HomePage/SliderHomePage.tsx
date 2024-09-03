@@ -4,35 +4,45 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
 
+import poster1 from '../../images/homePageSliderImg/slider-poster-img1.jpg';
+import poster2 from '../../images/homePageSliderImg/slider-poster-img2.jpg';
+import poster3 from '../../images/homePageSliderImg/slider-poster-img3.jpg';
+
+import thumb1 from '../../images/homePageSliderImg/thumb1.jpg';
+import thumb2 from '../../images/homePageSliderImg/thumb2.png';
+import thumb3 from '../../images/homePageSliderImg/thumb3.png';
+
 interface SliderItem {
 	title: string;
 	description: string;
 	backgroundImage: string;
+	thumbnailImage: string;
 }
 
 const SliderHomePage: React.FC = () => {
 	const theme = useTheme();
-	const [currentIndex, setCurrentIndex] = useState(0);
+	const [currentIndex, setCurrentIndex] = useState(1);
 	const [items] = useState<SliderItem[]>([
 		{
-			title: 'Lossless Youths',
+			title: 'One Piece',
 			description:
-				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
-			backgroundImage:
-				'https://cdn.mos.cms.futurecdn.net/dP3N4qnEZ4tCTCLq59iysd.jpg',
+				'Monkey D. Luffy sets off on an adventure with his pirate crew in hopes of finding the greatest treasure ever, known as the "One Piece.',
+			backgroundImage: poster1,
+			thumbnailImage: thumb1,
 		},
 		{
-			title: 'Estrange Bond',
+			title: "Frieren: Beyond Journey's End",
 			description:
-				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
-			backgroundImage: 'https://i.redd.it/tc0aqpv92pn21.jpg',
+				'An elf and her friends defeat a demon king in a great war. But the war is over, and the elf must search for a new way of life.',
+			backgroundImage: poster2,
+			thumbnailImage: thumb2,
 		},
 		{
-			title: 'The Gate Keeper',
+			title: 'Cyberpunk: Edgerunners',
 			description:
-				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
-			backgroundImage:
-				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
+				'A Street Kid trying to survive in a technology and body modification-obsessed city of the future. Having everything to lose, he chooses to stay alive by becoming an Edgerunner, a Mercenary outlaw also known as a Cyberpunk.',
+			backgroundImage: poster3,
+			thumbnailImage: thumb3,
 		},
 	]);
 
@@ -101,7 +111,7 @@ const SliderHomePage: React.FC = () => {
 					alignItems: 'center',
 					paddingLeft: '5%',
 					paddingRight: '5%',
-					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					backgroundColor: 'rgba(0, 0, 0, 0.7)',
 					position: 'relative',
 					zIndex: 1,
 				}}
@@ -122,7 +132,6 @@ const SliderHomePage: React.FC = () => {
 							marginTop: '10px',
 							marginBottom: '20px',
 						}}
-						color="white"
 					>
 						{items[currentIndex].description}
 					</Typography>
@@ -137,7 +146,7 @@ const SliderHomePage: React.FC = () => {
 						position: 'absolute',
 						right: '10px',
 						zIndex: 2,
-						marginRight: '13rem',
+						marginRight: '12rem',
 					}}
 				>
 					{items.map((thumbItem, thumbIndex) => (
@@ -146,7 +155,7 @@ const SliderHomePage: React.FC = () => {
 							sx={{
 								width: '150px',
 								height: '250px',
-								backgroundImage: `url(${thumbItem.backgroundImage})`,
+								backgroundImage: `url(${thumbItem.thumbnailImage})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',

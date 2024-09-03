@@ -24,7 +24,11 @@ function App() {
 			<CssBaseline />
 			<Router>
 				<Container>
-					<Grid2 container spacing={3} style={{ padding: '20px' }}>
+					<Grid2
+						container
+						spacing={3}
+						style={{ padding: '0px 20px 0px 20px' }}
+					>
 						<Grid2 size={{ xs: 12 }}>
 							<Header />
 							<Routes>
