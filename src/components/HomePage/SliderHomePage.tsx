@@ -11,11 +11,9 @@ interface SliderItem {
 }
 
 const SliderHomePage: React.FC = () => {
-	// const top = new TopClient();
-	// const [topList, setTopList] = useState<Anime[]>([]);
 	const theme = useTheme();
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [items, setItems] = useState<SliderItem[]>([
+	const [items] = useState<SliderItem[]>([
 		{
 			title: 'Lossless Youths',
 			description:
@@ -30,32 +28,13 @@ const SliderHomePage: React.FC = () => {
 			backgroundImage: 'https://i.redd.it/tc0aqpv92pn21.jpg',
 		},
 		{
-			title: 'веапвапвапавп',
+			title: 'The Gate Keeper',
 			description:
 				'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempore fuga voluptatum, iure corporis inventore praesentium nisi.',
 			backgroundImage:
 				'https://wharferj.files.wordpress.com/2015/11/bio_north.jpg',
 		},
 	]);
-	console.log(setItems);
-	// useEffect(() => {
-	// 	const fetchTopAnime = async () => {
-	// 		try {
-	// 			const response: JikanResponse<Anime[]> = await top.getTopAnime({
-	// 				page: 1,
-	// 				limit: 5,
-	// 			});
-
-	// 			setTopList(response.data);
-	// 		} catch (err) {
-	// 			console.error('Failed to fetch anime:', err);
-	// 		}
-	// 	};
-
-	// 	if (topList.length === 0) {
-	// 		fetchTopAnime();
-	// 	}
-	// }, [topList, TopClient]);
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -84,96 +63,110 @@ const SliderHomePage: React.FC = () => {
 				overflow: 'hidden',
 			}}
 		>
-			{items.map((item, index) => (
-				<Box
-					key={index}
+			<Box
+				sx={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
+					overflow: 'hidden',
+					zIndex: 0,
+				}}
+			>
+				{items.map((item, index) => (
+					<Box
+						key={index}
+						sx={{
+							position: 'absolute',
+							width: '100%',
+							height: '100%',
+							backgroundImage: `url(${item.backgroundImage})`,
+							backgroundSize: 'cover',
+							backgroundPosition: 'center',
+							transform:
+								index === currentIndex
+									? 'translateX(0)'
+									: index < currentIndex
+									? 'translateX(-100%)'
+									: 'translateX(100%)',
+							transition: 'transform 1.30s ease-in-out',
+						}}
+					/>
+				))}
+			</Box>
+
+			<Grid2
+				container
+				sx={{
+					height: '100%',
+					alignItems: 'center',
+					paddingLeft: '5%',
+					paddingRight: '5%',
+					backgroundColor: 'rgba(0, 0, 0, 0.5)',
+					position: 'relative',
+					zIndex: 1,
+				}}
+			>
+				<Grid2
+					size={{ xs: 3 }}
+					sx={{ marginTop: '2rem', marginLeft: '10rem' }}
+				>
+					<Typography variant="body2">
+						№{currentIndex + 1} by Kito opinion
+					</Typography>
+					<Typography variant="h3">
+						{items[currentIndex].title}
+					</Typography>
+					<Typography
+						variant="body1"
+						sx={{
+							marginTop: '10px',
+							marginBottom: '20px',
+						}}
+						color="white"
+					>
+						{items[currentIndex].description}
+					</Typography>
+
+					<StyledButton>Read More</StyledButton>
+				</Grid2>
+
+				<Grid2
+					container
+					direction="row"
 					sx={{
 						position: 'absolute',
-						width: '100%',
-						height: '100%',
-						backgroundImage: `url(${item.backgroundImage})`,
-						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-						transition: 'opacity 0.75s ease-in-out',
-						opacity: index === currentIndex ? 1 : 0,
-						zIndex: index === currentIndex ? 1 : 0,
+						right: '10px',
+						zIndex: 2,
+						marginRight: '13rem',
 					}}
 				>
-					{index === currentIndex && (
-						<Grid2
-							container
+					{items.map((thumbItem, thumbIndex) => (
+						<Box
+							key={thumbIndex}
 							sx={{
-								height: '100%',
-								alignItems: 'center',
-								paddingLeft: '5%',
-								paddingRight: '5%',
-								backgroundColor: 'rgba(0, 0, 0, 0.5)',
+								width: '150px',
+								height: '250px',
+								backgroundImage: `url(${thumbItem.backgroundImage})`,
+								backgroundSize: 'cover',
+								backgroundPosition: 'center',
+								borderRadius: '10px',
+								marginBottom: '10px',
+								cursor: 'pointer',
+								border: `2px solid ${theme.palette.secondary.main}`,
+								marginLeft: thumbIndex > 0 ? '10px' : '0',
+								transform:
+									thumbIndex === currentIndex
+										? 'scale(1.1)'
+										: 'scale(1)',
+								transition:
+									'transform 0.75s ease-in-out, opacity 0.75s ease-in-out',
+								opacity: thumbIndex === currentIndex ? 1 : 0.5,
 							}}
-						>
-							<Grid2
-								size={{ xs: 3 }}
-								sx={{ marginTop: '2rem', marginLeft: '10rem' }}
-							>
-								<Typography variant="body2">
-									№{index + 1} by Kito opinion
-								</Typography>
-								<Typography variant="h3">
-									{item.title}
-								</Typography>
-								<Typography
-									variant="body1"
-									sx={{
-										marginTop: '10px',
-										marginBottom: '20px',
-									}}
-									color="white"
-								>
-									{item.description}
-								</Typography>
-
-								<StyledButton>Read More</StyledButton>
-							</Grid2>
-
-							<Grid2
-								container
-								direction="row"
-								sx={{
-									position: 'absolute',
-									right: '10px',
-									zIndex: 2,
-									marginRight: '13rem',
-								}}
-							>
-								{items.map((thumbItem, thumbIndex) => (
-									<Box
-										key={thumbIndex}
-										sx={{
-											width: '150px',
-											height: '250px',
-											backgroundImage: `url(${thumbItem.backgroundImage})`,
-											backgroundSize: 'cover',
-											backgroundPosition: 'center',
-											borderRadius: '10px',
-											marginBottom: '10px',
-											cursor: 'pointer',
-											border: `2px solid ${theme.palette.secondary.main}`,
-											marginLeft:
-												thumbIndex > 0 ? '10px' : '0',
-											opacity:
-												thumbIndex === currentIndex
-													? 1
-													: 0.5,
-										}}
-										onClick={() =>
-											handleThumbnailClick(thumbIndex)
-										}
-									/>
-								))}
-							</Grid2>
-						</Grid2>
-					)}
-				</Box>
-			))}
+							onClick={() => handleThumbnailClick(thumbIndex)}
+						/>
+					))}
+				</Grid2>
+			</Grid2>
 
 			<IconButton
 				sx={{
