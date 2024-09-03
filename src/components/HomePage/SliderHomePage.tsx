@@ -4,47 +4,12 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
 
-import poster1 from '../../images/homePageSliderImg/slider-poster-img1.jpg';
-import poster2 from '../../images/homePageSliderImg/slider-poster-img2.jpg';
-import poster3 from '../../images/homePageSliderImg/slider-poster-img3.jpg';
-
-import thumb1 from '../../images/homePageSliderImg/thumb1.jpg';
-import thumb2 from '../../images/homePageSliderImg/thumb2.png';
-import thumb3 from '../../images/homePageSliderImg/thumb3.png';
-
-interface SliderItem {
-	title: string;
-	description: string;
-	backgroundImage: string;
-	thumbnailImage: string;
-}
+import { sliderItems } from '../../data/sliderContent';
 
 const SliderHomePage: React.FC = () => {
 	const theme = useTheme();
 	const [currentIndex, setCurrentIndex] = useState(1);
-	const [items] = useState<SliderItem[]>([
-		{
-			title: 'One Piece',
-			description:
-				'Monkey D. Luffy sets off on an adventure with his pirate crew in hopes of finding the greatest treasure ever, known as the "One Piece.',
-			backgroundImage: poster1,
-			thumbnailImage: thumb1,
-		},
-		{
-			title: "Frieren: Beyond Journey's End",
-			description:
-				'An elf and her friends defeat a demon king in a great war. But the war is over, and the elf must search for a new way of life.',
-			backgroundImage: poster2,
-			thumbnailImage: thumb2,
-		},
-		{
-			title: 'Cyberpunk: Edgerunners',
-			description:
-				'A Street Kid trying to survive in a technology and body modification-obsessed city of the future. Having everything to lose, he chooses to stay alive by becoming an Edgerunner, a Mercenary outlaw also known as a Cyberpunk.',
-			backgroundImage: poster3,
-			thumbnailImage: thumb3,
-		},
-	]);
+	const [items] = useState(sliderItems);
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -98,7 +63,7 @@ const SliderHomePage: React.FC = () => {
 									: index < currentIndex
 									? 'translateX(-100%)'
 									: 'translateX(100%)',
-							transition: 'transform 1.30s ease-in-out',
+							transition: 'transform 2.00s ease-in-out',
 						}}
 					/>
 				))}
