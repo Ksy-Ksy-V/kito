@@ -1,17 +1,10 @@
-import {
-	AppBar,
-	Toolbar,
-	IconButton,
-	Button,
-	Grid,
-	useTheme,
-} from '@mui/material';
+import { AppBar, Toolbar, IconButton, Grid, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
-import logo from '../../images/logoBig.png';
+import Logo from '../Logo';
 
 const Header = () => {
 	const theme = useTheme();
@@ -30,22 +23,7 @@ const Header = () => {
 			<Toolbar>
 				<Grid container alignItems="center" spacing={2}>
 					<Grid item xs={2}>
-						<Button
-							component={Link}
-							to="/"
-							color="inherit"
-							sx={{
-								'&:hover': {
-									backgroundColor: 'transparent',
-								},
-							}}
-						>
-							<img
-								src={logo}
-								alt="Logo"
-								style={{ width: '8rem' }}
-							/>
-						</Button>
+						<Logo />
 					</Grid>
 
 					<Grid item xs={2}>
