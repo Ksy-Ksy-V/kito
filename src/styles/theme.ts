@@ -17,7 +17,7 @@ const theme = createTheme({
 			secondary: '#E5BDC4',
 		},
 		action: {
-			active: '#387171',
+			active: '#64fcf2',
 			hover: '#387171',
 		},
 	},
@@ -64,6 +64,19 @@ const theme = createTheme({
 			fontWeight: 400,
 			fontSize: '0.550rem',
 			color: '#dbfeff',
+		},
+	},
+
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				body: {
+					scrollbarColor: '#387171 #2b2b2b',
+					'&::-webkit-scrollbar': {
+						backgroundColor: '#2b2b2b',
+					},
+				},
+			},
 		},
 	},
 });
