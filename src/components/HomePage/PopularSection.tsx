@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2 } from '@mui/material';
+import { Typography, Grid2, Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import PopularCard from '../PopularCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 
@@ -12,7 +13,7 @@ const PopularSection: React.FC = () => {
 			try {
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
-					limit: 5,
+					limit: 6,
 				});
 
 				setTopList(response.data);
@@ -27,27 +28,53 @@ const PopularSection: React.FC = () => {
 	}, [topList]);
 
 	return (
-		<Grid2 container spacing={2}>
-			<Grid2 size={{ xs: 12 }} sx={{ marginTop: '2rem' }}>
-				<Typography variant="h2">Popular</Typography>
-			</Grid2>
+		<Box sx={{ width: '100%', textAlign: 'center', marginTop: '2rem' }}>
+			<Typography
+				variant="h2"
+				component={Link}
+				to="/popularity"
+				sx={{
+					textDecoration: 'none',
 
-			{topList.map((anime) => (
-				<Grid2
-					key={anime.mal_id}
-					size={{ xs: 2 }}
-					sx={{ marginTop: '2rem' }}
-				>
-					<PopularCard
-						thumbnailImage={anime.images.jpg.image_url}
-						title={anime.title}
-						onClick={() => {
-							console.log(`Redirect to ${anime.url}`);
+					'&:hover': {
+						color: 'primary.main',
+					},
+				}}
+			>
+				Popular
+			</Typography>
+
+			<Grid2
+				container
+				spacing={2}
+				sx={{
+					marginTop: '2rem',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				{topList.map((anime) => (
+					<Grid2
+						key={anime.mal_id}
+						size={{ xs: 2 }}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
 						}}
-					/>
-				</Grid2>
-			))}
-		</Grid2>
+					>
+						<PopularCard
+							thumbnailImage={anime.images.jpg.image_url}
+							title={anime.title}
+							onClick={() => {
+								console.log(`Redirect to ${anime.url}`);
+							}}
+						/>
+					</Grid2>
+				))}
+			</Grid2>
+		</Box>
 	);
 };
 
