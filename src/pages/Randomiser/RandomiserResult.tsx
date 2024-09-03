@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid2, Typography, Skeleton } from '@mui/material';
+import { Grid2, Typography, Skeleton, Card, CardMedia } from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -12,6 +12,8 @@ import {
 import StyledButton from '../../components/StyledButton';
 import RandomCard from '../../components/RandomCard';
 import { useNavigate } from 'react-router-dom';
+
+import notFoundImg from '../../images/not-found.png';
 
 function RandomiserResult() {
 	const location = useLocation();
@@ -38,12 +40,10 @@ function RandomiserResult() {
 			const animeClient = new AnimeClient();
 			const queryParams = getQueryParams(location.search);
 			const genre = queryParams.get('genre') || undefined;
-			const type =
-				(queryParams.get('type') as AnimeType) || undefined;
+			const type = (queryParams.get('type') as AnimeType) || undefined;
 
 			const status =
-				(queryParams.get('status') as AnimeSearchStatus) ||
-				undefined;
+				(queryParams.get('status') as AnimeSearchStatus) || undefined;
 
 			const rating =
 				(queryParams.get('rating') as AnimeRating) || undefined;
@@ -61,17 +61,16 @@ function RandomiserResult() {
 					rating,
 				});
 			if (response.data.length === 0) {
-				response =
-					await animeClient.getAnimeSearch({
-						page: 1,
-						limit: 25,
-						sort: 'asc',
-						order_by: 'popularity',
-						genres: genre,
-						type,
-						status,
-						rating,
-					});
+				response = await animeClient.getAnimeSearch({
+					page: 1,
+					limit: 25,
+					sort: 'asc',
+					order_by: 'popularity',
+					genres: genre,
+					type,
+					status,
+					rating,
+				});
 			}
 
 			if (response.data && response.data.length > 0) {
@@ -90,7 +89,7 @@ function RandomiserResult() {
 	}, [fetchAnimeList]);
 
 	const handleRandomize = () => {
-		fetchAnimeList()
+		fetchAnimeList();
 	};
 
 	const handleReturnToFilter = () => {
@@ -110,30 +109,45 @@ function RandomiserResult() {
 			<Grid2 size={{ xs: 3 }} offset={{ xs: 2 }}>
 				{loading ? (
 					<Skeleton variant="rectangular" width="100%" height={300} />
-				) : randomAnime ?
-					(
-						<RandomCard
-							title={randomAnime.title}
-							imageUrl={randomAnime.images.jpg.image_url}
+				) : randomAnime ? (
+					<RandomCard
+						title={randomAnime.title}
+						imageUrl={randomAnime.images.jpg.image_url}
+					/>
+				) : (
+					<Card
+						sx={{
+							background: 'rgba(29, 51, 53, 0.51)',
+							borderRadius: '8px',
+							boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+							backdropFilter: 'blur(4.9px)',
+							webkitBackdropFilter: 'blur(4.9px)',
+							border: '1px solid rgba(29, 51, 53, 0.3)',
+						}}
+					>
+						<CardMedia
+							component="img"
+							height="300"
+							image={notFoundImg}
+							alt="Default Image"
 						/>
-					) : (
-						///#TODO: Add a default image
-						<Skeleton variant="rectangular" width="100%" height={300} />
-					)}
+					</Card>
+				)}
 			</Grid2>
+
 			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
 				{loading ? (
 					<Skeleton variant="text" width="80%" height={40} />
 				) : (
 					<Typography variant="h3">
-						{randomAnime ? randomAnime.title : 'Not found'}
+						{randomAnime ? randomAnime.title : 'Sorry...'}
 					</Typography>
 				)}
 				<Typography
 					variant="body1"
 					// margin={loading ? 0 : '1rem'}
-					marginBottom='2rem'
-					marginTop='2rem'
+					marginBottom="2rem"
+					marginTop="2rem"
 					sx={{
 						display: '-webkit-box',
 						overflow: 'hidden',
@@ -152,7 +166,14 @@ function RandomiserResult() {
 					) : randomAnime ? (
 						randomAnime.synopsis
 					) : (
-						'Sorry, no information available for provided filters.'
+						<>
+							<Typography variant="body1">
+								We couldn't find matching anime.
+							</Typography>
+							<Typography variant="body1">
+								Try changing your filter parameters
+							</Typography>
+						</>
 					)}
 				</Typography>
 
