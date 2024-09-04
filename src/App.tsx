@@ -18,6 +18,8 @@ import Profile from './pages/Profile/Profile';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 
+import NotFound from './pages/Error/NotFound';
+
 function App() {
 	return (
 		<ThemeProvider theme={theme}>
@@ -53,6 +55,7 @@ function App() {
 									element={<Settings />}
 								/>
 								<Route path="/profile" element={<Profile />} />
+								<Route path="*" element={<NotFound />} />
 							</Routes>
 							<Footer />
 						</Grid2>
