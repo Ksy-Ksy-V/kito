@@ -21,6 +21,7 @@ import RandomCard from '../../components/RandomCard';
 import { useNavigate } from 'react-router-dom';
 
 import notFoundImg from '../../images/not-found.png';
+import theme from '../../styles/theme';
 
 function RandomiserResult() {
 	const location = useLocation();
@@ -104,152 +105,294 @@ function RandomiserResult() {
 	};
 
 	return (
-		<Box
-			sx={{
-				position: 'relative',
-				width: '100vw',
-				left: '50%',
-				right: '50%',
-				marginLeft: '-50vw',
-				marginRight: '-50vw',
-				height: '500px',
-				marginTop: '2rem',
-			}}
-		>
-			{randomAnime && (
+		<Grid2 container spacing={2}>
+			<Grid2 size={12}>
 				<Box
 					sx={{
-						position: 'absolute',
-						width: '100%',
-						height: '100%',
-						backgroundImage: `url(${randomAnime.images.jpg.large_image_url})`,
-						backgroundSize: 'cover',
-						backgroundPosition: 'center',
-						zIndex: 1,
+						position: 'relative',
+						width: '100vw',
+						left: '50%',
+						right: '50%',
+						marginLeft: '-50vw',
+						marginRight: '-50vw',
+						height: '500px',
+						marginTop: '2rem',
 					}}
-				></Box>
-			)}
-
-			<Box
-				sx={{
-					position: 'absolute',
-					width: '100%',
-					height: '100%',
-					backgroundColor: 'rgba(0, 0, 0, 0.8)',
-					zIndex: 2,
-				}}
-			></Box>
-
-			<Grid2
-				container
-				spacing={2}
-				sx={{
-					position: 'relative',
-					zIndex: 3,
-					display: 'flex',
-					alignItems: 'center',
-				}}
-			>
-				<Grid2
-					size={{ xs: 2 }}
-					offset={{ xs: 3 }}
-					sx={{ marginTop: '5rem' }}
 				>
-					{loading ? (
-						<Skeleton
-							variant="rectangular"
-							width="100%"
-							height={300}
-						/>
-					) : randomAnime ? (
-						<RandomCard
-							title={randomAnime.title}
-							imageUrl={randomAnime.images.jpg.image_url}
-						/>
-					) : (
-						<Card
+					{randomAnime && (
+						<Box
 							sx={{
-								background: 'rgba(29, 51, 53, 0.51)',
-								borderRadius: '8px',
-								boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-								backdropFilter: 'blur(4.9px)',
-								webkitBackdropFilter: 'blur(4.9px)',
-								border: '1px solid rgba(29, 51, 53, 0.3)',
+								position: 'absolute',
+								width: '100%',
+								height: '100%',
+								backgroundImage: `url(${randomAnime.images.jpg.large_image_url})`,
+								backgroundSize: 'cover',
+								backgroundPosition: 'center',
+								zIndex: 1,
 							}}
-						>
-							<CardMedia
-								component="img"
-								height="300"
-								image={notFoundImg}
-								alt="Default Image"
-							/>
-						</Card>
+						></Box>
 					)}
-				</Grid2>
 
-				<Grid2
-					size={{ xs: 4 }}
-					offset={{ xs: 1 }}
-					sx={{ marginTop: '5rem' }}
-				>
-					{loading ? (
-						<Skeleton variant="text" width="80%" height={40} />
-					) : (
-						<Typography variant="h3">
-							{randomAnime ? randomAnime.title : 'Sorry...'}
-						</Typography>
-					)}
-					<Typography
-						variant="body1"
-						marginBottom="2rem"
+					<Box
 						sx={{
-							display: '-webkit-box',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							WebkitLineClamp: 9,
-							WebkitBoxOrient: 'vertical',
+							position: 'absolute',
+							width: '100%',
+							height: '100%',
+							backgroundColor: 'rgba(0, 0, 0, 0.8)',
+							zIndex: 2,
+						}}
+					></Box>
+
+					<Grid2
+						container
+						spacing={2}
+						sx={{
+							position: 'relative',
+							zIndex: 3,
+							display: 'flex',
+							alignItems: 'center',
 						}}
 					>
-						{loading ? (
-							<>
-								<Skeleton variant="text" />
-								<Skeleton variant="text" />
-								<Skeleton variant="text" />
-								<Skeleton variant="text" />
-							</>
-						) : randomAnime ? (
-							randomAnime.synopsis
-						) : (
-							<>
-								<Typography variant="body1">
-									We couldn't find matching anime.
-								</Typography>
-								<Typography variant="body1">
-									Try changing your filter parameters
-								</Typography>
-							</>
-						)}
-					</Typography>
-
-					<Grid2 container spacing={2}>
-						<Grid2 size={{ xs: 6 }}>
-							<StyledButton
-								onClick={handleRandomize}
-								disabled={loading || !randomAnime}
-							>
-								Randomize
-							</StyledButton>
+						<Grid2 size={2} offset={3} sx={{ marginTop: '5rem' }}>
+							{loading ? (
+								<Skeleton
+									variant="rectangular"
+									width="100%"
+									height={300}
+								/>
+							) : randomAnime ? (
+								<RandomCard
+									title={randomAnime.title}
+									imageUrl={randomAnime.images.jpg.image_url}
+								/>
+							) : (
+								<Card
+									sx={{
+										background: 'rgba(29, 51, 53, 0.51)',
+										borderRadius: '8px',
+										boxShadow:
+											'0 4px 30px rgba(0, 0, 0, 0.1)',
+										backdropFilter: 'blur(4.9px)',
+										webkitBackdropFilter: 'blur(4.9px)',
+										border: '1px solid rgba(29, 51, 53, 0.3)',
+									}}
+								>
+									<CardMedia
+										component="img"
+										height="300"
+										image={notFoundImg}
+										alt="Default Image"
+									/>
+								</Card>
+							)}
 						</Grid2>
+						<Grid2 size={4} offset={1} sx={{ marginTop: '5rem' }}>
+							{loading ? (
+								<Skeleton
+									variant="text"
+									width="80%"
+									height={40}
+								/>
+							) : (
+								<Box>
+									<Typography variant="h3">
+										{randomAnime
+											? randomAnime.title
+											: 'Sorry...'}
+									</Typography>
 
-						<Grid2 size={{ xs: 6 }}>
-							<StyledButton onClick={handleReturnToFilter}>
-								New Filter
-							</StyledButton>
+									{randomAnime && (
+										<Typography
+											variant="h6"
+											sx={{
+												marginTop: '0.5rem',
+												color: theme.palette.primary
+													.main,
+											}}
+										>
+											<b>
+												{randomAnime.rating?.match(
+													/[A-Z0-9-]+/
+												) || 'N/A'}
+											</b>
+										</Typography>
+									)}
+
+									<Box
+										sx={{
+											marginTop: '0.5rem',
+											display: 'flex',
+											flexWrap: 'wrap',
+											gap: '0.5rem',
+										}}
+									>
+										{randomAnime?.genres.map((genre) => (
+											<Box
+												key={genre.mal_id}
+												sx={{
+													backgroundColor:
+														'rgba(29, 51, 53, 0.7)',
+													padding: '0.25rem 0.5rem',
+													borderRadius: '12px',
+													fontSize: '0.875rem',
+													display: 'inline-block',
+												}}
+											>
+												{genre.name}
+											</Box>
+										))}
+									</Box>
+								</Box>
+							)}
+							<Typography
+								variant="body1"
+								marginBottom="2rem"
+								sx={{
+									marginTop: '1rem',
+									display: '-webkit-box',
+									overflow: 'hidden',
+									textOverflow: 'ellipsis',
+									WebkitLineClamp: 4,
+									WebkitBoxOrient: 'vertical',
+								}}
+							>
+								{loading ? (
+									<>
+										<Skeleton variant="text" />
+										<Skeleton variant="text" />
+										<Skeleton variant="text" />
+										<Skeleton variant="text" />
+									</>
+								) : randomAnime ? (
+									randomAnime.synopsis
+								) : (
+									<>
+										<Typography variant="body1">
+											We couldn't find matching anime.
+										</Typography>
+										<Typography variant="body1">
+											Try changing your filter parameters
+										</Typography>
+									</>
+								)}
+							</Typography>
+
+							<Grid2 container spacing={2}>
+								<Grid2 size={6}>
+									<StyledButton
+										onClick={handleRandomize}
+										disabled={loading || !randomAnime}
+									>
+										Randomize
+									</StyledButton>
+								</Grid2>
+
+								<Grid2 size={6}>
+									<StyledButton
+										onClick={handleReturnToFilter}
+									>
+										New Filter
+									</StyledButton>
+								</Grid2>
+							</Grid2>
 						</Grid2>
 					</Grid2>
-				</Grid2>
+				</Box>
 			</Grid2>
-		</Box>
+
+			<Grid2 container spacing={2}>
+			<Grid2 size={12}>
+				<Typography variant="h3" sx={{ textAlign: 'center' }}>
+					Learn more about{' '}
+					{randomAnime ? randomAnime.title : 'this anime'}
+				</Typography>
+			</Grid2>
+			</Grid2>
+
+			<Grid2 container spacing={2}>
+			
+				{!loading && randomAnime && (
+						<Grid2 size={6}>
+							
+							<Typography variant="body1">
+								<b>Rating:</b> {randomAnime.rating || 'Unknown'}
+							</Typography>
+
+					
+							<Typography variant="body1">
+								<b>Release Date:</b>{' '}
+								{randomAnime.aired?.string || 'Unknown'}
+							</Typography>
+
+							
+							<Typography variant="body1">
+								<b>Episodes:</b>{' '}
+								{randomAnime.episodes || 'Unknown'} episodes,{' '}
+								{randomAnime.duration || 'Unknown duration'}
+							</Typography>
+
+							
+							<Typography variant="body1">
+								<b>Genres:</b>{' '}
+								{randomAnime.genres
+									.map((genre) => genre.name)
+									.join(', ') || 'Unknown'}
+							</Typography>
+
+							
+							<Typography variant="body1">
+								<b>Studio:</b>{' '}
+								{randomAnime.studios
+									.map((studio) => studio.name)
+									.join(', ') || 'Unknown'}
+							</Typography>
+
+						
+							<Typography variant="body1">
+								<b>Status:</b> {randomAnime.status || 'Unknown'}
+							</Typography>
+
+						
+							<Typography variant="body1">
+								<b>Source:</b> {randomAnime.source || 'Unknown'}
+							</Typography>
+						</Grid2>
+
+						{/* Right section - Trailer */}
+						<Grid2 size={6}>
+							{randomAnime.trailer?.embed_url && (
+								<Box sx={{ marginTop: '1rem' }}>
+									<Typography variant="body1">
+										<b>Trailer:</b>
+									</Typography>
+									<Box
+										sx={{
+											position: 'relative',
+											paddingTop: '56.25%',
+										}}
+									>
+										<iframe
+											src={randomAnime.trailer.embed_url}
+											title="Anime Trailer"
+											style={{
+												position: 'absolute',
+												top: 0,
+												left: 0,
+												width: '100%',
+												height: '100%',
+												border: 'none',
+											}}
+											allowFullScreen
+										></iframe>
+									</Box>
+								</Box>
+							)}
+						</Grid2>
+					
+				)}
+			</Grid2>
+			</Grid2>
+		 
 	);
 }
 
