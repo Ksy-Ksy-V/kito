@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid2, Typography, Skeleton, Card, CardMedia } from '@mui/material';
+import {
+	Grid2,
+	Typography,
+	Skeleton,
+	Card,
+	CardMedia,
+	Box,
+} from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -97,104 +104,152 @@ function RandomiserResult() {
 	};
 
 	return (
-		<Grid2
-			container
-			spacing={2}
+		<Box
 			sx={{
-				minHeight: '80vh',
-				display: 'flex',
-				alignItems: 'center',
+				position: 'relative',
+				width: '100vw',
+				left: '50%',
+				right: '50%',
+				marginLeft: '-50vw',
+				marginRight: '-50vw',
+				height: '500px',
+				marginTop: '2rem',
 			}}
 		>
-			<Grid2 size={{ xs: 3 }} offset={{ xs: 2 }}>
-				{loading ? (
-					<Skeleton variant="rectangular" width="100%" height={300} />
-				) : randomAnime ? (
-					<RandomCard
-						title={randomAnime.title}
-						imageUrl={randomAnime.images.jpg.image_url}
-					/>
-				) : (
-					<Card
-						sx={{
-							background: 'rgba(29, 51, 53, 0.51)',
-							borderRadius: '8px',
-							boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-							backdropFilter: 'blur(4.9px)',
-							webkitBackdropFilter: 'blur(4.9px)',
-							border: '1px solid rgba(29, 51, 53, 0.3)',
-						}}
-					>
-						<CardMedia
-							component="img"
-							height="300"
-							image={notFoundImg}
-							alt="Default Image"
-						/>
-					</Card>
-				)}
-			</Grid2>
-
-			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
-				{loading ? (
-					<Skeleton variant="text" width="80%" height={40} />
-				) : (
-					<Typography variant="h3">
-						{randomAnime ? randomAnime.title : 'Sorry...'}
-					</Typography>
-				)}
-				<Typography
-					variant="body1"
-					// margin={loading ? 0 : '1rem'}
-					marginBottom="2rem"
-					marginTop="2rem"
+			{randomAnime && (
+				<Box
 					sx={{
-						display: '-webkit-box',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-						WebkitLineClamp: 9,
-						WebkitBoxOrient: 'vertical',
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						backgroundImage: `url(${randomAnime.images.jpg.large_image_url})`,
+						backgroundSize: 'cover',
+						backgroundPosition: 'center',
+						zIndex: 1,
 					}}
+				></Box>
+			)}
+
+			<Box
+				sx={{
+					position: 'absolute',
+					width: '100%',
+					height: '100%',
+					backgroundColor: 'rgba(0, 0, 0, 0.8)',
+					zIndex: 2,
+				}}
+			></Box>
+
+			<Grid2
+				container
+				spacing={2}
+				sx={{
+					position: 'relative',
+					zIndex: 3,
+					display: 'flex',
+					alignItems: 'center',
+				}}
+			>
+				<Grid2
+					size={{ xs: 2 }}
+					offset={{ xs: 3 }}
+					sx={{ marginTop: '5rem' }}
 				>
 					{loading ? (
-						<>
-							<Skeleton variant="text" />
-							<Skeleton variant="text" />
-							<Skeleton variant="text" />
-							<Skeleton variant="text" />
-						</>
+						<Skeleton
+							variant="rectangular"
+							width="100%"
+							height={300}
+						/>
 					) : randomAnime ? (
-						randomAnime.synopsis
+						<RandomCard
+							title={randomAnime.title}
+							imageUrl={randomAnime.images.jpg.image_url}
+						/>
 					) : (
-						<>
-							<Typography variant="body1">
-								We couldn't find matching anime.
-							</Typography>
-							<Typography variant="body1">
-								Try changing your filter parameters
-							</Typography>
-						</>
-					)}
-				</Typography>
-
-				<Grid2 container spacing={2}>
-					<Grid2 size={{ xs: 6 }}>
-						<StyledButton
-							onClick={handleRandomize}
-							disabled={loading || !randomAnime}
+						<Card
+							sx={{
+								background: 'rgba(29, 51, 53, 0.51)',
+								borderRadius: '8px',
+								boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+								backdropFilter: 'blur(4.9px)',
+								webkitBackdropFilter: 'blur(4.9px)',
+								border: '1px solid rgba(29, 51, 53, 0.3)',
+							}}
 						>
-							Randomize
-						</StyledButton>
-					</Grid2>
+							<CardMedia
+								component="img"
+								height="300"
+								image={notFoundImg}
+								alt="Default Image"
+							/>
+						</Card>
+					)}
+				</Grid2>
 
-					<Grid2 size={{ xs: 6 }}>
-						<StyledButton onClick={handleReturnToFilter}>
-							New Filter
-						</StyledButton>
+				<Grid2
+					size={{ xs: 4 }}
+					offset={{ xs: 1 }}
+					sx={{ marginTop: '5rem' }}
+				>
+					{loading ? (
+						<Skeleton variant="text" width="80%" height={40} />
+					) : (
+						<Typography variant="h3">
+							{randomAnime ? randomAnime.title : 'Sorry...'}
+						</Typography>
+					)}
+					<Typography
+						variant="body1"
+						marginBottom="2rem"
+						sx={{
+							display: '-webkit-box',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							WebkitLineClamp: 9,
+							WebkitBoxOrient: 'vertical',
+						}}
+					>
+						{loading ? (
+							<>
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+								<Skeleton variant="text" />
+							</>
+						) : randomAnime ? (
+							randomAnime.synopsis
+						) : (
+							<>
+								<Typography variant="body1">
+									We couldn't find matching anime.
+								</Typography>
+								<Typography variant="body1">
+									Try changing your filter parameters
+								</Typography>
+							</>
+						)}
+					</Typography>
+
+					<Grid2 container spacing={2}>
+						<Grid2 size={{ xs: 6 }}>
+							<StyledButton
+								onClick={handleRandomize}
+								disabled={loading || !randomAnime}
+							>
+								Randomize
+							</StyledButton>
+						</Grid2>
+
+						<Grid2 size={{ xs: 6 }}>
+							<StyledButton onClick={handleReturnToFilter}>
+								New Filter
+							</StyledButton>
+						</Grid2>
 					</Grid2>
 				</Grid2>
 			</Grid2>
-		</Grid2>
+		</Box>
 	);
 }
 
