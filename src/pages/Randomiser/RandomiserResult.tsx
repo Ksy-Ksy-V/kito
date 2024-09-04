@@ -23,6 +23,11 @@ import { useNavigate } from 'react-router-dom';
 import notFoundImg from '../../images/not-found.png';
 import theme from '../../styles/theme';
 
+import AnimeDetails from '../../components/Randomiser/DetailsRandomiserResult';
+
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { RandomAnime } from '../../models/randomAnime';
+
 function RandomiserResult() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
@@ -153,7 +158,7 @@ function RandomiserResult() {
 							alignItems: 'center',
 						}}
 					>
-						<Grid2 size={2} offset={3} sx={{ marginTop: '5rem' }}>
+						<Grid2 size={2} offset={3} sx={{ marginTop: '4rem' }}>
 							{loading ? (
 								<Skeleton
 									variant="rectangular"
@@ -195,11 +200,34 @@ function RandomiserResult() {
 								/>
 							) : (
 								<Box>
-									<Typography variant="h3">
-										{randomAnime
-											? randomAnime.title
-											: 'Sorry...'}
-									</Typography>
+									<Box sx={{ display: 'flex' }}>
+										<Typography variant="h3">
+											{randomAnime
+												? randomAnime.title
+												: 'Sorry...'}
+										</Typography>
+
+										{randomAnime && randomAnime.score && (
+											<Typography
+												variant="h4"
+												sx={{
+													color: theme.palette.primary
+														.main,
+													marginLeft: '1rem',
+													marginTop: '0.5rem',
+													display: 'flex',
+												}}
+											>
+												<StarOutlinedIcon
+													sx={{
+														marginTop: '0.25rem',
+														marginRight: '0.25rem',
+													}}
+												/>
+												{randomAnime.score}
+											</Typography>
+										)}
+									</Box>
 
 									{randomAnime && (
 										<Typography
@@ -252,7 +280,7 @@ function RandomiserResult() {
 									display: '-webkit-box',
 									overflow: 'hidden',
 									textOverflow: 'ellipsis',
-									WebkitLineClamp: 4,
+									WebkitLineClamp: 3,
 									WebkitBoxOrient: 'vertical',
 								}}
 							>
@@ -300,99 +328,19 @@ function RandomiserResult() {
 				</Box>
 			</Grid2>
 
-			<Grid2 container spacing={2}>
 			<Grid2 size={12}>
-				<Typography variant="h3" sx={{ textAlign: 'center' }}>
-					Learn more about{' '}
-					{randomAnime ? randomAnime.title : 'this anime'}
-				</Typography>
-			</Grid2>
-			</Grid2>
-
-			<Grid2 container spacing={2}>
-			
-				{!loading && randomAnime && (
-						<Grid2 size={6}>
-							
-							<Typography variant="body1">
-								<b>Rating:</b> {randomAnime.rating || 'Unknown'}
-							</Typography>
-
-					
-							<Typography variant="body1">
-								<b>Release Date:</b>{' '}
-								{randomAnime.aired?.string || 'Unknown'}
-							</Typography>
-
-							
-							<Typography variant="body1">
-								<b>Episodes:</b>{' '}
-								{randomAnime.episodes || 'Unknown'} episodes,{' '}
-								{randomAnime.duration || 'Unknown duration'}
-							</Typography>
-
-							
-							<Typography variant="body1">
-								<b>Genres:</b>{' '}
-								{randomAnime.genres
-									.map((genre) => genre.name)
-									.join(', ') || 'Unknown'}
-							</Typography>
-
-							
-							<Typography variant="body1">
-								<b>Studio:</b>{' '}
-								{randomAnime.studios
-									.map((studio) => studio.name)
-									.join(', ') || 'Unknown'}
-							</Typography>
-
-						
-							<Typography variant="body1">
-								<b>Status:</b> {randomAnime.status || 'Unknown'}
-							</Typography>
-
-						
-							<Typography variant="body1">
-								<b>Source:</b> {randomAnime.source || 'Unknown'}
-							</Typography>
-						</Grid2>
-
-						{/* Right section - Trailer */}
-						<Grid2 size={6}>
-							{randomAnime.trailer?.embed_url && (
-								<Box sx={{ marginTop: '1rem' }}>
-									<Typography variant="body1">
-										<b>Trailer:</b>
-									</Typography>
-									<Box
-										sx={{
-											position: 'relative',
-											paddingTop: '56.25%',
-										}}
-									>
-										<iframe
-											src={randomAnime.trailer.embed_url}
-											title="Anime Trailer"
-											style={{
-												position: 'absolute',
-												top: 0,
-												left: 0,
-												width: '100%',
-												height: '100%',
-												border: 'none',
-											}}
-											allowFullScreen
-										></iframe>
-									</Box>
-								</Box>
-							)}
-						</Grid2>
-					
+				{loading ? (
+					<Skeleton variant="text" width="100%" height={80} />
+				) : (
+					randomAnime && (
+						<AnimeDetails
+							randomAnime={randomAnime as RandomAnime}
+							loading={loading}
+						/>
+					)
 				)}
 			</Grid2>
-			</Grid2>
-		 
+		</Grid2>
 	);
 }
 
