@@ -28,7 +28,7 @@ const PopularCard: React.FC<PopularCardProps> = ({
 				borderRadius: '16px',
 				marginBottom: '10px',
 				cursor: 'pointer',
-				boxShadow: 'rgba(29, 51, 53, 0.51)',
+				boxShadow: 'rgba(29, 51, 53, 0.7)',
 				overflow: 'hidden',
 				transition:
 					'transform 0.50s ease-in-out, box-shadow 0.50s ease-in-out, border 0.50s ease-in-out',
@@ -73,7 +73,7 @@ const PopularCard: React.FC<PopularCardProps> = ({
 						left: 0,
 						width: '100%',
 						background:
-							'linear-gradient(to top, #1d3335 0%, rgba(29, 51, 53, 0) 100%)',
+							'linear-gradient(to top, #1d3335 15%, rgba(29, 51, 53, 0) 100%)',
 						textAlign: 'center',
 						padding: '8px',
 						boxSizing: 'border-box',
