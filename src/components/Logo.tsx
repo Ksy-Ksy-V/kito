@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import logo from '../images/logo.png';
+import logo from '../images/logoKito.png';
 
 const Logo: React.FC = () => {
 	return (
