@@ -10,13 +10,13 @@ const NotFound = () => {
 			container
 			spacing={2}
 			sx={{
-				// height: '100vh',
+				height: '100vh',
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
 			}}
 		>
-			<Grid2 size={{ xs: 4 }} offset={{ xs: 1 }}>
+			<Grid2 size={{ xs: 4 }}>
 				<Box
 					sx={{
 						width: '100%',

@@ -32,7 +32,7 @@ const PopularSection: React.FC = () => {
 			<Typography
 				variant="h2"
 				component={Link}
-				to="/popularity"
+				to="/popular"
 				sx={{
 					textDecoration: 'none',
 
