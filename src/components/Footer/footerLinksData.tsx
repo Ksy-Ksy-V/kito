@@ -6,7 +6,7 @@ export interface FooterLink {
 export const pagesLinks: FooterLink[] = [
 	{ name: 'Home', path: '/' },
 	{ name: 'Search', path: '/search' },
-	{ name: 'Popularity', path: '/popularity' },
+	{ name: 'Popularity', path: '/popular' },
 ];
 
 export const randomizerLinks: FooterLink[] = [
