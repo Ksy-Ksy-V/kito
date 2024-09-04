@@ -1,5 +1,5 @@
-import { Grid2, Typography, useTheme, Box } from '@mui/material';
-
+import { Grid2, Typography, useTheme, Box, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 import StyledButton from '../../components/StyledButton';
 import notFoundImg from '../../images/error-not-found.png';
 
@@ -39,9 +39,17 @@ const NotFound = () => {
 				>
 					That page cannot be found
 				</Typography>
-				<StyledButton sx={{ marginTop: '2rem' }}>
-					Back to the homepage
-				</StyledButton>
+				<Link
+					component={RouterLink}
+					to="/"
+					sx={{
+						textDecoration: 'none',
+					}}
+				>
+					<StyledButton sx={{ marginTop: '2rem' }}>
+						Back to the homepage
+					</StyledButton>
+				</Link>
 			</Grid2>
 		</Grid2>
 	);
