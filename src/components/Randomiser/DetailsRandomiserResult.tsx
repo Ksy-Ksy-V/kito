@@ -26,7 +26,7 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 
 			{!loading && randomAnime && (
 				<>
-					<Grid2 size={6} sx={{ marginTop: '1rem' }}>
+					<Grid2 size={6} sx={{ marginTop: '2rem' }}>
 						<DetailInformation
 							label="Average Rating:"
 							value={
@@ -42,38 +42,18 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 						/>
 
 						<DetailInformation
-							label="Rating:"
-							value={randomAnime.rating || 'Unknown'}
-						/>
-
-						<DetailInformation
-							label="Release Date:"
+							label="Airing Dates:"
 							value={randomAnime.aired?.string || 'Unknown'}
 						/>
 
 						<DetailInformation
-							label="Episodes:"
+							label="Number of Episodes:"
 							value={
 								randomAnime.episodes
 									? `${randomAnime.episodes} episodes, ${
 											randomAnime.duration ||
 											'Unknown duration'
 									  }`
-									: 'Unknown'
-							}
-						/>
-
-						<DetailInformation
-							label="Genres:"
-							value={
-								randomAnime.genres &&
-								randomAnime.genres.length > 0
-									? randomAnime.genres
-											.map(
-												(genre: JikanResource) =>
-													genre.name
-											)
-											.join(', ')
 									: 'Unknown'
 							}
 						/>

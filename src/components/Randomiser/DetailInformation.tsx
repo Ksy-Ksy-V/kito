@@ -1,4 +1,4 @@
-import { Typography, Divider, Box } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 interface DetailInformationProps {
@@ -13,35 +13,22 @@ const DetailInformation: React.FC<DetailInformationProps> = ({
 	const theme = useTheme();
 
 	return (
-		<Box sx={{ position: 'relative', marginBottom: '1rem' }}>
-			<Typography
-				variant="body1"
-				sx={{
+		<Typography variant="body1" sx={{ marginTop: '1rem' }}>
+			<b
+				style={{
 					color: theme.palette.secondary.main,
 				}}
 			>
-				<b>{label}</b>
-			</Typography>
-
-			<Typography
-				variant="body1"
-				sx={{
+				{label}
+			</b>{' '}
+			<span
+				style={{
 					color: theme.palette.primary.main,
-					position: 'absolute',
-					right: 0,
 				}}
 			>
 				{value}
-			</Typography>
-
-			<Divider
-				sx={{
-					width: '100%',
-					backgroundColor: theme.palette.primary.main,
-					marginTop: '0.5rem',
-				}}
-			/>
-		</Box>
+			</span>
+		</Typography>
 	);
 };
 
