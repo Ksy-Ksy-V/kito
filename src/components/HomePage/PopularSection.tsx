@@ -30,21 +30,6 @@ const PopularSection: React.FC = () => {
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>
-			{/* <Typography
-				variant="h2"
-				component={Link}
-				to="/popularity"
-				sx={{
-					textDecoration: 'none',
-
-					'&:hover': {
-						color: 'primary.main',
-					},
-				}}
-			>
-				Popular
-			</Typography> */}
-
 			<Grid2
 				container
 				spacing={2}
