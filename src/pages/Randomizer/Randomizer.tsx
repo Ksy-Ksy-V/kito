@@ -1,8 +1,8 @@
 import { Typography, Grid2 } from '@mui/material';
 
-import RandomFilters from '../../components/RandomFilters';
+import RandomFilters from '../../components/Randomizer/RandomFilters';
 
-function Randomiser() {
+function Randomizer() {
 	return (
 		<Grid2
 			container
@@ -35,4 +35,4 @@ function Randomiser() {
 	);
 }
 
-export default Randomiser;
+export default Randomizer;

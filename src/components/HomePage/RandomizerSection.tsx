@@ -1,10 +1,10 @@
 import { Typography, Grid2, Box, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import randomiserImg from '../../images/randomiserImg.jpg';
+import randomizerImg from '../../images/background.jpg';
 
 import StyledButton from '../StyledButton';
 
-const RandomiserSection = () => {
+const RandomizerSection = () => {
 	return (
 		<Box
 			sx={{
@@ -24,7 +24,7 @@ const RandomiserSection = () => {
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${randomiserImg})`,
+					backgroundImage: `url(${randomizerImg})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,
@@ -68,7 +68,7 @@ const RandomiserSection = () => {
 
 					<Link
 						component={RouterLink}
-						to="/randomiser"
+						to="/randomizer"
 						sx={{
 							textDecoration: 'none',
 						}}
@@ -79,7 +79,7 @@ const RandomiserSection = () => {
 								padding: '0.3rem 4rem',
 							}}
 						>
-							Try Randomiser
+							Try Randomizer
 						</StyledButton>
 					</Link>
 				</Grid2>
@@ -88,4 +88,4 @@ const RandomiserSection = () => {
 	);
 };
 
-export default RandomiserSection;
+export default RandomizerSection;

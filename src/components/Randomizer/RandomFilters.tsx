@@ -15,8 +15,8 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from './StyledButton';
-import SelectForm from './SelectForm';
+import StyledButton from '../StyledButton';
+import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
 
 const RandomFilters = () => {
@@ -84,7 +84,7 @@ const RandomFilters = () => {
 	// 	setSelectedRating(event.target.value as AnimeRating);
 	// };
 
-	const handleRandomise = () => {
+	const handleRandomize = () => {
 		const queryParams: string[] = [];
 
 		if (selectedGenre) {
@@ -104,7 +104,7 @@ const RandomFilters = () => {
 
 		const queryString =
 			queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-		navigate(`/randomiser-search${queryString}`);
+		navigate(`/randomizer-search${queryString}`);
 	};
 
 	return (
@@ -115,11 +115,12 @@ const RandomFilters = () => {
 						options={animeGenres}
 						getOptionLabel={(option) => option.name}
 						value={selectedGenre}
-						clearIcon={<ClearIcon
-							sx={[
-								{ visibility: 'visible' },
-							]}
-							fontSize="small" />}
+						clearIcon={
+							<ClearIcon
+								sx={[{ visibility: 'visible' }]}
+								fontSize="small"
+							/>
+						}
 						onChange={handleGenreChange}
 						renderOption={(props, option) => {
 							const { key, ...rest } = props;
@@ -128,12 +129,12 @@ const RandomFilters = () => {
 									key={key}
 									{...rest}
 									onMouseEnter={(e) =>
-									(e.currentTarget.style.backgroundColor =
-										theme.palette.primary.main)
+										(e.currentTarget.style.backgroundColor =
+											theme.palette.primary.main)
 									}
 									onMouseLeave={(e) =>
-									(e.currentTarget.style.backgroundColor =
-										'inherit')
+										(e.currentTarget.style.backgroundColor =
+											'inherit')
 									}
 								>
 									{option.name}
@@ -185,10 +186,10 @@ const RandomFilters = () => {
 				/>
 
 				<StyledButton
-					onClick={handleRandomise}
+					onClick={handleRandomize}
 					sx={{ marginTop: '3rem', marginBottom: '2rem' }}
 				>
-					Randomise
+					Randomize
 				</StyledButton>
 			</Grid2>
 		</Grid2>

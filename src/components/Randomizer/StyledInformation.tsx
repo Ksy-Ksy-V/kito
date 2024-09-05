@@ -1,29 +1,29 @@
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-interface DetailInformationProps {
+interface StyledInformationProps {
 	label: string;
 	value: string;
 }
 
-const DetailInformation: React.FC<DetailInformationProps> = ({
+const StyledInformation: React.FC<StyledInformationProps> = ({
 	label,
 	value,
 }) => {
 	const theme = useTheme();
 
 	return (
-		<Typography variant="body1" sx={{ marginTop: '1rem' }}>
+		<Typography variant="body1">
 			<b
 				style={{
-					color: theme.palette.secondary.main,
+					color: theme.palette.text.secondary,
 				}}
 			>
 				{label}
 			</b>{' '}
 			<span
 				style={{
-					color: theme.palette.primary.main,
+					color: theme.palette.text.primary,
 				}}
 			>
 				{value}
@@ -32,4 +32,4 @@ const DetailInformation: React.FC<DetailInformationProps> = ({
 	);
 };
 
-export default DetailInformation;
+export default StyledInformation;

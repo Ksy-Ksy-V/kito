@@ -14,7 +14,7 @@ const theme = createTheme({
 		},
 		text: {
 			primary: '#dbfeff',
-			secondary: '#E5BDC4',
+			secondary: '#8ed7d2',
 		},
 		action: {
 			active: '#64fcf2',

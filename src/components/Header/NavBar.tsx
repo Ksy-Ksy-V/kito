@@ -74,11 +74,11 @@ const NavBar = () => {
 				</MenuItem>
 				<MenuItem
 					component={Link}
-					to="/randomiser"
+					to="/randomizer"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
-					Randomiser
+					Randomizer
 				</MenuItem>
 				<MenuItem
 					component={Link}
