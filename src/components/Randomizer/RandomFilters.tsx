@@ -70,20 +70,6 @@ const RandomFilters = () => {
 		setSelectedGenre(newValue);
 	};
 
-	// const handleTypeChange = (event: SelectChangeEvent<AnimeType>) => {
-	// 	setSelectedType(event.target.value as AnimeType);
-	// };
-
-	// const handleStatusChange = (
-	// 	event: SelectChangeEvent<AnimeSearchStatus>
-	// ) => {
-	// 	setSelectedStatus(event.target.value as AnimeSearchStatus);
-	// };
-
-	// const handleRatingChange = (event: SelectChangeEvent<AnimeRating>) => {
-	// 	setSelectedRating(event.target.value as AnimeRating);
-	// };
-
 	const handleRandomize = () => {
 		const queryParams: string[] = [];
 
