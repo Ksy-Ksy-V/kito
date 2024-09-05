@@ -58,7 +58,7 @@ const NavBar = () => {
 				</MenuItem>
 				<MenuItem
 					component={Link}
-					to="/popularity"
+					to="/popular"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>

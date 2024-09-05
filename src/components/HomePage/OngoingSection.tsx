@@ -2,31 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import PopularCard from '../PopularCard';
-import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
+import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
 import StyledButton from '../StyledButton';
 
-const PopularSection: React.FC = () => {
-	const [topList, setTopList] = useState<Anime[]>([]);
+const OngoingSection: React.FC = () => {
+	const [animeList, setAnimeList] = useState<Anime[]>([]);
 
 	useEffect(() => {
-		const top = new TopClient();
-		const fetchTopAnime = async () => {
-			try {
-				const response: JikanResponse<Anime[]> = await top.getTopAnime({
-					page: 1,
-					limit: 6,
-				});
+		const seasonsClient = new SeasonsClient();
 
-				setTopList(response.data);
+		const fetchSeasonAnime = async () => {
+			try {
+				const response: JikanResponse<Anime[]> =
+					await seasonsClient.getSeasonNow({
+						limit: 6,
+					});
+
+				setAnimeList(response.data);
 			} catch (err) {
-				console.error('Failed to fetch anime:', err);
+				console.error('Failed to fetch seasonal anime:', err);
 			}
 		};
 
-		if (topList.length === 0) {
-			fetchTopAnime();
-		}
-	}, [topList]);
+		fetchSeasonAnime();
+	}, []);
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>
@@ -41,7 +40,7 @@ const PopularSection: React.FC = () => {
 					<Typography
 						variant="h2"
 						component={RouterLink}
-						to="/popularity"
+						to="/airing"
 						sx={{
 							textDecoration: 'none',
 							'&:hover': {
@@ -49,14 +48,14 @@ const PopularSection: React.FC = () => {
 							},
 						}}
 					>
-						Popular
+						This season
 					</Typography>
 				</Grid2>
 
 				<Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
-						to="/popularity"
+						to="/airing"
 						sx={{
 							textDecoration: 'none',
 						}}
@@ -85,10 +84,10 @@ const PopularSection: React.FC = () => {
 					alignItems: 'center',
 				}}
 			>
-				{topList.map((anime) => (
+				{animeList.map((anime) => (
 					<Grid2
 						key={anime.mal_id}
-						size={{ xs: 2 }}
+						size={2}
 						sx={{
 							display: 'flex',
 							justifyContent: 'center',
@@ -109,4 +108,4 @@ const PopularSection: React.FC = () => {
 	);
 };
 
-export default PopularSection;
+export default OngoingSection;

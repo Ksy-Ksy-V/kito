@@ -2,6 +2,7 @@ import { Grid2 } from '@mui/material';
 import SliderHomePage from '../../components/HomePage/SliderHomePage';
 import PopularSection from '../../components/HomePage/PopularSection';
 import RandomizerSection from '../../components/HomePage/RandomizerSection';
+import OngoingSection from '../../components/HomePage/OngoingSection';
 
 function Home() {
 	return (
@@ -10,6 +11,7 @@ function Home() {
 				<SliderHomePage />
 				<PopularSection />
 				<RandomizerSection />
+				<OngoingSection />
 			</Grid2>
 		</Grid2>
 	);
