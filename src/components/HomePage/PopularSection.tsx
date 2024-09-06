@@ -41,7 +41,7 @@ const PopularSection: React.FC = () => {
 					<Typography
 						variant="h2"
 						component={RouterLink}
-						to="/popularity"
+						to="/popular"
 						sx={{
 							textDecoration: 'none',
 							'&:hover': {
@@ -56,7 +56,7 @@ const PopularSection: React.FC = () => {
 				<Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
-						to="/popularity"
+						to="/popular"
 						sx={{
 							textDecoration: 'none',
 						}}
