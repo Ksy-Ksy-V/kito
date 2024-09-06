@@ -1,7 +1,6 @@
 import { Grid2, Skeleton, Box, Typography } from '@mui/material';
 import RandBackground from './RandBackground';
 import RandCardContainer from './RandCardContainer';
-
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { RandomAnime } from '../../models/randomAnime';
 import theme from '../../styles/theme';
@@ -10,7 +9,7 @@ import StyledButton from '../StyledButton';
 import { useNavigate } from 'react-router-dom';
 
 interface RandHeroSectionProps {
-	randomAnime: RandomAnime;
+	randomAnime: RandomAnime | null;
 	loading: boolean;
 	fetchAnimeList: () => void;
 }
@@ -32,16 +31,22 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 
 	return (
 		<>
-			<RandBackground randomAnime={randomAnime} />
+			<RandBackground randomAnime={randomAnime} loading={loading} />
 			<RandCardContainer loading={loading} randomAnime={randomAnime} />
 
 			<Grid2 size={5} offset={1} sx={{ marginTop: '3.5rem', zIndex: 3 }}>
 				{loading ? (
-					<Skeleton variant="text" width="80%" height={40} />
+					<>
+						<Skeleton variant="text" width="80%" height={40} />
+						<Skeleton variant="text" width="20%" height={30} />
+					</>
 				) : (
 					<>
 						<Box sx={{ display: 'flex' }}>
-							<Typography variant="h3">
+							<Typography
+								variant="h3"
+								sx={{ marginTop: '3.5rem' }}
+							>
 								{randomAnime ? randomAnime.title : 'Sorry...'}
 							</Typography>
 						</Box>
@@ -50,7 +55,6 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 								variant="h5"
 								sx={{
 									color: theme.palette.text.secondary,
-
 									display: 'flex',
 								}}
 							>
@@ -92,26 +96,58 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 					</>
 				)}
 
-				<RandInformation loading={loading} randomAnime={randomAnime} />
+				{!loading && !randomAnime ? (
+					<>
+						<Typography variant="body1">
+							We couldn't find matching anime.
+						</Typography>
+						<Typography variant="body1">
+							Try changing your filter parameters
+						</Typography>
+					</>
+				) : (
+					<RandInformation
+						loading={loading}
+						randomAnime={randomAnime as RandomAnime}
+					/>
+				)}
 
 				<Grid2 container spacing={2}>
 					<Grid2 size={6}>
-						<StyledButton
-							onClick={handleRandomize}
-							disabled={loading || !randomAnime}
-							sx={{ marginTop: '2rem' }}
-						>
-							Randomize
-						</StyledButton>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="100%"
+								height={40}
+								sx={{ marginTop: '2rem' }}
+							/>
+						) : (
+							<StyledButton
+								onClick={handleRandomize}
+								disabled={loading || !randomAnime}
+								sx={{ marginTop: '2rem' }}
+							>
+								Randomize
+							</StyledButton>
+						)}
 					</Grid2>
 
 					<Grid2 size={6}>
-						<StyledButton
-							onClick={handleReturnToFilter}
-							sx={{ marginTop: '2rem' }}
-						>
-							New Filter
-						</StyledButton>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="100%"
+								height={40}
+								sx={{ marginTop: '2rem' }}
+							/>
+						) : (
+							<StyledButton
+								onClick={handleReturnToFilter}
+								sx={{ marginTop: '2rem' }}
+							>
+								New Filter
+							</StyledButton>
+						)}
 					</Grid2>
 				</Grid2>
 			</Grid2>

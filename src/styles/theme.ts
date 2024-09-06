@@ -78,6 +78,13 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiSkeleton: {
+			styleOverrides: {
+				root: {
+					backgroundColor: 'rgba(29, 51, 53, 0.7)',
+				},
+			},
+		},
 	},
 });
 
