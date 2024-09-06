@@ -1,10 +1,12 @@
-import { Typography, Grid2, Box, Link } from '@mui/material';
+import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import randomizerImg from '../../images/background.jpg';
 
 import StyledButton from '../StyledButton';
 
 const RandomizerSection = () => {
+	const [imageLoaded, setImageLoaded] = useState(false);
 	return (
 		<Box
 			sx={{
@@ -19,7 +21,21 @@ const RandomizerSection = () => {
 				marginTop: '3rem',
 			}}
 		>
+			{!imageLoaded && (
+				<Skeleton
+					variant="rectangular"
+					width="100%"
+					height="100%"
+					sx={{
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						zIndex: 1,
+					}}
+				/>
+			)}
 			<Box
+				onLoad={() => setImageLoaded(true)}
 				sx={{
 					position: 'absolute',
 					width: '100%',

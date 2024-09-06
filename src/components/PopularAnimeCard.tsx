@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material';
 import { Card, CardMedia, CardActionArea } from '@mui/material';
 
 interface CustomCardProps {

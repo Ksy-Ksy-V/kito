@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, IconButton, Grid2, useTheme } from '@mui/material';
+import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
@@ -7,9 +7,12 @@ import StyledButton from '../StyledButton';
 import { sliderItems } from '../../data/sliderContent';
 
 const SliderHomePage: React.FC = () => {
-	const theme = useTheme();
 	const [currentIndex, setCurrentIndex] = useState(1);
 	const [items] = useState(sliderItems);
+
+	const [imageLoaded, setImageLoaded] = useState(
+		Array(sliderItems.length).fill(false)
+	);
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -23,6 +26,14 @@ const SliderHomePage: React.FC = () => {
 
 	const handleThumbnailClick = (index: number) => {
 		setCurrentIndex(index);
+	};
+
+	const handleImageLoad = (index: number) => {
+		setImageLoaded((prevLoaded) => {
+			const updatedLoaded = [...prevLoaded];
+			updatedLoaded[index] = true;
+			return updatedLoaded;
+		});
 	};
 
 	return (
@@ -54,9 +65,6 @@ const SliderHomePage: React.FC = () => {
 							position: 'absolute',
 							width: '100%',
 							height: '100%',
-							backgroundImage: `url(${item.backgroundImage})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
 							transform:
 								index === currentIndex
 									? 'translateX(0)'
@@ -65,7 +73,28 @@ const SliderHomePage: React.FC = () => {
 									: 'translateX(100%)',
 							transition: 'transform 2.00s ease-in-out',
 						}}
-					/>
+					>
+						{!imageLoaded[index] && (
+							<Skeleton
+								variant="rectangular"
+								width="100%"
+								height="100%"
+								sx={{ position: 'absolute' }}
+							/>
+						)}
+						<Box
+							component="img"
+							src={item.backgroundImage}
+							alt={item.title}
+							onLoad={() => handleImageLoad(index)}
+							sx={{
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								display: imageLoaded[index] ? 'block' : 'none',
+							}}
+						/>
+					</Box>
 				))}
 			</Box>
 
@@ -120,13 +149,12 @@ const SliderHomePage: React.FC = () => {
 							sx={{
 								width: '150px',
 								height: '250px',
-								backgroundImage: `url(${thumbItem.thumbnailImage})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',
 								marginBottom: '10px',
 								cursor: 'pointer',
-								border: `2px solid ${theme.palette.secondary.main}`,
+								border: `2px solid`,
 								marginLeft: thumbIndex > 0 ? '10px' : '0',
 								transform:
 									thumbIndex === currentIndex
@@ -137,7 +165,29 @@ const SliderHomePage: React.FC = () => {
 								opacity: thumbIndex === currentIndex ? 1 : 0.5,
 							}}
 							onClick={() => handleThumbnailClick(thumbIndex)}
-						/>
+						>
+							{!imageLoaded[thumbIndex] && (
+								<Skeleton
+									variant="rectangular"
+									width="100%"
+									height="100%"
+								/>
+							)}
+							<Box
+								component="img"
+								src={thumbItem.thumbnailImage}
+								alt={`Thumbnail ${thumbIndex + 1}`}
+								onLoad={() => handleImageLoad(thumbIndex)}
+								sx={{
+									width: '100%',
+									height: '100%',
+									objectFit: 'cover',
+									display: imageLoaded[thumbIndex]
+										? 'block'
+										: 'none',
+								}}
+							/>
+						</Box>
 					))}
 				</Grid2>
 			</Grid2>
@@ -148,7 +198,6 @@ const SliderHomePage: React.FC = () => {
 					top: '50%',
 					left: '10px',
 					transform: 'translateY(-50%)',
-					color: theme.palette.secondary.main,
 					zIndex: 2,
 				}}
 				onClick={handlePrev}
@@ -161,7 +210,6 @@ const SliderHomePage: React.FC = () => {
 					top: '50%',
 					right: '10px',
 					transform: 'translateY(-50%)',
-					color: theme.palette.secondary.main,
 					zIndex: 2,
 				}}
 				onClick={handleNext}

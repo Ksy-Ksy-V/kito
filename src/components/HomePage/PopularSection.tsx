@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Link } from '@mui/material';
+import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import PopularCard from '../PopularCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
@@ -7,6 +7,7 @@ import StyledButton from '../StyledButton';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const top = new TopClient();
@@ -20,13 +21,13 @@ const PopularSection: React.FC = () => {
 				setTopList(response.data);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
+			} finally {
+				setLoading(false);
 			}
 		};
 
-		if (topList.length === 0) {
-			fetchTopAnime();
-		}
-	}, [topList]);
+		fetchTopAnime();
+	}, []);
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>
@@ -85,25 +86,43 @@ const PopularSection: React.FC = () => {
 					alignItems: 'center',
 				}}
 			>
-				{topList.map((anime) => (
-					<Grid2
-						key={anime.mal_id}
-						size={{ xs: 2 }}
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<PopularCard
-							thumbnailImage={anime.images.jpg.image_url}
-							title={anime.title}
-							onClick={() => {
-								console.log(`Redirect to ${anime.url}`);
-							}}
-						/>
-					</Grid2>
-				))}
+				{loading
+					? [...Array(6)].map((_, index) => (
+							<Grid2
+								key={index}
+								size={{ xs: 2 }}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<Skeleton
+									variant="rectangular"
+									width="100%"
+									height={300}
+								/>
+							</Grid2>
+					  ))
+					: topList.map((anime) => (
+							<Grid2
+								key={anime.mal_id}
+								size={{ xs: 2 }}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<PopularCard
+									thumbnailImage={anime.images.jpg.image_url}
+									title={anime.title}
+									onClick={() => {
+										console.log(`Redirect to ${anime.url}`);
+									}}
+								/>
+							</Grid2>
+					  ))}
 			</Grid2>
 		</Box>
 	);

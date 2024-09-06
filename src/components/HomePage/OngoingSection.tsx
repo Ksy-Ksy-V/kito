@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Link } from '@mui/material';
+import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import PopularCard from '../PopularCard';
 import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
@@ -7,6 +7,7 @@ import StyledButton from '../StyledButton';
 
 const OngoingSection: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		const seasonsClient = new SeasonsClient();
@@ -21,6 +22,8 @@ const OngoingSection: React.FC = () => {
 				setAnimeList(response.data);
 			} catch (err) {
 				console.error('Failed to fetch seasonal anime:', err);
+			} finally {
+				setLoading(false);
 			}
 		};
 
@@ -84,25 +87,43 @@ const OngoingSection: React.FC = () => {
 					alignItems: 'center',
 				}}
 			>
-				{animeList.map((anime) => (
-					<Grid2
-						key={anime.mal_id}
-						size={2}
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<PopularCard
-							thumbnailImage={anime.images.jpg.image_url}
-							title={anime.title}
-							onClick={() => {
-								console.log(`Redirect to ${anime.url}`);
-							}}
-						/>
-					</Grid2>
-				))}
+				{loading
+					? [...Array(6)].map((_, index) => (
+							<Grid2
+								key={index}
+								size={2}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<Skeleton
+									variant="rectangular"
+									width={180}
+									height={270}
+								/>
+							</Grid2>
+					  ))
+					: animeList.map((anime) => (
+							<Grid2
+								key={anime.mal_id}
+								size={2}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<PopularCard
+									thumbnailImage={anime.images.jpg.image_url}
+									title={anime.title}
+									onClick={() => {
+										console.log(`Redirect to ${anime.url}`);
+									}}
+								/>
+							</Grid2>
+					  ))}
 			</Grid2>
 		</Box>
 	);
