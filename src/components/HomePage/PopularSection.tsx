@@ -1,32 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Link } from '@mui/material';
+import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import PopularCard from '../PopularCard';
+import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../StyledButton';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const top = new TopClient();
 		const fetchTopAnime = async () => {
 			try {
+				setLoading(true);
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
 					limit: 6,
 				});
 
 				setTopList(response.data);
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
 			}
 		};
 
-		if (topList.length === 0) {
-			fetchTopAnime();
-		}
-	}, [topList]);
+		fetchTopAnime();
+	}, []);
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>
@@ -41,7 +42,7 @@ const PopularSection: React.FC = () => {
 					<Typography
 						variant="h2"
 						component={RouterLink}
-						to="/popularity"
+						to="/popular"
 						sx={{
 							textDecoration: 'none',
 							'&:hover': {
@@ -56,7 +57,7 @@ const PopularSection: React.FC = () => {
 				<Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
-						to="/popularity"
+						to="/popular"
 						sx={{
 							textDecoration: 'none',
 						}}
@@ -85,25 +86,40 @@ const PopularSection: React.FC = () => {
 					alignItems: 'center',
 				}}
 			>
-				{topList.map((anime) => (
-					<Grid2
-						key={anime.mal_id}
-						size={{ xs: 2 }}
-						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<PopularCard
-							thumbnailImage={anime.images.jpg.image_url}
-							title={anime.title}
-							onClick={() => {
-								console.log(`Redirect to ${anime.url}`);
+				{loading
+					? [...Array(6)].map((_, index) => (
+						<Grid2
+							key={index}
+							size={{ xs: 2 }}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
 							}}
-						/>
-					</Grid2>
-				))}
+						>
+							<Skeleton
+								variant="rectangular"
+								width={150}
+								height={250}
+							/>
+						</Grid2>
+					))
+					: topList.map((anime) => (
+						<Grid2
+							key={anime.mal_id}
+							size={{ xs: 2 }}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<AnimeCard
+								image={anime.images.jpg.image_url}
+								title={anime.title}
+							/>
+						</Grid2>
+					))}
 			</Grid2>
 		</Box>
 	);

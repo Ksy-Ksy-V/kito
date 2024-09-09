@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Grid2, Skeleton, Typography } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -11,12 +11,13 @@ import {
 } from '@tutkli/jikan-ts';
 
 import RandHeroSection from '../../components/Randomizer/RandHeroSection';
+import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
 import { RandomAnime } from '../../models/randomAnime';
 
-function RandomizerResult() {
+function RandomizerSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -73,11 +74,10 @@ function RandomizerResult() {
 			if (response.data && response.data.length > 0) {
 				const randomAnime = getRandomAnimeFromList(response.data);
 				setRandomAnime(randomAnime);
+				setLoading(false);
 			}
 		} catch (err) {
 			console.error('Error fetching anime list:', err);
-		} finally {
-			setLoading(false);
 		}
 	}, [location.search]);
 
@@ -93,79 +93,12 @@ function RandomizerResult() {
 				fetchAnimeList={() => fetchAnimeList()}
 			/>
 
-			<Typography
-				variant="h3"
-				sx={{
-					marginTop: '1rem',
-					color: 'theme.palette.text.secondary',
-				}}
-			>
-				Description
-			</Typography>
-
-			<Grid2 container spacing={2} size={12}>
-				<Grid2 size={5}>
-					<Typography
-						variant="body1"
-						marginBottom="2rem"
-						sx={{
-							marginTop: '1rem',
-							display: '-webkit-box',
-							WebkitBoxOrient: 'vertical',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-						}}
-					>
-						{loading ? (
-							<>
-								<Skeleton variant="text" />
-								<Skeleton variant="text" />
-								<Skeleton variant="text" />
-							</>
-						) : randomAnime && randomAnime.synopsis ? (
-							randomAnime.synopsis
-						) : (
-							<>
-								<Typography variant="body1">
-									We couldn't find matching anime.
-								</Typography>
-								<Typography variant="body1">
-									Try changing your filter parameters
-								</Typography>
-							</>
-						)}
-					</Typography>
-				</Grid2>
-
-				<Grid2 size={6} offset={1}>
-					{randomAnime && randomAnime.trailer?.embed_url && (
-						<Box
-							sx={{
-								marginTop: '2rem',
-								position: 'relative',
-								paddingTop: '56.25%',
-								marginBottom: '2rem',
-							}}
-						>
-							<iframe
-								src={randomAnime.trailer.embed_url}
-								title="Anime Trailer"
-								style={{
-									position: 'absolute',
-									top: 0,
-									left: 0,
-									width: '100%',
-									height: '100%',
-									border: 'none',
-								}}
-								allowFullScreen
-							></iframe>
-						</Box>
-					)}
-				</Grid2>
-			</Grid2>
+			<RandDescriptionSection
+				loading={loading}
+				randomAnime={randomAnime as RandomAnime}
+			/>
 		</Grid2>
 	);
 }
 
-export default RandomizerResult;
+export default RandomizerSearch;

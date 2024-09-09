@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Box, Typography, IconButton, Grid2, useTheme } from '@mui/material';
+import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
+import { sliderItems as items } from '../../data/sliderContent';
 
-import { sliderItems } from '../../data/sliderContent';
 
 const SliderHomePage: React.FC = () => {
-	const theme = useTheme();
 	const [currentIndex, setCurrentIndex] = useState(1);
-	const [items] = useState(sliderItems);
+
+	const [imageLoaded, setImageLoaded] = useState(
+		Array(items.length).fill(false)
+	);
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -23,6 +25,14 @@ const SliderHomePage: React.FC = () => {
 
 	const handleThumbnailClick = (index: number) => {
 		setCurrentIndex(index);
+	};
+
+	const handleImageLoad = (index: number) => {
+		setImageLoaded((prevLoaded) => {
+			const updatedLoaded = [...prevLoaded];
+			updatedLoaded[index] = true;
+			return updatedLoaded;
+		});
 	};
 
 	return (
@@ -54,18 +64,36 @@ const SliderHomePage: React.FC = () => {
 							position: 'absolute',
 							width: '100%',
 							height: '100%',
-							backgroundImage: `url(${item.backgroundImage})`,
-							backgroundSize: 'cover',
-							backgroundPosition: 'center',
 							transform:
 								index === currentIndex
 									? 'translateX(0)'
 									: index < currentIndex
-									? 'translateX(-100%)'
-									: 'translateX(100%)',
+										? 'translateX(-100%)'
+										: 'translateX(100%)',
 							transition: 'transform 2.00s ease-in-out',
 						}}
-					/>
+					>
+						{!imageLoaded[index] && (
+							<Skeleton
+								variant="rectangular"
+								width="100%"
+								height="100%"
+								sx={{ position: 'absolute' }}
+							/>
+						)}
+						<Box
+							component="img"
+							src={item.backgroundImage}
+							alt={item.title}
+							onLoad={() => handleImageLoad(index)}
+							sx={{
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								display: imageLoaded[index] ? 'block' : 'none',
+							}}
+						/>
+					</Box>
 				))}
 			</Box>
 
@@ -83,25 +111,48 @@ const SliderHomePage: React.FC = () => {
 			>
 				<Grid2
 					size={{ xs: 3 }}
-					sx={{ marginTop: '2rem', marginLeft: '10rem' }}
+					sx={{
+						marginTop: '2rem',
+						marginLeft: '10%'
+					}}
 				>
-					<Typography variant="body2">
-						№{currentIndex + 1} by Kito opinion
-					</Typography>
-					<Typography variant="h3">
-						{items[currentIndex].title}
-					</Typography>
-					<Typography
-						variant="body1"
-						sx={{
-							marginTop: '10px',
-							marginBottom: '20px',
-						}}
-					>
-						{items[currentIndex].description}
-					</Typography>
+					{!imageLoaded[currentIndex] ? (
+						<>
+							<Skeleton variant="text" width="30%" height={20} />
+							<Skeleton variant="text" width="70%" height={50} />
+							{[...Array(3)].map((_, index) => (
+								<Skeleton
+									key={index}
+									variant="text"
+									width="90%"
+									height={20}
+									sx={{
+										marginTop: '10px',
+									}}
+								/>
+							))}
+						</>
+					) : (
+						<>
+							<Typography variant="body2">
+								№{currentIndex + 1} by Kito opinion
+							</Typography>
+							<Typography variant="h3">
+								{items[currentIndex].title}
+							</Typography>
+							<Typography
+								variant="body1"
+								sx={{
+									marginTop: '10px',
+									marginBottom: '20px',
+								}}
+							>
+								{items[currentIndex].description}
+							</Typography>
 
-					<StyledButton>Read More</StyledButton>
+							<StyledButton>Read More</StyledButton>
+						</>
+					)}
 				</Grid2>
 
 				<Grid2
@@ -111,7 +162,7 @@ const SliderHomePage: React.FC = () => {
 						position: 'absolute',
 						right: '10px',
 						zIndex: 2,
-						marginRight: '12rem',
+						marginRight: '10%',
 					}}
 				>
 					{items.map((thumbItem, thumbIndex) => (
@@ -120,13 +171,12 @@ const SliderHomePage: React.FC = () => {
 							sx={{
 								width: '150px',
 								height: '250px',
-								backgroundImage: `url(${thumbItem.thumbnailImage})`,
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',
-								marginBottom: '10px',
+								margin: '1rem',
 								cursor: 'pointer',
-								border: `2px solid ${theme.palette.secondary.main}`,
+								border: `2px solid`,
 								marginLeft: thumbIndex > 0 ? '10px' : '0',
 								transform:
 									thumbIndex === currentIndex
@@ -137,7 +187,29 @@ const SliderHomePage: React.FC = () => {
 								opacity: thumbIndex === currentIndex ? 1 : 0.5,
 							}}
 							onClick={() => handleThumbnailClick(thumbIndex)}
-						/>
+						>
+							{!imageLoaded[thumbIndex] && (
+								<Skeleton
+									variant="rectangular"
+									width="100%"
+									height="100%"
+								/>
+							)}
+							<Box
+								component="img"
+								src={thumbItem.thumbnailImage}
+								alt={`Thumbnail ${thumbIndex + 1}`}
+								onLoad={() => handleImageLoad(thumbIndex)}
+								sx={{
+									width: '100%',
+									height: '100%',
+									objectFit: 'cover',
+									display: imageLoaded[thumbIndex]
+										? 'block'
+										: 'none',
+								}}
+							/>
+						</Box>
 					))}
 				</Grid2>
 			</Grid2>
@@ -148,7 +220,6 @@ const SliderHomePage: React.FC = () => {
 					top: '50%',
 					left: '10px',
 					transform: 'translateY(-50%)',
-					color: theme.palette.secondary.main,
 					zIndex: 2,
 				}}
 				onClick={handlePrev}
@@ -161,7 +232,6 @@ const SliderHomePage: React.FC = () => {
 					top: '50%',
 					right: '10px',
 					transform: 'translateY(-50%)',
-					color: theme.palette.secondary.main,
 					zIndex: 2,
 				}}
 				onClick={handleNext}

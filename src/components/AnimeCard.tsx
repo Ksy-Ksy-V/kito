@@ -7,17 +7,13 @@ import {
 	useTheme,
 } from '@mui/material';
 
-interface PopularCardProps {
-	thumbnailImage: string;
+interface AnimeCardProps {
+	image: string;
 	title: string;
 	onClick?: () => void;
 }
 
-const PopularCard: React.FC<PopularCardProps> = ({
-	thumbnailImage,
-	title,
-	onClick,
-}) => {
+const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 	const theme = useTheme();
 
 	return (
@@ -54,7 +50,7 @@ const PopularCard: React.FC<PopularCardProps> = ({
 			>
 				<CardMedia
 					component="img"
-					image={thumbnailImage}
+					image={image}
 					alt="Anime thumbnail"
 					className="card-media"
 					sx={{
@@ -86,4 +82,4 @@ const PopularCard: React.FC<PopularCardProps> = ({
 	);
 };
 
-export default PopularCard;
+export default AnimeCard;

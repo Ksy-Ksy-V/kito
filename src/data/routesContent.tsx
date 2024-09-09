@@ -3,7 +3,7 @@ import Search from '../pages/Search/Search';
 import Popularity from '../pages/Popularity/Popularity';
 import Airing from '../pages/Airing/Airing';
 import Randomizer from '../pages/Randomizer/Randomizer';
-import RandomizerResult from '../pages/Randomizer/RandomizerResult';
+import RandomizerSearch from '../pages/Randomizer/RandomizerSearch';
 import News from '../pages/News/News';
 import Settings from '../pages/Settings/Settings';
 import Profile from '../pages/Profile/Profile';
@@ -18,7 +18,7 @@ export const routes: RouteContent[] = [
 	{ path: '/search', element: <Search /> },
 	{ path: '/popular', element: <Popularity /> },
 	{ path: '/randomizer', element: <Randomizer /> },
-	{ path: '/randomizer-search', element: <RandomizerResult /> },
+	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
 	{ path: '/news', element: <News /> },
 	{ path: '/settings', element: <Settings /> },

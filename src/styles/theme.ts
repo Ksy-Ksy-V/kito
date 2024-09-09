@@ -72,9 +72,13 @@ const theme = createTheme({
 			styleOverrides: {
 				body: {
 					scrollbarColor: '#387171 #2b2b2b',
-					'&::-webkit-scrollbar': {
-						backgroundColor: '#2b2b2b',
-					},
+				},
+			},
+		},
+		MuiSkeleton: {
+			styleOverrides: {
+				root: {
+					backgroundColor: 'rgba(29, 51, 53, 0.7)',
 				},
 			},
 		},
