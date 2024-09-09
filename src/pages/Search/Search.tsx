@@ -62,62 +62,55 @@
 // export default Search;
 
 import React, { useState } from 'react';
-import { TextField, Grid, Typography, Autocomplete } from '@mui/material';
+import { TextField, Button, Grid, Typography } from '@mui/material';
 import { AnimeClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 
-import SearchCard from '../../components/Search/SearchCard';
+const Search: React.FC = () => {
+	const [searchTerm, setSearchTerm] = useState(''); // Статус для зберігання пошукового запиту
+	const [animeResults, setAnimeResults] = useState<Anime[]>([]); // Статус для зберігання результатів
+	const [loading, setLoading] = useState(false); // Статус для лоадінгу
+	const [error, setError] = useState<string | null>(null); // Статус для помилок
 
-const SearchWithAutocomplete: React.FC = () => {
-	const [searchTerm, setSearchTerm] = useState('');
-	const [animeOptions, setAnimeOptions] = useState<Anime[]>([]);
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
-	const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-
-	const handleSearch = async (query: string) => {
+	const handleSearch = async () => {
 		setLoading(true);
 		setError(null);
 		try {
 			const animeClient = new AnimeClient();
 			const response: JikanResponse<Anime[]> =
 				await animeClient.getAnimeSearch({
-					q: query,
-					limit: 10,
+					q: searchTerm,
 				});
-			setAnimeOptions(response.data);
-			setAnimeList(response.data);
-			setLoading(false);
+			setAnimeResults(response.data);
 		} catch (err) {
 			console.error('Failed to search anime:', err);
 			setError('Something went wrong during the search.');
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	return (
 		<div>
-			<Autocomplete
-				options={animeOptions}
-				getOptionLabel={(option) => option.title}
-				value={null}
-				onInputChange={(_, newInputValue) => {
-					setSearchTerm(newInputValue);
-					if (newInputValue) {
-						handleSearch(newInputValue);
-					}
-				}}
-				loading={loading}
-				noOptionsText="No results"
-				renderInput={(params) => (
-					<TextField
-						{...params}
-						label="Search for Anime"
-						variant="outlined"
-						fullWidth
-					/>
-				)}
+			{/* Поле введення для пошуку */}
+			<TextField
+				label="Search for Anime"
+				variant="outlined"
+				value={searchTerm}
+				onChange={(e) => setSearchTerm(e.target.value)} // Оновлюємо статус на введення користувача
+				sx={{ marginBottom: '1rem' }}
+				fullWidth
 			/>
+			{/* Кнопка для запуску пошуку */}
+			<Button
+				variant="contained"
+				onClick={handleSearch}
+				disabled={loading || !searchTerm} // Деактивуємо кнопку, коли йде лоадінг або пошуковий запит порожній
+				fullWidth
+			>
+				{loading ? 'Searching...' : 'Search'}
+			</Button>
 
+			{/* Результати пошуку */}
 			<Grid container spacing={2} sx={{ marginTop: '2rem' }}>
 				{loading ? (
 					<Typography variant="body1">Loading...</Typography>
@@ -125,26 +118,20 @@ const SearchWithAutocomplete: React.FC = () => {
 					<Typography variant="body1" color="error">
 						{error}
 					</Typography>
-				) : animeList.length === 0 && searchTerm ? (
+				) : animeResults.length === 0 && searchTerm ? (
 					<Typography variant="body1">No results found.</Typography>
 				) : (
-					animeList.map((anime) => (
-						<Grid
-							item
-							xs={12}
-							sm={6}
-							md={4}
-							lg={3}
-							key={anime.mal_id}
-						>
-							<SearchCard
-								title={anime.title}
-								description={
-									anime.synopsis ||
-									'No description available.'
-								}
-								imageUrl={anime.images.jpg.image_url || ''}
+					animeResults.map((anime) => (
+						<Grid item xs={12} sm={6} md={4} key={anime.mal_id}>
+							<Typography variant="h6">{anime.title}</Typography>
+							<img
+								src={anime.images.jpg.image_url}
+								alt={anime.title}
+								style={{ width: '100%' }}
 							/>
+							<Typography variant="body2">
+								{anime.synopsis || 'No synopsis available.'}
+							</Typography>
 						</Grid>
 					))
 				)}
@@ -153,4 +140,4 @@ const SearchWithAutocomplete: React.FC = () => {
 	);
 };
 
-export default SearchWithAutocomplete;
+export default Search;
