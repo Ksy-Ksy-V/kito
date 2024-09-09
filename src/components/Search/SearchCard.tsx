@@ -6,13 +6,13 @@ import {
 	CardActionArea,
 } from '@mui/material';
 
-interface CardAnimeProps {
+interface SearchCardProps {
 	title: string;
 	description: string;
 	imageUrl: string;
 }
 
-function CardAnime({ title, description, imageUrl }: CardAnimeProps) {
+function SearchCard({ title, description, imageUrl }: SearchCardProps) {
 	return (
 		<Card
 			sx={{
@@ -64,4 +64,4 @@ function CardAnime({ title, description, imageUrl }: CardAnimeProps) {
 	);
 }
 
-export default CardAnime;
+export default SearchCard;
