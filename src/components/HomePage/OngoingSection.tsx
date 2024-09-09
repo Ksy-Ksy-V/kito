@@ -89,38 +89,38 @@ const OngoingSection: React.FC = () => {
 			>
 				{loading
 					? [...Array(6)].map((_, index) => (
-							<Grid2
-								key={index}
-								size={2}
-								sx={{
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-								}}
-							>
-								<Skeleton
-									variant="rectangular"
-									width={150}
-									height={250}
-								/>
-							</Grid2>
-					  ))
+						<Grid2
+							key={index}
+							size={2}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<Skeleton
+								variant="rectangular"
+								width={150}
+								height={250}
+							/>
+						</Grid2>
+					))
 					: animeList.map((anime) => (
-							<Grid2
-								key={anime.mal_id}
-								size={2}
-								sx={{
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-								}}
-							>
-								<AnimeCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-								/>
-							</Grid2>
-					  ))}
+						<Grid2
+							key={anime.mal_id}
+							size={2}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<AnimeCard
+								image={anime.images.jpg.image_url}
+								title={anime.title}
+							/>
+						</Grid2>
+					))}
 			</Grid2>
 		</Box>
 	);

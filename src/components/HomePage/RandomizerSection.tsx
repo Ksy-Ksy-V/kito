@@ -21,11 +21,9 @@ const RandomizerSection = () => {
 				marginTop: '3rem',
 			}}
 		>
-			{imageLoaded && (
+			{imageLoaded ? (
 				<Skeleton
 					variant="rectangular"
-					width="100%"
-					height="100%"
 					sx={{
 						position: 'absolute',
 						width: '100%',
@@ -33,26 +31,27 @@ const RandomizerSection = () => {
 						zIndex: 1,
 					}}
 				/>
-			)}
-			<img
-				src={`${randomizerImg}`}
-				onLoad={() => setImageLoaded(false)}
-				style={{
-					position: 'absolute',
-					width: '100%',
-					zIndex: 1,
-				}}
-			/>
+			) :
+				<img
+					src={`${randomizerImg}`}
+					onLoad={() => setImageLoaded(false)}
+					style={{
+						position: 'absolute',
+						width: '100%',
+						zIndex: 1,
+					}}
+				/>}
+			{!imageLoaded &&
+				<Box
+					sx={{
+						position: 'absolute',
+						width: '100%',
+						height: '100%',
+						backgroundColor: 'rgba(0, 0, 0, 0.7)',
+						zIndex: 2,
+					}}
+				/>}
 
-			<Box
-				sx={{
-					position: 'absolute',
-					width: '100%',
-					height: '100%',
-					backgroundColor: 'rgba(0, 0, 0, 0.7)',
-					zIndex: 2,
-				}}
-			></Box>
 
 			<Grid2
 				container
@@ -99,6 +98,7 @@ const RandomizerSection = () => {
 						}}
 					>
 						<StyledButton
+							disabled={imageLoaded}
 							sx={{
 								width: 'auto',
 								padding: '0.3rem 4rem',
