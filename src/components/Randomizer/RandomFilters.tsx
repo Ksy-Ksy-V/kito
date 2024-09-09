@@ -23,7 +23,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 	const animeTypes: AnimeType[] = [
 		'TV',
 		'Movie',
@@ -49,19 +49,20 @@ const RandomFilters = () => {
 	useEffect(() => {
 		const fetchAnimeGenres = async () => {
 			try {
+				setLoading(true);
 				const genresClient = new GenresClient();
 				const response: JikanResponse<Genre[]> =
 					await genresClient.getAnimeGenres();
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
-			} finally {
-				setLoading(false);
 			}
 		};
 		if (!animeGenres || animeGenres.length === 0) {
 			fetchAnimeGenres();
 		}
+
+		setLoading(false);
 	}, [animeGenres]);
 
 	const handleGenreChange = (
@@ -173,21 +174,12 @@ const RandomFilters = () => {
 					upperCaseOptions
 				/>
 
-				{loading ? (
-					<Skeleton
-						variant="rectangular"
-						width="100%"
-						height={40}
-						sx={{ marginTop: '3rem', marginBottom: '2rem' }}
-					/>
-				) : (
-					<StyledButton
-						onClick={handleRandomize}
-						sx={{ marginTop: '3rem', marginBottom: '2rem' }}
-					>
-						Randomize
-					</StyledButton>
-				)}
+				<StyledButton
+					onClick={handleRandomize}
+					sx={{ marginTop: '3rem', marginBottom: '2rem' }}
+				>
+					Randomize
+				</StyledButton>
 			</Grid2>
 		</Grid2>
 	);

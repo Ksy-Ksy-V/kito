@@ -7,22 +7,22 @@ import StyledButton from '../StyledButton';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const top = new TopClient();
 		const fetchTopAnime = async () => {
 			try {
+				setLoading(true);
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
 					limit: 6,
 				});
 
 				setTopList(response.data);
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
-			} finally {
-				setLoading(false);
 			}
 		};
 

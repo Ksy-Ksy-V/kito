@@ -7,23 +7,23 @@ import StyledButton from '../StyledButton';
 
 const OngoingSection: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const seasonsClient = new SeasonsClient();
 
 		const fetchSeasonAnime = async () => {
 			try {
+				setLoading(true);
 				const response: JikanResponse<Anime[]> =
 					await seasonsClient.getSeasonNow({
 						limit: 6,
 					});
 
 				setAnimeList(response.data);
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch seasonal anime:', err);
-			} finally {
-				setLoading(false);
 			}
 		};
 
