@@ -73,14 +73,27 @@ const RandomizerSection = () => {
 						textAlign: 'center',
 					}}
 				>
-					<Typography
-						variant="h2"
-						sx={{
-							marginBottom: '2rem',
-						}}
-					>
-						Don't know what to watch?
-					</Typography>
+					{!imageLoaded ? (
+						<Skeleton
+							variant="text"
+							width="60%"
+							height={60}
+							sx={{
+								marginBottom: '2rem',
+								marginLeft: 'auto',
+								marginRight: 'auto',
+							}}
+						/>
+					) : (
+						<Typography
+							variant="h2"
+							sx={{
+								marginBottom: '2rem',
+							}}
+						>
+							Don't know what to watch?
+						</Typography>
+					)}
 
 					<Link
 						component={RouterLink}

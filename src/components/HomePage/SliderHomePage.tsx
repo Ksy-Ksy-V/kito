@@ -112,25 +112,45 @@ const SliderHomePage: React.FC = () => {
 			>
 				<Grid2
 					size={{ xs: 3 }}
-					sx={{ marginTop: '2rem', marginLeft: '10rem' }}
+					sx={{ marginTop: '2rem', marginLeft: '10%' }}
 				>
-					<Typography variant="body2">
-						№{currentIndex + 1} by Kito opinion
-					</Typography>
-					<Typography variant="h3">
-						{items[currentIndex].title}
-					</Typography>
-					<Typography
-						variant="body1"
-						sx={{
-							marginTop: '10px',
-							marginBottom: '20px',
-						}}
-					>
-						{items[currentIndex].description}
-					</Typography>
+					{!imageLoaded[currentIndex] ? (
+						<>
+							<Skeleton variant="text" width="30%" height={20} />
+							<Skeleton variant="text" width="70%" height={50} />
+							{[...Array(3)].map((_, index) => (
+								<Skeleton
+									key={index}
+									variant="text"
+									width="90%"
+									height={20}
+									sx={{
+										marginTop: '10px',
+									}}
+								/>
+							))}
+						</>
+					) : (
+						<>
+							<Typography variant="body2">
+								№{currentIndex + 1} by Kito opinion
+							</Typography>
+							<Typography variant="h3">
+								{items[currentIndex].title}
+							</Typography>
+							<Typography
+								variant="body1"
+								sx={{
+									marginTop: '10px',
+									marginBottom: '20px',
+								}}
+							>
+								{items[currentIndex].description}
+							</Typography>
 
-					<StyledButton>Read More</StyledButton>
+							<StyledButton>Read More</StyledButton>
+						</>
+					)}
 				</Grid2>
 
 				<Grid2
@@ -140,7 +160,7 @@ const SliderHomePage: React.FC = () => {
 						position: 'absolute',
 						right: '10px',
 						zIndex: 2,
-						marginRight: '12rem',
+						marginRight: '10%',
 					}}
 				>
 					{items.map((thumbItem, thumbIndex) => (
@@ -152,7 +172,7 @@ const SliderHomePage: React.FC = () => {
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',
-								marginBottom: '10px',
+								margin: '1rem',
 								cursor: 'pointer',
 								border: `2px solid`,
 								marginLeft: thumbIndex > 0 ? '10px' : '0',

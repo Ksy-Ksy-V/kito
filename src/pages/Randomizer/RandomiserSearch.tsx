@@ -14,7 +14,7 @@ import RandHeroSection from '../../components/Randomizer/RandHeroSection';
 import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
 import { RandomAnime } from '../../models/randomAnime';
 
-function RandomizerResult() {
+function RandomiserSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -102,4 +102,4 @@ function RandomizerResult() {
 	);
 }
 
-export default RandomizerResult;
+export default RandomiserSearch;

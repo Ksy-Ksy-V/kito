@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import PopularCard from '../PopularCard';
+import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../StyledButton';
 
@@ -99,8 +99,8 @@ const PopularSection: React.FC = () => {
 							>
 								<Skeleton
 									variant="rectangular"
-									width="100%"
-									height={300}
+									width={150}
+									height={250}
 								/>
 							</Grid2>
 					  ))
@@ -114,12 +114,9 @@ const PopularSection: React.FC = () => {
 									alignItems: 'center',
 								}}
 							>
-								<PopularCard
-									thumbnailImage={anime.images.jpg.image_url}
+								<AnimeCard
+									image={anime.images.jpg.image_url}
 									title={anime.title}
-									onClick={() => {
-										console.log(`Redirect to ${anime.url}`);
-									}}
 								/>
 							</Grid2>
 					  ))}

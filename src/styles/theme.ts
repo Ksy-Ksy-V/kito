@@ -72,9 +72,6 @@ const theme = createTheme({
 			styleOverrides: {
 				body: {
 					scrollbarColor: '#387171 #2b2b2b',
-					'&::-webkit-scrollbar': {
-						backgroundColor: '#2b2b2b',
-					},
 				},
 			},
 		},

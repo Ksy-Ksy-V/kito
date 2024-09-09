@@ -34,7 +34,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 			<RandBackground randomAnime={randomAnime} loading={loading} />
 			<RandCardContainer loading={loading} randomAnime={randomAnime} />
 
-			<Grid2 size={5} offset={1} sx={{ marginTop: '3.5rem', zIndex: 3 }}>
+			<Grid2 size={5} offset={1} sx={{ zIndex: 3 }}>
 				{loading ? (
 					<>
 						<Skeleton variant="text" width="80%" height={40} />
@@ -114,40 +114,22 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 
 				<Grid2 container spacing={2}>
 					<Grid2 size={6}>
-						{loading ? (
-							<Skeleton
-								variant="rectangular"
-								width="100%"
-								height={40}
-								sx={{ marginTop: '2rem' }}
-							/>
-						) : (
-							<StyledButton
-								onClick={handleRandomize}
-								disabled={loading || !randomAnime}
-								sx={{ marginTop: '2rem' }}
-							>
-								Randomize
-							</StyledButton>
-						)}
+						<StyledButton
+							onClick={handleRandomize}
+							disabled={loading || !randomAnime}
+							sx={{ marginTop: '2rem' }}
+						>
+							Randomize
+						</StyledButton>
 					</Grid2>
 
 					<Grid2 size={6}>
-						{loading ? (
-							<Skeleton
-								variant="rectangular"
-								width="100%"
-								height={40}
-								sx={{ marginTop: '2rem' }}
-							/>
-						) : (
-							<StyledButton
-								onClick={handleReturnToFilter}
-								sx={{ marginTop: '2rem' }}
-							>
-								New Filter
-							</StyledButton>
-						)}
+						<StyledButton
+							onClick={handleReturnToFilter}
+							sx={{ marginTop: '2rem' }}
+						>
+							New Filter
+						</StyledButton>
 					</Grid2>
 				</Grid2>
 			</Grid2>

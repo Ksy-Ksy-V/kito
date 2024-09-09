@@ -43,8 +43,6 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 						marginBottom="2rem"
 						sx={{
 							marginTop: '1rem',
-							display: '-webkit-box',
-							WebkitBoxOrient: 'vertical',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
 							textAlign: randomAnime.trailer ? 'left' : 'center',
@@ -74,7 +72,7 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 						) : (
 							<Box
 								sx={{
-									marginTop: '2rem',
+									marginTop: '1rem',
 									position: 'relative',
 									paddingTop: '56.25%',
 									marginBottom: '2rem',

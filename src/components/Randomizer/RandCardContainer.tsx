@@ -32,7 +32,6 @@ const RandCardContainer: React.FC<RandCardContainerProps> = ({
 						borderRadius: '8px',
 						boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
 						backdropFilter: 'blur(4.9px)',
-						webkitBackdropFilter: 'blur(4.9px)',
 						border: '1px solid rgba(29, 51, 53, 0.3)',
 					}}
 				>

@@ -2,9 +2,9 @@ import { Typography, IconButton, Box } from '@mui/material';
 import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
 
-import PopularAnimeCard from '../../components/PopularAnimeCard';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AnimeCard from '../../components/AnimeCard';
 
 function Popularity() {
 	const top = new TopClient();
@@ -84,14 +84,9 @@ function Popularity() {
 								padding: '0 8px',
 							}}
 						>
-							<PopularAnimeCard
+							<AnimeCard
 								title={anime.title}
-								// excerpt={
-								// 	anime.synopsis ||
-								// 	'No description available.'
-								// }
-								imageUrl={anime.images.jpg.image_url}
-								// newsUrl={anime.url}
+								image={anime.images.jpg.image_url}
 							/>
 						</Box>
 					))}
