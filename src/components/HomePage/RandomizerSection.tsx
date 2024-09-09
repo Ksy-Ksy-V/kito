@@ -6,7 +6,7 @@ import randomizerImg from '../../images/background.jpg';
 import StyledButton from '../StyledButton';
 
 const RandomizerSection = () => {
-	const [imageLoaded, setImageLoaded] = useState(false);
+	const [imageLoaded, setImageLoaded] = useState(true);
 	return (
 		<Box
 			sx={{
@@ -21,7 +21,7 @@ const RandomizerSection = () => {
 				marginTop: '3rem',
 			}}
 		>
-			{!imageLoaded && (
+			{imageLoaded && (
 				<Skeleton
 					variant="rectangular"
 					width="100%"
@@ -34,18 +34,15 @@ const RandomizerSection = () => {
 					}}
 				/>
 			)}
-			<Box
-				onLoad={() => setImageLoaded(true)}
-				sx={{
+			<img
+				src={`${randomizerImg}`}
+				onLoad={() => setImageLoaded(false)}
+				style={{
 					position: 'absolute',
 					width: '100%',
-					height: '100%',
-					backgroundImage: `url(${randomizerImg})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
 					zIndex: 1,
 				}}
-			></Box>
+			/>
 
 			<Box
 				sx={{
@@ -73,28 +70,27 @@ const RandomizerSection = () => {
 						textAlign: 'center',
 					}}
 				>
-					{/* {imageLoaded && (
+					{imageLoaded ? (
 						<Skeleton
 							variant="text"
-							width="60%"
-							height={60}
+							width="45%"
+							height={70}
 							sx={{
 								marginBottom: '2rem',
 								marginLeft: 'auto',
 								marginRight: 'auto',
 							}}
 						/>
+					) : (
+						<Typography
+							variant="h2"
+							sx={{
+								marginBottom: '2rem',
+							}}
+						>
+							Don't know what to watch?
+						</Typography>
 					)}
-					 */}
-					<Typography
-						variant="h2"
-						sx={{
-							marginBottom: '2rem',
-						}}
-					>
-						Don't know what to watch?
-					</Typography>
-
 					<Link
 						component={RouterLink}
 						to="/randomizer"

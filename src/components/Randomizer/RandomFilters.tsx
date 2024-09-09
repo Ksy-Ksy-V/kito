@@ -175,6 +175,7 @@ const RandomFilters = () => {
 				/>
 
 				<StyledButton
+					disabled={loading}
 					onClick={handleRandomize}
 					sx={{ marginTop: '3rem', marginBottom: '2rem' }}
 				>

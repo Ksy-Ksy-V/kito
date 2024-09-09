@@ -17,7 +17,7 @@ import { RandomAnime } from '../../models/randomAnime';
 function RandomiserSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -74,11 +74,10 @@ function RandomiserSearch() {
 			if (response.data && response.data.length > 0) {
 				const randomAnime = getRandomAnimeFromList(response.data);
 				setRandomAnime(randomAnime);
+				setLoading(false);
 			}
 		} catch (err) {
 			console.error('Error fetching anime list:', err);
-		} finally {
-			setLoading(false);
 		}
 	}, [location.search]);
 
