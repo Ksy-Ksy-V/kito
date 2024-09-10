@@ -6,7 +6,7 @@ import randomizerImg from '../../images/background.jpg';
 import StyledButton from '../StyledButton';
 
 const RandomizerSection = () => {
-	const [imageLoaded, setImageLoaded] = useState(true);
+	const [imageLoaded, setImageLoaded] = useState(false);
 	return (
 		<Box
 			sx={{
@@ -31,7 +31,7 @@ const RandomizerSection = () => {
 						zIndex: 1,
 					}}
 				/>
-			) :
+			) : (
 				<img
 					src={`${randomizerImg}`}
 					onLoad={() => setImageLoaded(false)}
@@ -40,8 +40,9 @@ const RandomizerSection = () => {
 						width: '100%',
 						zIndex: 1,
 					}}
-				/>}
-			{!imageLoaded &&
+				/>
+			)}
+			{!imageLoaded && (
 				<Box
 					sx={{
 						position: 'absolute',
@@ -50,8 +51,8 @@ const RandomizerSection = () => {
 						backgroundColor: 'rgba(0, 0, 0, 0.7)',
 						zIndex: 2,
 					}}
-				/>}
-
+				/>
+			)}
 
 			<Grid2
 				container
