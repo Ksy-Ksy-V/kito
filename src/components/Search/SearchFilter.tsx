@@ -8,7 +8,18 @@ import {
 	Autocomplete,
 } from '@mui/material';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
-import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
+import {
+	Anime,
+	AnimeClient,
+	AnimeRating,
+	AnimeSearchStatus,
+	AnimeType,
+	JikanResponse,
+} from '@tutkli/jikan-ts';
+import { BorderColor } from '@mui/icons-material';
+import theme from '../../styles/theme';
+import SearchFilters from './StyledSearchFilters';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchFilter = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -16,6 +27,12 @@ const SearchFilter = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const [selectedFormat, setSelectedFormat] = useState<AnimeType | ''>('');
+	const [selectedStatus, setSelectedStatus] = useState<
+		AnimeSearchStatus | ''
+	>('');
+	const [selectedRating, setSelectedRating] = useState<AnimeRating | ''>('');
 
 	const handleSearch = async (query: string) => {
 		setLoading(true);
@@ -43,14 +60,29 @@ const SearchFilter = () => {
 		{ value: 'option4', label: 'Option 4' },
 	];
 
+	const animeFormat: AnimeType[] = ['TV', 'Movie', 'Ova', 'Special', 'Ona'];
+
+	const animeStatuses: AnimeSearchStatus[] = [
+		'airing',
+		'complete',
+		'upcoming',
+	];
+
+	const animeRatings: AnimeRating[] = ['g', 'pg', 'pg13', 'r17', 'r'];
+
 	return (
-		<Grid2 container spacing={2} size={12}>
+		<Grid2 container size={12}>
 			<Grid2 size={3}>
 				<FormControl fullWidth variant="filled">
 					<Autocomplete
 						options={animeOptions}
 						getOptionLabel={(option) => option.title}
 						value={null}
+						sx={{
+							color: theme.palette.secondary.main,
+							backgroundColor: theme.palette.primary.light,
+							borderRadius: '0',
+						}}
 						onInputChange={(_, newInputValue) => {
 							setSearchTerm(newInputValue);
 							if (newInputValue) {
@@ -76,52 +108,46 @@ const SearchFilter = () => {
 			</Grid2>
 
 			<Grid2 size={2}>
-				<TextField
-					id="outlined-select-1"
-					select
-					label="Filter 1"
-					defaultValue={options[0].value}
-					variant="outlined"
-				>
-					{options.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
-						</MenuItem>
-					))}
-				</TextField>
+				<SearchFilters
+					label="Format"
+					value={selectedFormat}
+					onChange={(event) =>
+						setSelectedFormat(event.target.value as AnimeType)
+					}
+					options={animeFormat}
+					clearValue={() => setSelectedFormat('')}
+					sx={{ BorderColor: 'theme.palette.primary.main' }}
+				/>
 			</Grid2>
 
 			<Grid2 size={2}>
-				<TextField
-					id="outlined-select-2"
-					select
-					label="Filter 2"
-					defaultValue={options[0].value}
-					variant="outlined"
-				>
-					{options.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
-						</MenuItem>
-					))}
-				</TextField>
+				<SearchFilters
+					label="Status"
+					value={selectedStatus}
+					onChange={(event) =>
+						setSelectedStatus(
+							event.target.value as AnimeSearchStatus
+						)
+					}
+					options={animeStatuses}
+					clearValue={() => setSelectedStatus('')}
+					capitalizeOptions
+				/>
 			</Grid2>
 
 			<Grid2 size={2}>
-				<TextField
-					id="outlined-select-3"
-					select
-					label="Filter 3"
-					defaultValue={options[0].value}
-					variant="outlined"
-				>
-					{options.map((option) => (
-						<MenuItem key={option.value} value={option.value}>
-							{option.label}
-						</MenuItem>
-					))}
-				</TextField>
+				<SearchFilters
+					label="Rating"
+					value={selectedRating}
+					onChange={(event) =>
+						setSelectedRating(event.target.value as AnimeRating)
+					}
+					options={animeRatings}
+					clearValue={() => setSelectedRating('')}
+					upperCaseOptions
+				/>
 			</Grid2>
+
 			<Grid2 size={2}>
 				<TextField
 					id="outlined-select-4"
@@ -141,15 +167,26 @@ const SearchFilter = () => {
 			<Grid2 size={1}>
 				<IconButton
 					color="inherit"
-					// onClick={handleMenuClick}
-					// sx={{
-					// 	color: theme.palette.primary.main,
-					// 	'&:hover': {
-					// 		color: theme.palette.secondary.main,
-					// 	},
-					// }}
+					sx={{
+						color: theme.palette.primary.main,
+						'&:hover': {
+							color: theme.palette.secondary.main,
+						},
+					}}
 				>
-					<TuneOutlinedIcon sx={{ fontSize: '1.5rem' }} />
+					<TuneOutlinedIcon sx={{ fontSize: '2rem' }} />
+				</IconButton>
+
+				<IconButton
+					color="inherit"
+					sx={{
+						color: theme.palette.primary.main,
+						'&:hover': {
+							color: theme.palette.secondary.main,
+						},
+					}}
+				>
+					<SearchIcon sx={{ fontSize: '2rem' }} />
 				</IconButton>
 			</Grid2>
 		</Grid2>
