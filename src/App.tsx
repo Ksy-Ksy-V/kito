@@ -19,7 +19,11 @@ function App() {
 						<Route
 							key={path}
 							path={path}
-							element={<PageWrapper>{element}</PageWrapper>}
+							element={
+								<PageWrapper fullWidth={false}>
+									{element}
+								</PageWrapper>
+							}
 						/>
 					))}
 
@@ -27,8 +31,9 @@ function App() {
 						<Route
 							key={path}
 							path={path}
-							fullWidth={fullWidth}
-							element={<PageWrapper>{element}</PageWrapper>}
+							element={
+								<PageWrapper fullWidth>{element}</PageWrapper>
+							}
 						/>
 					))}
 					<Route path="*" element={<NotFound />} />
