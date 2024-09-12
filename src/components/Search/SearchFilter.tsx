@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
 	TextField,
 	MenuItem,
@@ -16,7 +16,7 @@ import {
 	AnimeType,
 	JikanResponse,
 } from '@tutkli/jikan-ts';
-import { BorderColor } from '@mui/icons-material';
+
 import theme from '../../styles/theme';
 import SearchFilters from './StyledSearchFilters';
 import SearchIcon from '@mui/icons-material/Search';

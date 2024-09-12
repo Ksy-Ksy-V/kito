@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { Grid2, Typography } from '@mui/material';
-import { AnimeClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 
 import SearchFilter from '../../components/Search/SearchFilter';
 

@@ -15,7 +15,6 @@ interface RouteContent {
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },
-	{ path: '/search', element: <Search /> },
 	{ path: '/popular', element: <Popularity /> },
 	{ path: '/randomizer', element: <Randomizer /> },
 	{ path: '/randomizer-search', element: <RandomizerSearch /> },
@@ -23,4 +22,8 @@ export const routes: RouteContent[] = [
 	{ path: '/news', element: <News /> },
 	{ path: '/settings', element: <Settings /> },
 	{ path: '/profile', element: <Profile /> },
+];
+
+export const routesWide: RouteContent[] = [
+	{ path: '/search', element: <Search /> },
 ];

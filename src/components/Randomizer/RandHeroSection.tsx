@@ -96,7 +96,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 					</>
 				)}
 
-				{!loading && !randomAnime ? (
+				{!loading || !randomAnime ? (
 					<>
 						<Typography variant="body1">
 							We couldn't find matching anime.
