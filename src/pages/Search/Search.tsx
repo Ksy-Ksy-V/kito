@@ -1,54 +1,17 @@
-import {
-	Autocomplete,
-	FormControl,
-	Grid2,
-	TextField,
-	Typography,
-} from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
+import { Grid2, Typography } from '@mui/material';
 import StyledButton from '../../components/StyledButton';
-import theme from '../../styles/theme';
 import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
 import AnimeCard from '../../components/AnimeCard';
-import { debounce } from '@mui/material/utils';
+
+import AnimeSearchField from '../../components/Search/AnimeSearchField';
 
 const Search: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
-	const [animeOptions, setAnimeOptions] = useState<Anime[]>([]);
+
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const animeClient = useMemo(() => new AnimeClient(), []);
-
-	const handleAnimeOptions = useCallback(
-		debounce(async (query: string) => {
-			setLoading(true);
-			setError(null);
-			try {
-				const response: JikanResponse<Anime[]> =
-					await animeClient.getAnimeSearch({
-						q: query,
-						limit: 10,
-					});
-				setAnimeOptions(response.data);
-			} catch (error) {
-				console.error('Failed to fetch options:', error);
-				setError('Something went wrong during search.');
-			} finally {
-				setLoading(false);
-			}
-		}, 500),
-		[setAnimeOptions, setError, setLoading, animeClient]
-	);
-
-	useEffect(() => {
-		if (searchTerm.length >= 4) {
-			handleAnimeOptions(searchTerm);
-		} else {
-			setAnimeOptions([]);
-		}
-		console.log(error, 'eror');
-	}, [error, handleAnimeOptions, searchTerm]);
 
 	const handleSearch = async (query: string) => {
 		if (!searchTerm) return;
@@ -85,55 +48,10 @@ const Search: React.FC = () => {
 				</Grid2>
 
 				<Grid2 size={{ xs: 6 }} offset={2}>
-					<FormControl fullWidth variant="filled">
-						<Autocomplete
-							freeSolo
-							options={animeOptions}
-							getOptionLabel={(option) => option.title}
-							value={null}
-							loading={loading}
-							onInputChange={(event, newInputValue, reason) => {
-								if (
-									newInputValue.length >= 4 &&
-									reason !== 'reset'
-								) {
-									setSearchTerm(newInputValue);
-									handleAnimeOptions(newInputValue);
-								}
-							}}
-							onChange={(_, newValue) => {
-								console.log(newValue, 'new value');
-								console.log(typeof newValue, 'typ[e');
-							}}
-							renderInput={(params) => (
-								<TextField
-									{...params}
-									label="Search for Anime"
-									variant="outlined"
-									sx={{
-										'& .MuiOutlinedInput-root': {
-											'& fieldset': {
-												borderWidth: '0.15rem',
-												borderColor:
-													theme.palette.primary.main,
-											},
-											'&:hover fieldset': {
-												borderColor:
-													theme.palette.primary.main,
-											},
-											'&.Mui-focused fieldset': {
-												borderColor:
-													theme.palette.primary.main,
-											},
-										},
-										'& .MuiInputLabel-root': {
-											color: theme.palette.secondary.main,
-										},
-									}}
-								/>
-							)}
-						/>
-					</FormControl>
+					<AnimeSearchField
+						searchTerm={searchTerm}
+						setSearchTerm={setSearchTerm}
+					/>
 				</Grid2>
 				<Grid2 size={{ xs: 2 }}>
 					<StyledButton
