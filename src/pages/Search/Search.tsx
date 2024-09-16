@@ -5,12 +5,12 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import StyledButton from '../../components/StyledButton';
 import theme from '../../styles/theme';
 import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
 import AnimeCard from '../../components/AnimeCard';
-// import { debounce } from '@mui/material/utils';
+import { debounce } from '@mui/material/utils';
 
 const Search: React.FC = () => {
 	const [searchTerm, setSearchTerm] = useState('');
@@ -18,53 +18,37 @@ const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const animeClient = useMemo(() => new AnimeClient(), []);
 
-	const handleAnimeOptions = async (query: string) => {
-		if (!query) return;
+	const handleAnimeOptions = useCallback(
+		debounce(async (query: string) => {
+			setLoading(true);
+			setError(null);
+			try {
+				const response: JikanResponse<Anime[]> =
+					await animeClient.getAnimeSearch({
+						q: query,
+						limit: 10,
+					});
+				setAnimeOptions(response.data);
+			} catch (error) {
+				console.error('Failed to fetch options:', error);
+				setError('Something went wrong during search.');
+			} finally {
+				setLoading(false);
+			}
+		}, 500),
+		[setAnimeOptions, setError, setLoading, animeClient]
+	);
 
-		setLoading(true);
-		setError(null);
-
-		try {
-			const animeClient = new AnimeClient();
-			const response: JikanResponse<Anime[]> =
-				await animeClient.getAnimeSearch({
-					q: query,
-					limit: 10,
-				});
-			setAnimeOptions(response.data);
-			setLoading(false);
-		} catch (error) {
-			console.error('Failed to fetch options:', error);
-			setError('Something went wrong during search.');
-			setLoading(false);
+	useEffect(() => {
+		if (searchTerm.length >= 4) {
+			handleAnimeOptions(searchTerm);
+		} else {
+			setAnimeOptions([]);
 		}
-	};
-
-	// const handleAnimeOptions = useCallback(
-	// 	debounce(async (query: string) => {
-	// 		// if (!query) return;
-
-	// 		setLoading(true);
-	// 		setError(null);
-
-	// 		try {
-	// 			const animeClient = new AnimeClient();
-	// 			const response: JikanResponse<Anime[]> =
-	// 				await animeClient.getAnimeSearch({
-	// 					q: query,
-	// 					limit: 10,
-	// 				});
-	// 			setAnimeOptions(response.data);
-	// 		} catch (error) {
-	// 			console.error('Failed to fetch options:', error);
-	// 			setError('Something went wrong during search.');
-	// 		} finally {
-	// 			setLoading(false);
-	// 		}
-	// 	}, 500),
-	// 	[setAnimeOptions, setLoading]
-	// );
+		console.log(error, 'eror');
+	}, [error, handleAnimeOptions, searchTerm]);
 
 	const handleSearch = async (query: string) => {
 		if (!searchTerm) return;
@@ -108,13 +92,18 @@ const Search: React.FC = () => {
 							getOptionLabel={(option) => option.title}
 							value={null}
 							loading={loading}
-							onInputChange={(_, newInputValue) => {
-								handleAnimeOptions(newInputValue);
+							onInputChange={(event, newInputValue, reason) => {
+								if (
+									newInputValue.length >= 4 &&
+									reason !== 'reset'
+								) {
+									setSearchTerm(newInputValue);
+									handleAnimeOptions(newInputValue);
+								}
 							}}
 							onChange={(_, newValue) => {
-								if (newValue) {
-									setSearchTerm(newValue.title);
-								}
+								console.log(newValue, 'new value');
+								console.log(typeof newValue, 'typ[e');
 							}}
 							renderInput={(params) => (
 								<TextField
@@ -148,7 +137,10 @@ const Search: React.FC = () => {
 				</Grid2>
 				<Grid2 size={{ xs: 2 }}>
 					<StyledButton
-						sx={{ height: '3.25rem' }}
+						sx={{
+							height: '3.25rem',
+							backgroundColor: 'transparent',
+						}}
 						onClick={() => handleSearch(searchTerm)}
 					>
 						Search
