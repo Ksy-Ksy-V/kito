@@ -2,15 +2,16 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Autocomplete, debounce, FormControl, TextField } from '@mui/material';
 import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
 
-interface AnimeSearchFieldProps {
+interface HeaderSearchProps {
 	callbackSearch: (value: string) => string;
 	label?: string;
 }
 
-const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
-	callbackSearch,
+const HeaderSearch: React.FC<HeaderSearchProps> = ({
 	label = 'Search for Anime',
+	callbackSearch,
 }) => {
+	const [searchTerm, setSearchTerm] = useState('');
 	const [animeOptions, setAnimeOptions] = useState<Anime[]>([]);
 	const animeClient = useMemo(() => new AnimeClient(), []);
 	const [loading, setLoading] = useState(false);
@@ -56,6 +57,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {
 					if (newInputValue.length >= 3 && reason !== 'reset') {
+						setSearchTerm(newInputValue);
 						callbackSearch(newInputValue);
 						handleAnimeOptions(newInputValue);
 					}
@@ -89,4 +91,4 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	);
 };
 
-export default AnimeSearchField;
+export default HeaderSearch;

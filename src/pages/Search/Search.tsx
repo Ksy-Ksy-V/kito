@@ -49,8 +49,7 @@ const Search: React.FC = () => {
 
 				<Grid2 size={{ xs: 6 }} offset={2}>
 					<AnimeSearchField
-						searchTerm={searchTerm}
-						setSearchTerm={setSearchTerm}
+						callbackSearch={(value) => setSearchTerm(value)}
 					/>
 				</Grid2>
 				<Grid2 size={{ xs: 2 }}>

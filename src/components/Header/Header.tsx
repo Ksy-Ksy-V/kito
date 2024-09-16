@@ -4,9 +4,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
+import HeaderSearch from './HeaderSearch';
 
 const Header = () => {
 	const theme = useTheme();
+
 	return (
 		<AppBar
 			position="static"
@@ -33,7 +35,10 @@ const Header = () => {
 						<NavBar />
 					</Grid2>
 
-					<Grid2 size={{ xs: 1 }} offset={{ xs: 6 }}>
+					<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
+						<HeaderSearch />
+					</Grid2>
+					<Grid2 size={{ xs: 1 }}>
 						<IconButton
 							component={Link}
 							to="/search"
