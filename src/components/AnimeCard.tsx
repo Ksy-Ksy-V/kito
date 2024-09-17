@@ -6,15 +6,17 @@ import {
 	Typography,
 	useTheme,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface AnimeCardProps {
 	image: string;
 	title: string;
-	onClick?: () => void;
+	mal_id?: number;
 }
 
-const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
+const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 
 	return (
 		<Card
@@ -37,7 +39,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 					transform: 'scale(1.1)',
 				},
 			}}
-			onClick={onClick}
+			onClick={() => navigate(`/anime/${mal_id}`)}
 		>
 			<CardActionArea
 				sx={{

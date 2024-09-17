@@ -4,10 +4,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
-
+import { useNavigate } from 'react-router-dom';
 
 const SliderHomePage: React.FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
+	const navigate = useNavigate();
 
 	const [imageLoaded, setImageLoaded] = useState(
 		Array(items.length).fill(false)
@@ -68,8 +69,8 @@ const SliderHomePage: React.FC = () => {
 								index === currentIndex
 									? 'translateX(0)'
 									: index < currentIndex
-										? 'translateX(-100%)'
-										: 'translateX(100%)',
+									? 'translateX(-100%)'
+									: 'translateX(100%)',
 							transition: 'transform 2.00s ease-in-out',
 						}}
 					>
@@ -113,7 +114,7 @@ const SliderHomePage: React.FC = () => {
 					size={{ xs: 3 }}
 					sx={{
 						marginTop: '2rem',
-						marginLeft: '10%'
+						marginLeft: '10%',
 					}}
 				>
 					{!imageLoaded[currentIndex] ? (
@@ -150,7 +151,15 @@ const SliderHomePage: React.FC = () => {
 								{items[currentIndex].description}
 							</Typography>
 
-							<StyledButton>Read More</StyledButton>
+							<StyledButton
+								onClick={() =>
+									navigate(
+										`/anime/${items[currentIndex].mal_id}`
+									)
+								}
+							>
+								Read More
+							</StyledButton>
 						</>
 					)}
 				</Grid2>

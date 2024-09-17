@@ -87,6 +87,7 @@ function Popularity() {
 							<AnimeCard
 								title={anime.title}
 								image={anime.images.jpg.image_url}
+								mal_id={anime.mal_id}
 							/>
 						</Box>
 					))}

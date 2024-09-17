@@ -24,6 +24,7 @@ const RandCardContainer: React.FC<RandCardContainerProps> = ({
 				<RandomCard
 					title={randomAnime.title}
 					imageUrl={randomAnime.images.jpg.image_url}
+					mal_id={randomAnime.mal_id}
 				/>
 			) : (
 				<Card
