@@ -5,24 +5,48 @@ import {
 	FormControl,
 	TextField,
 	createFilterOptions,
+	ListItem,
 } from '@mui/material';
-import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
+import {
+	Anime,
+	AnimeClient,
+	JikanImages,
+	JikanResponse,
+} from '@tutkli/jikan-ts';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 interface AnimeSearchFieldProps {
-	callbackSearch: (value: string) => void;
+	callbackAnime?: (animesList: Anime[]) => void;
 	label?: string;
 }
 
+interface AnimeOptionType {
+	inputValue?: string;
+	title: string;
+	mal_id?: number;
+	images?: JikanImages;
+}
+
 const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
-	callbackSearch,
+	callbackAnime,
 	label = 'Search for Anime',
 }) => {
-	const filter = createFilterOptions<Anime>();
-	const [animeOptions, setAnimeOptions] = useState<Anime[]>([]);
-	const [inputValue, setInputValue] = useState('');
+	const location = useLocation();
+	const navigate = useNavigate();
+
+	const filter = createFilterOptions<AnimeOptionType>();
 	const animeClient = useMemo(() => new AnimeClient(), []);
+
+	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
+	const [inputValue, setInputValue] = useState('');
+
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const getQueryParams = (query: string) => {
+		return new URLSearchParams(query);
+	};
 
 	const debouncedHandleAnimeOptions = useMemo(
 		() =>
@@ -35,15 +59,25 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 							q: query,
 							limit: 25,
 						});
-					setAnimeOptions(response.data);
+
+					const options = response.data.map((anime) => ({
+						title: anime.title,
+						mal_id: anime.mal_id,
+						images: anime.images,
+					}));
+
+					setAnimeOptions(options.slice(0, 10));
+					if (callbackAnime) {
+						callbackAnime(response.data);
+					}
 				} catch (err) {
 					console.error('Failed to fetch options:', err);
 					setError('Something went wrong during search.');
 				} finally {
 					setLoading(false);
 				}
-			}, 500),
-		[animeClient, setAnimeOptions, setError, setLoading]
+			}, 900),
+		[animeClient, setAnimeOptions, setError, setLoading, callbackAnime]
 	);
 
 	const handleAnimeOptions = useCallback(
@@ -54,15 +88,31 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	);
 
 	useEffect(() => {
-		console.log(inputValue, 'inputValue');
-		callbackSearch(inputValue);
-	}, [callbackSearch, inputValue]);
+		const queryParams = getQueryParams(location.search);
+		const query = queryParams.get('q') || undefined;
+		if (query) {
+			setInputValue(query);
+		}
+	}, [location.search]);
+
+	useEffect(() => {}, [inputValue]);
 
 	return (
 		<FormControl fullWidth>
 			<Autocomplete
 				freeSolo
+				inputValue={inputValue}
 				options={animeOptions}
+				onChange={(event, newValue) => {
+					if (typeof newValue === 'object' && newValue?.inputValue) {
+						navigate(`/search?q=${newValue.inputValue}`);
+					} else if (
+						typeof newValue === 'object' &&
+						newValue?.title
+					) {
+						navigate(`/anime/${newValue.mal_id}`);
+					}
+				}}
 				filterOptions={(options, params) => {
 					const filtered = filter(options, params);
 
@@ -71,21 +121,47 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 						(option) => inputValue === option.title
 					);
 					if (inputValue !== '' && !isExisting) {
-						filtered.push({
+						filtered.unshift({
 							inputValue,
 							title: `Search "${inputValue}"`,
 						});
 					}
 					return filtered;
 				}}
+				renderOption={(props, option) => {
+					const { key, ...optionProps } = props;
+					return (
+						<ListItem
+							key={key}
+							{...optionProps}
+							sx={{
+								backgroundColor: option?.inputValue
+									? 'white'
+									: undefined,
+							}}
+						>
+							{!option?.inputValue && (
+								<img
+									src={`${option.images?.jpg.image_url}?w=164&h=164&fit=crop&auto=format`}
+								/>
+							)}
+							{option.title}
+						</ListItem>
+					);
+				}}
 				getOptionLabel={(option) => {
-					return typeof option === 'string' ? option : option.title;
+					if (typeof option === 'string') {
+						return option;
+					}
+					return option.title;
 				}}
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {
 					if (newInputValue.length >= 3 && reason !== 'reset') {
 						setInputValue(newInputValue);
 						handleAnimeOptions(newInputValue);
+					} else {
+						setInputValue(newInputValue);
 					}
 				}}
 				renderInput={(params) => (

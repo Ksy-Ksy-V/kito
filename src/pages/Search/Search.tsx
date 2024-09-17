@@ -1,39 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid2, Typography } from '@mui/material';
-import StyledButton from '../../components/StyledButton';
-import { Anime, AnimeClient, JikanResponse } from '@tutkli/jikan-ts';
+import { Anime } from '@tutkli/jikan-ts';
 import AnimeCard from '../../components/AnimeCard';
 
 import AnimeSearchField from '../../components/Search/AnimeSearchField';
 
 const Search: React.FC = () => {
-	const [searchTerm, setSearchTerm] = useState('');
-
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [applyFilters, setApplyFilters] = useState(false);
 
-	const handleSearch = async (query: string) => {
-		if (!searchTerm) return;
-
-		setLoading(true);
-		setError(null);
-		try {
-			const animeClient = new AnimeClient();
-			const response: JikanResponse<Anime[]> =
-				await animeClient.getAnimeSearch({
-					q: query,
-					limit: 10,
-				});
-
-			setAnimeList(response.data);
-			setLoading(false);
-		} catch (error) {
-			console.error('Failed to search anime:', error);
-			setError('Something went wrong during the search.');
-			setLoading(false);
-		}
-	};
+	useEffect(() => {}, [applyFilters, animeList]);
 
 	return (
 		<div>
@@ -47,21 +23,10 @@ const Search: React.FC = () => {
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={{ xs: 6 }} offset={2}>
+				<Grid2 size={{ xs: 8 }} offset={2}>
 					<AnimeSearchField
-						callbackSearch={(value) => setSearchTerm(value)}
+						callbackAnime={(value) => setAnimeList(value)}
 					/>
-				</Grid2>
-				<Grid2 size={{ xs: 2 }}>
-					<StyledButton
-						sx={{
-							height: '3.25rem',
-							backgroundColor: 'transparent',
-						}}
-						onClick={() => handleSearch(searchTerm)}
-					>
-						Search
-					</StyledButton>
 				</Grid2>
 			</Grid2>
 
