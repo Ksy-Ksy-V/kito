@@ -29,7 +29,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 				boxShadow: 'rgba(29, 51, 53, 0.7)',
 				overflow: 'hidden',
 				transition:
-					'transform 0.50s ease-in-out, box-shadow 0.50s ease-in-out, border 0.50s ease-in-out',
+					'transform 0.30s ease-in-out, box-shadow 0.30s ease-in-out, border 0.30s ease-in-out',
 				'&:hover': {
 					transform: 'scale(1.1)',
 					border: `2px solid ${theme.palette.secondary.main}`,
@@ -60,7 +60,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 						height: '100%',
 						objectFit: 'cover',
 						borderRadius: '10px',
-						transition: 'transform 0.50s ease-in-out',
+						transition: 'transform 0.30s ease-in-out',
 					}}
 				/>
 				<Typography
