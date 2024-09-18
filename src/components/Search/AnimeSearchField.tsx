@@ -76,7 +76,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 				} finally {
 					setLoading(false);
 				}
-			}, 900),
+			}, 700),
 		[animeClient, setAnimeOptions, setError, setLoading, callbackAnime]
 	);
 
@@ -136,13 +136,21 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 							{...optionProps}
 							sx={{
 								backgroundColor: option?.inputValue
-									? 'white'
+									? 'primary.main'
 									: undefined,
 							}}
 						>
 							{!option?.inputValue && (
 								<img
 									src={`${option.images?.jpg.image_url}?w=164&h=164&fit=crop&auto=format`}
+									alt={option.title}
+									style={{
+										width: '50px',
+										height: '50px',
+										objectFit: 'cover',
+										borderRadius: '0.5rem',
+										marginRight: '0.625rem',
+									}}
 								/>
 							)}
 							{option.title}
@@ -169,6 +177,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 						{...params}
 						label={label}
 						variant="outlined"
+						size="small"
 						sx={{
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
@@ -183,7 +192,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 								},
 							},
 							'& .MuiInputLabel-root': {
-								color: 'secondary.main',
+								color: 'primary.main',
 							},
 						}}
 					/>
