@@ -2,8 +2,8 @@ import { Card, CardMedia, CardActionArea } from '@mui/material';
 import theme from '../../styles/theme';
 
 interface CardAnimeDetailsProps {
-	title: string;
-	imageUrl: string;
+	title?: string;
+	imageUrl?: string;
 }
 
 function CardAnimeDetails({ title, imageUrl }: CardAnimeDetailsProps) {
@@ -14,7 +14,8 @@ function CardAnimeDetails({ title, imageUrl }: CardAnimeDetailsProps) {
 				height: '25rem',
 				borderRadius: '1rem',
 				border: `0.125rem solid ${theme.palette.secondary.main}`,
-
+				marginBottom: '2rem',
+				marginTop: '2rem',
 				transition:
 					'transform 0.30s ease-in-out, box-shadow 0.30s ease-in-out, border 0.30s ease-in-out',
 				'&:hover': {

@@ -5,7 +5,7 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { RandomAnime } from '../../models/randomAnime';
 import theme from '../../styles/theme';
 import RandInformation from './RandInformation';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
 
 interface RandHeroSectionProps {

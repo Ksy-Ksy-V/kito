@@ -2,43 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
-import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
+import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
 
-const OngoingSection: React.FC = () => {
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
+interface CharacterSectionProps {
+	anime: Anime;
+}
+
+const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
+	const [characters, setCharacters] = useState<AnimeCharacter[]>([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		const seasonsClient = new SeasonsClient();
-
-		const fetchSeasonAnime = async () => {
+		const fetchCharacters = async () => {
+			setLoading(true);
+			const animeClient = new AnimeClient();
 			try {
-				setLoading(true);
-				const response: JikanResponse<Anime[]> =
-					await seasonsClient.getSeasonNow({
-						limit: 6,
-					});
-
-				setAnimeList(response.data);
+				const response = await animeClient.getAnimeCharacters(
+					anime.mal_id
+				);
+				setCharacters(response.data);
 				setLoading(false);
 			} catch (err) {
-				console.error('Failed to fetch seasonal anime:', err);
+				console.error('Failed to fetch characters:', err);
 			}
 		};
 
-		fetchSeasonAnime();
-	}, []);
+		fetchCharacters();
+	}, [anime.mal_id]);
 
 	return (
-		<Box sx={{ width: '100%', marginTop: '2rem' }}>
-			<Grid2
-				container
-				spacing={2}
-				sx={{
-					marginTop: '2rem',
-				}}
-			>
+		<Box sx={{ width: '100%' }}>
+			<Grid2 container spacing={2}>
 				<Grid2 size={4}>
 					<Typography
 						variant="h2"
@@ -51,7 +46,7 @@ const OngoingSection: React.FC = () => {
 							},
 						}}
 					>
-						Characters 
+						Characters
 					</Typography>
 				</Grid2>
 
@@ -59,9 +54,7 @@ const OngoingSection: React.FC = () => {
 					<Link
 						component={RouterLink}
 						to="/"
-						sx={{
-							textDecoration: 'none',
-						}}
+						sx={{ textDecoration: 'none' }}
 					>
 						<StyledButton
 							sx={{
@@ -76,7 +69,6 @@ const OngoingSection: React.FC = () => {
 					</Link>
 				</Grid2>
 			</Grid2>
-
 			<Grid2
 				container
 				spacing={2}
@@ -105,9 +97,9 @@ const OngoingSection: React.FC = () => {
 								/>
 							</Grid2>
 					  ))
-					: animeList.map((anime) => (
+					: characters.map((character) => (
 							<Grid2
-								key={anime.mal_id}
+								key={character.character.mal_id}
 								size={2}
 								sx={{
 									display: 'flex',
@@ -116,9 +108,11 @@ const OngoingSection: React.FC = () => {
 								}}
 							>
 								<AnimeCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-									mal_id={anime.mal_id}
+									image={
+										character.character.images.jpg.image_url
+									}
+									title={character.character.name}
+									mal_id={character.character.mal_id}
 								/>
 							</Grid2>
 					  ))}
@@ -127,4 +121,4 @@ const OngoingSection: React.FC = () => {
 	);
 };
 
-export default OngoingSection;
+export default CharacterSection;

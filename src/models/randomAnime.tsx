@@ -7,3 +7,7 @@ interface RandomAnimePeriod extends JikanResourcePeriod {
 export interface RandomAnime extends Anime {
 	aired: RandomAnimePeriod;
 }
+
+export interface MainInformation extends Anime {
+	aired: RandomAnimePeriod;
+}

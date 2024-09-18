@@ -27,6 +27,7 @@ const YourRaitingField = () => {
 					value={yourRatingValue}
 					onChange={(event) => setYourRatingValue(event.target.value)}
 					sx={{
+						width: '17rem',
 						border: 'solid 1px  ',
 						borderRadius: '0.25rem',
 						borderColor: theme.palette.secondary.main,

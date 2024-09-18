@@ -3,7 +3,7 @@ import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);

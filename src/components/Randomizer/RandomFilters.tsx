@@ -16,7 +16,7 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
 

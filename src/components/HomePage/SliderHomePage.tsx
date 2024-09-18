@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
 import { useNavigate } from 'react-router-dom';
 

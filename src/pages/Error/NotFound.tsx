@@ -1,6 +1,6 @@
 import { Grid2, Typography, useTheme, Box, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import StyledButton from '../../components/StyledButton';
+import StyledButton from '../../components/Buttons/StyledButton';
 import notFoundImg from '../../images/error-not-found.png';
 
 const NotFound = () => {
