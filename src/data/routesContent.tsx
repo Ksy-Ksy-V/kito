@@ -23,9 +23,10 @@ export const routes: RouteContent[] = [
 	{ path: '/news', element: <News /> },
 	{ path: '/settings', element: <Settings /> },
 	{ path: '/profile', element: <Profile /> },
+	{ path: '/anime/:id', element: <AnimeDetails /> },
 ];
 
 export const routesWide: RouteContent[] = [
 	{ path: '/search', element: <Search /> },
-	{ path: '/anime/:id', element: <AnimeDetails /> },
+
 ];

@@ -1,15 +1,15 @@
-import { Box, Skeleton, Typography } from '@mui/material';
+import { Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import { Anime } from '@tutkli/jikan-ts';
 
-interface RaitingLabelProps {
+interface RatingLabelProps {
 	anime: Anime | null;
 	loading: boolean;
 }
 
-const RaitingLabel: React.FC<RaitingLabelProps> = ({ anime, loading }) => {
+const RatingLabel: React.FC<RatingLabelProps> = ({ anime, loading }) => {
 	return (
-		<Box
+		<Grid2
 			sx={{
 				height: '8rem',
 				width: '5rem',
@@ -34,8 +34,8 @@ const RaitingLabel: React.FC<RaitingLabelProps> = ({ anime, loading }) => {
 					{anime?.rating?.split(' - ')[0]}
 				</Typography>
 			)}
-		</Box>
+		</Grid2>
 	);
 };
 
-export default RaitingLabel;
+export default RatingLabel;

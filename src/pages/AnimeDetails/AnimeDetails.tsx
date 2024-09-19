@@ -4,11 +4,11 @@ import { AnimeClient, Anime } from '@tutkli/jikan-ts';
 import { Grid2, Skeleton, Typography } from '@mui/material';
 
 import CardAnimeDetails from '../../components/AnimeDetails/CardAnimeDetails';
-import YourRaitingField from '../../components/YourRaitingField';
+import YourRatingField from '../../components/YourRatingField';
 import AddButton from '../../components/Buttons/AddButton';
 import BackgroundAnimeDetail from '../../components/AnimeDetails/BackgroundAnimeDetail';
 
-import RaitingLabel from '../../components/AnimeDetails/RaitingLabel';
+import RatingLabel from '../../components/AnimeDetails/RatingLabel';
 import TitleInformation from '../../components/AnimeDetails/TitleInformation';
 import MainInformation from '../../components/AnimeDetails/MainInformation';
 import theme from '../../styles/theme';
@@ -53,8 +53,7 @@ function AnimeDetails() {
 				</Grid2>
 
 				<Grid2
-					size={3}
-					offset={1}
+					size={4}
 					sx={{
 						position: 'relative',
 						zIndex: 1,
@@ -69,7 +68,7 @@ function AnimeDetails() {
 								imageUrl={anime?.images?.jpg?.image_url}
 							/>
 							<AddButton>Add To List</AddButton>
-							<YourRaitingField />
+							<YourRatingField />
 						</>
 					)}
 				</Grid2>
@@ -79,16 +78,12 @@ function AnimeDetails() {
 					sx={{
 						position: 'relative',
 						zIndex: 1,
-						// backgroundColor: 'black',
+
 					}}
 				>
-					<Grid2 container spacing={2} size={12}>
-						<Grid2 size={1}>
-							<TitleInformation anime={anime} loading={loading} />
-						</Grid2>
-						<Grid2 size={1} offset={1}>
-							<RaitingLabel anime={anime} loading={loading} />
-						</Grid2>
+					<Grid2 container spacing={2} size={12} justifyContent="space-between">
+						<TitleInformation anime={anime} loading={loading} />
+						<RatingLabel anime={anime} loading={loading} />
 					</Grid2>
 
 					<Grid2 container spacing={2} sx={{ marginTop: '12rem' }}>

@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Grid2, Typography } from '@mui/material';
 import { Anime } from '@tutkli/jikan-ts';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
@@ -11,12 +11,12 @@ interface TitleInformationProps {
 
 const TitleInformation: React.FC<TitleInformationProps> = ({ anime }) => {
 	return (
-		<>
-			<Box
+		<Grid2>
+			<Grid2
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
-					marginTop: '4rem',
+					marginTop: '2rem',
 				}}
 			>
 				<Typography variant="h3" sx={{ marginRight: '1rem' }}>
@@ -41,7 +41,7 @@ const TitleInformation: React.FC<TitleInformationProps> = ({ anime }) => {
 						{anime.score}
 					</Typography>
 				)}
-			</Box>
+			</Grid2>
 
 			<Typography
 				variant="h4"
@@ -80,7 +80,7 @@ const TitleInformation: React.FC<TitleInformationProps> = ({ anime }) => {
 					</Box>
 				))}
 			</Box>
-		</>
+		</Grid2>
 	);
 };
 

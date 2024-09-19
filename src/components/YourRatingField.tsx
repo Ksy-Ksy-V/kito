@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import theme from '../styles/theme';
 
-const YourRaitingField = () => {
+const YourRatingField = () => {
 	const ratingOptions: string[] = [
 		'This is Legendary - 10!!!',
 		'Almost Perfect - 9',
@@ -46,4 +46,4 @@ const YourRaitingField = () => {
 	);
 };
 
-export default YourRaitingField;
+export default YourRatingField;

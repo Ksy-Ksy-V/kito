@@ -1,6 +1,5 @@
-import { Box, Grid2, Link, Typography } from '@mui/material';
+import { Grid2, Link, Typography } from '@mui/material';
 import StyledButton from '../Buttons/StyledButton';
-import theme from '../../styles/theme';
 
 const ReviewsSection = () => {
 	return (
