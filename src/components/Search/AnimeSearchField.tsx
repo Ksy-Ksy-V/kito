@@ -44,6 +44,14 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
+	const isSearchPage = location.pathname === '/search';
+
+	useEffect(() => {
+		if (!isSearchPage) {
+			setInputValue('')
+		}
+	}, [location, isSearchPage])
+
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
 	};
@@ -92,10 +100,13 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		const query = queryParams.get('q') || undefined;
 		if (query) {
 			setInputValue(query);
+			debouncedHandleAnimeOptions(query);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.search]);
 
-	useEffect(() => {}, [inputValue]);
+	useEffect(() => { }, [inputValue]);
+
 
 	return (
 		<FormControl fullWidth>
@@ -103,8 +114,9 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 				freeSolo
 				inputValue={inputValue}
 				options={animeOptions}
-				onChange={(event, newValue) => {
+				onChange={(_event, newValue) => {
 					if (typeof newValue === 'object' && newValue?.inputValue) {
+						setInputValue(newValue?.inputValue);
 						navigate(`/search?q=${newValue.inputValue}`);
 					} else if (
 						typeof newValue === 'object' &&
@@ -161,7 +173,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					if (typeof option === 'string') {
 						return option;
 					}
-					return option.title;
+					return option?.inputValue ? option?.inputValue : option.title;
 				}}
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {
