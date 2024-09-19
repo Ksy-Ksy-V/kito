@@ -2,12 +2,10 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AnimeClient, Anime } from '@tutkli/jikan-ts';
 import { Grid2, Skeleton, Typography } from '@mui/material';
-
 import CardAnimeDetails from '../../components/AnimeDetails/CardAnimeDetails';
 import YourRatingField from '../../components/YourRatingField';
 import AddButton from '../../components/Buttons/AddButton';
 import BackgroundAnimeDetail from '../../components/AnimeDetails/BackgroundAnimeDetail';
-
 import RatingLabel from '../../components/AnimeDetails/RatingLabel';
 import TitleInformation from '../../components/AnimeDetails/TitleInformation';
 import MainInformation from '../../components/AnimeDetails/MainInformation';
@@ -26,7 +24,7 @@ function AnimeDetails() {
 			setLoading(true);
 			const animeClient = new AnimeClient();
 			try {
-				const response = await animeClient.getAnimeById(Number(id));
+				const response = await animeClient.getAnimeFullById(Number(id));
 				setAnime(response.data);
 			} catch (err) {
 				setError('Failed to fetch anime details.');

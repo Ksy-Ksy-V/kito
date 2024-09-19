@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
@@ -8,9 +8,41 @@ import StyledButton from '../Buttons/StyledButton';
 const OngoingSection: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
+	const seasonsClient = useMemo(() => new SeasonsClient(), []);
+
+	const sectionRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
-		const seasonsClient = new SeasonsClient();
+		const observer = new IntersectionObserver(
+			(entries) => {
+				console.log(entries, 'entries')
+
+				const entry = entries[0];
+				console.log(entry.isIntersecting, 'entry.isIntersecting')
+
+				if (entry.isIntersecting) {
+					setIsVisible(true);
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+
+		if (sectionRef.current) {
+			observer.observe(sectionRef.current);
+		}
+
+		return () => {
+			if (sectionRef.current) {
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				observer.unobserve(sectionRef.current);
+			}
+		};
+	}, []);
+
+	useEffect(() => {
+		if (!isVisible) return;
 
 		const fetchSeasonAnime = async () => {
 			try {
@@ -19,7 +51,6 @@ const OngoingSection: React.FC = () => {
 					await seasonsClient.getSeasonNow({
 						limit: 6,
 					});
-
 				setAnimeList(response.data);
 				setLoading(false);
 			} catch (err) {
@@ -28,10 +59,11 @@ const OngoingSection: React.FC = () => {
 		};
 
 		fetchSeasonAnime();
-	}, []);
+	}, [isVisible, seasonsClient]);
+
 
 	return (
-		<Box sx={{ width: '100%', marginTop: '2rem' }}>
+		<Box sx={{ width: '100%', marginTop: '2rem' }} ref={sectionRef}>
 			<Grid2
 				container
 				spacing={2}
@@ -51,7 +83,7 @@ const OngoingSection: React.FC = () => {
 							},
 						}}
 					>
-						Characters 
+						Characters
 					</Typography>
 				</Grid2>
 
@@ -89,39 +121,39 @@ const OngoingSection: React.FC = () => {
 			>
 				{loading
 					? [...Array(6)].map((_, index) => (
-							<Grid2
-								key={index}
-								size={2}
-								sx={{
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-								}}
-							>
-								<Skeleton
-									variant="rectangular"
-									width={170}
-									height={250}
-								/>
-							</Grid2>
-					  ))
+						<Grid2
+							key={index}
+							size={2}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<Skeleton
+								variant="rectangular"
+								width={170}
+								height={250}
+							/>
+						</Grid2>
+					))
 					: animeList.map((anime) => (
-							<Grid2
-								key={anime.mal_id}
-								size={2}
-								sx={{
-									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
-								}}
-							>
-								<AnimeCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-									mal_id={anime.mal_id}
-								/>
-							</Grid2>
-					  ))}
+						<Grid2
+							key={anime.mal_id}
+							size={2}
+							sx={{
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center',
+							}}
+						>
+							<AnimeCard
+								image={anime.images.jpg.image_url}
+								title={anime.title}
+								mal_id={anime.mal_id}
+							/>
+						</Grid2>
+					))}
 			</Grid2>
 		</Box>
 	);
