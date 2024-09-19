@@ -148,6 +148,12 @@ function AnimeDetails() {
 				<Grid2 size={12}>
 					<SimilarTitlesSection anime={anime} />
 				</Grid2>
+
+				{/*  place for a reviews section  */}
+
+				{/* <Grid2 size={12}>
+					<ReviewsSection />
+				</Grid2> */}
 			</Grid2>
 		</>
 	);

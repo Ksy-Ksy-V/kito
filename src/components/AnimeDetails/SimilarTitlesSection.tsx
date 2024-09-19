@@ -39,7 +39,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Grid2 container spacing={2}>
+			<Grid2 container spacing={2} sx={{ marginTop: '2rem' }}>
 				<Grid2 size={4}>
 					<Typography
 						variant="h2"
@@ -56,7 +56,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={3} offset={5}>
+				{/* <Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
 						to="/"
@@ -65,7 +65,6 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 						<StyledButton
 							sx={{
 								backgroundColor: 'transparent',
-								color: 'primary.main',
 								borderColor: 'primary.main',
 								marginTop: '1rem',
 							}}
@@ -73,16 +72,13 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 							See more
 						</StyledButton>
 					</Link>
-				</Grid2>
+				</Grid2> */}
 			</Grid2>
 			<Grid2
 				container
 				spacing={2}
 				sx={{
 					marginTop: '2rem',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
 				}}
 			>
 				{loading

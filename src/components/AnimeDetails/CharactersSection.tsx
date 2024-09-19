@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
+import { Typography, Grid2, Box, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
-import StyledButton from '../Buttons/StyledButton';
 
 interface CharacterSectionProps {
 	anime: Anime | null;
@@ -35,7 +34,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Grid2 container spacing={2}>
+			<Grid2 container spacing={2} sx={{ marginTop: '2rem' }}>
 				<Grid2 size={4}>
 					<Typography
 						variant="h2"
@@ -52,7 +51,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={3} offset={5}>
+				{/* <Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
 						to="/"
@@ -61,7 +60,6 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 						<StyledButton
 							sx={{
 								backgroundColor: 'transparent',
-								color: 'primary.main',
 								borderColor: 'primary.main',
 								marginTop: '1rem',
 							}}
@@ -69,7 +67,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 							See more
 						</StyledButton>
 					</Link>
-				</Grid2>
+				</Grid2> */}
 			</Grid2>
 			<Grid2
 				container
