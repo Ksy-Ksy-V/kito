@@ -13,9 +13,7 @@ import {
 	JikanImages,
 	JikanResponse,
 } from '@tutkli/jikan-ts';
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 interface AnimeSearchFieldProps {
 	callbackAnime?: (animesList: Anime[]) => void;
 	label?: string;

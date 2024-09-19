@@ -19,7 +19,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 	return (
 		<Card
 			sx={{
-				width: '150px',
+				width: '170px',
 				height: '250px',
 				borderRadius: '16px',
 				marginBottom: '10px',

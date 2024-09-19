@@ -10,17 +10,17 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 
-interface SearchFiltersProps {
+interface StyledSarchFiltersProps {
 	label: string;
 	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
+	onChange?: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
 	upperCaseOptions?: boolean;
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({
+const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	label,
 	value,
 	onChange,
@@ -80,4 +80,4 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 	);
 };
 
-export default SearchFilters;
+export default StyledSarchFilters;
