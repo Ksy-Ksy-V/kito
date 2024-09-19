@@ -13,6 +13,7 @@ import TitleInformation from '../../components/AnimeDetails/TitleInformation';
 import MainInformation from '../../components/AnimeDetails/MainInformation';
 import theme from '../../styles/theme';
 import CharacterSection from '../../components/AnimeDetails/CharactersSection';
+import SimilarTitlesSection from '../../components/AnimeDetails/SimilarTitlesSection';
 
 function AnimeDetails() {
 	const { id } = useParams<{ id: string }>();
@@ -143,6 +144,9 @@ function AnimeDetails() {
 
 				<Grid2 size={12}>
 					<CharacterSection anime={anime} />
+				</Grid2>
+				<Grid2 size={12}>
+					<SimilarTitlesSection anime={anime} />
 				</Grid2>
 			</Grid2>
 		</>

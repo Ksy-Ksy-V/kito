@@ -2,43 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
-import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
+import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
 
-const OngoingSection: React.FC = () => {
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
+interface SimilarTitlesSectionProps {
+	anime: Anime | null;
+}
+
+const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
+	anime,
+}) => {
+	const [recommendationsList, setRecommendationsList] = useState<
+		Recommendation[]
+	>([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		const seasonsClient = new SeasonsClient();
+		const fetchRecommendation = async () => {
+			if (anime === null) return;
 
-		const fetchSeasonAnime = async () => {
+			setLoading(true);
+			const animeClient = new AnimeClient();
 			try {
-				setLoading(true);
-				const response: JikanResponse<Anime[]> =
-					await seasonsClient.getSeasonNow({
-						limit: 6,
-					});
-
-				setAnimeList(response.data);
+				const response = await animeClient.getAnimeRecommendations(
+					anime.mal_id
+				);
+				setRecommendationsList(response.data);
 				setLoading(false);
 			} catch (err) {
-				console.error('Failed to fetch seasonal anime:', err);
+				console.error('Failed to fetch characters:', err);
 			}
 		};
 
-		fetchSeasonAnime();
-	}, []);
+		fetchRecommendation();
+	}, [anime]);
 
 	return (
-		<Box sx={{ width: '100%', marginTop: '2rem' }}>
-			<Grid2
-				container
-				spacing={2}
-				sx={{
-					marginTop: '2rem',
-				}}
-			>
+		<Box sx={{ width: '100%' }}>
+			<Grid2 container spacing={2}>
 				<Grid2 size={4}>
 					<Typography
 						variant="h2"
@@ -51,7 +52,7 @@ const OngoingSection: React.FC = () => {
 							},
 						}}
 					>
-						Characters 
+						Similar Titles
 					</Typography>
 				</Grid2>
 
@@ -59,9 +60,7 @@ const OngoingSection: React.FC = () => {
 					<Link
 						component={RouterLink}
 						to="/"
-						sx={{
-							textDecoration: 'none',
-						}}
+						sx={{ textDecoration: 'none' }}
 					>
 						<StyledButton
 							sx={{
@@ -76,7 +75,6 @@ const OngoingSection: React.FC = () => {
 					</Link>
 				</Grid2>
 			</Grid2>
-
 			<Grid2
 				container
 				spacing={2}
@@ -105,9 +103,9 @@ const OngoingSection: React.FC = () => {
 								/>
 							</Grid2>
 					  ))
-					: animeList.map((anime) => (
+					: recommendationsList.slice(0, 6).map((item) => (
 							<Grid2
-								key={anime.mal_id}
+								key={item.entry.mal_id}
 								size={2}
 								sx={{
 									display: 'flex',
@@ -116,9 +114,9 @@ const OngoingSection: React.FC = () => {
 								}}
 							>
 								<AnimeCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-									mal_id={anime.mal_id}
+									image={item.entry.images.jpg.image_url}
+									title={item.entry.title}
+									mal_id={item.entry.mal_id}
 								/>
 							</Grid2>
 					  ))}
@@ -127,4 +125,4 @@ const OngoingSection: React.FC = () => {
 	);
 };
 
-export default OngoingSection;
+export default SimilarTitlesSection;

@@ -6,7 +6,7 @@ import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
 
 interface CharacterSectionProps {
-	anime: Anime;
+	anime: Anime | null;
 }
 
 const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
@@ -15,6 +15,8 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 
 	useEffect(() => {
 		const fetchCharacters = async () => {
+			if (anime === null) return;
+
 			setLoading(true);
 			const animeClient = new AnimeClient();
 			try {
@@ -29,7 +31,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 		};
 
 		fetchCharacters();
-	}, [anime.mal_id]);
+	}, [anime]);
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -92,12 +94,12 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 							>
 								<Skeleton
 									variant="rectangular"
-									width={150}
+									width={170}
 									height={250}
 								/>
 							</Grid2>
 					  ))
-					: characters.map((character) => (
+					: characters.slice(0, 6).map((character) => (
 							<Grid2
 								key={character.character.mal_id}
 								size={2}

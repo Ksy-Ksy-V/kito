@@ -16,7 +16,12 @@ const MainInformation: React.FC<MainInformationProps> = ({
 			{loading ? (
 				<>
 					{[...Array(6)].map((_, index) => (
-						<Skeleton variant="text" width="100%" height={40} />
+						<Skeleton
+							key={index}
+							variant="text"
+							width="100%"
+							height={40}
+						/>
 					))}
 				</>
 			) : (

@@ -64,7 +64,7 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundColor: 'rgba(29, 51, 53, 0.7)',
+					backgroundColor: 'rgba(0, 0, 0, 0.6)',
 					zIndex: 2,
 				}}
 			></Box>

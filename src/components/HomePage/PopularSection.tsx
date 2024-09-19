@@ -99,7 +99,7 @@ const PopularSection: React.FC = () => {
 							>
 								<Skeleton
 									variant="rectangular"
-									width={150}
+									width={170}
 									height={250}
 								/>
 							</Grid2>

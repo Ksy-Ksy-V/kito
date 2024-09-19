@@ -21,7 +21,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 	return (
 		<Card
 			sx={{
-				width: '150px',
+				width: '170px',
 				height: '250px',
 				borderRadius: '16px',
 				marginBottom: '10px',
