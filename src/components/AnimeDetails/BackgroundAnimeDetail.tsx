@@ -16,7 +16,7 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 			<Box
 				sx={{
 					width: '100%',
-					height: '350px',
+					height: '23rem',
 					position: 'relative',
 					borderRadius: '1rem',
 				}}
@@ -41,7 +41,7 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 		<Box
 			sx={{
 				width: '100%',
-				height: '350px',
+				height: '23rem',
 				borderRadius: '1rem',
 			}}
 		>

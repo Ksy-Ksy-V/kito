@@ -34,21 +34,29 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 
 	return (
 		<Box sx={{ width: '100%' }}>
-			<Grid2 container spacing={2} sx={{ marginTop: '2rem' }}>
+			<Grid2 container spacing={2}>
 				<Grid2 size={4}>
-					<Typography
-						variant="h2"
-						component={RouterLink}
-						to="/"
-						sx={{
-							textDecoration: 'none',
-							'&:hover': {
-								color: 'primary.main',
-							},
-						}}
-					>
-						Characters
-					</Typography>
+					{loading ? (
+						<Skeleton
+							variant="rectangular"
+							width="12rem"
+							height="2.5rem"
+						/>
+					) : (
+						<Typography
+							variant="h2"
+							component={RouterLink}
+							to="/"
+							sx={{
+								textDecoration: 'none',
+								'&:hover': {
+									color: 'primary.main',
+								},
+							}}
+						>
+							Characters
+						</Typography>
+					)}
 				</Grid2>
 
 				{/* <Grid2 size={3} offset={5}>

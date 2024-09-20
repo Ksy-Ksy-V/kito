@@ -55,10 +55,15 @@ function AnimeDetails() {
 					sx={{
 						position: 'relative',
 						zIndex: 1,
+						marginTop: '2rem',
 					}}
 				>
 					{loading ? (
-						<Skeleton variant="rectangular" height={40} />
+						<Skeleton
+							variant="rectangular"
+							width="17rem"
+							height="25rem"
+						/>
 					) : (
 						<>
 							<CardAnimeDetails
@@ -76,41 +81,62 @@ function AnimeDetails() {
 					sx={{
 						position: 'relative',
 						zIndex: 1,
-
 					}}
 				>
-					<Grid2 container spacing={2} size={12} justifyContent="space-between">
+					<Grid2
+						container
+						spacing={2}
+						size={12}
+						justifyContent="space-between"
+					>
 						<TitleInformation anime={anime} loading={loading} />
 						<RatingLabel anime={anime} loading={loading} />
 					</Grid2>
 
-					<Grid2 container spacing={2} sx={{ marginTop: '12rem' }}>
-						<Grid2 size={6}>
+					<Grid2 container spacing={2} justifyContent="space-between">
+						<Grid2 size={6} sx={{ marginTop: '2rem' }}>
 							<MainInformation anime={anime} loading={loading} />
 						</Grid2>
-						<Grid2 size={6}>
-							<iframe
-								src={anime?.trailer.embed_url}
-								title="Anime Trailer"
-								style={{
-									border: 'none',
-								}}
-							></iframe>
+						<Grid2 size={6} sx={{ marginTop: '1rem' }}>
+							{loading ? (
+								<Skeleton
+									variant="rectangular"
+									width="19rem"
+									height="10rem"
+								/>
+							) : (
+								<iframe
+									src={anime?.trailer.embed_url}
+									title="Anime Trailer"
+									style={{
+										border: 'none',
+									}}
+								></iframe>
+							)}
 						</Grid2>
 					</Grid2>
 
 					<Grid2 container spacing={2}>
-						<Grid2 size={12}>
-							<Typography
-								variant="h5"
-								sx={{
-									color: theme.palette.text.secondary,
-								}}
-							>
-								Description:
-							</Typography>
+						<Grid2 size={12} sx={{ marginTop: '3rem' }}>
+							{loading ? (
+								<Skeleton
+									variant="rectangular"
+									width="12rem"
+									height="2.5rem"
+								/>
+							) : (
+								<Typography
+									variant="h5"
+									sx={{
+										color: theme.palette.text.secondary,
+									}}
+								>
+									Description:
+								</Typography>
+							)}
 							<Typography
 								variant="body1"
+								marginTop="2rem"
 								marginBottom="2rem"
 								sx={{
 									marginTop: '1rem',
@@ -124,6 +150,8 @@ function AnimeDetails() {
 											<Skeleton
 												key={index}
 												variant="text"
+												width="50rem"
+												height="2.5rem"
 											/>
 										))}
 									</>

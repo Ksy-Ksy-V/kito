@@ -1,9 +1,10 @@
 import { Skeleton } from '@mui/material';
-import { JikanResource, Anime } from '@tutkli/jikan-ts';
+import { JikanResource } from '@tutkli/jikan-ts';
 import StyledInformation from '../StyledInformation';
+import { AbstractAnime } from '../../models/AbstractAnime';
 
 interface MainInformationProps {
-	anime: Anime | null;
+	anime: AbstractAnime | null;
 	loading: boolean;
 }
 
@@ -15,12 +16,12 @@ const MainInformation: React.FC<MainInformationProps> = ({
 		<>
 			{loading ? (
 				<>
-					{[...Array(6)].map((_, index) => (
+					{[...Array(5)].map((_, index) => (
 						<Skeleton
 							key={index}
 							variant="text"
-							width="100%"
-							height={40}
+							width="12rem"
+							height="2rem"
 						/>
 					))}
 				</>

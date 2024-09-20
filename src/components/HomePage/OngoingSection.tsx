@@ -16,10 +16,7 @@ const OngoingSection: React.FC = () => {
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			(entries) => {
-				console.log(entries, 'entries')
-
 				const entry = entries[0];
-				console.log(entry.isIntersecting, 'entry.isIntersecting')
 
 				if (entry.isIntersecting) {
 					setIsVisible(true);
@@ -61,7 +58,6 @@ const OngoingSection: React.FC = () => {
 		fetchSeasonAnime();
 	}, [isVisible, seasonsClient]);
 
-
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }} ref={sectionRef}>
 			<Grid2
@@ -83,7 +79,7 @@ const OngoingSection: React.FC = () => {
 							},
 						}}
 					>
-						Characters
+						Airing
 					</Typography>
 				</Grid2>
 
@@ -121,39 +117,39 @@ const OngoingSection: React.FC = () => {
 			>
 				{loading
 					? [...Array(6)].map((_, index) => (
-						<Grid2
-							key={index}
-							size={2}
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
-							<Skeleton
-								variant="rectangular"
-								width={170}
-								height={250}
-							/>
-						</Grid2>
-					))
+							<Grid2
+								key={index}
+								size={2}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<Skeleton
+									variant="rectangular"
+									width={170}
+									height={250}
+								/>
+							</Grid2>
+					  ))
 					: animeList.map((anime) => (
-						<Grid2
-							key={anime.mal_id}
-							size={2}
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
-							<AnimeCard
-								image={anime.images.jpg.image_url}
-								title={anime.title}
-								mal_id={anime.mal_id}
-							/>
-						</Grid2>
-					))}
+							<Grid2
+								key={anime.mal_id}
+								size={2}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<AnimeCard
+									image={anime.images.jpg.image_url}
+									title={anime.title}
+									mal_id={anime.mal_id}
+								/>
+							</Grid2>
+					  ))}
 			</Grid2>
 		</Box>
 	);

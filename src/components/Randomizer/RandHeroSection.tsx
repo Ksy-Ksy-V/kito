@@ -2,7 +2,7 @@ import { Grid2, Skeleton, Box, Typography } from '@mui/material';
 import RandBackground from './RandBackground';
 import RandCardContainer from './RandCardContainer';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import { RandomAnime } from '../../models/randomAnime';
+import { RandomAnime } from '../../models/AbstractAnime';
 import theme from '../../styles/theme';
 import RandInformation from './RandInformation';
 import StyledButton from '../Buttons/StyledButton';

@@ -1,6 +1,6 @@
 import { Grid2, Skeleton } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
-import { RandomAnime } from '../../models/randomAnime';
+import { RandomAnime } from '../../models/AbstractAnime';
 import StyledInformation from '../StyledInformation';
 
 interface AnimeDetailsProps {

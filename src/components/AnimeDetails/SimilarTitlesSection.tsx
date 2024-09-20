@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Typography, Grid2, Box, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
-import StyledButton from '../Buttons/StyledButton';
+// import StyledButton from '../Buttons/StyledButton';
 
 interface SimilarTitlesSectionProps {
 	anime: Anime | null;
@@ -16,13 +16,40 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 		Recommendation[]
 	>([]);
 	const [loading, setLoading] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
+	const sectionRef = useRef<HTMLDivElement | null>(null);
+	const animeClient = useMemo(() => new AnimeClient(), []);
+
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const entry = entries[0];
+
+				if (entry.isIntersecting) {
+					setIsVisible(true);
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+
+		if (sectionRef.current) {
+			observer.observe(sectionRef.current);
+		}
+
+		return () => {
+			if (sectionRef.current) {
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				observer.unobserve(sectionRef.current);
+			}
+		};
+	}, []);
 
 	useEffect(() => {
 		const fetchRecommendation = async () => {
-			if (anime === null) return;
+			if (!isVisible || !anime) return;
 
 			setLoading(true);
-			const animeClient = new AnimeClient();
 			try {
 				const response = await animeClient.getAnimeRecommendations(
 					anime.mal_id
@@ -30,30 +57,39 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 				setRecommendationsList(response.data);
 				setLoading(false);
 			} catch (err) {
-				console.error('Failed to fetch characters:', err);
+				console.error('Failed to fetch recommendations:', err);
+				setLoading(false);
 			}
 		};
 
 		fetchRecommendation();
-	}, [anime]);
+	}, [isVisible, anime, animeClient]);
 
 	return (
-		<Box sx={{ width: '100%' }}>
+		<Box sx={{ width: '100%' }} ref={sectionRef}>
 			<Grid2 container spacing={2} sx={{ marginTop: '2rem' }}>
 				<Grid2 size={4}>
-					<Typography
-						variant="h2"
-						component={RouterLink}
-						to="/"
-						sx={{
-							textDecoration: 'none',
-							'&:hover': {
-								color: 'primary.main',
-							},
-						}}
-					>
-						Similar Titles
-					</Typography>
+					{loading ? (
+						<Skeleton
+							variant="rectangular"
+							width="12rem"
+							height="2.5rem"
+						/>
+					) : (
+						<Typography
+							variant="h2"
+							component={RouterLink}
+							to="/"
+							sx={{
+								textDecoration: 'none',
+								'&:hover': {
+									color: 'primary.main',
+								},
+							}}
+						>
+							Similar Titles
+						</Typography>
+					)}
 				</Grid2>
 
 				{/* <Grid2 size={3} offset={5}>
