@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Grid2, Typography } from '@mui/material';
-import { Anime } from '@tutkli/jikan-ts';
+import {
+	Anime,
+	AnimeRating,
+	AnimeSearchStatus,
+	AnimeType,
+} from '@tutkli/jikan-ts';
 import AnimeCard from '../../components/AnimeCard';
 
 import AnimeSearchField from '../../components/Search/AnimeSearchField';
 import SearchFilters from '../../components/Search/SearchFilter';
+import SearchCard from '../../components/SearchCard';
 
 const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -42,11 +48,22 @@ const Search: React.FC = () => {
 
 			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
 				<Grid2 size={12}>
-					<SearchFilters />
+					<SearchFilters
+						callbackFilters={(value) => setSelectedGenres(value)}
+					/>
 				</Grid2>
 			</Grid2>
 
-			<Grid2 container spacing={2} size={9}>
+			<Grid2
+				container
+				spacing={3}
+				size={9}
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
 				{animeList.map((anime) => (
 					<Grid2
 						key={anime.mal_id}
@@ -57,7 +74,7 @@ const Search: React.FC = () => {
 							marginTop: '2rem',
 						}}
 					>
-						<AnimeCard
+						<SearchCard
 							image={anime.images.jpg.image_url}
 							title={anime.title}
 						/>
