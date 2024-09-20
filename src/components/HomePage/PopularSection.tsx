@@ -4,10 +4,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../StyledButton';
+import Errors from '../Errors';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const top = new TopClient();
@@ -23,11 +25,17 @@ const PopularSection: React.FC = () => {
 				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 		};
 
 		fetchTopAnime();
 	}, []);
+
+	if (error) {
+		return <Errors />;
+	}
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>
@@ -88,38 +96,38 @@ const PopularSection: React.FC = () => {
 			>
 				{loading
 					? [...Array(6)].map((_, index) => (
-						<Grid2
-							key={index}
-							size={{ xs: 2 }}
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
-							<Skeleton
-								variant="rectangular"
-								width={150}
-								height={250}
-							/>
-						</Grid2>
-					))
+							<Grid2
+								key={index}
+								size={{ xs: 2 }}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<Skeleton
+									variant="rectangular"
+									width={150}
+									height={250}
+								/>
+							</Grid2>
+					  ))
 					: topList.map((anime) => (
-						<Grid2
-							key={anime.mal_id}
-							size={{ xs: 2 }}
-							sx={{
-								display: 'flex',
-								justifyContent: 'center',
-								alignItems: 'center',
-							}}
-						>
-							<AnimeCard
-								image={anime.images.jpg.image_url}
-								title={anime.title}
-							/>
-						</Grid2>
-					))}
+							<Grid2
+								key={anime.mal_id}
+								size={{ xs: 2 }}
+								sx={{
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}
+							>
+								<AnimeCard
+									image={anime.images.jpg.image_url}
+									title={anime.title}
+								/>
+							</Grid2>
+					  ))}
 			</Grid2>
 		</Box>
 	);
