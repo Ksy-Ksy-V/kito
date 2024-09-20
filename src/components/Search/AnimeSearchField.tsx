@@ -10,12 +10,19 @@ import {
 import {
 	Anime,
 	AnimeClient,
+	AnimeRating,
+	AnimeSearchStatus,
+	AnimeType,
 	JikanImages,
 	JikanResponse,
 } from '@tutkli/jikan-ts';
 import { useNavigate, useLocation } from 'react-router-dom';
 interface AnimeSearchFieldProps {
 	callbackAnime?: (animesList: Anime[]) => void;
+	selectedGenres?: string[];
+	selectedFormat?: AnimeType;
+	selectedStatus?: AnimeSearchStatus;
+	selectedRating?: AnimeRating;
 	label?: string;
 }
 
@@ -28,6 +35,10 @@ interface AnimeOptionType {
 
 const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	callbackAnime,
+	selectedFormat,
+	selectedStatus,
+	selectedRating,
+	selectedGenres,
 	label = 'Search for Anime',
 }) => {
 	const location = useLocation();
@@ -46,9 +57,9 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 
 	useEffect(() => {
 		if (!isSearchPage) {
-			setInputValue('')
+			setInputValue('');
 		}
-	}, [location, isSearchPage])
+	}, [location, isSearchPage]);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -64,6 +75,10 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 						await animeClient.getAnimeSearch({
 							q: query,
 							limit: 25,
+							type: selectedFormat,
+							status: selectedStatus,
+							rating: selectedRating,
+							genres: selectedGenres,
 						});
 
 					const options = response.data.map((anime) => ({
@@ -83,7 +98,17 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					setLoading(false);
 				}
 			}, 700),
-		[animeClient, setAnimeOptions, setError, setLoading, callbackAnime]
+		[
+			animeClient,
+			setAnimeOptions,
+			setError,
+			setLoading,
+			callbackAnime,
+			selectedFormat,
+			selectedStatus,
+			selectedRating,
+			selectedGenres,
+		]
 	);
 
 	const handleAnimeOptions = useCallback(
@@ -103,8 +128,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.search]);
 
-	useEffect(() => { }, [inputValue]);
-
+	useEffect(() => {}, [inputValue]);
 
 	return (
 		<FormControl fullWidth>
@@ -171,7 +195,9 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					if (typeof option === 'string') {
 						return option;
 					}
-					return option?.inputValue ? option?.inputValue : option.title;
+					return option?.inputValue
+						? option?.inputValue
+						: option.title;
 				}}
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {

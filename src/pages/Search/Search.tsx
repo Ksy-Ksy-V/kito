@@ -10,18 +10,18 @@ const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [applyFilters, setApplyFilters] = useState(false);
 
+	const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+
+	const [selectedFormat, setSelectedFormat] = useState<AnimeType | ''>('');
+	const [selectedStatus, setSelectedStatus] = useState<
+		AnimeSearchStatus | ''
+	>('');
+	const [selectedRating, setSelectedRating] = useState<AnimeRating | ''>('');
+
 	useEffect(() => {}, [applyFilters, animeList]);
 
 	return (
-		<Grid2
-			container
-			spacing={2}
-			sx={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
+		<Grid2 container spacing={2}>
 			<Grid2 size={{ xs: 12 }}>
 				<Typography
 					variant="h1"
@@ -30,33 +30,40 @@ const Search: React.FC = () => {
 					There's something for everyone!
 				</Typography>
 			</Grid2>
-
 			<Grid2 size={{ xs: 12 }}>
 				<AnimeSearchField
 					callbackAnime={(value) => setAnimeList(value)}
+					selectedFormat={selectedFormat}
+					selectedStatus={selectedStatus}
+					selectedRating={selectedRating}
+					selectedGenres={selectedGenres}
 				/>
 			</Grid2>
 
-			<Grid2 size={3}>
-				<SearchFilters />
+			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
+				<Grid2 size={12}>
+					<SearchFilters />
+				</Grid2>
 			</Grid2>
 
-			{animeList.map((anime) => (
-				<Grid2
-					key={anime.mal_id}
-					sx={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						marginTop: '2rem',
-					}}
-				>
-					<AnimeCard
-						image={anime.images.jpg.image_url}
-						title={anime.title}
-					/>
-				</Grid2>
-			))}
+			<Grid2 container spacing={2} size={9}>
+				{animeList.map((anime) => (
+					<Grid2
+						key={anime.mal_id}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginTop: '2rem',
+						}}
+					>
+						<AnimeCard
+							image={anime.images.jpg.image_url}
+							title={anime.title}
+						/>
+					</Grid2>
+				))}
+			</Grid2>
 		</Grid2>
 	);
 };
