@@ -45,6 +45,7 @@ const Slider: React.FC = () => {
 				marginRight: '-50vw',
 				height: '500px',
 				overflow: 'hidden',
+				marginTop: '2rem',
 			}}
 		>
 			<Box
