@@ -5,8 +5,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
 
-
-const SliderHomePage: React.FC = () => {
+const Slider: React.FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
 
 	const [imageLoaded, setImageLoaded] = useState(
@@ -68,8 +67,8 @@ const SliderHomePage: React.FC = () => {
 								index === currentIndex
 									? 'translateX(0)'
 									: index < currentIndex
-										? 'translateX(-100%)'
-										: 'translateX(100%)',
+									? 'translateX(-100%)'
+									: 'translateX(100%)',
 							transition: 'transform 2.00s ease-in-out',
 						}}
 					>
@@ -113,7 +112,7 @@ const SliderHomePage: React.FC = () => {
 					size={{ xs: 3 }}
 					sx={{
 						marginTop: '2rem',
-						marginLeft: '10%'
+						marginLeft: '10%',
 					}}
 				>
 					{!imageLoaded[currentIndex] ? (
@@ -242,4 +241,4 @@ const SliderHomePage: React.FC = () => {
 	);
 };
 
-export default SliderHomePage;
+export default Slider;

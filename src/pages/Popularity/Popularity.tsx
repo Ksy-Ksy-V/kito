@@ -6,6 +6,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AnimeCard from '../../components/AnimeCard';
 
+import Slider from '../../components/Popularity/Slider';
+
 function Popularity() {
 	const top = new TopClient();
 	const [topList, setTopList] = useState<Anime[]>([]);
@@ -45,80 +47,83 @@ function Popularity() {
 	};
 
 	return (
-		<Box sx={{ position: 'relative', width: '100%' }}>
-			<Typography
-				variant="h1"
-				sx={{
-					textAlign: 'center',
-					marginTop: '1rem',
-					marginBottom: '2rem',
-				}}
-			>
-				Top 10 Anime by Popularity
-			</Typography>
+		<>
+			<Slider />
+			<Box sx={{ position: 'relative', width: '100%' }}>
+				<Typography
+					variant="h1"
+					sx={{
+						textAlign: 'center',
+						marginTop: '1rem',
+						marginBottom: '2rem',
+					}}
+				>
+					Top 10 Anime by Popularity
+				</Typography>
 
-			<Box
-				sx={{
-					display: 'flex',
-					overflow: 'hidden',
-					width: '100%',
-					position: 'relative',
-				}}
-			>
 				<Box
 					sx={{
 						display: 'flex',
-						transition: 'transform 0.5s ease-in-out',
-						transform: `translateX(-${
-							currentSlide * (100 / slideCount)
-						}%)`,
-						width: `${(topList.length / slideCount) * 100}%`,
+						overflow: 'hidden',
+						width: '100%',
+						position: 'relative',
 					}}
 				>
-					{topList.map((anime) => (
-						<Box
-							key={anime.mal_id}
-							sx={{
-								minWidth: `${100 / slideCount}%`,
-								boxSizing: 'border-box',
-								padding: '0 8px',
-							}}
-						>
-							<AnimeCard
-								title={anime.title}
-								image={anime.images.jpg.image_url}
-							/>
-						</Box>
-					))}
+					<Box
+						sx={{
+							display: 'flex',
+							transition: 'transform 0.5s ease-in-out',
+							transform: `translateX(-${
+								currentSlide * (100 / slideCount)
+							}%)`,
+							width: `${(topList.length / slideCount) * 100}%`,
+						}}
+					>
+						{topList.map((anime) => (
+							<Box
+								key={anime.mal_id}
+								sx={{
+									minWidth: `${100 / slideCount}%`,
+									boxSizing: 'border-box',
+									padding: '0 8px',
+								}}
+							>
+								<AnimeCard
+									title={anime.title}
+									image={anime.images.jpg.image_url}
+								/>
+							</Box>
+						))}
+					</Box>
 				</Box>
+
+				<IconButton
+					onClick={handlePrevSlide}
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '0',
+						transform: 'translateY(-50%)',
+						zIndex: 10,
+					}}
+				>
+					<ArrowBackIosIcon />
+				</IconButton>
+
+				<IconButton
+					onClick={handleNextSlide}
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						right: '0',
+						transform: 'translateY(-50%)',
+						zIndex: 10,
+					}}
+				>
+					<ArrowForwardIosIcon />
+				</IconButton>
 			</Box>
-
-			<IconButton
-				onClick={handlePrevSlide}
-				sx={{
-					position: 'absolute',
-					top: '50%',
-					left: '0',
-					transform: 'translateY(-50%)',
-					zIndex: 10,
-				}}
-			>
-				<ArrowBackIosIcon />
-			</IconButton>
-
-			<IconButton
-				onClick={handleNextSlide}
-				sx={{
-					position: 'absolute',
-					top: '50%',
-					right: '0',
-					transform: 'translateY(-50%)',
-					zIndex: 10,
-				}}
-			>
-				<ArrowForwardIosIcon />
-			</IconButton>
-		</Box>
+		</>
 	);
 }
 
