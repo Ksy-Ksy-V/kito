@@ -17,6 +17,7 @@ interface StyledSarchFiltersProps {
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
+	defaultValue?: string;
 	upperCaseOptions?: boolean;
 }
 
@@ -26,6 +27,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	onChange,
 	options,
 	clearValue,
+	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
 }) => {
@@ -45,6 +47,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 		<FormControl fullWidth variant="filled">
 			<InputLabel>{label}</InputLabel>
 			<Select
+				defaultValue={defaultValue}
 				value={value}
 				onChange={onChange}
 				sx={{

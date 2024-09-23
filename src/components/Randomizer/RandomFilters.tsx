@@ -19,18 +19,12 @@ import { useNavigate } from 'react-router-dom';
 import StyledButton from '../StyledButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
+import { animeFormats, animeRatings, animeStatuses } from '../../models/animeFilters';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 	const [loading, setLoading] = useState(false);
-	const animeTypes: AnimeType[] = ['TV', 'Movie', 'Ova', 'Special', 'Ona'];
-	const animeStatuses: AnimeSearchStatus[] = [
-		'airing',
-		'complete',
-		'upcoming',
-	];
-	const animeRatings: AnimeRating[] = ['g', 'pg', 'pg13', 'r17', 'r'];
 	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const [selectedStatus, setSelectedStatus] = useState<
 		AnimeSearchStatus | ''
@@ -110,12 +104,12 @@ const RandomFilters = () => {
 										key={key}
 										{...rest}
 										onMouseEnter={(e) =>
-											(e.currentTarget.style.backgroundColor =
-												theme.palette.primary.main)
+										(e.currentTarget.style.backgroundColor =
+											theme.palette.primary.main)
 										}
 										onMouseLeave={(e) =>
-											(e.currentTarget.style.backgroundColor =
-												'inherit')
+										(e.currentTarget.style.backgroundColor =
+											'inherit')
 										}
 									>
 										{option.name}
@@ -139,7 +133,7 @@ const RandomFilters = () => {
 					onChange={(event) =>
 						setSelectedType(event.target.value as AnimeType)
 					}
-					options={animeTypes}
+					options={animeFormats}
 					clearValue={() => setSelectedType('')}
 				/>
 

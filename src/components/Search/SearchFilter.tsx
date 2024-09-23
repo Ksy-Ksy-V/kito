@@ -17,28 +17,30 @@ import {
 import StyledSarchFilters from './StyledSearchFilters';
 import theme from '../../styles/theme';
 import StyledButton from '../StyledButton';
+import { AnimeFilters, animeFormats, animeRatings, animeStatuses } from '../../models/animeFilters';
 
-const SearchFilter = () => {
+interface AnimeSearchFiltersProps {
+	callbackSearch?: (filters: AnimeFilters) => void;
+	defaultFilters?: AnimeFilters;
+}
+
+const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
+	callbackSearch,
+	defaultFilters
+}) => {
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState<unknown | null>(null);
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
-	const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
-
-	const [selectedFormat, setSelectedFormat] = useState<AnimeType | ''>('');
+	const [selectedGenres, setSelectedGenres] = useState<string[]>(defaultFilters?.selectedGenres?.split(',') || []);
+	const [selectedFormat, setSelectedFormat] = useState<AnimeType | ''>(defaultFilters?.selectedFormat as AnimeType);
 	const [selectedStatus, setSelectedStatus] = useState<
 		AnimeSearchStatus | ''
-	>('');
-	const [selectedRating, setSelectedRating] = useState<AnimeRating | ''>('');
-
-	const animeFormat: AnimeType[] = ['TV', 'Movie', 'Ova', 'Special', 'Ona'];
-	const animeStatuses: AnimeSearchStatus[] = [
-		'airing',
-		'complete',
-		'upcoming',
-	];
-	const animeRatings: AnimeRating[] = ['g', 'pg', 'pg13', 'r17', 'r'];
+	>(defaultFilters?.selectedStatus as AnimeSearchStatus);
+	const [selectedRating, setSelectedRating] = useState<AnimeRating | ''>(defaultFilters?.selectedRating as AnimeRating);
+	const [isInitialGenres, setIsInitialGenres] = useState(true);
 
 	useEffect(() => {
+
 		const fetchAnimeGenres = async () => {
 			try {
 				setLoading(true);
@@ -48,52 +50,80 @@ const SearchFilter = () => {
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
+				setError(error)
 			}
 			setLoading(false);
 		};
-		fetchAnimeGenres();
-	}, []);
-
+		if (isInitialGenres) {
+			fetchAnimeGenres();
+			setIsInitialGenres(false)
+		}
+	}, [isInitialGenres]);
 	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = event.target;
+		console.log()
 		setSelectedGenres((prevSelected) =>
 			checked
 				? [...prevSelected, value]
 				: prevSelected.filter((genre) => genre !== value)
 		);
+
 	};
-
 	useEffect(() => {
-		const genresString = selectedGenres.join(', ');
-		console.log('Selected genres:', genresString);
-	}, [selectedGenres]);
-
-	useEffect(() => {
-		const applyAnimeFilters = () => {};
-		applyAnimeFilters();
+		if (callbackSearch) {
+			const genresString = selectedGenres.join(',');
+			callbackSearch({
+				selectedGenres: genresString,
+				selectedFormat,
+				selectedStatus,
+				selectedRating,
+			});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedFormat, selectedStatus, selectedRating, selectedGenres]);
+
+	useEffect(() => {
+		if (defaultFilters) {
+			setSelectedFormat((prev) =>
+				defaultFilters?.selectedFormat !== prev ? (defaultFilters?.selectedFormat as AnimeType) : prev
+			);
+			setSelectedStatus((prev) =>
+				defaultFilters?.selectedStatus !== prev ? (defaultFilters?.selectedStatus as AnimeSearchStatus) : prev
+			);
+			setSelectedRating((prev) =>
+				defaultFilters?.selectedRating !== prev ? (defaultFilters?.selectedRating as AnimeRating) : prev
+			);
+			setSelectedGenres((prev) =>
+				defaultFilters?.selectedGenres?.split(',').toString() !== prev.toString()
+					? defaultFilters?.selectedGenres?.split(',') || []
+					: prev
+			);
+		}
+	}, [defaultFilters]);
 
 	const handleClearFilters = () => {
 		setSelectedFormat('');
 		setSelectedStatus('');
 		setSelectedRating('');
 		setSelectedGenres([]);
-		console.log('All filters cleared');
 	};
 	return (
 		<>
 			<StyledSarchFilters
 				label="Format"
 				value={selectedFormat}
-				onChange={(event) =>
+				defaultValue={defaultFilters?.selectedFormat}
+				onChange={(event) => {
 					setSelectedFormat(event.target.value as AnimeType)
 				}
-				options={animeFormat}
+				}
+				options={animeFormats}
 				clearValue={() => setSelectedFormat('')}
 			/>
 
 			<StyledSarchFilters
 				label="Status"
+				defaultValue={defaultFilters?.selectedStatus}
 				value={selectedStatus}
 				onChange={(event) =>
 					setSelectedStatus(event.target.value as AnimeSearchStatus)
@@ -105,6 +135,7 @@ const SearchFilter = () => {
 
 			<StyledSarchFilters
 				label="Rating"
+				defaultValue={defaultFilters?.selectedRating}
 				value={selectedRating}
 				onChange={(event) =>
 					setSelectedRating(event.target.value as AnimeRating)
@@ -125,12 +156,13 @@ const SearchFilter = () => {
 				<FormGroup>
 					{animeGenres.map((genre) => (
 						<FormControlLabel
+							// onChange={handleGenreChange}
 							key={genre.mal_id}
 							control={
 								<Checkbox
-									value={genre.name}
+									value={genre.mal_id}
 									checked={selectedGenres.includes(
-										genre.name
+										genre.mal_id.toString()
 									)}
 									onChange={handleGenreChange}
 								/>
@@ -139,7 +171,6 @@ const SearchFilter = () => {
 						/>
 					))}
 				</FormGroup>
-
 				<StyledButton
 					onClick={handleClearFilters}
 					sx={{ marginTop: '1rem' }}

@@ -10,19 +10,12 @@ import {
 import {
 	Anime,
 	AnimeClient,
-	AnimeRating,
-	AnimeSearchStatus,
-	AnimeType,
 	JikanImages,
 	JikanResponse,
 } from '@tutkli/jikan-ts';
 import { useNavigate, useLocation } from 'react-router-dom';
 interface AnimeSearchFieldProps {
-	callbackAnime?: (animesList: Anime[]) => void;
-	selectedGenres?: string[];
-	selectedFormat?: AnimeType;
-	selectedStatus?: AnimeSearchStatus;
-	selectedRating?: AnimeRating;
+	callbackSearch?: (queryValue: string) => void;
 	label?: string;
 }
 
@@ -34,11 +27,7 @@ interface AnimeOptionType {
 }
 
 const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
-	callbackAnime,
-	selectedFormat,
-	selectedStatus,
-	selectedRating,
-	selectedGenres,
+	callbackSearch,
 	label = 'Search for Anime',
 }) => {
 	const location = useLocation();
@@ -61,10 +50,6 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		}
 	}, [location, isSearchPage]);
 
-	const getQueryParams = (query: string) => {
-		return new URLSearchParams(query);
-	};
-
 	const debouncedHandleAnimeOptions = useMemo(
 		() =>
 			debounce(async (query: string) => {
@@ -74,11 +59,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					const response: JikanResponse<Anime[]> =
 						await animeClient.getAnimeSearch({
 							q: query,
-							limit: 25,
-							type: selectedFormat,
-							status: selectedStatus,
-							rating: selectedRating,
-							genres: selectedGenres,
+							limit: 10,
 						});
 
 					const options = response.data.map((anime) => ({
@@ -88,9 +69,6 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					}));
 
 					setAnimeOptions(options.slice(0, 10));
-					if (callbackAnime) {
-						callbackAnime(response.data);
-					}
 				} catch (err) {
 					console.error('Failed to fetch options:', err);
 					setError('Something went wrong during search.');
@@ -103,11 +81,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 			setAnimeOptions,
 			setError,
 			setLoading,
-			callbackAnime,
-			selectedFormat,
-			selectedStatus,
-			selectedRating,
-			selectedGenres,
+
 		]
 	);
 
@@ -118,17 +92,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		[debouncedHandleAnimeOptions]
 	);
 
-	useEffect(() => {
-		const queryParams = getQueryParams(location.search);
-		const query = queryParams.get('q') || undefined;
-		if (query) {
-			setInputValue(query);
-			debouncedHandleAnimeOptions(query);
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [location.search]);
-
-	useEffect(() => {}, [inputValue]);
+	useEffect(() => { }, [inputValue]);
 
 	return (
 		<FormControl fullWidth>
@@ -138,8 +102,11 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 				options={animeOptions}
 				onChange={(_event, newValue) => {
 					if (typeof newValue === 'object' && newValue?.inputValue) {
+						callbackSearch?.(newValue.inputValue);
 						setInputValue(newValue?.inputValue);
-						navigate(`/search?q=${newValue.inputValue}`);
+						if (!isSearchPage) {
+							navigate(`/search?q=${newValue.inputValue}`);
+						}
 					} else if (
 						typeof newValue === 'object' &&
 						newValue?.title
