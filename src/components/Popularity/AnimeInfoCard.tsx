@@ -1,7 +1,10 @@
-import React from 'react';
-import { Box, Typography, Button, Chip, Grid } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
+import React, { useState } from 'react';
+import { Box, Typography, Button } from '@mui/material';
+
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import AnimeCard from '../AnimeCard';
 import theme from '../../styles/theme';
+import StyledButton from '../StyledButton';
 
 interface AnimeInfoCardProps {
 	number: number;
@@ -22,26 +25,26 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	genres,
 	description,
 	rating,
-	onAddToList,
+	// onAddToList,
 }) => {
+	const [showFullDescription, setShowFullDescription] = useState(false);
 	return (
 		<Box
 			sx={{
 				display: 'flex',
 				padding: '1rem',
-				border: 'solid 1px ',
-				borderColor: 'theme.palette.primary.main',
+				border: 'solid 1px',
+				borderColor: theme.palette.primary.main,
 				borderRadius: '12px',
 				boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
 				alignItems: 'center',
-				width: '100%',
-				maxWidth: '900px',
+				position: 'relative',
+				marginBottom: '1rem',
 			}}
 		>
 			<Typography
 				variant="h3"
 				sx={{
-					color: '#00BFA6',
 					marginRight: '2rem',
 					fontWeight: 'bold',
 				}}
@@ -51,89 +54,124 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 
 			<Box
 				sx={{
-					width: '150px',
-					height: '225px',
 					marginRight: '2rem',
-					backgroundImage: `url(${image})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-					borderRadius: '12px',
 				}}
-			></Box>
+			>
+				<AnimeCard image={image} title={title} />
+			</Box>
 
 			<Box sx={{ flex: 1 }}>
-				<Typography
-					variant="h5"
-					sx={{ color: '#fff', fontWeight: 'bold' }}
-				>
-					{title}
-				</Typography>
+				<Typography variant="h4">{title}</Typography>
 
 				<Box
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
+						marginTop: '1rem',
 						marginBottom: '1rem',
 					}}
 				>
-					<StarIcon
-						sx={{ color: '#FFD700', marginRight: '0.25rem' }}
-					/>
-					<Typography sx={{ color: '#fff', marginRight: '1rem' }}>
+					<Typography
+						variant="h5"
+						sx={{
+							color: theme.palette.primary.main,
+							display: 'flex',
+							alignItems: 'center',
+							marginRight: '2rem',
+						}}
+					>
+						<StarOutlinedIcon
+							sx={{
+								marginRight: '0.5rem',
+							}}
+						/>
 						{score}
 					</Typography>
 
-					{genres.map((genre) => (
-						<Chip
-							key={genre}
-							label={genre}
-							sx={{
-								backgroundColor: '#333',
-								color: '#fff',
-								marginRight: '0.5rem',
-								height: '24px',
-							}}
-						/>
-					))}
+					<Box
+						sx={{
+							display: 'flex',
+							flexWrap: 'wrap',
+							gap: '0.5rem',
+						}}
+					>
+						{genres.map((genre) => (
+							<Box
+								key={genre}
+								sx={{
+									backgroundColor: 'rgba(56, 113, 113, 0.7)',
+									padding: '0.25rem 0.5rem',
+									borderRadius: '8px',
+									fontSize: '0.875rem',
+									display: 'inline-block',
+									color: theme.palette.text.primary,
+								}}
+							>
+								{genre}
+							</Box>
+						))}
+					</Box>
 				</Box>
 
-				<Typography
-					variant="body2"
-					sx={{
-						color: '#bbb',
-						marginBottom: '1rem',
-						lineHeight: '1.5',
-					}}
-				>
-					{description}
-				</Typography>
+				<Box>
+					<Typography
+						variant="body1"
+						sx={{
+							marginBottom: '1rem',
+							display: '-webkit-box',
+							overflow: 'hidden',
+							WebkitBoxOrient: 'vertical',
+							WebkitLineClamp: showFullDescription ? 'none' : 4,
+							textOverflow: 'ellipsis',
+						}}
+					>
+						{description}
+					</Typography>
+					<Button
+						variant="text"
+						onClick={() => setShowFullDescription((prev) => !prev)}
+						sx={{
+							position: 'absolute',
+							right: 0,
+							textTransform: 'none',
+						}}
+					>
+						{showFullDescription
+							? 'Show less'
+							: 'See all description'}
+					</Button>
+				</Box>
 
-				<Button
-					variant="outlined"
-					sx={{
-						color: '#00BFA6',
-						borderColor: '#00BFA6',
-						'&:hover': {
-							backgroundColor: '#00BFA6',
-							color: '#fff',
-						},
-					}}
-					onClick={onAddToList}
-				>
+				<StyledButton sx={{ width: '23rem' }}>
 					Add to list +
-				</Button>
+				</StyledButton>
 			</Box>
 
 			<Box
 				sx={{
-					marginLeft: '2rem',
-					padding: '0.25rem 0.5rem',
-					borderRadius: '8px',
-					backgroundColor: '#2b2b2b',
-					color: '#fff',
+					position: 'absolute',
+					top: 0,
+					right: 0,
+					transform: 'translate(-20%, -15%)',
+					height: '6rem',
+					width: '4rem',
+					backgroundColor: 'rgba(38, 71, 71, 0.85)',
+					borderEndStartRadius: '1rem',
+					borderEndEndRadius: '1rem',
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
 				}}
 			>
-				<Typography variant="body2">{rating}</Typography>
+				<Typography
+					variant="h5"
+					sx={{
+						color: theme.palette.text.secondary,
+						textAlign: 'center',
+					}}
+				>
+					{rating?.split(' - ')[0]}
+				</Typography>
 			</Box>
 		</Box>
 	);

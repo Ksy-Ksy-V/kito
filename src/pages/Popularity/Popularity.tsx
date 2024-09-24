@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography, Grid2 } from '@mui/material';
 import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
@@ -39,14 +39,7 @@ function Popularity() {
 				Top Anime by Popularity
 			</Typography>
 
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'column',
-					gap: '2rem',
-					alignItems: 'center',
-				}}
-			>
+			<Grid2 container spacing={2} size={12}>
 				{topList.map((anime, index) => (
 					<AnimeInfoCard
 						key={anime.mal_id}
@@ -64,7 +57,7 @@ function Popularity() {
 						}
 					/>
 				))}
-			</Box>
+			</Grid2>
 		</>
 	);
 }
