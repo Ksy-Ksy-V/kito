@@ -1,6 +1,6 @@
 import { Card, CardMedia, Grid2, Skeleton } from '@mui/material';
 import RandomCard from './RandomCard';
-import notFoundImg from '../../images/not-found.png';
+import notFoundImg from '../../images/notFound.png';
 import { Anime } from '@tutkli/jikan-ts';
 
 interface RandCardContainerProps {
