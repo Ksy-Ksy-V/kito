@@ -33,7 +33,6 @@ const Search: React.FC = () => {
 		selectedRating: '',
 	});
 
-
 	const [isInitialSearch, setIsInitialSearch] = useState(true);
 
 	useEffect(() => {
@@ -62,23 +61,29 @@ const Search: React.FC = () => {
 
 		if (isInitialSearch) {
 			const animeClient = new AnimeClient();
-			animeClient.getAnimeSearch({
-				q: query,
-				genres,
-				type: format as AnimeType,
-				status: status as AnimeSearchStatus,
-				rating: rating as AnimeRating,
-				limit: 10,
-			}).then((response: JikanResponse<Anime[]>) => {
-				setAnimeList(response.data);
-				setLoading(false);
-			}).catch((err) => console.error('Failed to fetch anime:', err));
+			animeClient
+				.getAnimeSearch({
+					q: query,
+					genres,
+					type: format as AnimeType,
+					status: status as AnimeSearchStatus,
+					rating: rating as AnimeRating,
+					limit: 10,
+				})
+				.then((response: JikanResponse<Anime[]>) => {
+					setAnimeList(response.data);
+					setLoading(false);
+				})
+				.catch((err) => console.error('Failed to fetch anime:', err));
 
 			setIsInitialSearch(false);
 		}
 	}, [isInitialSearch]);
 
-	const buildQueryParams = (filters: AnimeSearchFilters, inputSearch: string) => {
+	const buildQueryParams = (
+		filters: AnimeSearchFilters,
+		inputSearch: string
+	) => {
 		const queryParams: string[] = [];
 		if (inputSearch) queryParams.push(`q=${inputSearch}`);
 		if (filters.genres) queryParams.push(`genres=${filters.genres}`);
@@ -89,23 +94,25 @@ const Search: React.FC = () => {
 	};
 
 	const handleApplyFilters = () => {
-		const queryString =
-			buildQueryParams(searchFilters, inputSearch);
-		window.history.replaceState(null, "New Page Title", queryString);
+		const queryString = buildQueryParams(searchFilters, inputSearch);
+		window.history.replaceState(null, 'New Page Title', queryString);
 
 		const animeClient = new AnimeClient();
-		animeClient.getAnimeSearch({
-			q: inputSearch,
-			genres: searchFilters.genres,
-			type: searchFilters.type,
-			status: searchFilters.status,
-			rating: searchFilters.rating,
-			limit: 10
-		}).then((response: JikanResponse<Anime[]>) => {
-			setAnimeList(response.data);
-		}).catch((err) => {
-			console.error('Failed to fetch anime:', err);
-		});
+		animeClient
+			.getAnimeSearch({
+				q: inputSearch,
+				genres: searchFilters.genres,
+				type: searchFilters.type,
+				status: searchFilters.status,
+				rating: searchFilters.rating,
+				limit: 10,
+			})
+			.then((response: JikanResponse<Anime[]>) => {
+				setAnimeList(response.data);
+			})
+			.catch((err) => {
+				console.error('Failed to fetch anime:', err);
+			});
 	};
 
 	useEffect(() => {
@@ -135,50 +142,50 @@ const Search: React.FC = () => {
 							...prev,
 							q: value,
 						}));
-						setInputSearch(value)
+						setInputSearch(value);
 					}}
 				/>
 			</Grid2>
 
 			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
 				<Grid2 size={12}>
-					<SearchFilters
-						defaultFilters={selectedFilters}
-						callbackSearch={(filters) => {
-							const queryString =
-								buildQueryParams(searchFilters, inputSearch);
-							window.history.replaceState(null, "New Page Title", queryString);
-							setSelectedFilters(filters)
-						}}
-					/>
-				</Grid2>
-				<Grid2 size={12}>
 					<StyledButton
 						onClick={handleApplyFilters}
-						sx={{ marginTop: '1rem' }}
+						sx={{ marginBottom: '1rem' }}
 					>
 						Apply Filters
 					</StyledButton>
+					<SearchFilters
+						defaultFilters={selectedFilters}
+						callbackSearch={(filters) => {
+							const queryString = buildQueryParams(
+								searchFilters,
+								inputSearch
+							);
+							window.history.replaceState(
+								null,
+								'New Page Title',
+								queryString
+							);
+							setSelectedFilters(filters);
+						}}
+					/>
+					<Grid2 size={12}>
+						<StyledButton
+							onClick={handleApplyFilters}
+							sx={{ marginTop: '1rem' }}
+						>
+							Apply Filters
+						</StyledButton>
+					</Grid2>
 				</Grid2>
 			</Grid2>
 
-			<Grid2
-				container
-				spacing={3}
-				size={9}
-				sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
+			<Grid2 container spacing={3} size={9} sx={{}}>
 				{animeList.map((anime) => (
 					<Grid2
 						key={anime.mal_id}
 						sx={{
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
 							marginTop: '2rem',
 						}}
 					>
