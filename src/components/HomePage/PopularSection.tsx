@@ -4,7 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../StyledButton';
-import Errors from '../Errors';
+import Error from '../Error';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
@@ -34,7 +34,7 @@ const PopularSection: React.FC = () => {
 	}, []);
 
 	if (error) {
-		return <Errors />;
+		return <Error />;
 	}
 
 	return (

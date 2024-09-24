@@ -18,6 +18,7 @@ function RandomizerSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
+	// const [error, setError] = useState(false);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
