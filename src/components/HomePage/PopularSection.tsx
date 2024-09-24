@@ -4,10 +4,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
+import Error from '../Error';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const top = new TopClient();
@@ -23,11 +25,17 @@ const PopularSection: React.FC = () => {
 				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 		};
 
 		fetchTopAnime();
 	}, []);
+
+	if (error) {
+		return <Error />;
+	}
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }}>

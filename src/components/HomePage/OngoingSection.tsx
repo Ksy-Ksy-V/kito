@@ -4,6 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
+import Error from '../Error';
 
 const OngoingSection: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -12,6 +13,7 @@ const OngoingSection: React.FC = () => {
 	const seasonsClient = useMemo(() => new SeasonsClient(), []);
 
 	const sectionRef = useRef<HTMLDivElement | null>(null);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -52,11 +54,17 @@ const OngoingSection: React.FC = () => {
 				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch seasonal anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 		};
 
 		fetchSeasonAnime();
 	}, [isVisible, seasonsClient]);
+
+	if (error) {
+		return <Error />;
+	}
 
 	return (
 		<Box sx={{ width: '100%', marginTop: '2rem' }} ref={sectionRef}>
