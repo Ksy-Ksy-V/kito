@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AnimeClient, Anime } from '@tutkli/jikan-ts';
-import { Grid2, Skeleton, Typography } from '@mui/material';
+import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import CardAnimeDetails from '../../components/AnimeDetails/CardAnimeDetails';
 import YourRatingField from '../../components/YourRatingField';
 import AddButton from '../../components/Buttons/AddButton';
@@ -12,12 +12,14 @@ import MainInformation from '../../components/AnimeDetails/MainInformation';
 import theme from '../../styles/theme';
 import CharacterSection from '../../components/AnimeDetails/CharactersSection';
 import SimilarTitlesSection from '../../components/AnimeDetails/SimilarTitlesSection';
+import Error from '../../components/Error';
 
 function AnimeDetails() {
 	const { id } = useParams<{ id: string }>();
 	const [anime, setAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const [error, setError] = useState(false);
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
 	useEffect(() => {
 		const fetchAnimeDetails = async () => {
@@ -27,59 +29,83 @@ function AnimeDetails() {
 				const response = await animeClient.getAnimeFullById(Number(id));
 				setAnime(response.data);
 			} catch (err) {
-				setError('Failed to fetch anime details.');
+				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 			setLoading(false);
 		};
 		fetchAnimeDetails();
 	}, [id]);
 
+	if (error) {
+		return <Error />;
+	}
+
 	return (
 		<>
-			<Grid2 container spacing={2} sx={{ marginTop: '2rem' }}>
+			<Grid2
+				container
+				spacing={2}
+				sx={{
+					marginTop: {
+						xs: '0rem',
+						md: '2rem',
+					},
+				}}
+			>
 				<Grid2
-					size={12}
+					size={{ xs: 12, md: 12, lg: 12 }}
 					sx={{
 						position: 'absolute',
 						top: 0,
 						left: 0,
 						zIndex: 0,
-						marginTop: '7rem',
+						marginTop: {
+							xs: '4rem',
+							md: '6rem',
+						},
 					}}
 				>
 					<BackgroundAnimeDetail anime={anime} loading={loading} />
 				</Grid2>
 
-				<Grid2
-					size={4}
-					sx={{
-						position: 'relative',
-						zIndex: 1,
-						marginTop: '2rem',
-					}}
-				>
-					{loading ? (
-						<Skeleton
-							variant="rectangular"
-							width="17rem"
-							height="25rem"
-						/>
-					) : (
-						<>
-							<CardAnimeDetails
-								title={anime?.title}
-								imageUrl={anime?.images?.jpg?.image_url}
+				{isLargeScreen && (
+					<Grid2
+						size={{ xs: 12, md: 4 }}
+						sx={{
+							zIndex: 1,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: {
+								xs: 'center',
+								sm: 'normal',
+							},
+							flexDirection: 'column',
+						}}
+					>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="17rem"
+								height="25rem"
 							/>
-							<AddButton>Add To List</AddButton>
-							<YourRatingField />
-						</>
-					)}
-				</Grid2>
+						) : (
+							<>
+								<CardAnimeDetails
+									title={anime?.title}
+									imageUrl={anime?.images?.jpg?.image_url}
+								/>
+								<AddButton>Add To List</AddButton>
+								<YourRatingField />
+							</>
+						)}
+					</Grid2>
+				)}
 
 				<Grid2
-					size={8}
+					size={{ xs: 12, md: 8 }}
 					sx={{
-						position: 'relative',
 						zIndex: 1,
 					}}
 				>
@@ -90,14 +116,53 @@ function AnimeDetails() {
 						justifyContent="space-between"
 					>
 						<TitleInformation anime={anime} loading={loading} />
-						<RatingLabel anime={anime} loading={loading} />
+						{isLargeScreen && (
+							<RatingLabel anime={anime} loading={loading} />
+						)}
+
+						{!isLargeScreen && (
+							<Grid2
+								size={{ xs: 12, md: 4 }}
+								sx={{
+									zIndex: 1,
+									display: 'flex',
+									alignItems: 'center',
+									flexDirection: 'column',
+								}}
+							>
+								{loading ? (
+									<Skeleton
+										variant="rectangular"
+										width="17rem"
+										height="25rem"
+									/>
+								) : (
+									<>
+										<CardAnimeDetails
+											title={anime?.title}
+											imageUrl={
+												anime?.images?.jpg?.image_url
+											}
+										/>
+										<AddButton>Add To List</AddButton>
+										<YourRatingField />
+									</>
+								)}
+							</Grid2>
+						)}
 					</Grid2>
 
 					<Grid2 container spacing={2} justifyContent="space-between">
-						<Grid2 size={6} sx={{ marginTop: '2rem' }}>
+						<Grid2
+							size={{ xs: 12, sm: 4, md: 8 }}
+							sx={{ marginTop: '2rem' }}
+						>
 							<MainInformation anime={anime} loading={loading} />
 						</Grid2>
-						<Grid2 size={6} sx={{ marginTop: '1rem' }}>
+						<Grid2
+							size={{ xs: 12, sm: 6, md: 8 }}
+							sx={{ marginTop: '1rem' }}
+						>
 							{loading ? (
 								<Skeleton
 									variant="rectangular"

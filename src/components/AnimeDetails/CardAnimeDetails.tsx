@@ -10,8 +10,16 @@ function CardAnimeDetails({ title, imageUrl }: CardAnimeDetailsProps) {
 	return (
 		<Card
 			sx={{
-				width: '17rem',
-				height: '25rem',
+				width: {
+					xs: '12rem',
+					sm: '14rem',
+					md: '17rem',
+				},
+				height: {
+					xs: '18rem',
+					sm: '21rem',
+					md: '25rem',
+				},
 				borderRadius: '1rem',
 				border: `0.125rem solid ${theme.palette.secondary.main}`,
 				marginBottom: '2rem',

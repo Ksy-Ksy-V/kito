@@ -19,7 +19,13 @@ const YourRatingField = () => {
 
 	return (
 		<>
-			<FormControl fullWidth variant="filled">
+			<FormControl
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
 				<InputLabel sx={{ color: theme.palette.secondary.main }}>
 					Your Rating
 				</InputLabel>
@@ -27,9 +33,14 @@ const YourRatingField = () => {
 					value={yourRatingValue}
 					onChange={(event) => setYourRatingValue(event.target.value)}
 					sx={{
-						width: '17rem',
+						width: {
+							xs: '12rem',
+							sm: '14rem',
+							md: '17rem',
+						},
 						border: 'solid 1px  ',
 						borderRadius: '0.25rem',
+
 						borderColor: theme.palette.secondary.main,
 						'&:hover': {},
 						'&.Mui-focused': {},

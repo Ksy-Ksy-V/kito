@@ -138,7 +138,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 					: recommendationsList.slice(0, 6).map((item) => (
 							<Grid2
 								key={item.entry.mal_id}
-								size={2}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',

@@ -15,10 +15,19 @@ const AddButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 				backgroundColor: 'transparent',
 				color: theme.palette.secondary.main,
 				borderColor: theme.palette.secondary.main,
-				marginTop: '1rem',
+
 				marginBottom: '1rem',
-				height: '56px',
-				width: '17rem',
+
+				height: {
+					xs: '2.5rem',
+					sm: '3rem',
+					md: '3.5rem',
+				},
+				width: {
+					xs: '12rem',
+					sm: '14rem',
+					md: '17rem',
+				},
 				border: 'solid 1px',
 				'&:hover': {
 					borderColor: theme.palette.secondary.main,

@@ -1,4 +1,4 @@
-import { Skeleton } from '@mui/material';
+import { Skeleton, useMediaQuery, useTheme } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
 import StyledInformation from '../StyledInformation';
 import { AbstractAnime } from '../../models/AbstractAnime';
@@ -12,6 +12,8 @@ const MainInformation: React.FC<MainInformationProps> = ({
 	anime,
 	loading,
 }) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 	return (
 		<>
 			{loading ? (
@@ -28,6 +30,20 @@ const MainInformation: React.FC<MainInformationProps> = ({
 			) : (
 				anime && (
 					<>
+						{!isLargeScreen && (
+							<StyledInformation
+								label="Rating:"
+								value={anime.rating || 'Not rated'}
+							/>
+						)}
+
+						{!isLargeScreen && (
+							<StyledInformation
+								label="Score:"
+								value={anime?.score.toString() || 'Not score'}
+							/>
+						)}
+
 						<StyledInformation
 							label="Type:"
 							value={anime.type || 'Unknown'}
@@ -67,6 +83,17 @@ const MainInformation: React.FC<MainInformationProps> = ({
 									: 'Unknown'
 							}
 						/>
+
+						{!isLargeScreen && (
+							<StyledInformation
+								label="Genres:"
+								value={
+									anime?.genres
+										.map((genre) => genre.name)
+										.join(', ') || 'No genres available'
+								}
+							/>
+						)}
 					</>
 				)
 			)}

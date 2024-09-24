@@ -18,7 +18,6 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 					width: '100%',
 					height: '23rem',
 					position: 'relative',
-					borderRadius: '1rem',
 				}}
 			>
 				<Skeleton
@@ -42,7 +41,6 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 			sx={{
 				width: '100%',
 				height: '23rem',
-				borderRadius: '1rem',
 			}}
 		>
 			<Box
@@ -54,13 +52,11 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,
-					borderRadius: '1rem',
 				}}
 			></Box>
 
 			<Box
 				sx={{
-					borderRadius: '1rem',
 					position: 'absolute',
 					width: '100%',
 					height: '100%',

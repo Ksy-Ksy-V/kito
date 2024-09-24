@@ -82,9 +82,6 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 				spacing={2}
 				sx={{
 					marginTop: '2rem',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
 				}}
 			>
 				{loading
@@ -108,7 +105,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 					: characters.slice(0, 6).map((character) => (
 							<Grid2
 								key={character.character.mal_id}
-								size={2}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',

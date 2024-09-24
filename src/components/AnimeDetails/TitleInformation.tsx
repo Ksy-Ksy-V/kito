@@ -1,8 +1,14 @@
-import { Box, Grid2, Skeleton, Typography } from '@mui/material';
+import {
+	Box,
+	Grid2,
+	Skeleton,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from '@mui/material';
 import { Anime } from '@tutkli/jikan-ts';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import theme from '../../styles/theme';
 
 interface TitleInformationProps {
 	anime: Anime | null;
@@ -13,6 +19,9 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 	anime,
 	loading,
 }) => {
+	const theme = useTheme();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
 	return (
 		<Grid2 size={10}>
 			<Grid2
@@ -39,7 +48,8 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 					/>
 				) : (
 					anime &&
-					anime.score && (
+					anime.score &&
+					isLargeScreen && (
 						<Typography
 							variant="h4"
 							sx={{
@@ -76,41 +86,45 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 					{anime?.title_japanese}
 				</Typography>
 			)}
-
-			{loading ? (
+			{isLargeScreen && (
 				<>
-					<Skeleton
-						variant="rectangular"
-						width="5rem"
-						height="1.5rem"
-						sx={{ borderRadius: '8px' }}
-					/>
-				</>
-			) : (
-				<Box
-					sx={{
-						marginTop: '1.5rem',
-						display: 'flex',
-						flexWrap: 'wrap',
-						gap: '0.5rem',
-					}}
-				>
-					{anime?.genres.map((genre) => (
+					{loading ? (
+						<>
+							<Skeleton
+								variant="rectangular"
+								width="5rem"
+								height="1.5rem"
+								sx={{ borderRadius: '8px' }}
+							/>
+						</>
+					) : (
 						<Box
-							key={genre.mal_id}
 							sx={{
-								backgroundColor: 'rgba(56, 113, 113, 0.7)',
-								padding: '0.25rem 0.5rem',
-								borderRadius: '8px',
-								fontSize: '0.875rem',
-								display: 'inline-block',
-								color: theme.palette.text.primary,
+								marginTop: '1.5rem',
+								display: 'flex',
+								flexWrap: 'wrap',
+								gap: '0.5rem',
 							}}
 						>
-							{genre.name}
+							{anime?.genres.map((genre) => (
+								<Box
+									key={genre.mal_id}
+									sx={{
+										backgroundColor:
+											'rgba(56, 113, 113, 0.7)',
+										padding: '0.25rem 0.5rem',
+										borderRadius: '8px',
+										fontSize: '0.875rem',
+										display: 'inline-block',
+										color: theme.palette.text.primary,
+									}}
+								>
+									{genre.name}
+								</Box>
+							))}
 						</Box>
-					))}
-				</Box>
+					)}
+				</>
 			)}
 		</Grid2>
 	);
