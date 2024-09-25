@@ -19,6 +19,7 @@ const RatingLabel: React.FC<RatingLabelProps> = ({ anime, loading }) => {
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
+				marginTop: '-1rem',
 			}}
 		>
 			{loading ? (

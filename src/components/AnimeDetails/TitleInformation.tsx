@@ -28,15 +28,25 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
-					marginTop: '2rem',
 				}}
 			>
 				{' '}
 				{loading ? (
 					<Skeleton variant="text" width="19rem" height="4rem" />
 				) : (
-					<Typography variant="h3" sx={{ marginRight: '1rem' }}>
-						{anime?.title_english}
+					<Typography
+						variant={isLargeScreen ? 'h2' : 'h3'}
+						sx={{
+							marginRight: '1rem',
+							width: '100%',  
+							textAlign: {
+								xs: 'center',  
+								md: 'left',
+								sm: 'left', 
+							},
+						}}
+					>
+						{anime?.title_english || anime?.title_japanese}
 					</Typography>
 				)}
 				{loading ? (
@@ -61,7 +71,6 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 							<StarOutlinedIcon
 								sx={{
 									marginRight: '0.5rem',
-									marginTop: '0.25rem',
 								}}
 							/>
 							{anime.score}
@@ -70,22 +79,31 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 				)}
 			</Grid2>
 
-			{loading ? (
-				<Skeleton variant="text" width="15rem" height="2.5rem" />
-			) : (
-				<Typography
-					variant="h4"
-					sx={{
-						fontFamily: 'Noto Sans JP, sans-serif',
-						fontWeight: 400,
-						fontSize: '1.777rem',
-						color: '#dbfeff',
-						marginTop: '0.5rem',
-					}}
-				>
-					{anime?.title_japanese}
-				</Typography>
+			{isLargeScreen && anime?.title_english && (
+				<>
+					{loading ? (
+						<Skeleton
+							variant="text"
+							width="15rem"
+							height="2.5rem"
+						/>
+					) : (
+						<Typography
+							variant="h4"
+							sx={{
+								fontFamily: 'Noto Sans JP, sans-serif',
+								fontWeight: 400,
+								fontSize: '1.777rem',
+								color: '#dbfeff',
+								marginTop: '0.5rem',
+							}}
+						>
+							{anime?.title_japanese}
+						</Typography>
+					)}
+				</>
 			)}
+
 			{isLargeScreen && (
 				<>
 					{loading ? (

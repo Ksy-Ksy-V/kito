@@ -19,7 +19,7 @@ function AnimeDetails() {
 	const [anime, setAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const fetchAnimeDetails = async () => {
@@ -76,7 +76,6 @@ function AnimeDetails() {
 						sx={{
 							zIndex: 1,
 							display: 'flex',
-							alignItems: 'center',
 							justifyContent: {
 								xs: 'center',
 								sm: 'normal',
@@ -113,7 +112,13 @@ function AnimeDetails() {
 						container
 						spacing={2}
 						size={12}
-						justifyContent="space-between"
+						sx={{
+							justifyContent: {
+								xs: 'center',
+								sm: 'space-between',
+								md: 'space-between',
+							},
+						}}
 					>
 						<TitleInformation anime={anime} loading={loading} />
 						{isLargeScreen && (
@@ -150,19 +155,10 @@ function AnimeDetails() {
 								)}
 							</Grid2>
 						)}
-					</Grid2>
 
-					<Grid2 container spacing={2} justifyContent="space-between">
-						<Grid2
-							size={{ xs: 12, sm: 4, md: 8 }}
-							sx={{ marginTop: '2rem' }}
-						>
+						<Grid2 size={{ xs: 12, sm: 4, md: 8 }}>
 							<MainInformation anime={anime} loading={loading} />
-						</Grid2>
-						<Grid2
-							size={{ xs: 12, sm: 6, md: 8 }}
-							sx={{ marginTop: '1rem' }}
-						>
+
 							{loading ? (
 								<Skeleton
 									variant="rectangular"
@@ -170,13 +166,37 @@ function AnimeDetails() {
 									height="10rem"
 								/>
 							) : (
-								<iframe
-									src={anime?.trailer.embed_url}
-									title="Anime Trailer"
-									style={{
-										border: 'none',
-									}}
-								></iframe>
+								<>
+									{!isLargeScreen && (
+										<>
+											<Typography
+												variant={
+													isLargeScreen ? 'h3' : 'h4'
+												}
+												sx={{
+													color: theme.palette.text
+														.secondary,
+													marginBottom: '2rem',
+													marginTop: '2rem',
+												}}
+											>
+												Trailer:
+											</Typography>
+											<iframe
+												width="100%"
+												height="200"
+												loading="lazy"
+												allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+												allowFullScreen
+												src={anime?.trailer.embed_url}
+												title="Anime Trailer"
+												style={{
+													border: 'none',
+												}}
+											></iframe>
+										</>
+									)}
+								</>
 							)}
 						</Grid2>
 					</Grid2>
@@ -191,7 +211,7 @@ function AnimeDetails() {
 								/>
 							) : (
 								<Typography
-									variant="h5"
+									variant={isLargeScreen ? 'h3' : 'h4'}
 									sx={{
 										color: theme.palette.text.secondary,
 									}}
@@ -226,6 +246,44 @@ function AnimeDetails() {
 							</Typography>
 						</Grid2>
 					</Grid2>
+					{isLargeScreen && (
+						<Grid2
+							size={{ xs: 12, sm: 6, md: 8 }}
+							sx={{ marginTop: '1rem' }}
+						>
+							{loading ? (
+								<Skeleton
+									variant="rectangular"
+									width="19rem"
+									height="10rem"
+								/>
+							) : (
+								<>
+									<Typography
+										variant="h3"
+										sx={{
+											color: theme.palette.text.secondary,
+											marginBottom: '2rem',
+										}}
+									>
+										Trailer:
+									</Typography>
+									<iframe
+										width="100%"
+										height="350"
+										loading="lazy"
+										allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowFullScreen
+										src={anime?.trailer.embed_url}
+										title="Anime Trailer"
+										style={{
+											border: 'none',
+										}}
+									></iframe>
+								</>
+							)}
+						</Grid2>
+					)}
 				</Grid2>
 
 				<Grid2 size={12}>

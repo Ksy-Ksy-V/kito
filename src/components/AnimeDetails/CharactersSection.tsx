@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid2, Box, Skeleton } from '@mui/material';
+import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
+import theme from '../../styles/theme';
 
 interface CharacterSectionProps {
 	anime: Anime | null;
@@ -11,6 +12,7 @@ interface CharacterSectionProps {
 const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 	const [characters, setCharacters] = useState<AnimeCharacter[]>([]);
 	const [loading, setLoading] = useState(false);
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const fetchCharacters = async () => {
@@ -21,16 +23,21 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 			try {
 				const response = await animeClient.getAnimeCharacters(
 					anime.mal_id
-				);
+				); 
 				setCharacters(response.data);
-				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch characters:', err);
+			} finally {
+				setLoading(false);
 			}
 		};
 
 		fetchCharacters();
 	}, [anime]);
+
+	if (!loading && characters.length === 0) {
+		return null;
+	}
 
 	return (
 		<Box sx={{ width: '100%' }}>
@@ -44,10 +51,11 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 						/>
 					) : (
 						<Typography
-							variant="h2"
+							variant={isLargeScreen ? 'h3' : 'h4'}
 							component={RouterLink}
 							to="/"
 							sx={{
+								color: theme.palette.text.secondary,
 								textDecoration: 'none',
 								'&:hover': {
 									color: 'primary.main',

@@ -32,6 +32,12 @@ const MainInformation: React.FC<MainInformationProps> = ({
 					<>
 						{!isLargeScreen && (
 							<StyledInformation
+								label="Title:"
+								value={anime?.title_japanese || 'Not rated'}
+							/>
+						)}
+						{!isLargeScreen && (
+							<StyledInformation
 								label="Rating:"
 								value={anime.rating || 'Not rated'}
 							/>

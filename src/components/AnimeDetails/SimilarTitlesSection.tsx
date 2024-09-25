@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Typography, Grid2, Box, Skeleton } from '@mui/material';
+import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
+import theme from '../../styles/theme';
 // import StyledButton from '../Buttons/StyledButton';
 
 interface SimilarTitlesSectionProps {
@@ -19,6 +20,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 	const [isVisible, setIsVisible] = useState(false);
 	const sectionRef = useRef<HTMLDivElement | null>(null);
 	const animeClient = useMemo(() => new AnimeClient(), []);
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -55,15 +57,19 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 					anime.mal_id
 				);
 				setRecommendationsList(response.data);
-				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch recommendations:', err);
+			} finally {
 				setLoading(false);
 			}
 		};
 
 		fetchRecommendation();
 	}, [isVisible, anime, animeClient]);
+
+	if (isVisible && recommendationsList.length === 0) {
+		return null;
+	}
 
 	return (
 		<Box sx={{ width: '100%' }} ref={sectionRef}>
@@ -77,10 +83,11 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 						/>
 					) : (
 						<Typography
-							variant="h2"
+							variant={isLargeScreen ? 'h3' : 'h4'}
 							component={RouterLink}
 							to="/"
 							sx={{
+								color: theme.palette.text.secondary,
 								textDecoration: 'none',
 								'&:hover': {
 									color: 'primary.main',

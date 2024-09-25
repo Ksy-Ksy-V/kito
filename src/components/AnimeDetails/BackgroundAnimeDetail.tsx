@@ -17,6 +17,7 @@ const BackgroundAnimeDetail: React.FC<BackgroundAnimeDetailProps> = ({
 				sx={{
 					width: '100%',
 					height: '23rem',
+
 					position: 'relative',
 				}}
 			>

@@ -13,7 +13,7 @@ const StyledInformation: React.FC<StyledInformationProps> = ({
 	const theme = useTheme();
 
 	return (
-		<Typography variant="body1">
+		<Typography variant="body1" sx={{ marginBottom: '0.25rem' }}>
 			<b
 				style={{
 					color: theme.palette.text.secondary,

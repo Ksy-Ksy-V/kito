@@ -22,7 +22,6 @@ const YourRatingField = () => {
 			<FormControl
 				sx={{
 					display: 'flex',
-					alignItems: 'center',
 					justifyContent: 'center',
 				}}
 			>
