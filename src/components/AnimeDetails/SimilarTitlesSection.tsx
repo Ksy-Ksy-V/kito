@@ -128,7 +128,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 					? [...Array(6)].map((_, index) => (
 							<Grid2
 								key={index}
-								size={2}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',

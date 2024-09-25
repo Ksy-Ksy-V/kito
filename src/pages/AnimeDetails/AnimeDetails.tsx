@@ -28,6 +28,7 @@ function AnimeDetails() {
 			try {
 				const response = await animeClient.getAnimeFullById(Number(id));
 				setAnime(response.data);
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
 				setError(true);
@@ -86,8 +87,18 @@ function AnimeDetails() {
 						{loading ? (
 							<Skeleton
 								variant="rectangular"
-								width="17rem"
-								height="25rem"
+								sx={{
+									width: {
+										xs: '12rem',
+										sm: '14rem',
+										md: '17rem',
+									},
+									height: {
+										xs: '18rem',
+										sm: '21rem',
+										md: '25rem',
+									},
+								}}
 							/>
 						) : (
 							<>
@@ -95,8 +106,10 @@ function AnimeDetails() {
 									title={anime?.title}
 									imageUrl={anime?.images?.jpg?.image_url}
 								/>
-								<AddButton>Add To List</AddButton>
-								<YourRatingField />
+								<AddButton loading={loading}>
+									Add To List
+								</AddButton>
+								<YourRatingField loading={loading} />
 							</>
 						)}
 					</Grid2>
@@ -149,7 +162,9 @@ function AnimeDetails() {
 												anime?.images?.jpg?.image_url
 											}
 										/>
-										<AddButton>Add To List</AddButton>
+										<AddButton loading={loading}>
+											Add To List
+										</AddButton>
 										<YourRatingField />
 									</>
 								)}
@@ -160,11 +175,33 @@ function AnimeDetails() {
 							<MainInformation anime={anime} loading={loading} />
 
 							{loading ? (
-								<Skeleton
-									variant="rectangular"
-									width="19rem"
-									height="10rem"
-								/>
+								!isLargeScreen && (
+									<>
+										<Skeleton
+											variant="rectangular"
+											width="12rem"
+											height="2.5rem"
+											sx={{ marginBottom: '2rem' }}
+										/>
+										<Skeleton
+											variant="rectangular"
+											sx={{
+												width: {
+													xs: '20rem',
+													sm: '20rem',
+													md: '35rem',
+													lg: '50rem',
+												},
+												height: {
+													xs: '15rem',
+													sm: '15rem',
+													md: '25rem',
+													lg: '30rem',
+												},
+											}}
+										/>
+									</>
+								)
 							) : (
 								<>
 									{!isLargeScreen && (
@@ -252,11 +289,19 @@ function AnimeDetails() {
 							sx={{ marginTop: '1rem' }}
 						>
 							{loading ? (
-								<Skeleton
-									variant="rectangular"
-									width="19rem"
-									height="10rem"
-								/>
+								<>
+									<Skeleton
+										variant="rectangular"
+										width="12rem"
+										height="2.5rem"
+										sx={{ marginBottom: '2rem' }}
+									/>
+									<Skeleton
+										variant="rectangular"
+										width="50rem"
+										height="25rem"
+									/>
+								</>
 							) : (
 								<>
 									<Typography

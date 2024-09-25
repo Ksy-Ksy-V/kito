@@ -23,7 +23,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 			try {
 				const response = await animeClient.getAnimeCharacters(
 					anime.mal_id
-				); 
+				);
 				setCharacters(response.data);
 			} catch (err) {
 				console.error('Failed to fetch characters:', err);
@@ -96,7 +96,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 					? [...Array(6)].map((_, index) => (
 							<Grid2
 								key={index}
-								size={2}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',

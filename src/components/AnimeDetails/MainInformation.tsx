@@ -22,7 +22,7 @@ const MainInformation: React.FC<MainInformationProps> = ({
 						<Skeleton
 							key={index}
 							variant="text"
-							width="12rem"
+							width="20rem"
 							height="2rem"
 						/>
 					))}

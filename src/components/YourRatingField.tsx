@@ -2,7 +2,11 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import theme from '../styles/theme';
 
-const YourRatingField = () => {
+interface YourRatingFieldProps {
+	loading?: boolean;
+}
+
+const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
 	const ratingOptions: string[] = [
 		'This is Legendary - 10!!!',
 		'Almost Perfect - 9',
@@ -31,6 +35,7 @@ const YourRatingField = () => {
 				<Select
 					value={yourRatingValue}
 					onChange={(event) => setYourRatingValue(event.target.value)}
+					disabled={loading}
 					sx={{
 						width: {
 							xs: '12rem',

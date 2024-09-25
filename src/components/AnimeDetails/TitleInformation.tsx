@@ -38,45 +38,45 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 						variant={isLargeScreen ? 'h2' : 'h3'}
 						sx={{
 							marginRight: '1rem',
-							width: '100%',  
+							width: '100%',
 							textAlign: {
-								xs: 'center',  
+								xs: 'center',
 								md: 'left',
-								sm: 'left', 
+								sm: 'left',
 							},
 						}}
 					>
 						{anime?.title_english || anime?.title_japanese}
 					</Typography>
 				)}
-				{loading ? (
-					<Skeleton
-						variant="rectangular"
-						width="5rem"
-						height="2.5rem"
-						sx={{ marginLeft: '1rem' }}
-					/>
-				) : (
-					anime &&
-					anime.score &&
-					isLargeScreen && (
-						<Typography
-							variant="h4"
-							sx={{
-								color: theme.palette.text.primary,
-								display: 'flex',
-								alignItems: 'center',
-							}}
-						>
-							<StarOutlinedIcon
-								sx={{
-									marginRight: '0.5rem',
-								}}
+				{loading
+					? isLargeScreen && (
+							<Skeleton
+								variant="rectangular"
+								width="5rem"
+								height="2rem"
+								sx={{ marginLeft: '1rem' }}
 							/>
-							{anime.score}
-						</Typography>
-					)
-				)}
+					  )
+					: anime &&
+					  anime.score &&
+					  isLargeScreen && (
+							<Typography
+								variant="h4"
+								sx={{
+									color: theme.palette.text.primary,
+									display: 'flex',
+									alignItems: 'center',
+								}}
+							>
+								<StarOutlinedIcon
+									sx={{
+										marginRight: '0.5rem',
+									}}
+								/>
+								{anime.score}
+							</Typography>
+					  )}
 			</Grid2>
 
 			{isLargeScreen && anime?.title_english && (

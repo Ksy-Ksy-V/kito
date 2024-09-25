@@ -1,9 +1,17 @@
 import React from 'react';
 import { Button, ButtonProps, useTheme } from '@mui/material';
-
 import AddIcon from '@mui/icons-material/Add';
 
-const AddButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
+interface AddButtonProps extends ButtonProps {
+	loading?: boolean;
+}
+
+const AddButton: React.FC<AddButtonProps> = ({
+	children,
+	sx,
+	loading,
+	...props
+}) => {
 	const theme = useTheme();
 
 	return (
@@ -34,6 +42,7 @@ const AddButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 				},
 				...sx,
 			}}
+			disabled={loading}
 			{...props}
 		>
 			{children}
