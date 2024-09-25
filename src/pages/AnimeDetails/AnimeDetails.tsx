@@ -128,7 +128,7 @@ function AnimeDetails() {
 						sx={{
 							justifyContent: {
 								xs: 'center',
-								sm: 'space-between',
+								sm: 'flex-start',
 								md: 'space-between',
 							},
 						}}
