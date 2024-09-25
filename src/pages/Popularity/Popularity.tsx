@@ -67,6 +67,7 @@ function Popularity() {
 				{topList.map((anime, index) => (
 					<AnimeInfoCard
 						key={anime.mal_id}
+						mal_id={anime.mal_id}
 						number={index + 1}
 						image={anime.images.jpg.image_url}
 						title={anime.title}

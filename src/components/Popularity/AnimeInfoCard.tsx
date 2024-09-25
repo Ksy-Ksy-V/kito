@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, Button, Skeleton } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../AnimeCard';
 import theme from '../../styles/theme';
@@ -7,6 +7,7 @@ import AddButton from '../Buttons/AddButton';
 
 interface AnimeInfoCardProps {
 	number: number;
+	mal_id: number;
 	image: string;
 	title: string;
 	score: number;
@@ -19,6 +20,7 @@ interface AnimeInfoCardProps {
 
 const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	number,
+	mal_id,
 	image,
 	title,
 	score,
@@ -53,21 +55,42 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 					marginBottom: { xs: '1rem', md: 0 },
 				}}
 			>
-				<Typography
-					variant="h3"
-					sx={{
-						fontWeight: 'bold',
-						marginRight: '1rem',
-					}}
-				>
-					#{number.toString().padStart(2, '0')}
-				</Typography>
+				{loading ? (
+					<Skeleton
+						variant="rectangular"
+						width="3rem"
+						height="4rem"
+						sx={{ marginRight: { md: '2rem' } }}
+					/>
+				) : (
+					<Typography
+						variant="h3"
+						sx={{
+							fontWeight: 'bold',
+							marginRight: '1rem',
+						}}
+					>
+						#{number.toString().padStart(2, '0')}
+					</Typography>
+				)}
 
-				<AnimeCard image={image} title={title} />
+				{loading ? (
+					<Skeleton
+						variant="rectangular"
+						width="10rem"
+						height="15rem"
+					/>
+				) : (
+					<AnimeCard image={image} title={title} mal_id={mal_id} />
+				)}
 			</Box>
 
 			<Box sx={{ flex: 1 }}>
-				<Typography variant="h4">{title}</Typography>
+				{loading ? (
+					<Skeleton variant="text" width="30%" height="2rem" />
+				) : (
+					<Typography variant="h4">{title}</Typography>
+				)}
 
 				<Box
 					sx={{
@@ -77,113 +100,151 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						marginBottom: '1rem',
 					}}
 				>
-					<Typography
-						variant="h5"
-						sx={{
-							color: theme.palette.primary.main,
-							display: 'flex',
-							alignItems: 'center',
-							marginRight: '2rem',
-						}}
-					>
-						<StarOutlinedIcon
-							sx={{
-								marginRight: '0.5rem',
-							}}
+					{loading ? (
+						<Skeleton
+							variant="text"
+							width="4rem"
+							height="3rem"
+							sx={{ marginRight: '2rem' }}
 						/>
-						{score}
-					</Typography>
-
-					<Box
-						sx={{
-							display: 'flex',
-							flexWrap: 'wrap',
-							gap: '0.5rem',
-						}}
-					>
-						{genres.map((genre) => (
-							<Box
-								key={genre}
+					) : (
+						<Typography
+							variant="h5"
+							sx={{
+								color: theme.palette.primary.main,
+								display: 'flex',
+								alignItems: 'center',
+								marginRight: '2rem',
+							}}
+						>
+							<StarOutlinedIcon
 								sx={{
-									backgroundColor: 'rgba(56, 113, 113, 0.7)',
-									padding: '0.25rem 0.5rem',
-									borderRadius: '8px',
-									fontSize: '0.875rem',
-									display: 'inline-block',
-									color: theme.palette.text.primary,
+									marginRight: '0.5rem',
 								}}
-							>
-								{genre}
-							</Box>
-						))}
-					</Box>
+							/>
+							{score}
+						</Typography>
+					)}
+
+					{loading ? (
+						<Skeleton
+							variant="rectangular"
+							width="6rem"
+							height={24}
+						/>
+					) : (
+						<Box
+							sx={{
+								display: 'flex',
+								flexWrap: 'wrap',
+								gap: '0.5rem',
+							}}
+						>
+							{genres.map((genre) => (
+								<Box
+									key={genre}
+									sx={{
+										backgroundColor:
+											'rgba(56, 113, 113, 0.7)',
+										padding: '0.25rem 0.5rem',
+										borderRadius: '8px',
+										fontSize: '0.875rem',
+										display: 'inline-block',
+										color: theme.palette.text.primary,
+									}}
+								>
+									{genre}
+								</Box>
+							))}
+						</Box>
+					)}
 				</Box>
 
 				<Box sx={{ position: 'relative', width: '100%' }}>
-					<Typography
-						variant="body1"
-						sx={{
-							marginBottom: '1rem',
-							maxHeight: showFullDescription ? 'none' : '6rem',
-							overflow: 'hidden',
-							display: 'block',
-							textOverflow: 'ellipsis',
-							whiteSpace: 'normal',
-						}}
-					>
-						{description}
-					</Typography>
+					{loading ? (
+						<>
+							{[...Array(4)].map((_, index) => (
+								<Skeleton
+									key={index}
+									variant="text"
+									width="55rem"
+									height={20}
+									sx={{ marginBottom: '0.5rem' }}
+								/>
+							))}
+						</>
+					) : (
+						<Typography
+							variant="body1"
+							sx={{
+								marginBottom: '1rem',
+								maxHeight: showFullDescription
+									? 'none'
+									: '6rem',
+								overflow: 'hidden',
+								display: 'block',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'normal',
+							}}
+						>
+							{description}
+						</Typography>
+					)}
 					<Box
 						sx={{
 							display: 'flex',
 							justifyContent: 'flex-end',
 						}}
 					>
-						<Button
-							variant="text"
-							onClick={() =>
-								setShowFullDescription((prev) => !prev)
-							}
-							sx={{
-								textTransform: 'none',
-							}}
-						>
-							{showFullDescription
-								? 'Show less'
-								: 'See all description'}
-						</Button>
+						{!loading && (
+							<Button
+								variant="text"
+								onClick={() =>
+									setShowFullDescription((prev) => !prev)
+								}
+								sx={{
+									textTransform: 'none',
+								}}
+							>
+								{showFullDescription
+									? 'Show less'
+									: 'See all description'}
+							</Button>
+						)}
 					</Box>
 				</Box>
 
 				<AddButton loading={loading}>Add to list</AddButton>
 			</Box>
 
-			<Box
-				sx={{
-					position: 'absolute',
-					top: 0,
-					right: 0,
-					transform: 'translate(-20%, -15%)',
-					height: '6rem',
-					width: '4rem',
-					backgroundColor: 'rgba(38, 71, 71, 0.85)',
-					borderEndStartRadius: '1rem',
-					borderEndEndRadius: '1rem',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
-				<Typography
-					variant="body1"
+			{!loading && (
+				<Box
 					sx={{
-						color: theme.palette.text.secondary,
-						textAlign: 'center',
+						position: 'absolute',
+						top: 0,
+						right: 0,
+						transform: 'translate(-20%, -15%)',
+						height: '6rem',
+						width: '4rem',
+						backgroundColor: 'rgba(38, 71, 71, 0.85)',
+						borderEndStartRadius: '1rem',
+						borderEndEndRadius: '1rem',
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
 					}}
 				>
-					{rating?.split(' - ')[0]}
-				</Typography>
-			</Box>
+					<Typography
+						variant="body1"
+						sx={{
+							color: theme.palette.text.secondary,
+							textAlign: 'center',
+						}}
+					>
+						{rating?.split(' - ')[0]}
+					</Typography>
+				</Box>
+			)}
 		</Box>
 	);
 };
