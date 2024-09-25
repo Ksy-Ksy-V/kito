@@ -12,7 +12,8 @@ const Header = () => {
 	const theme = useTheme();
 	const location = useLocation();
 
-	const isSearchPage = location.pathname === '/search';
+	const isSearchOrHomePage =
+		location.pathname === '/search' || location.pathname === '/';
 
 	return (
 		<AppBar
@@ -35,36 +36,37 @@ const Header = () => {
 					<Grid2 size={{ xs: 2 }}>
 						<Logo />
 					</Grid2>
-
 					<Grid2 size={{ xs: 2 }}>
 						<NavBar />
 					</Grid2>
-
-					{!isSearchPage && (
+					{!isSearchOrHomePage && (
 						<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
 							<AnimeSearchField />
 						</Grid2>
 					)}
-
+					{!isSearchOrHomePage && (
+						<Grid2
+							size={{ xs: 1 }}
+							offset={isSearchOrHomePage ? { xs: 7 } : { xs: 0 }}
+						>
+							<IconButton
+								component={Link}
+								to="/search"
+								sx={{
+									color: theme.palette.primary.main,
+									'&:hover': {
+										color: theme.palette.secondary.main,
+									},
+								}}
+							>
+								<SearchIcon sx={{ fontSize: '2rem' }} />
+							</IconButton>
+						</Grid2>
+					)}
 					<Grid2
 						size={{ xs: 1 }}
-						offset={isSearchPage ? { xs: 6 } : { xs: 0 }}
+						offset={!isSearchOrHomePage ? { xs: 0 } : { xs: 7 }}
 					>
-						<IconButton
-							component={Link}
-							to="/search"
-							sx={{
-								color: theme.palette.primary.main,
-								'&:hover': {
-									color: theme.palette.secondary.main,
-								},
-							}}
-						>
-							<SearchIcon sx={{ fontSize: '2rem' }} />
-						</IconButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 1 }}>
 						<AccountMenu />
 					</Grid2>
 				</Grid2>
