@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button } from '@mui/material';
-
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../AnimeCard';
 import theme from '../../styles/theme';
-import StyledButton from '../StyledButton';
+import AddButton from '../Buttons/AddButton';
 
 interface AnimeInfoCardProps {
 	number: number;
@@ -15,6 +14,7 @@ interface AnimeInfoCardProps {
 	description: string;
 	rating: string;
 	onAddToList: () => void;
+	loading: boolean;
 }
 
 const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
@@ -25,38 +25,44 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	genres,
 	description,
 	rating,
-	// onAddToList,
+	loading,
 }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
+
 	return (
 		<Box
 			sx={{
 				display: 'flex',
+				flexDirection: { xs: 'column', md: 'row' },
 				padding: '1rem',
 				border: 'solid 1px',
 				borderColor: theme.palette.primary.main,
 				borderRadius: '12px',
 				boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-				alignItems: 'center',
+				alignItems: { xs: 'flex-start', md: 'center' },
 				position: 'relative',
 				marginBottom: '1rem',
 			}}
 		>
-			<Typography
-				variant="h3"
-				sx={{
-					marginRight: '2rem',
-					fontWeight: 'bold',
-				}}
-			>
-				#{number.toString().padStart(2, '0')}
-			</Typography>
-
 			<Box
 				sx={{
-					marginRight: '2rem',
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					marginRight: { md: '2rem' },
+					marginBottom: { xs: '1rem', md: 0 },
 				}}
 			>
+				<Typography
+					variant="h3"
+					sx={{
+						fontWeight: 'bold',
+						marginRight: '1rem',
+					}}
+				>
+					#{number.toString().padStart(2, '0')}
+				</Typography>
+
 				<AnimeCard image={image} title={title} />
 			</Box>
 
@@ -113,38 +119,43 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 					</Box>
 				</Box>
 
-				<Box>
+				<Box sx={{ position: 'relative', width: '100%' }}>
 					<Typography
 						variant="body1"
 						sx={{
 							marginBottom: '1rem',
-							display: '-webkit-box',
+							maxHeight: showFullDescription ? 'none' : '6rem',
 							overflow: 'hidden',
-							WebkitBoxOrient: 'vertical',
-							WebkitLineClamp: showFullDescription ? 'none' : 4,
+							display: 'block',
 							textOverflow: 'ellipsis',
+							whiteSpace: 'normal',
 						}}
 					>
 						{description}
 					</Typography>
-					<Button
-						variant="text"
-						onClick={() => setShowFullDescription((prev) => !prev)}
+					<Box
 						sx={{
-							position: 'absolute',
-							right: 0,
-							textTransform: 'none',
+							display: 'flex',
+							justifyContent: 'flex-end',
 						}}
 					>
-						{showFullDescription
-							? 'Show less'
-							: 'See all description'}
-					</Button>
+						<Button
+							variant="text"
+							onClick={() =>
+								setShowFullDescription((prev) => !prev)
+							}
+							sx={{
+								textTransform: 'none',
+							}}
+						>
+							{showFullDescription
+								? 'Show less'
+								: 'See all description'}
+						</Button>
+					</Box>
 				</Box>
 
-				<StyledButton sx={{ width: '23rem' }}>
-					Add to list +
-				</StyledButton>
+				<AddButton loading={loading}>Add to list</AddButton>
 			</Box>
 
 			<Box
@@ -164,7 +175,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 				}}
 			>
 				<Typography
-					variant="h5"
+					variant="body1"
 					sx={{
 						color: theme.palette.text.secondary,
 						textAlign: 'center',

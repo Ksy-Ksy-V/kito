@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
+import {
+	Box,
+	Typography,
+	IconButton,
+	Grid2,
+	Skeleton,
+	useMediaQuery,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StyledButton from '../Buttons/StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
 import { useNavigate } from 'react-router-dom';
+import theme from '../../styles/theme';
 
 const Slider: React.FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
@@ -13,6 +21,8 @@ const Slider: React.FC = () => {
 	const [imageLoaded, setImageLoaded] = useState(
 		Array(items.length).fill(false)
 	);
+
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -72,7 +82,13 @@ const Slider: React.FC = () => {
 									: index < currentIndex
 									? 'translateX(-100%)'
 									: 'translateX(100%)',
-							transition: 'transform 2.00s ease-in-out',
+							transition: {
+								xs: 'transform 0.50s ease-in-out',
+								sm: 'transform 1.00s ease-in-out',
+								md: 'transform 1.30s ease-in-out',
+								lg: 'transform 1.30s ease-in-out',
+								xl: 'transform 2.00s ease-in-out',
+							},
 						}}
 					>
 						{!imageLoaded[index] && (
@@ -103,19 +119,26 @@ const Slider: React.FC = () => {
 				container
 				sx={{
 					height: '100%',
-					alignItems: 'center',
-					paddingLeft: '5%',
-					paddingRight: '5%',
+					alignItems: isSmallScreen ? 'flex-end' : 'center',
+					paddingLeft: isSmallScreen ? '2%' : '5%',
+					paddingRight: isSmallScreen ? '2%' : '5%',
 					backgroundColor: 'rgba(0, 0, 0, 0.7)',
 					position: 'relative',
 					zIndex: 1,
+					flexDirection: isSmallScreen ? 'column' : 'row',
 				}}
 			>
 				<Grid2
-					size={{ xs: 3 }}
+					size={isSmallScreen ? 12 : 4}
 					sx={{
-						marginTop: '2rem',
-						marginLeft: '10%',
+						alignItems: isSmallScreen ? 'flex-end' : 'center',
+						marginLeft: {
+							sm: '0%',
+							md: '0%',
+							lg: '10%',
+							xl: '20%',
+						},
+						textAlign: isSmallScreen ? 'center' : 'left',
 					}}
 				>
 					{!imageLoaded[currentIndex] ? (
@@ -135,24 +158,41 @@ const Slider: React.FC = () => {
 							))}
 						</>
 					) : (
-						<>
-							<Typography variant="body2">
-								№{currentIndex + 1} by Kito opinion
+						<Grid2
+							sx={{
+								marginTop: {
+									xs: '22rem',
+									sm: '24rem',
+									md: '0rem',
+									lg: '0rem',
+									xl: '0rem',
+								},
+							}}
+						>
+							<Typography variant="body1">
+								#{currentIndex + 1} by Kito opinion
 							</Typography>
-							<Typography variant="h3">
+							<Typography variant={isSmallScreen ? 'h4' : 'h3'}>
 								{items[currentIndex].title}
 							</Typography>
-							<Typography
-								variant="body1"
-								sx={{
-									marginTop: '10px',
-									marginBottom: '20px',
-								}}
-							>
-								{items[currentIndex].description}
-							</Typography>
+
+							{!isSmallScreen && (
+								<Typography
+									variant="body1"
+									sx={{
+										marginTop: '10px',
+										marginBottom: '20px',
+									}}
+								>
+									{items[currentIndex].description}
+								</Typography>
+							)}
 
 							<StyledButton
+								sx={{
+									backgroundColor: 'transparent',
+									borderColor: 'primary.main',
+								}}
 								onClick={() =>
 									navigate(
 										`/anime/${items[currentIndex].mal_id}`
@@ -161,7 +201,7 @@ const Slider: React.FC = () => {
 							>
 								Read More
 							</StyledButton>
-						</>
+						</Grid2>
 					)}
 				</Grid2>
 
@@ -172,15 +212,34 @@ const Slider: React.FC = () => {
 						position: 'absolute',
 						right: '10px',
 						zIndex: 2,
-						marginRight: '10%',
+						marginRight: {
+							xs: '0rem',
+							sm: '12rem',
+							md: '0rem',
+							lg: '0rem',
+							xl: '35rem',
+						},
 					}}
 				>
 					{items.map((thumbItem, thumbIndex) => (
 						<Box
 							key={thumbIndex}
 							sx={{
-								width: '150px',
-								height: '250px',
+								width: {
+									xs: '4.5rem',
+									sm: '6rem',
+									md: '7rem',
+									lg: '10rem',
+									xl: '10rem',
+								},
+								height: {
+									xs: '7rem',
+									sm: '9rem',
+									md: '11rem',
+									lg: '15rem',
+									xl: '15rem',
+								},
+
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',

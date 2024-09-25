@@ -4,13 +4,19 @@ import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
 import Slyder from '../../components/Popularity/Slider';
+import Error from '../../components/Error';
+import theme from '../../styles/theme';
 
 function Popularity() {
 	const top = new TopClient();
 	const [topList, setTopList] = useState<Anime[]>([]);
 
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
+
 	useEffect(() => {
 		const fetchTopAnime = async () => {
+			setLoading(true);
 			try {
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
@@ -19,8 +25,11 @@ function Popularity() {
 
 				setTopList(response.data);
 				console.log(response);
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 		};
 
@@ -29,12 +38,27 @@ function Popularity() {
 		}
 	}, [topList, TopClient]);
 
+	if (error) {
+		return <Error />;
+	}
+
 	return (
 		<>
 			<Slyder />
 			<Typography
 				variant="h2"
-				sx={{ textAlign: 'center', marginBottom: '2rem' }}
+				sx={{
+					textAlign: 'center',
+					marginTop: '2rem',
+					marginBottom: '2rem',
+					fontSize: {
+						xs: theme.typography.h5.fontSize,
+						sm: theme.typography.h4.fontSize,
+						md: theme.typography.h4.fontSize,
+						lg: theme.typography.h2.fontSize,
+						xl: theme.typography.h2.fontSize,
+					},
+				}}
 			>
 				Top Anime by Popularity
 			</Typography>
@@ -55,6 +79,7 @@ function Popularity() {
 						onAddToList={() =>
 							console.log(`Added ${anime.title} to list`)
 						}
+						loading={loading}
 					/>
 				))}
 			</Grid2>
