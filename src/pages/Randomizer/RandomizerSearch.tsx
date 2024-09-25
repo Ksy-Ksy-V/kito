@@ -12,7 +12,7 @@ import {
 
 import RandHeroSection from '../../components/Randomizer/RandHeroSection';
 import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
-import { RandomAnime } from '../../models/randomAnime';
+import { RandomAnime } from '../../models/AbstractAnime';
 
 function RandomizerSearch() {
 	const location = useLocation();

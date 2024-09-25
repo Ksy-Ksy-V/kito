@@ -7,6 +7,7 @@ import RandomizerSearch from '../pages/Randomizer/RandomizerSearch';
 import News from '../pages/News/News';
 import Settings from '../pages/Settings/Settings';
 import Profile from '../pages/Profile/Profile';
+import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 
 interface RouteContent {
 	path: string;
@@ -22,8 +23,10 @@ export const routes: RouteContent[] = [
 	{ path: '/news', element: <News /> },
 	{ path: '/settings', element: <Settings /> },
 	{ path: '/profile', element: <Profile /> },
+	{ path: '/anime/:id', element: <AnimeDetails /> },
 ];
 
 export const routesWide: RouteContent[] = [
 	{ path: '/search', element: <Search /> },
+
 ];

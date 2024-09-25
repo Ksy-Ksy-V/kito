@@ -16,7 +16,7 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
 
@@ -24,14 +24,7 @@ const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 	const [loading, setLoading] = useState(false);
-	const animeTypes: AnimeType[] = [
-		'TV',
-		'Movie',
-		'Ova',
-		'Special',
-		'Ona',
-		'Music',
-	];
+	const animeTypes: AnimeType[] = ['TV', 'Movie', 'Ova', 'Special', 'Ona'];
 	const animeStatuses: AnimeSearchStatus[] = [
 		'airing',
 		'complete',

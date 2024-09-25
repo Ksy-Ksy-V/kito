@@ -1,18 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import Error from '../Error';
 
 const OngoingSection: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
+	const [isVisible, setIsVisible] = useState(false);
+	const seasonsClient = useMemo(() => new SeasonsClient(), []);
+
+	const sectionRef = useRef<HTMLDivElement | null>(null);
 	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		const seasonsClient = new SeasonsClient();
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const entry = entries[0];
+
+				if (entry.isIntersecting) {
+					setIsVisible(true);
+					observer.disconnect();
+				}
+			},
+			{ threshold: 0.1 }
+		);
+
+		if (sectionRef.current) {
+			observer.observe(sectionRef.current);
+		}
+
+		return () => {
+			if (sectionRef.current) {
+				// eslint-disable-next-line react-hooks/exhaustive-deps
+				observer.unobserve(sectionRef.current);
+			}
+		};
+	}, []);
+
+	useEffect(() => {
+		if (!isVisible) return;
 
 		const fetchSeasonAnime = async () => {
 			try {
@@ -21,7 +50,6 @@ const OngoingSection: React.FC = () => {
 					await seasonsClient.getSeasonNow({
 						limit: 6,
 					});
-
 				setAnimeList(response.data);
 				setLoading(false);
 			} catch (err) {
@@ -32,14 +60,14 @@ const OngoingSection: React.FC = () => {
 		};
 
 		fetchSeasonAnime();
-	}, []);
+	}, [isVisible, seasonsClient]);
 
 	if (error) {
 		return <Error />;
 	}
 
 	return (
-		<Box sx={{ width: '100%', marginTop: '2rem' }}>
+		<Box sx={{ width: '100%', marginTop: '2rem' }} ref={sectionRef}>
 			<Grid2
 				container
 				spacing={2}
@@ -51,7 +79,7 @@ const OngoingSection: React.FC = () => {
 					<Typography
 						variant="h2"
 						component={RouterLink}
-						to="/airing"
+						to="/"
 						sx={{
 							textDecoration: 'none',
 							'&:hover': {
@@ -59,14 +87,14 @@ const OngoingSection: React.FC = () => {
 							},
 						}}
 					>
-						This season
+						Airing
 					</Typography>
 				</Grid2>
 
 				<Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
-						to="/airing"
+						to="/"
 						sx={{
 							textDecoration: 'none',
 						}}
@@ -108,7 +136,7 @@ const OngoingSection: React.FC = () => {
 							>
 								<Skeleton
 									variant="rectangular"
-									width={150}
+									width={170}
 									height={250}
 								/>
 							</Grid2>
@@ -126,6 +154,7 @@ const OngoingSection: React.FC = () => {
 								<AnimeCard
 									image={anime.images.jpg.image_url}
 									title={anime.title}
+									mal_id={anime.mal_id}
 								/>
 							</Grid2>
 					  ))}

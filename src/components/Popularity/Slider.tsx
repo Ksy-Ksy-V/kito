@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
+import { useNavigate } from 'react-router-dom';
 
 const Slider: React.FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
+	const navigate = useNavigate();
 
 	const [imageLoaded, setImageLoaded] = useState(
 		Array(items.length).fill(false)
@@ -150,7 +152,15 @@ const Slider: React.FC = () => {
 								{items[currentIndex].description}
 							</Typography>
 
-							<StyledButton>Read More</StyledButton>
+							<StyledButton
+								onClick={() =>
+									navigate(
+										`/anime/${items[currentIndex].mal_id}`
+									)
+								}
+							>
+								Read More
+							</StyledButton>
 						</>
 					)}
 				</Grid2>

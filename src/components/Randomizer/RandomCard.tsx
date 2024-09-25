@@ -1,11 +1,14 @@
 import { Card, CardMedia, CardActionArea } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface RandomCardProps {
 	title: string;
 	imageUrl: string;
+	mal_id: number;
 }
 
-function RandomCard({ title, imageUrl }: RandomCardProps) {
+function RandomCard({ title, imageUrl, mal_id }: RandomCardProps) {
+	const navigate = useNavigate();
 	return (
 		<Card
 			sx={{
@@ -55,6 +58,7 @@ function RandomCard({ title, imageUrl }: RandomCardProps) {
 						height: 'auto',
 						borderRadius: 'inherit',
 					}}
+					onClick={() => navigate(`/anime/${mal_id}`)}
 				/>
 			</CardActionArea>
 		</Card>

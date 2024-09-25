@@ -3,7 +3,7 @@ import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import Error from '../Error';
 
 const PopularSection: React.FC = () => {
@@ -107,7 +107,7 @@ const PopularSection: React.FC = () => {
 							>
 								<Skeleton
 									variant="rectangular"
-									width={150}
+									width={170}
 									height={250}
 								/>
 							</Grid2>
@@ -125,6 +125,7 @@ const PopularSection: React.FC = () => {
 								<AnimeCard
 									image={anime.images.jpg.image_url}
 									title={anime.title}
+									mal_id={anime.mal_id}
 								/>
 							</Grid2>
 					  ))}

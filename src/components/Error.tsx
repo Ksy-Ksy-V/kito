@@ -1,6 +1,6 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import errorImg from '../images/error.png';
-import StyledButton from './StyledButton';
+import StyledButton from './Buttons/StyledButton';
 import theme from '../styles/theme';
 
 const Errors = () => {

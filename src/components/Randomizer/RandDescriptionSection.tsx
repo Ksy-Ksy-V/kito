@@ -1,8 +1,8 @@
 import { Grid2, Skeleton, Box, Typography } from '@mui/material';
-import { RandomAnime } from '../../models/randomAnime';
+import { AbstractAnime } from '../../models/AbstractAnime';
 
 interface RandDescriptionSectionProps {
-	randomAnime: RandomAnime | null;
+	randomAnime: AbstractAnime | null;
 	loading: boolean;
 }
 

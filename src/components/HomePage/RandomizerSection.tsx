@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import randomizerImg from '../../images/background.jpg';
 
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 
 const RandomizerSection = () => {
 	const [imageLoaded, setImageLoaded] = useState(false);

@@ -1,0 +1,64 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
+import theme from '../styles/theme';
+
+interface YourRatingFieldProps {
+	loading?: boolean;
+}
+
+const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
+	const ratingOptions: string[] = [
+		'This is Legendary - 10!!!',
+		'Almost Perfect - 9',
+		'Impressive - 8',
+		'Pretty Good - 7',
+		'Decent but Flawed - 6',
+		'Just OK - 5',
+		'Mediocre at Best - 4',
+		'Needs Improvement - 3',
+		'Barely Watchable - 2',
+		'Complete Disaster - 1',
+	];
+	const [yourRatingValue, setYourRatingValue] = useState<string>('');
+
+	return (
+		<>
+			<FormControl
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+				}}
+			>
+				<InputLabel sx={{ color: theme.palette.secondary.main }}>
+					Your Rating
+				</InputLabel>
+				<Select
+					value={yourRatingValue}
+					onChange={(event) => setYourRatingValue(event.target.value)}
+					disabled={loading}
+					sx={{
+						width: {
+							xs: '12rem',
+							sm: '14rem',
+							md: '17rem',
+						},
+						border: 'solid 1px  ',
+						borderRadius: '0.25rem',
+
+						borderColor: theme.palette.secondary.main,
+						'&:hover': {},
+						'&.Mui-focused': {},
+					}}
+				>
+					{ratingOptions.map((option) => (
+						<MenuItem key={option} value={option}>
+							{option}
+						</MenuItem>
+					))}
+				</Select>
+			</FormControl>
+		</>
+	);
+};
+
+export default YourRatingField;
