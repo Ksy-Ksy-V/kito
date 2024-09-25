@@ -85,7 +85,7 @@ const Slider: React.FC = () => {
 							transition: {
 								xs: 'transform 0.50s ease-in-out',
 								sm: 'transform 1.00s ease-in-out',
-								md: 'transform 1.30s ease-in-out',
+								md: 'transform 1.00s ease-in-out',
 								lg: 'transform 1.30s ease-in-out',
 								xl: 'transform 2.00s ease-in-out',
 							},
@@ -143,19 +143,39 @@ const Slider: React.FC = () => {
 				>
 					{!imageLoaded[currentIndex] ? (
 						<>
-							<Skeleton variant="text" width="30%" height={20} />
-							<Skeleton variant="text" width="70%" height={50} />
-							{[...Array(3)].map((_, index) => (
-								<Skeleton
-									key={index}
-									variant="text"
-									width="90%"
-									height={20}
-									sx={{
-										marginTop: '10px',
-									}}
-								/>
-							))}
+							<Skeleton
+								variant="text"
+								width="30%"
+								height={20}
+								sx={{
+									marginTop: {
+										xs: '22rem',
+										sm: '24rem',
+										md: '0rem',
+										lg: '0rem',
+										xl: '0rem',
+									},
+									mx: isSmallScreen ? 'auto' : 'left',
+								}}
+							/>
+							<Skeleton
+								variant="text"
+								width="70%"
+								height={50}
+								sx={{ mx: isSmallScreen ? 'auto' : 'left' }}
+							/>
+							{!isSmallScreen &&
+								[...Array(3)].map((_, index) => (
+									<Skeleton
+										key={index}
+										variant="text"
+										width="90%"
+										height={20}
+										sx={{
+											marginTop: '10px',
+										}}
+									/>
+								))}
 						</>
 					) : (
 						<Grid2
