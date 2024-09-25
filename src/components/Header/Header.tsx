@@ -1,12 +1,19 @@
 import { AppBar, Toolbar, IconButton, useTheme, Grid2 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
+
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
+import AnimeSearchField from '../Search/AnimeSearchField';
+
 const Header = () => {
 	const theme = useTheme();
+	const location = useLocation();
+
+	const isSearchPage = location.pathname === '/search';
+
 	return (
 		<AppBar
 			position="static"
@@ -33,7 +40,16 @@ const Header = () => {
 						<NavBar />
 					</Grid2>
 
-					<Grid2 size={{ xs: 1 }} offset={{ xs: 6 }}>
+					{!isSearchPage && (
+						<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
+							<AnimeSearchField />
+						</Grid2>
+					)}
+
+					<Grid2
+						size={{ xs: 1 }}
+						offset={isSearchPage ? { xs: 6 } : { xs: 0 }}
+					>
 						<IconButton
 							component={Link}
 							to="/search"
