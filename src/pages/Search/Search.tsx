@@ -4,6 +4,7 @@ import {
 	Anime,
 	AnimeClient,
 	AnimeRating,
+	AnimeSearchOrder,
 	AnimeSearchStatus,
 	AnimeType,
 	JikanResponse,
@@ -14,6 +15,7 @@ import SearchFilters from '../../components/Search/SearchFilter';
 import SearchCard from '../../components/SearchCard';
 import { AnimeFilters, AnimeSearchFilters } from '../../models/animeFilters';
 import StyledButton from '../../components/StyledButton';
+import StyledSarchFilters from '../../components/Search/StyledSearchFilters';
 
 const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -32,6 +34,23 @@ const Search: React.FC = () => {
 		selectedStatus: '',
 		selectedRating: '',
 	});
+
+	const OrderOptions: AnimeSearchOrder[] = [
+		'mal_id',
+		'title',
+		'start_date',
+		'end_date',
+		'episodes',
+		'score',
+		'scored_by',
+		'rank',
+		'popularity',
+		'members',
+		'favorites',
+	];
+	const [selectedOrder, setSelectedOrder] = useState<AnimeSearchOrder | ''>(
+		''
+	);
 
 	const [isInitialSearch, setIsInitialSearch] = useState(true);
 
@@ -68,7 +87,8 @@ const Search: React.FC = () => {
 					type: format as AnimeType,
 					status: status as AnimeSearchStatus,
 					rating: rating as AnimeRating,
-					limit: 10,
+					order_by: selectedOrder,
+					limit: 25,
 				})
 				.then((response: JikanResponse<Anime[]>) => {
 					setAnimeList(response.data);
@@ -78,7 +98,7 @@ const Search: React.FC = () => {
 
 			setIsInitialSearch(false);
 		}
-	}, [isInitialSearch]);
+	}, [isInitialSearch, selectedOrder]);
 
 	const buildQueryParams = (
 		filters: AnimeSearchFilters,
@@ -145,6 +165,15 @@ const Search: React.FC = () => {
 						setInputSearch(value);
 					}}
 				/>
+				<StyledSarchFilters
+					label="Order By"
+					value={selectedOrder}
+					onChange={(event) =>
+						setSelectedOrder(event.target.value as AnimeSearchOrder)
+					}
+					options={OrderOptions}
+					clearValue={() => setSelectedOrder('mal_id')}
+				/>
 			</Grid2>
 
 			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
@@ -170,14 +199,6 @@ const Search: React.FC = () => {
 							setSelectedFilters(filters);
 						}}
 					/>
-					<Grid2 size={12}>
-						<StyledButton
-							onClick={handleApplyFilters}
-							sx={{ marginTop: '1rem' }}
-						>
-							Apply Filters
-						</StyledButton>
-					</Grid2>
 				</Grid2>
 			</Grid2>
 
