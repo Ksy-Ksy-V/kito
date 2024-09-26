@@ -4,7 +4,7 @@ interface PagePaginationProps {
 	loading?: boolean;
 	page?: number;
 	count?: number;
-	onChange?: () => void;
+	onChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
 }
 
 const PagePagination: React.FC<PagePaginationProps> = ({

@@ -79,7 +79,7 @@ const OngoingSection: React.FC = () => {
 					<Typography
 						variant="h2"
 						component={RouterLink}
-						to="/"
+						to="/airing"
 						sx={{
 							textDecoration: 'none',
 							'&:hover': {
@@ -94,7 +94,7 @@ const OngoingSection: React.FC = () => {
 				<Grid2 size={3} offset={5}>
 					<Link
 						component={RouterLink}
-						to="/"
+						to="/airing"
 						sx={{
 							textDecoration: 'none',
 						}}

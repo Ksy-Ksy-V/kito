@@ -41,7 +41,7 @@ const SeasonAnimePage: React.FC = () => {
 					limit: 24,
 				} as ExtendedSeasonNowParams);
 			setAnimeList(response.data);
-			setPaginationData(response.pagination);
+			setPaginationData(response.pagination as JikanPagination);
 			setLoading(false);
 		} catch (error) {
 			console.error('Failed to fetch seasonal anime:', error);
