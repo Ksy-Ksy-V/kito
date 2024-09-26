@@ -119,7 +119,13 @@ const Slider: React.FC = () => {
 				container
 				sx={{
 					height: '100%',
-					alignItems: isSmallScreen ? 'flex-end' : 'center',
+					alignItems: {
+						xs: 'flex-end',
+						sm: 'flex-end',
+						md: 'center',
+						lg: 'center',
+						xl: 'center',
+					},
 					paddingLeft: isSmallScreen ? '2%' : '5%',
 					paddingRight: isSmallScreen ? '2%' : '5%',
 					backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -131,14 +137,27 @@ const Slider: React.FC = () => {
 				<Grid2
 					size={isSmallScreen ? 12 : 4}
 					sx={{
-						alignItems: isSmallScreen ? 'flex-end' : 'center',
+						alignItems: {
+							xs: 'flex-end',
+							sm: 'flex-end',
+							md: 'flex-end',
+							lg: 'center',
+							xl: 'center',
+						},
 						marginLeft: {
+							xs: '0%',
 							sm: '0%',
 							md: '0%',
-							lg: '10%',
-							xl: '20%',
+							lg: '5%',
+							xl: '10%',
 						},
-						textAlign: isSmallScreen ? 'center' : 'left',
+						textAlign: {
+							xs: 'center',
+							sm: 'center',
+							md: 'left',
+							lg: 'left',
+							xl: 'left',
+						},
 					}}
 				>
 					{!imageLoaded[currentIndex] ? (
@@ -149,11 +168,11 @@ const Slider: React.FC = () => {
 								height={20}
 								sx={{
 									marginTop: {
-										xs: '22rem',
-										sm: '24rem',
-										md: '0rem',
-										lg: '0rem',
-										xl: '0rem',
+										xs: '110%',
+									sm: '50%',
+									md: '0%',
+									lg: '0%',
+									xl: '0%',
 									},
 									mx: isSmallScreen ? 'auto' : 'left',
 								}}
@@ -181,18 +200,21 @@ const Slider: React.FC = () => {
 						<Grid2
 							sx={{
 								marginTop: {
-									xs: '22rem',
-									sm: '24rem',
-									md: '0rem',
-									lg: '0rem',
-									xl: '0rem',
+									xs: '110%',
+									sm: '50%',
+									md: '0%',
+									lg: '0%',
+									xl: '0%',
 								},
 							}}
 						>
 							<Typography variant="body1">
 								#{currentIndex + 1} by Kito opinion
 							</Typography>
-							<Typography variant={isSmallScreen ? 'h4' : 'h3'}>
+							<Typography
+								variant={isSmallScreen ? 'h4' : 'h3'}
+								sx={{ color: theme.palette.secondary.main }}
+							>
 								{items[currentIndex].title}
 							</Typography>
 
@@ -233,11 +255,11 @@ const Slider: React.FC = () => {
 						right: '10px',
 						zIndex: 2,
 						marginRight: {
-							xs: '0rem',
-							sm: '12rem',
-							md: '0rem',
-							lg: '0rem',
-							xl: '35rem',
+							xs: '0%',
+							sm: '25%',
+							md: '0%',
+							lg: '5%',
+							xl: '10%',
 						},
 					}}
 				>

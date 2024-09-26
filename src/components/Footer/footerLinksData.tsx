@@ -11,7 +11,6 @@ export const pagesLinks: FooterLink[] = [
 
 export const randomizerLinks: FooterLink[] = [
 	{ name: 'Randomizer', path: '/randomizer' },
-	{ name: 'News', path: '/news' },
 	{ name: 'Airing', path: '/airing' },
 ];
 

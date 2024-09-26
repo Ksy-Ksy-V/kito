@@ -4,7 +4,7 @@ import Popularity from '../pages/Popularity/Popularity';
 import Airing from '../pages/Airing/Airing';
 import Randomizer from '../pages/Randomizer/Randomizer';
 import RandomizerSearch from '../pages/Randomizer/RandomizerSearch';
-import News from '../pages/News/News';
+
 import Settings from '../pages/Settings/Settings';
 import Profile from '../pages/Profile/Profile';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
@@ -20,7 +20,7 @@ export const routes: RouteContent[] = [
 	{ path: '/randomizer', element: <Randomizer /> },
 	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
-	{ path: '/news', element: <News /> },
+
 	{ path: '/settings', element: <Settings /> },
 	{ path: '/profile', element: <Profile /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
@@ -28,5 +28,4 @@ export const routes: RouteContent[] = [
 
 export const routesWide: RouteContent[] = [
 	{ path: '/search', element: <Search /> },
-
 ];

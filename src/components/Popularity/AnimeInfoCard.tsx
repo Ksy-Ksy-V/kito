@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Skeleton } from '@mui/material';
+import { Box, Typography, Button, Skeleton, Grid2 } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../AnimeCard';
 import theme from '../../styles/theme';
@@ -32,16 +32,22 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	const [showFullDescription, setShowFullDescription] = useState(false);
 
 	return (
-		<Box
+		<Grid2
+			container
+			spacing={2}
 			sx={{
 				display: 'flex',
-				flexDirection: { xs: 'column', md: 'row' },
+				flexDirection: { xs: 'column', sm: 'row', md: 'row' },
 				padding: '1rem',
 				border: 'solid 1px',
 				borderColor: theme.palette.primary.main,
 				borderRadius: '12px',
 				boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-				alignItems: { xs: 'flex-start', md: 'center' },
+				alignItems: {
+					xs: 'flex-start',
+					sm: 'flex-start',
+					md: 'center',
+				},
 				position: 'relative',
 				marginBottom: '1rem',
 			}}
@@ -245,7 +251,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 					</Typography>
 				</Box>
 			)}
-		</Box>
+		</Grid2>
 	);
 };
 
