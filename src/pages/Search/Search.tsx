@@ -20,6 +20,9 @@ import StyledSarchFilters from '../../components/Search/StyledSearchFilters';
 const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
+
+	const [resetInputField, setResetInputField] = useState(false);
+
 	const [inputSearch, setInputSearch] = useState('');
 	const [searchFilters, setSearchFilters] = useState<AnimeSearchFilters>({
 		q: '',
@@ -101,8 +104,8 @@ const Search: React.FC = () => {
 	}, [isInitialSearch, selectedOrder]);
 
 	const buildQueryParams = (
-		filters: AnimeSearchFilters,
-		inputSearch: string
+		inputSearch: string,
+		filters: AnimeSearchFilters
 	) => {
 		const queryParams: string[] = [];
 		if (inputSearch) queryParams.push(`q=${inputSearch}`);
@@ -114,7 +117,7 @@ const Search: React.FC = () => {
 	};
 
 	const handleApplyFilters = () => {
-		const queryString = buildQueryParams(searchFilters, inputSearch);
+		const queryString = buildQueryParams(inputSearch, searchFilters);
 		window.history.replaceState(null, 'New Page Title', queryString);
 
 		const animeClient = new AnimeClient();
@@ -143,7 +146,7 @@ const Search: React.FC = () => {
 			status: selectedFilters.selectedStatus as AnimeSearchStatus,
 			rating: selectedFilters.selectedRating as AnimeRating,
 		});
-	}, [selectedFilters, inputSearch]);
+	}, [selectedFilters, inputSearch, resetInputField]);
 
 	return (
 		<Grid2 container spacing={2}>
@@ -157,7 +160,18 @@ const Search: React.FC = () => {
 			</Grid2>
 			<Grid2 size={{ xs: 12 }}>
 				<AnimeSearchField
+					resetValue={resetInputField}
+					revertResetValue={() => setResetInputField(false)}
 					callbackSearch={(value) => {
+						const queryString = buildQueryParams(
+							value,
+							searchFilters
+						);
+						window.history.replaceState(
+							null,
+							'New Page Title',
+							queryString
+						);
 						setSearchFilters((prev) => ({
 							...prev,
 							q: value,
@@ -186,10 +200,19 @@ const Search: React.FC = () => {
 					</StyledButton>
 					<SearchFilters
 						defaultFilters={selectedFilters}
+						clearInputField={() => {
+							setResetInputField(true);
+							setInputSearch('')
+						}}
 						callbackSearch={(filters) => {
 							const queryString = buildQueryParams(
-								searchFilters,
-								inputSearch
+								inputSearch,
+								{
+									type: filters?.selectedFormat as AnimeType,
+									status: filters?.selectedStatus as AnimeSearchStatus,
+									rating: filters?.selectedRating as AnimeRating,
+									genres: filters.selectedGenres
+								},
 							);
 							window.history.replaceState(
 								null,

@@ -30,11 +30,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface AnimeSearchFiltersProps {
 	callbackSearch?: (filters: AnimeFilters) => void;
+	clearInputField: () => void;
 	defaultFilters?: AnimeFilters;
 }
 
 const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 	callbackSearch,
+	clearInputField,
 	defaultFilters,
 }) => {
 	const [loading, setLoading] = useState(false);
@@ -53,8 +55,7 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 		defaultFilters?.selectedRating as AnimeRating
 	);
 	const [isInitialGenres, setIsInitialGenres] = useState(true);
-	const [genresOpen, setGenresOpen] = useState(false);
-
+	const [genresOpen, setGenresOpen] = useState(true);
 	useEffect(() => {
 		const fetchAnimeGenres = async () => {
 			try {
@@ -76,12 +77,14 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 	}, [isInitialGenres]);
 	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = event.target;
-		console.log();
-		setSelectedGenres((prevSelected) =>
-			checked
+
+		setSelectedGenres((prevSelected) => {
+			const updatedGenres = checked
 				? [...prevSelected, value]
-				: prevSelected.filter((genre) => genre !== value)
-		);
+				: prevSelected.filter((genre) => genre !== value);
+
+			return updatedGenres.filter(Boolean);
+		});
 	};
 	useEffect(() => {
 		if (callbackSearch) {
@@ -115,7 +118,7 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 			);
 			setSelectedGenres((prev) =>
 				defaultFilters?.selectedGenres?.split(',').toString() !==
-				prev.toString()
+					prev.toString()
 					? defaultFilters?.selectedGenres?.split(',') || []
 					: prev
 			);
@@ -127,6 +130,12 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 		setSelectedStatus('');
 		setSelectedRating('');
 		setSelectedGenres([]);
+		clearInputField()
+		window.history.replaceState(
+			null,
+			'New Page Title',
+			window.location.pathname
+		);
 	};
 	return (
 		<>

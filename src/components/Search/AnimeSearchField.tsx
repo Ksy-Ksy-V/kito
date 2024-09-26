@@ -15,6 +15,8 @@ import {
 } from '@tutkli/jikan-ts';
 import { useNavigate, useLocation } from 'react-router-dom';
 interface AnimeSearchFieldProps {
+	resetValue?: boolean;
+	revertResetValue?: () => void;
 	callbackSearch?: (queryValue: string) => void;
 	label?: string;
 }
@@ -28,6 +30,8 @@ interface AnimeOptionType {
 
 const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	callbackSearch,
+	resetValue,
+	revertResetValue,
 	label = 'Search for Anime',
 }) => {
 	const location = useLocation();
@@ -37,7 +41,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	const animeClient = useMemo(() => new AnimeClient(), []);
 
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
-	const [inputValue, setInputValue] = useState('');
+	const [value, setValue] = useState('');
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -45,8 +49,15 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	const isSearchPage = location.pathname === '/search';
 
 	useEffect(() => {
+		if (resetValue && revertResetValue) {
+			setValue('');
+			revertResetValue()
+		}
+	}, [resetValue, revertResetValue]);
+
+	useEffect(() => {
 		if (!isSearchPage) {
-			setInputValue('');
+			setValue('');
 		}
 	}, [location, isSearchPage]);
 
@@ -92,18 +103,18 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		[debouncedHandleAnimeOptions]
 	);
 
-	useEffect(() => { }, [inputValue]);
+	useEffect(() => { }, [value]);
 
 	return (
 		<FormControl fullWidth>
 			<Autocomplete
 				freeSolo
-				inputValue={inputValue}
+				inputValue={value}
 				options={animeOptions}
 				onChange={(_event, newValue) => {
 					if (typeof newValue === 'object' && newValue?.inputValue) {
 						callbackSearch?.(newValue.inputValue);
-						setInputValue(newValue?.inputValue);
+						setValue(newValue?.inputValue);
 						if (!isSearchPage) {
 							navigate(`/search?q=${newValue.inputValue}`);
 						}
@@ -169,10 +180,10 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {
 					if (newInputValue.length >= 3 && reason !== 'reset') {
-						setInputValue(newInputValue);
+						setValue(newInputValue);
 						handleAnimeOptions(newInputValue);
 					} else {
-						setInputValue(newInputValue);
+						setValue(newInputValue);
 					}
 				}}
 				renderInput={(params) => (
