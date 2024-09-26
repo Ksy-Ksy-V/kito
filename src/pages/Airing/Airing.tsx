@@ -41,13 +41,13 @@ const SeasonAnimePage: React.FC = () => {
 					limit: 24,
 				} as ExtendedSeasonNowParams);
 			setAnimeList(response.data);
-			setLoading(false);
 			setPaginationData(response.pagination);
+			setLoading(false);
 		} catch (error) {
 			console.error('Failed to fetch seasonal anime:', error);
 			setError(true);
+			setLoading(false);
 		}
-		setLoading(false);
 	};
 
 	const handlePageChange = (
@@ -85,10 +85,11 @@ const SeasonAnimePage: React.FC = () => {
 						xl: '400px',
 					},
 					zIndex: '0',
-					backgroundImage: `url(${animeList[0]?.images.jpg.large_image_url})`,
+					backgroundImage: loading
+						? 'none'
+						: `url(${animeList[0]?.images.jpg.large_image_url})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
-
 					'&::before': {
 						content: '""',
 						position: 'absolute',
@@ -112,21 +113,35 @@ const SeasonAnimePage: React.FC = () => {
 						zIndex: 2,
 					}}
 				>
-					<Typography
-						variant="h1"
-						sx={{
-							textAlign: 'center',
-							fontSize: {
-								xs: theme.typography.h4.fontSize,
-								sm: theme.typography.h3.fontSize,
-								md: theme.typography.h2.fontSize,
-								lg: theme.typography.h2.fontSize,
-								xl: theme.typography.h1.fontSize,
-							},
-						}}
-					>
-						Now on the screens
-					</Typography>
+					{loading ? (
+						<Skeleton
+							variant="text"
+							width="30%"
+							height={60}
+							sx={{
+								marginTop: {
+									xs: '1rem',
+									lg: '2rem',
+								},
+							}}
+						/>
+					) : (
+						<Typography
+							variant="h1"
+							sx={{
+								textAlign: 'center',
+								fontSize: {
+									xs: theme.typography.h4.fontSize,
+									sm: theme.typography.h3.fontSize,
+									md: theme.typography.h2.fontSize,
+									lg: theme.typography.h2.fontSize,
+									xl: theme.typography.h1.fontSize,
+								},
+							}}
+						>
+							Now on the screens
+						</Typography>
+					)}
 				</Box>
 			</Grid2>
 
@@ -143,20 +158,28 @@ const SeasonAnimePage: React.FC = () => {
 					borderColor: theme.palette.primary.main,
 				}}
 			>
-				<Grid2 size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={continuingValue}
-								onChange={(e) =>
-									setContinuingValue(e.target.checked)
-								}
-								color="primary"
-							/>
-						}
-						label="Include continuing from previous seasons "
+				{loading ? (
+					<Skeleton
+						variant="rectangular"
+						width="300px"
+						height="30px"
 					/>
-				</Grid2>
+				) : (
+					<Grid2 size={{ xs: 12, sm: 6, md: 6, lg: 6 }}>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={continuingValue}
+									onChange={(e) =>
+										setContinuingValue(e.target.checked)
+									}
+									color="primary"
+								/>
+							}
+							label="Include continuing from previous seasons"
+						/>
+					</Grid2>
+				)}
 
 				{paginationData && (
 					<Grid2
@@ -165,38 +188,57 @@ const SeasonAnimePage: React.FC = () => {
 						justifyContent="center"
 						sx={{ justifyContent: 'end', marginTop: '0.25rem' }}
 					>
-						<PagePagination
-							loading={loading}
-							page={page}
-							count={paginationData.last_visible_page}
-							onChange={handlePageChange}
-						/>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="350px"
+								height="30px"
+							/>
+						) : (
+							<PagePagination
+								loading={loading}
+								page={page}
+								count={paginationData.last_visible_page}
+								onChange={handlePageChange}
+							/>
+						)}
 					</Grid2>
 				)}
 			</Grid2>
+
 			<Grid2
 				container
 				spacing={2}
 				size={12}
 				sx={{ marginTop: { lg: '1rem', xs: '0rem' } }}
 			>
-				{loading ? (
-					<Skeleton variant="text" width="15rem" height="15rem" />
-				) : (
-					animeList.map((anime) => (
-						<Grid2
-							key={anime.mal_id}
-							size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
-							sx={{ justifyContent: 'center' }}
-						>
-							<AnimeCard
-								image={anime?.images.jpg.image_url}
-								mal_id={anime.mal_id}
-								title={anime.title}
-							/>
-						</Grid2>
-					))
-				)}
+				{loading
+					? [...Array(24)].map((_, index) => (
+							<Grid2
+								key={index}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
+								sx={{ justifyContent: 'center' }}
+							>
+								<Skeleton
+									variant="rectangular"
+									width="100%"
+									height={250}
+								/>
+							</Grid2>
+					  ))
+					: animeList.map((anime) => (
+							<Grid2
+								key={anime.mal_id}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
+								sx={{ justifyContent: 'center' }}
+							>
+								<AnimeCard
+									image={anime?.images.jpg.image_url}
+									mal_id={anime.mal_id}
+									title={anime.title}
+								/>
+							</Grid2>
+					  ))}
 			</Grid2>
 
 			<Grid2
@@ -219,12 +261,20 @@ const SeasonAnimePage: React.FC = () => {
 						justifyContent="center"
 						sx={{ justifyContent: 'end', marginTop: '0.25rem' }}
 					>
-						<PagePagination
-							loading={loading}
-							page={page}
-							count={paginationData.last_visible_page}
-							onChange={handlePageChange}
-						/>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="350px"
+								height="30px"
+							/>
+						) : (
+							<PagePagination
+								loading={loading}
+								page={page}
+								count={paginationData.last_visible_page}
+								onChange={handlePageChange}
+							/>
+						)}
 					</Grid2>
 				)}
 			</Grid2>
