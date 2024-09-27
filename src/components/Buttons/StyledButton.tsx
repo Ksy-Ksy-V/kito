@@ -16,6 +16,16 @@ const StyledButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 					backgroundColor: theme.palette.background.default,
 					borderColor: theme.palette.secondary.main,
 				},
+				padding: {
+					xs: '2px 4px',
+					md: '4px 8px',
+					lg: '6px 10px',
+				},
+				fontSize: {
+					xs: '0.75rem',
+					sm: '0.875rem',
+					md: '1rem',
+				},
 				...sx,
 			}}
 			{...props}

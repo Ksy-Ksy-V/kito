@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-	Card,
-	CardActionArea,
-	CardMedia,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Card, CardActionArea, CardMedia, useTheme } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 interface AnimeCardProps {
@@ -53,7 +47,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 				<CardMedia
 					component="img"
 					image={image}
-					alt="Anime thumbnail"
+					alt={title}
 					className="card-media"
 					sx={{
 						width: '100%',
@@ -63,22 +57,6 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 						transition: 'transform 0.30s ease-in-out',
 					}}
 				/>
-				<Typography
-					variant="body1"
-					sx={{
-						position: 'absolute',
-						bottom: 0,
-						left: 0,
-						width: '100%',
-						background:
-							'linear-gradient(to top, #1d3335 15%, rgba(29, 51, 53, 0) 100%)',
-						textAlign: 'center',
-						padding: '8px',
-						boxSizing: 'border-box',
-					}}
-				>
-					{title}
-				</Typography>
 			</CardActionArea>
 		</Card>
 	);

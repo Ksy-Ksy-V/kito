@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
-import AnimeCard from '../AnimeCard';
 import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
+import CharacterCard from './CharacterCard';
 
 interface CharacterSectionProps {
 	anime: Anime | null;
@@ -52,38 +51,14 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 					) : (
 						<Typography
 							variant={isLargeScreen ? 'h3' : 'h4'}
-							component={RouterLink}
-							to="/"
 							sx={{
-								color: theme.palette.text.secondary,
-								textDecoration: 'none',
-								'&:hover': {
-									color: 'primary.main',
-								},
+								color: theme.palette.secondary.main, 
 							}}
 						>
 							Characters
 						</Typography>
 					)}
 				</Grid2>
-
-				{/* <Grid2 size={3} offset={5}>
-					<Link
-						component={RouterLink}
-						to="/"
-						sx={{ textDecoration: 'none' }}
-					>
-						<StyledButton
-							sx={{
-								backgroundColor: 'transparent',
-								borderColor: 'primary.main',
-								marginTop: '1rem',
-							}}
-						>
-							See more
-						</StyledButton>
-					</Link>
-				</Grid2> */}
 			</Grid2>
 			<Grid2
 				container
@@ -120,12 +95,11 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 									alignItems: 'center',
 								}}
 							>
-								<AnimeCard
+								<CharacterCard
 									image={
 										character.character.images.jpg.image_url
 									}
 									title={character.character.name}
-									mal_id={character.character.mal_id}
 								/>
 							</Grid2>
 					  ))}
