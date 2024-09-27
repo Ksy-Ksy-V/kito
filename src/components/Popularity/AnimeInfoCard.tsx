@@ -66,16 +66,14 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 				size={{ xs: 12, sm: 5, md: 4, lg: 3 }}
 				sx={{
 					alignContent: 'flex-start',
-					marginTop: '1rem',
 				}}
 			>
 				<Grid2
-					size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
+					size={12}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: { xs: 'center', sm: 'unset' },
-						marginBottom: { xs: '1rem', md: 0 },
+						justifyContent: 'center',
 					}}
 				>
 					{loading ? (
@@ -98,11 +96,11 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 					)}
 				</Grid2>
 				<Grid2
-					size={{ xs: 12, sm: 9, md: 9, lg: 9 }}
+					size={12}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						justifyContent: { xs: 'center', sm: 'unset' },
+						justifyContent: 'center',
 					}}
 				>
 					{loading ? (
@@ -122,15 +120,19 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 				<Grid2
 					size={12}
 					sx={{
-						justifyContent: {
-							md: 'unset',
-							sm: 'center',
-							xs: 'center',
-						},
+						alignItems: 'center',
+						justifyContent: 'center',
 						display: 'flex',
 					}}
 				>
-					<AddButton loading={loading}>Add to list</AddButton>
+					<AddButton
+						loading={loading}
+						sx={{
+							width: '10.5rem',
+						}}
+					>
+						Add to list
+					</AddButton>
 				</Grid2>
 			</Grid2>
 

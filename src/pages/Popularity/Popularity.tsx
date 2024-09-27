@@ -24,7 +24,7 @@ function Popularity() {
 				});
 
 				setTopList(response.data);
-				console.log(response);
+
 				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
@@ -36,6 +36,7 @@ function Popularity() {
 		if (topList.length === 0) {
 			fetchTopAnime();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [topList, TopClient]);
 
 	if (error) {

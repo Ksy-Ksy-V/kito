@@ -33,7 +33,7 @@ const AddButton: React.FC<AddButtonProps> = ({
 			sx={{
 				display: 'flex',
 				justifyContent: 'space-between',
-				backgroundColor: 'transparent',
+				backgroundColor: theme.palette.primary.dark,
 				color: theme.palette.secondary.main,
 				borderColor: theme.palette.secondary.main,
 				fontSize: {
@@ -50,11 +50,7 @@ const AddButton: React.FC<AddButtonProps> = ({
 					sm: '2.5rem',
 					md: '3rem',
 				},
-				width: {
-					xs: '12rem',
-					sm: '14rem',
-					md: '17rem',
-				},
+
 				border: 'solid 1px',
 				'&:hover': {
 					borderColor: theme.palette.secondary.main,
@@ -65,16 +61,6 @@ const AddButton: React.FC<AddButtonProps> = ({
 			{...props}
 		>
 			{children}
-			{/* <AddIcon
-				sx={{
-					marginLeft: 'auto',
-					fontSize: {
-						xs: '1rem',
-						sm: '1.25rem',
-						md: '1.5rem',
-					},
-				}}
-			/> */}
 		</Button>
 	);
 };

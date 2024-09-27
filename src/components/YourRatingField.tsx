@@ -24,25 +24,29 @@ const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
 	return (
 		<>
 			<FormControl
+				variant="filled"
 				sx={{
 					display: 'flex',
 					justifyContent: 'center',
 				}}
 			>
-				{!yourRatingValue && (
-					<InputLabel
-						sx={{
+				<InputLabel
+					sx={{
+						color: theme.palette.secondary.main,
+						'&:hover': { color: theme.palette.secondary.main },
+						'&.Mui-focused': {
 							color: theme.palette.secondary.main,
-							fontSize: {
-								md: theme.typography.body2.fontSize,
-								sm: '0.7rem',
-								xs: '0.6rem',
-							},
-						}}
-					>
-						YOUR RATING
-					</InputLabel>
-				)}
+						},
+						fontSize: {
+							md: theme.typography.body2.fontSize,
+							sm: '0.7rem',
+							xs: '0.6rem',
+						},
+					}}
+				>
+					YOUR RATING
+				</InputLabel>
+
 				<Select
 					value={yourRatingValue}
 					onChange={(event) => setYourRatingValue(event.target.value)}

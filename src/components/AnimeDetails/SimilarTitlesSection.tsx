@@ -1,10 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../AnimeCard';
 import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
-import theme from '../../styles/theme';
-// import StyledButton from '../Buttons/StyledButton';
+import theme from '../../styles/theme'; 
 
 interface SimilarTitlesSectionProps {
 	anime: Anime | null;
@@ -84,38 +82,14 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 					) : (
 						<Typography
 							variant={isLargeScreen ? 'h3' : 'h4'}
-							component={RouterLink}
-							to="/"
 							sx={{
-								color: theme.palette.text.secondary,
-								textDecoration: 'none',
-								'&:hover': {
-									color: 'primary.main',
-								},
+								color: theme.palette.secondary.main,
 							}}
 						>
 							Similar Titles
 						</Typography>
 					)}
 				</Grid2>
-
-				{/* <Grid2 size={3} offset={5}>
-					<Link
-						component={RouterLink}
-						to="/"
-						sx={{ textDecoration: 'none' }}
-					>
-						<StyledButton
-							sx={{
-								backgroundColor: 'transparent',
-								borderColor: 'primary.main',
-								marginTop: '1rem',
-							}}
-						>
-							See more
-						</StyledButton>
-					</Link>
-				</Grid2> */}
 			</Grid2>
 			<Grid2
 				container

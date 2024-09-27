@@ -106,7 +106,16 @@ function AnimeDetails() {
 									title={anime?.title}
 									imageUrl={anime?.images?.jpg?.image_url}
 								/>
-								<AddButton loading={loading}>
+								<AddButton
+									loading={loading}
+									sx={{
+										width: {
+											xs: '12rem',
+											sm: '14rem',
+											md: '17rem',
+										},
+									}}
+								>
 									Add To List
 								</AddButton>
 								<YourRatingField loading={loading} />
@@ -341,12 +350,6 @@ function AnimeDetails() {
 				<Grid2 size={12}>
 					<SimilarTitlesSection anime={anime} />
 				</Grid2>
-
-				{/*  place for a reviews section  */}
-
-				{/* <Grid2 size={12}>
-					<ReviewsSection />
-				</Grid2> */}
 			</Grid2>
 		</>
 	);
