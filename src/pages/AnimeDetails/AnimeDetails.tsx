@@ -175,7 +175,8 @@ function AnimeDetails() {
 							<MainInformation anime={anime} loading={loading} />
 
 							{loading ? (
-								!isLargeScreen && (
+								!isLargeScreen &&
+								anime?.trailer.embed_url && (
 									<>
 										<Skeleton
 											variant="rectangular"
@@ -204,35 +205,38 @@ function AnimeDetails() {
 								)
 							) : (
 								<>
-									{!isLargeScreen && (
-										<>
-											<Typography
-												variant={
-													isLargeScreen ? 'h3' : 'h4'
-												}
-												sx={{
-													color: theme.palette.text
-														.secondary,
-													marginBottom: '2rem',
-													marginTop: '2rem',
-												}}
-											>
-												Trailer:
-											</Typography>
-											<iframe
-												width="100%"
-												height="200"
-												loading="lazy"
-												allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-												allowFullScreen
-												src={anime?.trailer.embed_url}
-												title="Anime Trailer"
-												style={{
-													border: 'none',
-												}}
-											></iframe>
-										</>
-									)}
+									{!isLargeScreen &&
+										anime?.trailer.embed_url && (
+											<>
+												<Typography
+													variant={
+														isLargeScreen
+															? 'h3'
+															: 'h4'
+													}
+													sx={{
+														color: theme.palette
+															.text.secondary,
+														marginBottom: '2rem',
+														marginTop: '2rem',
+													}}
+												>
+													Trailer:
+												</Typography>
+												<iframe
+													width="100%"
+													height="200"
+													loading="lazy"
+													allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+													allowFullScreen
+													src={`${anime?.trailer.embed_url}?autoplay=0`}
+													title="Anime Trailer"
+													style={{
+														border: 'none',
+													}}
+												></iframe>
+											</>
+										)}
 								</>
 							)}
 						</Grid2>
@@ -283,7 +287,7 @@ function AnimeDetails() {
 							</Typography>
 						</Grid2>
 					</Grid2>
-					{isLargeScreen && (
+					{isLargeScreen && anime?.trailer.embed_url && (
 						<Grid2
 							size={{ xs: 12, sm: 6, md: 8 }}
 							sx={{ marginTop: '1rem' }}
@@ -319,7 +323,7 @@ function AnimeDetails() {
 										loading="lazy"
 										allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 										allowFullScreen
-										src={anime?.trailer.embed_url}
+										src={`${anime?.trailer.embed_url}?autoplay=0`}
 										title="Anime Trailer"
 										style={{
 											border: 'none',
