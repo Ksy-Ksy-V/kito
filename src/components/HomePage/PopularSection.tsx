@@ -5,6 +5,7 @@ import AnimeCard from '../AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
 import Error from '../Error';
+import theme from '../../styles/theme';
 
 const PopularSection: React.FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
@@ -52,6 +53,13 @@ const PopularSection: React.FC = () => {
 						component={RouterLink}
 						to="/popular"
 						sx={{
+							fontSize: {
+								xs: theme.typography.h4.fontSize,
+								sm: theme.typography.h3.fontSize,
+								md: theme.typography.h2.fontSize,
+								lg: theme.typography.h2.fontSize,
+								xl: theme.typography.h2.fontSize,
+							},
 							textDecoration: 'none',
 							'&:hover': {
 								color: 'primary.main',
@@ -62,7 +70,10 @@ const PopularSection: React.FC = () => {
 					</Typography>
 				</Grid2>
 
-				<Grid2 size={3} offset={5}>
+				<Grid2
+					size={{ xs: 6, sm: 3, md: 3, lg: 3 }}
+					offset={{ xs: 2, sm: 5, md: 5, lg: 5 }}
+				>
 					<Link
 						component={RouterLink}
 						to="/popular"
@@ -75,7 +86,13 @@ const PopularSection: React.FC = () => {
 								backgroundColor: 'transparent',
 								color: 'primary.main',
 								borderColor: 'primary.main',
-								marginTop: '1rem',
+								marginTop: {
+									xl: '1rem',
+									lg: '1rem',
+									md: '1rem',
+									sm: '0.5rem',
+									xs: '0.25rem',
+								},
 							}}
 						>
 							See more
@@ -89,16 +106,13 @@ const PopularSection: React.FC = () => {
 				spacing={2}
 				sx={{
 					marginTop: '2rem',
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
 				}}
 			>
 				{loading
 					? [...Array(6)].map((_, index) => (
 							<Grid2
 								key={index}
-								size={{ xs: 2 }}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',
@@ -115,7 +129,7 @@ const PopularSection: React.FC = () => {
 					: topList.map((anime) => (
 							<Grid2
 								key={anime.mal_id}
-								size={{ xs: 2 }}
+								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
 									justifyContent: 'center',

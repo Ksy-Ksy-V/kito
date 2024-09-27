@@ -1,5 +1,6 @@
 import { Grid2 } from '@mui/material';
-import SliderHomePage from '../../components/HomePage/SliderHomePage';
+
+import HeroSection from '../../components/HomePage/HeroSection';
 import PopularSection from '../../components/HomePage/PopularSection';
 import RandomizerSection from '../../components/HomePage/RandomizerSection';
 import OngoingSection from '../../components/HomePage/OngoingSection';
@@ -7,8 +8,8 @@ import OngoingSection from '../../components/HomePage/OngoingSection';
 function Home() {
 	return (
 		<Grid2 container spacing={2}>
-			<Grid2 size={{ xs: 12 }} sx={{ marginTop: '2rem' }}>
-				<SliderHomePage />
+			<Grid2 size={{ xs: 12 }}>
+				<HeroSection />
 				<PopularSection />
 				<RandomizerSection />
 				<OngoingSection />

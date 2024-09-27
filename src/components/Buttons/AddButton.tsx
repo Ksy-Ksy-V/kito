@@ -18,24 +18,39 @@ const AddButton: React.FC<AddButtonProps> = ({
 		<Button
 			variant="outlined"
 			fullWidth
-			endIcon={<AddIcon />}
+			endIcon={
+				<AddIcon
+					sx={{
+						marginLeft: 'auto',
+						fontSize: {
+							xs: '1rem',
+							sm: '1.25rem',
+							md: '1.5rem',
+						},
+					}}
+				/>
+			}
 			sx={{
-				backgroundColor: 'transparent',
+				display: 'flex',
+				justifyContent: 'space-between',
+				backgroundColor: theme.palette.primary.dark,
 				color: theme.palette.secondary.main,
 				borderColor: theme.palette.secondary.main,
+				fontSize: {
+					md: theme.typography.body2.fontSize,
+					sm: '0.7rem',
+					xs: '0.6rem',
+				},
 
 				marginBottom: '1rem',
+				textAlign: 'left',
 
 				height: {
 					xs: '2.5rem',
-					sm: '3rem',
-					md: '3.5rem',
+					sm: '2.5rem',
+					md: '3rem',
 				},
-				width: {
-					xs: '12rem',
-					sm: '14rem',
-					md: '17rem',
-				},
+
 				border: 'solid 1px',
 				'&:hover': {
 					borderColor: theme.palette.secondary.main,

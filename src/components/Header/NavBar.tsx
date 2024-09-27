@@ -80,14 +80,6 @@ const NavBar = () => {
 				>
 					Randomizer
 				</MenuItem>
-				<MenuItem
-					component={Link}
-					to="/news"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					News
-				</MenuItem>
 			</Menu>
 		</>
 	);

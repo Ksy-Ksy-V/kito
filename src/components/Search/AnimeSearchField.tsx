@@ -48,9 +48,9 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 
 	useEffect(() => {
 		if (!isSearchPage) {
-			setInputValue('')
+			setInputValue('');
 		}
-	}, [location, isSearchPage])
+	}, [location, isSearchPage]);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -105,8 +105,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.search]);
 
-	useEffect(() => { }, [inputValue]);
-
+	useEffect(() => {}, [inputValue]);
 
 	return (
 		<FormControl fullWidth>
@@ -173,7 +172,9 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					if (typeof option === 'string') {
 						return option;
 					}
-					return option?.inputValue ? option?.inputValue : option.title;
+					return option?.inputValue
+						? option?.inputValue
+						: option.title;
 				}}
 				loading={loading}
 				onInputChange={(_, newInputValue, reason) => {
@@ -191,6 +192,12 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 						variant="outlined"
 						size="small"
 						sx={{
+							width: {
+								xl: '23rem',
+								lg: '23rem',
+								md: '23rem',
+								sm: '18rem',
+							},
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',
