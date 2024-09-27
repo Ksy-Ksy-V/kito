@@ -30,6 +30,7 @@ const SeasonAnimePage: React.FC = () => {
 
 	const fetchSeasonAnime = async () => {
 		setLoading(true);
+		setAnimeList([]);
 		const seasonsClient = new SeasonsClient();
 
 		try {
@@ -59,11 +60,17 @@ const SeasonAnimePage: React.FC = () => {
 
 	useEffect(() => {
 		fetchSeasonAnime();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [continuingValue, page]);
 
 	if (error) {
 		return <Error />;
 	}
+
+	const uniqueAnimeList = animeList.filter(
+		(anime, index, self) =>
+			index === self.findIndex((a) => a.mal_id === anime.mal_id)
+	);
 
 	return (
 		<Grid2 container spacing={2}>
@@ -226,7 +233,7 @@ const SeasonAnimePage: React.FC = () => {
 								/>
 							</Grid2>
 					  ))
-					: animeList.map((anime) => (
+					: uniqueAnimeList.map((anime) => (
 							<Grid2
 								key={anime.mal_id}
 								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
