@@ -52,11 +52,11 @@ function Popularity() {
 					marginTop: '2rem',
 					marginBottom: '2rem',
 					fontSize: {
-						xs: theme.typography.h5.fontSize,
-						sm: theme.typography.h4.fontSize,
-						md: theme.typography.h4.fontSize,
-						lg: theme.typography.h2.fontSize,
-						xl: theme.typography.h2.fontSize,
+						xs: theme.typography.h4.fontSize,
+						sm: theme.typography.h3.fontSize,
+						md: theme.typography.h2.fontSize,
+						lg: theme.typography.h1.fontSize,
+						xl: theme.typography.h1.fontSize,
 					},
 				}}
 			>

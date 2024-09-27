@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
-import { Box, Typography, Button, Skeleton, Grid2 } from '@mui/material';
+import {
+	Box,
+	Typography,
+	Button,
+	Skeleton,
+	Grid2,
+	useMediaQuery,
+} from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../AnimeCard';
 import theme from '../../styles/theme';
 import AddButton from '../Buttons/AddButton';
+import StyledInformation from '../StyledInformation';
 
 interface AnimeInfoCardProps {
 	number: number;
@@ -30,198 +38,300 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	loading,
 }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	return (
 		<Grid2
 			container
 			spacing={2}
+			size={12}
 			sx={{
-				display: 'flex',
-				flexDirection: { xs: 'column', sm: 'row', md: 'row' },
-				padding: '1rem',
+				padding: {
+					xs: '1rem',
+					sm: '1rem',
+					md: '1.5rem',
+				},
 				border: 'solid 1px',
 				borderColor: theme.palette.primary.main,
 				borderRadius: '12px',
 				boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
-				alignItems: {
-					xs: 'flex-start',
-					sm: 'flex-start',
-					md: 'center',
-				},
 				position: 'relative',
+
 				marginBottom: '1rem',
 			}}
 		>
-			<Box
+			<Grid2
+				container
+				spacing={2}
+				size={{ xs: 12, sm: 5, md: 4, lg: 3 }}
 				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center',
-					marginRight: { md: '2rem' },
-					marginBottom: { xs: '1rem', md: 0 },
+					alignContent: 'flex-start',
+					marginTop: '1rem',
 				}}
 			>
-				{loading ? (
-					<Skeleton
-						variant="rectangular"
-						width="3rem"
-						height="4rem"
-						sx={{ marginRight: { md: '2rem' } }}
-					/>
-				) : (
-					<Typography
-						variant="h3"
-						sx={{
-							fontWeight: 'bold',
-							marginRight: '1rem',
-						}}
-					>
-						#{number.toString().padStart(2, '0')}
-					</Typography>
-				)}
-
-				{loading ? (
-					<Skeleton
-						variant="rectangular"
-						width="10rem"
-						height="15rem"
-					/>
-				) : (
-					<AnimeCard image={image} title={title} mal_id={mal_id} />
-				)}
-			</Box>
-
-			<Box sx={{ flex: 1 }}>
-				{loading ? (
-					<Skeleton variant="text" width="30%" height="2rem" />
-				) : (
-					<Typography variant="h4">{title}</Typography>
-				)}
-
-				<Box
+				<Grid2
+					size={{ xs: 12, sm: 3, md: 3, lg: 3 }}
 					sx={{
 						display: 'flex',
 						alignItems: 'center',
-						marginTop: '1rem',
-						marginBottom: '1rem',
+						justifyContent: { xs: 'center', sm: 'unset' },
+						marginBottom: { xs: '1rem', md: 0 },
 					}}
 				>
 					{loading ? (
 						<Skeleton
-							variant="text"
-							width="4rem"
-							height="3rem"
-							sx={{ marginRight: '2rem' }}
+							variant="rectangular"
+							width="3rem"
+							height="4rem"
+							sx={{ marginRight: { md: '2rem' } }}
 						/>
 					) : (
 						<Typography
-							variant="h5"
+							variant="h3"
 							sx={{
-								color: theme.palette.primary.main,
-								display: 'flex',
-								alignItems: 'center',
-								marginRight: '2rem',
+								fontWeight: 'bold',
+								marginRight: '1rem',
 							}}
 						>
-							<StarOutlinedIcon
-								sx={{
-									marginRight: '0.5rem',
-								}}
-							/>
-							{score}
+							#{number.toString().padStart(2, '0')}
 						</Typography>
 					)}
-
+				</Grid2>
+				<Grid2
+					size={{ xs: 12, sm: 9, md: 9, lg: 9 }}
+					sx={{
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: { xs: 'center', sm: 'unset' },
+					}}
+				>
 					{loading ? (
 						<Skeleton
 							variant="rectangular"
-							width="6rem"
-							height={24}
+							width="10rem"
+							height="15rem"
 						/>
 					) : (
+						<AnimeCard
+							image={image}
+							title={title}
+							mal_id={mal_id}
+						/>
+					)}
+				</Grid2>
+				<Grid2
+					size={12}
+					sx={{
+						justifyContent: {
+							md: 'unset',
+							sm: 'center',
+							xs: 'center',
+						},
+						display: 'flex',
+					}}
+				>
+					<AddButton loading={loading}>Add to list</AddButton>
+				</Grid2>
+			</Grid2>
+
+			<Grid2
+				container
+				spacing={2}
+				size={{ xs: 12, sm: 6, md: 8, lg: 8 }}
+				sx={{ marginLeft: { lg: '2rem', md: '0rem' } }}
+			>
+				<Grid2 size={12}>
+					{loading ? (
+						<Skeleton variant="text" width="30%" height="2rem" />
+					) : (
+						<Typography
+							variant="h3"
+							sx={{
+								textAlign: {
+									xs: 'center',
+									sm: 'inherit',
+								},
+								fontSize: {
+									xs: theme.typography.h5.fontSize,
+									sm: theme.typography.h4.fontSize,
+									md: theme.typography.h4.fontSize,
+									lg: theme.typography.h2.fontSize,
+									xl: theme.typography.h2.fontSize,
+								},
+							}}
+						>
+							{title}
+						</Typography>
+					)}
+
+					<Grid2
+						size={12}
+						sx={{
+							display: !isSmallScreen ? 'flex' : 'none',
+							marginTop: '1rem',
+							marginBottom: '1rem',
+						}}
+					>
+						{loading ? (
+							<Skeleton
+								variant="text"
+								width="4rem"
+								height="3rem"
+								sx={{ marginRight: '2rem' }}
+							/>
+						) : (
+							<Typography
+								variant="h5"
+								sx={{
+									color: theme.palette.primary.main,
+									display: 'flex',
+									alignItems: 'center',
+									marginRight: '2rem',
+								}}
+							>
+								<StarOutlinedIcon
+									sx={{
+										marginRight: '0.5rem',
+									}}
+								/>
+								{score}
+							</Typography>
+						)}
+					</Grid2>
+
+					<Grid2
+						size={12}
+						sx={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: { xs: 'center', sm: 'unset' },
+							marginTop: '1rem',
+							marginBottom: '1rem',
+						}}
+					>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="6rem"
+								height={24}
+							/>
+						) : (
+							<Box
+								sx={{
+									display: 'flex',
+									flexWrap: 'wrap',
+									gap: '0.5rem',
+								}}
+							>
+								{genres.map((genre) => (
+									<Box
+										key={genre}
+										sx={{
+											backgroundColor:
+												'rgba(56, 113, 113, 0.7)',
+											padding: '0.25rem 0.5rem',
+											borderRadius: '8px',
+											fontSize: '0.875rem',
+											display: 'inline-block',
+											color: theme.palette.text.primary,
+										}}
+									>
+										{genre}
+									</Box>
+								))}
+							</Box>
+						)}
+					</Grid2>
+
+					<Grid2
+						size={12}
+						sx={{
+							display: isSmallScreen ? 'flex' : 'none',
+							marginTop: '1rem',
+						}}
+					>
+						{loading ? (
+							<Skeleton
+								variant="text"
+								width="4rem"
+								height="3rem"
+								sx={{ marginRight: '2rem' }}
+							/>
+						) : (
+							<StyledInformation
+								label="Score:"
+								value={score.toString() || 'Not score'}
+							/>
+						)}
+					</Grid2>
+
+					<Box sx={{ position: 'relative', width: '100%' }}>
+						{loading ? (
+							<>
+								{[...Array(4)].map((_, index) => (
+									<Skeleton
+										key={index}
+										variant="text"
+										width="55rem"
+										height={20}
+										sx={{ marginBottom: '0.5rem' }}
+									/>
+								))}
+							</>
+						) : (
+							<Typography
+								variant="body1"
+								sx={{
+									marginBottom: '1rem',
+									maxHeight: {
+										xs: showFullDescription
+											? 'none'
+											: '6rem',
+										sm: showFullDescription
+											? 'none'
+											: '10.5rem',
+										md: showFullDescription
+											? 'none'
+											: '10.5rem',
+									},
+									overflow: 'hidden',
+									display: 'block',
+									textOverflow: 'ellipsis',
+									whiteSpace: 'normal',
+									marginTop: { xs: '0.5rem', sm: '2rem' },
+								}}
+							>
+								{description}
+							</Typography>
+						)}
 						<Box
 							sx={{
 								display: 'flex',
-								flexWrap: 'wrap',
-								gap: '0.5rem',
+								justifyContent: {
+									xs: 'center',
+									sm: 'flex-end',
+								},
 							}}
 						>
-							{genres.map((genre) => (
-								<Box
-									key={genre}
+							{!loading && (
+								<Button
+									variant="text"
+									onClick={() =>
+										setShowFullDescription((prev) => !prev)
+									}
 									sx={{
-										backgroundColor:
-											'rgba(56, 113, 113, 0.7)',
-										padding: '0.25rem 0.5rem',
-										borderRadius: '8px',
-										fontSize: '0.875rem',
-										display: 'inline-block',
-										color: theme.palette.text.primary,
+										textTransform: 'none',
 									}}
 								>
-									{genre}
-								</Box>
-							))}
+									{showFullDescription
+										? 'Show less'
+										: 'See all description'}
+								</Button>
+							)}
 						</Box>
-					)}
-				</Box>
-
-				<Box sx={{ position: 'relative', width: '100%' }}>
-					{loading ? (
-						<>
-							{[...Array(4)].map((_, index) => (
-								<Skeleton
-									key={index}
-									variant="text"
-									width="55rem"
-									height={20}
-									sx={{ marginBottom: '0.5rem' }}
-								/>
-							))}
-						</>
-					) : (
-						<Typography
-							variant="body1"
-							sx={{
-								marginBottom: '1rem',
-								maxHeight: showFullDescription
-									? 'none'
-									: '6rem',
-								overflow: 'hidden',
-								display: 'block',
-								textOverflow: 'ellipsis',
-								whiteSpace: 'normal',
-							}}
-						>
-							{description}
-						</Typography>
-					)}
-					<Box
-						sx={{
-							display: 'flex',
-							justifyContent: 'flex-end',
-						}}
-					>
-						{!loading && (
-							<Button
-								variant="text"
-								onClick={() =>
-									setShowFullDescription((prev) => !prev)
-								}
-								sx={{
-									textTransform: 'none',
-								}}
-							>
-								{showFullDescription
-									? 'Show less'
-									: 'See all description'}
-							</Button>
-						)}
 					</Box>
-				</Box>
-
-				<AddButton loading={loading}>Add to list</AddButton>
-			</Box>
+				</Grid2>
+			</Grid2>
 
 			{!loading && (
 				<Box

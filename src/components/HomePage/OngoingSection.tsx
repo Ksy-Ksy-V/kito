@@ -120,7 +120,7 @@ const OngoingSection: React.FC = () => {
 									lg: '1rem',
 									md: '1rem',
 									sm: '0.5rem',
-									xs: '0rem',
+									xs: '0.25rem',
 								},
 							}}
 						>
