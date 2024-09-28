@@ -1,15 +1,14 @@
-import { AppBar, Toolbar, IconButton, useTheme, Grid2 } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Grid2 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import NavBar from './NavBar';
-import AccountMenu from './AccountMenu';
+// import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
 import AnimeSearchField from '../Search/AnimeSearchField';
+import AuthButtons from '../Authentication/AuthenticationButtons';
 
 const Header = () => {
-	const theme = useTheme();
 	const location = useLocation();
 
 	const isSearchPage = location.pathname === '/search';
@@ -47,25 +46,11 @@ const Header = () => {
 					)}
 
 					<Grid2
-						size={{ xs: 1 }}
+						size={{ xs: 2 }}
 						offset={isSearchPage ? { xs: 6 } : { xs: 0 }}
 					>
-						<IconButton
-							component={Link}
-							to="/search"
-							sx={{
-								color: theme.palette.primary.main,
-								'&:hover': {
-									color: theme.palette.secondary.main,
-								},
-							}}
-						>
-							<SearchIcon sx={{ fontSize: '2rem' }} />
-						</IconButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 1 }}>
-						<AccountMenu />
+						{/* <AccountMenu /> */}
+						<AuthButtons />
 					</Grid2>
 				</Grid2>
 			</Toolbar>

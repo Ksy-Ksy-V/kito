@@ -7,6 +7,8 @@ import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
 import { routes, routesWide } from './data/routesContent';
+import SignUp from './pages/authentication/SignUp';
+import SignIn from './pages/authentication/SignIn';
 
 function App() {
 	return (
@@ -37,6 +39,8 @@ function App() {
 						/>
 					))}
 					<Route path="*" element={<NotFound />} />
+					<Route path="/signin" element={<SignIn />} />
+					<Route path="/signup" element={<SignUp />} />
 				</Routes>
 			</Router>
 		</ThemeProvider>
