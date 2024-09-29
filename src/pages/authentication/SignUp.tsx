@@ -1,5 +1,4 @@
 import {
-	Box,
 	Checkbox,
 	FormControlLabel,
 	FormHelperText,
@@ -11,7 +10,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StyledButton from '../../components/Buttons/StyledButton';
 import theme from '../../styles/theme';
-import BackgroundImg from '../../images/background.jpg';
+import BackgroundImg from '../../images/backgroundKito.png';
 
 const SignUp = () => {
 	const navigate = useNavigate();
@@ -80,8 +79,28 @@ const SignUp = () => {
 
 		if (isValid) {
 			console.log('Form submitted');
-
 			navigate('/welcome');
+		}
+	};
+
+	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setEmail(e.target.value);
+		if (validateEmail(e.target.value)) {
+			setErrors((prevErrors) => ({ ...prevErrors, email: '' }));
+		}
+	};
+
+	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setAgreeToTerms(e.target.checked);
+		if (e.target.checked) {
+			setErrors((prevErrors) => ({ ...prevErrors, terms: '' }));
+		}
+	};
+
+	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setName(e.target.value);
+		if (e.target.checked) {
+			setErrors((prevErrors) => ({ ...prevErrors, name: '' }));
 		}
 	};
 
@@ -93,6 +112,9 @@ const SignUp = () => {
 			sx={{
 				backgroundImage: `url(${BackgroundImg})`,
 				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+				minHeight: '100vh',
+				width: '100vw',
 				'&::before': {
 					content: '""',
 					position: 'absolute',
@@ -106,13 +128,17 @@ const SignUp = () => {
 			}}
 		>
 			<Grid2
-				size={{ xl: 4, lg: 4, md: 6, sm: 6, xs: 12 }}
-				offset={{ xl: 8, lg: 8, md: 6, sm: 6, xs: 0 }}
+				size={{ xl: 4, lg: 5, md: 6, sm: 8, xs: 12 }}
+				offset={{ xl: 8, lg: 7, md: 6, sm: 4, xs: 0 }}
 				sx={{
 					margin: 'auto',
 					padding: '2rem',
 					backgroundColor: 'rgba(29, 51, 53, 0.7)',
 					zIndex: 1,
+					minHeight: '100vh',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
 				}}
 			>
 				<Grid2>
@@ -128,25 +154,27 @@ const SignUp = () => {
 							fullWidth
 							label="Name"
 							value={name}
-							onChange={(e) => setName(e.target.value)}
-							error={!!errors.name}
+							onChange={handleNameChange}
 							helperText={errors.name}
 							sx={{
 								marginBottom: '1rem',
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
 										borderWidth: '0.15rem',
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&:hover fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
 								'& .MuiInputLabel-root': {
-									color: 'primary.main',
+									color: 'text.primary',
 								},
 							}}
 						/>
@@ -156,25 +184,27 @@ const SignUp = () => {
 							label="Email"
 							type="email"
 							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							error={!!errors.email}
+							onChange={handleEmailChange}
 							helperText={errors.email}
 							sx={{
 								marginBottom: '1rem',
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
 										borderWidth: '0.15rem',
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&:hover fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
 								'& .MuiInputLabel-root': {
-									color: 'primary.main',
+									color: 'text.primary',
 								},
 							}}
 						/>
@@ -184,25 +214,34 @@ const SignUp = () => {
 							label="Password"
 							type="password"
 							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							error={!!errors.password}
+							onChange={(e) => {
+								setPassword(e.target.value);
+								if (errors.password)
+									setErrors((prev) => ({
+										...prev,
+										password: '',
+									}));
+							}}
 							helperText={errors.password}
 							sx={{
 								marginBottom: '1rem',
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
 										borderWidth: '0.15rem',
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&:hover fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
 								'& .MuiInputLabel-root': {
-									color: 'primary.main',
+									color: 'text.primary',
 								},
 							}}
 						/>
@@ -213,48 +252,35 @@ const SignUp = () => {
 							type="password"
 							value={confirmPassword}
 							onChange={(e) => setConfirmPassword(e.target.value)}
-							error={!!errors.confirmPassword}
 							helperText={errors.confirmPassword}
 							sx={{
 								marginBottom: '1rem',
 								'& .MuiOutlinedInput-root': {
 									'& fieldset': {
 										borderWidth: '0.15rem',
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&:hover fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 									'&.Mui-focused fieldset': {
-										borderColor: 'primary.main',
+										borderColor: 'secondary.main',
 									},
 								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
 								'& .MuiInputLabel-root': {
-									color: 'primary.main',
+									color: 'text.primary',
 								},
 							}}
 						/>
-
-						<Typography
-							variant="body2"
-							sx={{
-								textAlign: 'right',
-								marginBottom: '1rem',
-								cursor: 'pointer',
-								color: 'primary.main',
-							}}
-							onClick={() => navigate('/forgot-password')}
-						>
-							Forgot password?
-						</Typography>
 
 						<FormControlLabel
 							control={
 								<Checkbox
 									checked={agreeToTerms}
-									onChange={(e) =>
-										setAgreeToTerms(e.target.checked)
-									}
+									onChange={handleTermsChange}
 									sx={{ color: theme.palette.primary.main }}
 								/>
 							}
@@ -267,13 +293,8 @@ const SignUp = () => {
 							</FormHelperText>
 						)}
 
-						<StyledButton
-							type="submit"
-							sx={{
-								'&:hover': {},
-							}}
-						>
-							Register
+						<StyledButton type="submit" sx={{ '&:hover': {} }}>
+							Sign Up
 						</StyledButton>
 					</form>
 				</Grid2>
