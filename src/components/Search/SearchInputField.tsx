@@ -6,7 +6,6 @@ import {
 	TextField,
 	createFilterOptions,
 	ListItem,
-	InputAdornment,
 } from '@mui/material';
 import {
 	Anime,
@@ -15,8 +14,6 @@ import {
 	JikanResponse,
 } from '@tutkli/jikan-ts';
 import { useNavigate, useLocation } from 'react-router-dom';
-import theme from '../../styles/theme';
-import SearchIcon from '@mui/icons-material/Search';
 
 interface SearchInputFieldProps {
 	resetValue?: boolean;
@@ -225,25 +222,10 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({
 								},
 							},
 						}}
-						slotProps={{
-							input: {
-								endAdornment: (
-									<InputAdornment position="end">
-										<SearchIcon
-											sx={{
-												color: theme.palette.primary
-													.main,
-											}}
-										/>
-									</InputAdornment>
-								),
-							},
-						}}
 					/>
 				)}
 			/>
 		</FormControl>
 	);
 };
-
 export default SearchInputField;
