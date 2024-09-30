@@ -20,6 +20,7 @@ const Search: React.FC = () => {
 	const [loading, setLoading] = useState(false);
 
 	const [resetInputField, setResetInputField] = useState(false);
+	const [searchFromTyping, setSearchFromTyping] = useState(false);
 
 	const [inputSearch, setInputSearch] = useState('');
 	const [searchFilters, setSearchFilters] = useState<AnimeSearchFilters>({
@@ -62,7 +63,7 @@ const Search: React.FC = () => {
 			rating: rating as AnimeRating,
 		});
 
-		if (isInitialSearch) {
+		if (isInitialSearch || searchFromTyping) {
 			const animeClient = new AnimeClient();
 			animeClient
 				.getAnimeSearch({
@@ -80,8 +81,9 @@ const Search: React.FC = () => {
 				.catch((err) => console.error('Failed to fetch anime:', err));
 
 			setIsInitialSearch(false);
+			setSearchFromTyping(false);
 		}
-	}, [isInitialSearch]);
+	}, [isInitialSearch, searchFromTyping]);
 
 	const buildQueryParams = (
 		inputSearch: string,
@@ -157,6 +159,7 @@ const Search: React.FC = () => {
 							q: value,
 						}));
 						setInputSearch(value);
+						setSearchFromTyping(true);
 					}}
 				/>
 			</Grid2>
@@ -167,7 +170,7 @@ const Search: React.FC = () => {
 						onClick={handleApplyFilters}
 						sx={{ marginBottom: '1rem' }}
 					>
-						Search
+						Apply Filters
 					</StyledButton>
 					<SearchFilters
 						defaultFilters={selectedFilters}
@@ -188,6 +191,8 @@ const Search: React.FC = () => {
 								queryString
 							);
 							setSelectedFilters(filters);
+
+							// handleApplyFilters();
 						}}
 					/>
 				</Grid2>

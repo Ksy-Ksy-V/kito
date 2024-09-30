@@ -79,7 +79,7 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 	}, [isInitialGenres]);
 	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = event.target;
-		console.log();
+
 		setSelectedGenres((prevSelected) => {
 			const updatedGenres = checked
 				? [...prevSelected, value]
