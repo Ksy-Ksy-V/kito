@@ -1,15 +1,13 @@
-import { AppBar, Toolbar, IconButton, useTheme, Grid2 } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Grid2 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
-import AnimeSearchField from '../Search/AnimeSearchField';
+import SearchInputField from '../Search/SearchInputField';
 
 const Header = () => {
-	const theme = useTheme();
 	const location = useLocation();
 
 	const isSearchOrHomePage =
@@ -40,29 +38,11 @@ const Header = () => {
 						<NavBar />
 					</Grid2>
 					{!isSearchOrHomePage && (
-						<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
-							<AnimeSearchField />
+						<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
+							<SearchInputField />
 						</Grid2>
 					)}
-					{!isSearchOrHomePage && (
-						<Grid2
-							size={{ xs: 1 }}
-							offset={isSearchOrHomePage ? { xs: 7 } : { xs: 0 }}
-						>
-							<IconButton
-								component={Link}
-								to="/search"
-								sx={{
-									color: theme.palette.primary.main,
-									'&:hover': {
-										color: theme.palette.secondary.main,
-									},
-								}}
-							>
-								<SearchIcon sx={{ fontSize: '2rem' }} />
-							</IconButton>
-						</Grid2>
-					)}
+
 					<Grid2
 						size={{ xs: 1 }}
 						offset={!isSearchOrHomePage ? { xs: 0 } : { xs: 7 }}

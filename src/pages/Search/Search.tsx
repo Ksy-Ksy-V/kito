@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Grid2, Typography } from '@mui/material';
+import { Grid2, Skeleton, Typography } from '@mui/material';
 import {
 	Anime,
 	AnimeClient,
 	AnimeRating,
-	AnimeSearchOrder,
 	AnimeSearchStatus,
 	AnimeType,
 	JikanResponse,
 } from '@tutkli/jikan-ts';
 
-import AnimeSearchField from '../../components/Search/AnimeSearchField';
-import SearchFilters from '../../components/Search/SearchFilter';
+import SearchInputField from '../../components/Search/SearchInputField';
+import SearchFilters from '../../components/Search/SearchFilters';
 import SearchCard from '../../components/SearchCard';
 import { AnimeFilters, AnimeSearchFilters } from '../../models/animeFilters';
 import StyledButton from '../../components/StyledButton';
-import StyledSarchFilters from '../../components/Search/StyledSearchFilters';
 
 const Search: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -37,23 +35,6 @@ const Search: React.FC = () => {
 		selectedStatus: '',
 		selectedRating: '',
 	});
-
-	const OrderOptions: AnimeSearchOrder[] = [
-		'mal_id',
-		'title',
-		'start_date',
-		'end_date',
-		'episodes',
-		'score',
-		'scored_by',
-		'rank',
-		'popularity',
-		'members',
-		'favorites',
-	];
-	const [selectedOrder, setSelectedOrder] = useState<AnimeSearchOrder | ''>(
-		''
-	);
 
 	const [isInitialSearch, setIsInitialSearch] = useState(true);
 
@@ -90,7 +71,6 @@ const Search: React.FC = () => {
 					type: format as AnimeType,
 					status: status as AnimeSearchStatus,
 					rating: rating as AnimeRating,
-					order_by: selectedOrder,
 					limit: 25,
 				})
 				.then((response: JikanResponse<Anime[]>) => {
@@ -101,7 +81,7 @@ const Search: React.FC = () => {
 
 			setIsInitialSearch(false);
 		}
-	}, [isInitialSearch, selectedOrder]);
+	}, [isInitialSearch]);
 
 	const buildQueryParams = (
 		inputSearch: string,
@@ -159,7 +139,7 @@ const Search: React.FC = () => {
 				</Typography>
 			</Grid2>
 			<Grid2 size={{ xs: 12 }}>
-				<AnimeSearchField
+				<SearchInputField
 					resetValue={resetInputField}
 					revertResetValue={() => setResetInputField(false)}
 					callbackSearch={(value) => {
@@ -179,15 +159,6 @@ const Search: React.FC = () => {
 						setInputSearch(value);
 					}}
 				/>
-				<StyledSarchFilters
-					label="Order By"
-					value={selectedOrder}
-					onChange={(event) =>
-						setSelectedOrder(event.target.value as AnimeSearchOrder)
-					}
-					options={OrderOptions}
-					clearValue={() => setSelectedOrder('mal_id')}
-				/>
 			</Grid2>
 
 			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
@@ -196,24 +167,21 @@ const Search: React.FC = () => {
 						onClick={handleApplyFilters}
 						sx={{ marginBottom: '1rem' }}
 					>
-						Apply Filters
+						Search
 					</StyledButton>
 					<SearchFilters
 						defaultFilters={selectedFilters}
 						clearInputField={() => {
 							setResetInputField(true);
-							setInputSearch('')
+							setInputSearch('');
 						}}
 						callbackSearch={(filters) => {
-							const queryString = buildQueryParams(
-								inputSearch,
-								{
-									type: filters?.selectedFormat as AnimeType,
-									status: filters?.selectedStatus as AnimeSearchStatus,
-									rating: filters?.selectedRating as AnimeRating,
-									genres: filters.selectedGenres
-								},
-							);
+							const queryString = buildQueryParams(inputSearch, {
+								type: filters?.selectedFormat as AnimeType,
+								status: filters?.selectedStatus as AnimeSearchStatus,
+								rating: filters?.selectedRating as AnimeRating,
+								genres: filters.selectedGenres,
+							});
 							window.history.replaceState(
 								null,
 								'New Page Title',
@@ -222,6 +190,9 @@ const Search: React.FC = () => {
 							setSelectedFilters(filters);
 						}}
 					/>
+				</Grid2>
+				<Grid2 container spacing={2} size={12}>
+					<StyledButton>Search</StyledButton>
 				</Grid2>
 			</Grid2>
 
@@ -233,10 +204,18 @@ const Search: React.FC = () => {
 							marginTop: '2rem',
 						}}
 					>
-						<SearchCard
-							image={anime.images.jpg.image_url}
-							title={anime.title}
-						/>
+						{loading ? (
+							<Skeleton
+								variant="rectangular"
+								width="250px"
+								height="450px"
+							/>
+						) : (
+							<SearchCard
+								image={anime.images.jpg.image_url}
+								title={anime.title}
+							/>
+						)}
 					</Grid2>
 				))}
 			</Grid2>

@@ -6,6 +6,7 @@ import {
 	TextField,
 	createFilterOptions,
 	ListItem,
+	InputAdornment,
 } from '@mui/material';
 import {
 	Anime,
@@ -14,7 +15,10 @@ import {
 	JikanResponse,
 } from '@tutkli/jikan-ts';
 import { useNavigate, useLocation } from 'react-router-dom';
-interface AnimeSearchFieldProps {
+import theme from '../../styles/theme';
+import SearchIcon from '@mui/icons-material/Search';
+
+interface SearchInputFieldProps {
 	resetValue?: boolean;
 	revertResetValue?: () => void;
 	callbackSearch?: (queryValue: string) => void;
@@ -28,10 +32,11 @@ interface AnimeOptionType {
 	images?: JikanImages;
 }
 
-const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
+const SearchInputField: React.FC<SearchInputFieldProps> = ({
 	callbackSearch,
 	resetValue,
 	revertResetValue,
+
 	label = 'Search for Anime',
 }) => {
 	const location = useLocation();
@@ -51,7 +56,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	useEffect(() => {
 		if (resetValue && revertResetValue) {
 			setValue('');
-			revertResetValue()
+			revertResetValue();
 		}
 	}, [resetValue, revertResetValue]);
 
@@ -87,13 +92,7 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 					setLoading(false);
 				}
 			}, 700),
-		[
-			animeClient,
-			setAnimeOptions,
-			setError,
-			setLoading,
-
-		]
+		[animeClient, setAnimeOptions, setError, setLoading]
 	);
 
 	const handleAnimeOptions = useCallback(
@@ -103,7 +102,12 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 		[debouncedHandleAnimeOptions]
 	);
 
-	useEffect(() => { }, [value]);
+	useEffect(() => {}, [value]);
+
+	// Add error component after merge
+	if (error) {
+		return null;
+	}
 
 	return (
 		<FormControl fullWidth>
@@ -193,10 +197,19 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 						variant="outlined"
 						size="small"
 						sx={{
+							width: {
+								xl: '23rem',
+								lg: '23rem',
+								md: '23rem',
+								sm: '18rem',
+							},
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',
-									borderColor: 'primary.main',
+									borderColor: {
+										sm: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 								'&:hover fieldset': {
 									borderColor: 'primary.main',
@@ -206,7 +219,24 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 								},
 							},
 							'& .MuiInputLabel-root': {
-								color: 'primary.main',
+								color: {
+									sm: 'primary.main',
+									xs: 'secondary.main',
+								},
+							},
+						}}
+						slotProps={{
+							input: {
+								endAdornment: (
+									<InputAdornment position="end">
+										<SearchIcon
+											sx={{
+												color: theme.palette.primary
+													.main,
+											}}
+										/>
+									</InputAdornment>
+								),
 							},
 						}}
 					/>
@@ -216,4 +246,4 @@ const AnimeSearchField: React.FC<AnimeSearchFieldProps> = ({
 	);
 };
 
-export default AnimeSearchField;
+export default SearchInputField;

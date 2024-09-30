@@ -15,9 +15,10 @@ import {
 	FormGroup,
 	IconButton,
 	Paper,
+	Skeleton,
 	Typography,
 } from '@mui/material';
-import StyledSarchFilters from './StyledSearchFilters';
+import StyledSarchFilters from './StyledSelectFilters';
 import theme from '../../styles/theme';
 import StyledButton from '../StyledButton';
 import {
@@ -56,6 +57,7 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 	);
 	const [isInitialGenres, setIsInitialGenres] = useState(true);
 	const [genresOpen, setGenresOpen] = useState(true);
+
 	useEffect(() => {
 		const fetchAnimeGenres = async () => {
 			try {
@@ -77,12 +79,11 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 	}, [isInitialGenres]);
 	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = event.target;
-
+		console.log();
 		setSelectedGenres((prevSelected) => {
 			const updatedGenres = checked
 				? [...prevSelected, value]
 				: prevSelected.filter((genre) => genre !== value);
-
 			return updatedGenres.filter(Boolean);
 		});
 	};
@@ -118,7 +119,7 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 			);
 			setSelectedGenres((prev) =>
 				defaultFilters?.selectedGenres?.split(',').toString() !==
-					prev.toString()
+				prev.toString()
 					? defaultFilters?.selectedGenres?.split(',') || []
 					: prev
 			);
@@ -130,49 +131,68 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 		setSelectedStatus('');
 		setSelectedRating('');
 		setSelectedGenres([]);
-		clearInputField()
+		clearInputField();
 		window.history.replaceState(
 			null,
 			'New Page Title',
 			window.location.pathname
 		);
 	};
+
+	// Add error component after merge
+	if (error) {
+		return null;
+	}
+
 	return (
 		<>
-			<StyledSarchFilters
-				label="Format"
-				value={selectedFormat}
-				defaultValue={defaultFilters?.selectedFormat}
-				onChange={(event) => {
-					setSelectedFormat(event.target.value as AnimeType);
-				}}
-				options={animeFormats}
-				clearValue={() => setSelectedFormat('')}
-			/>
+			{loading ? (
+				<Skeleton variant="rectangular" width="350px" height="55px" />
+			) : (
+				<StyledSarchFilters
+					label="Format"
+					value={selectedFormat}
+					defaultValue={defaultFilters?.selectedFormat}
+					onChange={(event) => {
+						setSelectedFormat(event.target.value as AnimeType);
+					}}
+					options={animeFormats}
+					clearValue={() => setSelectedFormat('')}
+				/>
+			)}
 
-			<StyledSarchFilters
-				label="Status"
-				defaultValue={defaultFilters?.selectedStatus}
-				value={selectedStatus}
-				onChange={(event) =>
-					setSelectedStatus(event.target.value as AnimeSearchStatus)
-				}
-				options={animeStatuses}
-				clearValue={() => setSelectedStatus('')}
-				capitalizeOptions
-			/>
-
-			<StyledSarchFilters
-				label="Rating"
-				defaultValue={defaultFilters?.selectedRating}
-				value={selectedRating}
-				onChange={(event) =>
-					setSelectedRating(event.target.value as AnimeRating)
-				}
-				options={animeRatings}
-				clearValue={() => setSelectedRating('')}
-				upperCaseOptions
-			/>
+			{loading ? (
+				<Skeleton variant="rectangular" width="350px" height="55px" />
+			) : (
+				<StyledSarchFilters
+					label="Status"
+					defaultValue={defaultFilters?.selectedStatus}
+					value={selectedStatus}
+					onChange={(event) =>
+						setSelectedStatus(
+							event.target.value as AnimeSearchStatus
+						)
+					}
+					options={animeStatuses}
+					clearValue={() => setSelectedStatus('')}
+					capitalizeOptions
+				/>
+			)}
+			{loading ? (
+				<Skeleton variant="rectangular" width="350px" height="55px" />
+			) : (
+				<StyledSarchFilters
+					label="Rating"
+					defaultValue={defaultFilters?.selectedRating}
+					value={selectedRating}
+					onChange={(event) =>
+						setSelectedRating(event.target.value as AnimeRating)
+					}
+					options={animeRatings}
+					clearValue={() => setSelectedRating('')}
+					upperCaseOptions
+				/>
+			)}
 
 			<Paper
 				sx={{
@@ -186,11 +206,13 @@ const SearchFilter: React.FC<AnimeSearchFiltersProps> = ({
 						display: 'flex',
 						justifyContent: 'space-between',
 						alignItems: 'center',
+						cursor: 'pointer',
 					}}
+					onClick={() => setGenresOpen((prev) => !prev)}
 				>
 					<Typography variant="h6">Genres</Typography>
 					<IconButton
-						onClick={() => setGenresOpen(!genresOpen)}
+						onClick={() => setGenresOpen(genresOpen)}
 						aria-expanded={genresOpen}
 					>
 						<ExpandMoreIcon

@@ -1,5 +1,5 @@
 import { AnimeSearchOrder } from '@tutkli/jikan-ts';
-import StyledSarchFilters from './StyledSearchFilters';
+import StyledSarchFilters from './StyledSelectFilters';
 
 const SearchSorting = () => {
 	return (
