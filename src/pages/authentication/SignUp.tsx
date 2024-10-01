@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
 	Checkbox,
 	FormControlLabel,
@@ -6,13 +8,22 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import StyledButton from '../../components/Buttons/StyledButton';
-import theme from '../../styles/theme';
 import BackgroundImg from '../../images/backgroundKito.png';
+import {
+	validateName,
+	validateEmail,
+	validatePassword,
+	validateConfirmPassword,
+	validateTerms,
+	validateForm,
+} from '../../components/Authentication/validation';
+import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
+import theme from '../../styles/theme';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const SignUp = () => {
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const [name, setName] = useState('');
@@ -21,6 +32,7 @@ const SignUp = () => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
 
+	const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState({
 		name: '',
 		email: '',
@@ -29,78 +41,60 @@ const SignUp = () => {
 		terms: '',
 	});
 
-	const validateEmail = (email: string) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		return emailRegex.test(email);
-	};
-
-	const validatePassword = (password: string) => {
-		return password.length >= 8;
-	};
-
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		let isValid = true;
-		const newErrors = {
-			name: '',
-			email: '',
-			password: '',
-			confirmPassword: '',
-			terms: '',
-		};
-
-		if (!name) {
-			newErrors.name = 'Name is required';
-			isValid = false;
-		}
-
-		if (!validateEmail(email)) {
-			newErrors.email = 'Invalid email format';
-			isValid = false;
-		}
-
-		if (!validatePassword(password)) {
-			newErrors.password = 'Password must be at least 8 characters';
-			isValid = false;
-		}
-
-		if (password !== confirmPassword) {
-			newErrors.confirmPassword = 'Passwords do not match';
-			isValid = false;
-		}
-
-		if (!agreeToTerms) {
-			newErrors.terms = 'You must agree to the terms and conditions';
-			isValid = false;
-		}
+		const newErrors = validateForm(
+			name,
+			email,
+			password,
+			confirmPassword,
+			agreeToTerms
+		);
 
 		setErrors(newErrors);
 
+		const isValid = Object.values(newErrors).every((error) => error === '');
+
 		if (isValid) {
-			console.log('Form submitted');
 			navigate('/welcome');
 		}
 	};
 
 	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setEmail(e.target.value);
-		if (validateEmail(e.target.value)) {
+		if (validateEmail(e.target.value) === '') {
 			setErrors((prevErrors) => ({ ...prevErrors, email: '' }));
-		}
-	};
-
-	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setAgreeToTerms(e.target.checked);
-		if (e.target.checked) {
-			setErrors((prevErrors) => ({ ...prevErrors, terms: '' }));
 		}
 	};
 
 	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setName(e.target.value);
-		if (e.target.checked) {
+		if (validateName(e.target.value) === '') {
 			setErrors((prevErrors) => ({ ...prevErrors, name: '' }));
+		}
+	};
+
+	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(e.target.value);
+		if (validatePassword(e.target.value) === '') {
+			setErrors((prevErrors) => ({ ...prevErrors, password: '' }));
+		}
+	};
+
+	const handleConfirmPasswordChange = (
+		e: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setConfirmPassword(e.target.value);
+		if (validateConfirmPassword(password, e.target.value) === '') {
+			setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: '' }));
+		}
+	};
+
+	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setAgreeToTerms(e.target.checked);
+		if (validateTerms(e.target.checked) === '') {
+			setErrors((prevErrors) => ({ ...prevErrors, terms: '' }));
 		}
 	};
 
@@ -156,27 +150,7 @@ const SignUp = () => {
 							value={name}
 							onChange={handleNameChange}
 							helperText={errors.name}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
-									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
+							sx={textFieldStyles}
 						/>
 
 						<TextField
@@ -186,27 +160,7 @@ const SignUp = () => {
 							value={email}
 							onChange={handleEmailChange}
 							helperText={errors.email}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
-									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
+							sx={textFieldStyles}
 						/>
 
 						<TextField
@@ -214,36 +168,9 @@ const SignUp = () => {
 							label="Password"
 							type="password"
 							value={password}
-							onChange={(e) => {
-								setPassword(e.target.value);
-								if (errors.password)
-									setErrors((prev) => ({
-										...prev,
-										password: '',
-									}));
-							}}
+							onChange={handlePasswordChange}
 							helperText={errors.password}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
-									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
+							sx={textFieldStyles}
 						/>
 
 						<TextField
@@ -251,29 +178,9 @@ const SignUp = () => {
 							label="Confirm Password"
 							type="password"
 							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
+							onChange={handleConfirmPasswordChange}
 							helperText={errors.confirmPassword}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
-									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
+							sx={textFieldStyles}
 						/>
 
 						<FormControlLabel
