@@ -1,26 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
 	FormControl,
 	TextField,
-	createFilterOptions,
 	ListItem,
 } from '@mui/material';
-import {
-	Anime,
-	AnimeClient,
-	JikanImages,
-	JikanResponse,
-} from '@tutkli/jikan-ts';
-import { useNavigate, useLocation } from 'react-router-dom';
-
-interface SearchInputFieldProps {
-	resetValue?: boolean;
-	revertResetValue?: () => void;
-	callbackSearch?: (queryValue: string) => void;
-	label?: string;
-}
+import { AnimeClient, JikanImages } from '@tutkli/jikan-ts';
+import { useNavigate } from 'react-router-dom';
+import { useSearchContext } from '../../context/SearchContext';
 
 interface AnimeOptionType {
 	inputValue?: string;
@@ -29,198 +17,89 @@ interface AnimeOptionType {
 	images?: JikanImages;
 }
 
-const SearchInputField: React.FC<SearchInputFieldProps> = ({
-	callbackSearch,
-	resetValue,
-	revertResetValue,
-
-	label = 'Search for Anime',
-}) => {
-	const location = useLocation();
-	const navigate = useNavigate();
-
-	const filter = createFilterOptions<AnimeOptionType>();
-	const animeClient = useMemo(() => new AnimeClient(), []);
-
+const SearchInputField: React.FC = () => {
+	const { state, dispatch } = useSearchContext();
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
-	const [value, setValue] = useState('');
-
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-
-	const isSearchPage = location.pathname === '/search';
-
-	useEffect(() => {
-		if (resetValue && revertResetValue) {
-			setValue('');
-			revertResetValue();
-		}
-	}, [resetValue, revertResetValue]);
-
-	useEffect(() => {
-		if (!isSearchPage) {
-			setValue('');
-		}
-	}, [location, isSearchPage]);
+	const navigate = useNavigate();
+	const animeClient = new AnimeClient();
 
 	const debouncedHandleAnimeOptions = useMemo(
 		() =>
 			debounce(async (query: string) => {
-				setLoading(true);
-				setError(null);
 				try {
-					const response: JikanResponse<Anime[]> =
-						await animeClient.getAnimeSearch({
-							q: query,
-							limit: 10,
-						});
-
+					const response = await animeClient.getAnimeSearch({
+						q: query,
+						limit: 10,
+					});
 					const options = response.data.map((anime) => ({
 						title: anime.title,
 						mal_id: anime.mal_id,
 						images: anime.images,
 					}));
-
-					setAnimeOptions(options.slice(0, 10));
-				} catch (err) {
-					console.error('Failed to fetch options:', err);
-					setError('Something went wrong during search.');
-				} finally {
-					setLoading(false);
+					setAnimeOptions(options);
+				} catch (error) {
+					console.error('Failed to fetch options:', error);
 				}
 			}, 700),
-		[animeClient, setAnimeOptions, setError, setLoading]
+		[animeClient]
 	);
 
-	const handleAnimeOptions = useCallback(
-		(query: string) => {
-			debouncedHandleAnimeOptions(query);
-		},
-		[debouncedHandleAnimeOptions]
-	);
+	const handleInputChange = (_event: any, newInputValue: string) => {
+		dispatch({ type: 'SET_QUERY', payload: newInputValue });
 
-	useEffect(() => {}, [value]);
+		if (newInputValue.length >= 3) {
+			debouncedHandleAnimeOptions(newInputValue);
+		}
+	};
 
-	// Add error component after merge
-	if (error) {
-		return null;
-	}
+	const handleSearch = (query: string) => {
+		navigate(`/search?q=${query}`);
+	};
 
 	return (
 		<FormControl fullWidth>
 			<Autocomplete
 				freeSolo
-				inputValue={value}
+				inputValue={state.query}
+				onInputChange={handleInputChange}
 				options={animeOptions}
 				onChange={(_event, newValue) => {
-					if (typeof newValue === 'object' && newValue?.inputValue) {
-						callbackSearch?.(newValue.inputValue);
-						setValue(newValue?.inputValue);
-						if (!isSearchPage) {
-							navigate(`/search?q=${newValue.inputValue}`);
-						}
-					} else if (
-						typeof newValue === 'object' &&
-						newValue?.title
-					) {
-						navigate(`/anime/${newValue.mal_id}`);
+					if (typeof newValue === 'object' && newValue?.title) {
+						handleSearch(newValue.title);
 					}
 				}}
-				filterOptions={(options, params) => {
-					const filtered = filter(options, params);
-
-					const { inputValue } = params;
-					const isExisting = options.some(
-						(option) => inputValue === option.title
-					);
-					if (inputValue !== '' && !isExisting) {
-						filtered.unshift({
-							inputValue,
-							title: `Search "${inputValue}"`,
-						});
-					}
-					return filtered;
-				}}
-				renderOption={(props, option) => {
-					const { key, ...optionProps } = props;
-					return (
-						<ListItem
-							key={key}
-							{...optionProps}
-							sx={{
-								backgroundColor: option?.inputValue
-									? 'primary.main'
-									: undefined,
-							}}
-						>
-							{!option?.inputValue && (
-								<img
-									src={`${option.images?.jpg.image_url}?w=164&h=164&fit=crop&auto=format`}
-									alt={option.title}
-									style={{
-										width: '50px',
-										height: '50px',
-										objectFit: 'cover',
-										borderRadius: '0.5rem',
-										marginRight: '0.625rem',
-									}}
-								/>
-							)}
-							{option.title}
-						</ListItem>
-					);
-				}}
-				getOptionLabel={(option) => {
-					if (typeof option === 'string') {
-						return option;
-					}
-					return option?.inputValue
-						? option?.inputValue
-						: option.title;
-				}}
-				loading={loading}
-				onInputChange={(_, newInputValue, reason) => {
-					if (newInputValue.length >= 3 && reason !== 'reset') {
-						setValue(newInputValue);
-						handleAnimeOptions(newInputValue);
-					} else {
-						setValue(newInputValue);
-					}
-				}}
+				renderOption={(props, option) => (
+					<ListItem {...props}>
+						{option.images && (
+							<img
+								src={option.images.jpg.image_url}
+								alt={option.title}
+								style={{
+									width: '50px',
+									height: '50px',
+									objectFit: 'cover',
+									borderRadius: '0.5rem',
+									marginRight: '0.625rem',
+								}}
+							/>
+						)}
+						{option.title}
+					</ListItem>
+				)}
+				getOptionLabel={(option) =>
+					typeof option === 'string' ? option : option.title
+				}
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label={label}
+						label="Search for Anime"
 						variant="outlined"
 						size="small"
-						sx={{
-							width: {
-								xl: '23rem',
-								lg: '23rem',
-								md: '23rem',
-								sm: '18rem',
-							},
-							'& .MuiOutlinedInput-root': {
-								'& fieldset': {
-									borderWidth: '0.15rem',
-									borderColor: {
-										sm: 'primary.main',
-										xs: 'secondary.main',
-									},
-								},
-								'&:hover fieldset': {
-									borderColor: 'primary.main',
-								},
-								'&.Mui-focused fieldset': {
-									borderColor: 'primary.main',
-								},
-							},
-							'& .MuiInputLabel-root': {
-								color: {
-									sm: 'primary.main',
-									xs: 'secondary.main',
-								},
-							},
+						sx={{ width: '100%' }}
+						onKeyPress={(e) => {
+							if (e.key === 'Enter' && state.query.length >= 3) {
+								handleSearch(state.query);
+							}
 						}}
 					/>
 				)}
@@ -228,4 +107,5 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({
 		</FormControl>
 	);
 };
+
 export default SearchInputField;
