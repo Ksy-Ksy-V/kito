@@ -7,6 +7,8 @@ import RandomizerSearch from '../pages/Randomizer/RandomizerSearch';
 import News from '../pages/News/News';
 import Settings from '../pages/Settings/Settings';
 import Profile from '../pages/Profile/Profile';
+import Search2 from '../pages/Search2/Search2';
+import { SearchProvider } from '../context/SearchContext';
 
 interface RouteContent {
 	path: string;
@@ -26,4 +28,12 @@ export const routes: RouteContent[] = [
 
 export const routesWide: RouteContent[] = [
 	{ path: '/search', element: <Search /> },
+	{
+		path: '/search2',
+		element: (
+			<SearchProvider>
+				<Search2 />{' '}
+			</SearchProvider>
+		),
+	},
 ];

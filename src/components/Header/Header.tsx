@@ -5,7 +5,7 @@ import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
-import SearchInputField from '../Search/SearchInputField';
+// import SearchInputField from '../Search/SearchInputField';
 
 const Header = () => {
 	const location = useLocation();
@@ -39,7 +39,7 @@ const Header = () => {
 					</Grid2>
 					{!isSearchOrHomePage && (
 						<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
-							<SearchInputField />
+							{/* <SearchInputField /> */}
 						</Grid2>
 					)}
 

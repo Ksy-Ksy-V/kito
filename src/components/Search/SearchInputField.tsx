@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
@@ -7,20 +7,9 @@ import {
 	createFilterOptions,
 	ListItem,
 } from '@mui/material';
-import {
-	Anime,
-	AnimeClient,
-	JikanImages,
-	JikanResponse,
-} from '@tutkli/jikan-ts';
-import { useNavigate, useLocation } from 'react-router-dom';
-
-interface SearchInputFieldProps {
-	resetValue?: boolean;
-	revertResetValue?: () => void;
-	callbackSearch?: (queryValue: string) => void;
-	label?: string;
-}
+import { AnimeClient, JikanImages } from '@tutkli/jikan-ts';
+import { useNavigate } from 'react-router-dom';
+import { useSearchContext } from '../../context/SearchContext';
 
 interface AnimeOptionType {
 	inputValue?: string;
@@ -29,82 +18,50 @@ interface AnimeOptionType {
 	images?: JikanImages;
 }
 
-const SearchInputField: React.FC<SearchInputFieldProps> = ({
-	callbackSearch,
-	resetValue,
-	revertResetValue,
-
-	label = 'Search for Anime',
-}) => {
-	const location = useLocation();
-	const navigate = useNavigate();
-
-	const filter = createFilterOptions<AnimeOptionType>();
-	const animeClient = useMemo(() => new AnimeClient(), []);
-
+const SearchInputField: React.FC = () => {
+	const { state, dispatch } = useSearchContext();
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
+	const navigate = useNavigate();
+	const animeClient = new AnimeClient();
 
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
-
-	const isSearchPage = location.pathname === '/search';
-
-	useEffect(() => {
-		if (resetValue && revertResetValue) {
-			setValue('');
-			revertResetValue();
-		}
-	}, [resetValue, revertResetValue]);
-
-	useEffect(() => {
-		if (!isSearchPage) {
-			setValue('');
-		}
-	}, [location, isSearchPage]);
-
-	const debouncedHandleAnimeOptions = useMemo(
-		() =>
-			debounce(async (query: string) => {
-				setLoading(true);
-				setError(null);
-				try {
-					const response: JikanResponse<Anime[]> =
-						await animeClient.getAnimeSearch({
-							q: query,
-							limit: 10,
-						});
-
-					const options = response.data.map((anime) => ({
-						title: anime.title,
-						mal_id: anime.mal_id,
-						images: anime.images,
-					}));
-
-					setAnimeOptions(options.slice(0, 10));
-				} catch (err) {
-					console.error('Failed to fetch options:', err);
-					setError('Something went wrong during search.');
-				} finally {
-					setLoading(false);
-				}
-			}, 700),
-		[animeClient, setAnimeOptions, setError, setLoading]
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const debouncedHandleAnimeOptions = useCallback(
+		debounce(async (query: string) => {
+			dispatch({ type: 'SET_LOADING', payload: true });
+			try {
+				const response = await animeClient.getAnimeSearch({
+					q: query,
+					limit: 10,
+				});
+				const options = response.data.map((anime) => ({
+					title: anime.title,
+					mal_id: anime.mal_id,
+					images: anime.images,
+				}));
+				setAnimeOptions(options.slice(0, 10));
+			} catch (error) {
+				console.error('Failed to fetch options:', error);
+			} finally {
+				dispatch({ type: 'SET_LOADING', payload: false });
+			}
+		}, 700),
+		[animeClient]
 	);
 
-	const handleAnimeOptions = useCallback(
-		(query: string) => {
-			debouncedHandleAnimeOptions(query);
-		},
-		[debouncedHandleAnimeOptions]
-	);
+	const handleInputChange = (
+		_event: React.SyntheticEvent,
+		newInputValue: string
+	) => {
+		setValue(newInputValue);
+		dispatch({ type: 'SET_QUERY', payload: newInputValue });
 
-	useEffect(() => {}, [value]);
+		if (newInputValue.length >= 3) {
+			debouncedHandleAnimeOptions(newInputValue);
+		}
+	};
 
-	// Add error component after merge
-	if (error) {
-		return null;
-	}
+	const filter = createFilterOptions<AnimeOptionType>();
 
 	return (
 		<FormControl fullWidth>
@@ -112,16 +69,13 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({
 				freeSolo
 				inputValue={value}
 				options={animeOptions}
+				onInputChange={handleInputChange}
 				onChange={(_event, newValue) => {
-					if (typeof newValue === 'object' && newValue?.inputValue) {
-						callbackSearch?.(newValue.inputValue);
-						setValue(newValue?.inputValue);
-						if (!isSearchPage) {
-							navigate(`/search?q=${newValue.inputValue}`);
-						}
+					if (typeof newValue === 'object' && newValue?.title) {
+						navigate(`/anime/${newValue.mal_id}`);
 					} else if (
 						typeof newValue === 'object' &&
-						newValue?.title
+						newValue?.inputValue
 					) {
 						navigate(`/anime/${newValue.mal_id}`);
 					}
@@ -178,19 +132,11 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({
 						? option?.inputValue
 						: option.title;
 				}}
-				loading={loading}
-				onInputChange={(_, newInputValue, reason) => {
-					if (newInputValue.length >= 3 && reason !== 'reset') {
-						setValue(newInputValue);
-						handleAnimeOptions(newInputValue);
-					} else {
-						setValue(newInputValue);
-					}
-				}}
+				loading={state.loading}
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label={label}
+						label="Search for Anime"
 						variant="outlined"
 						size="small"
 						sx={{
