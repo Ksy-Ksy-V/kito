@@ -27,6 +27,7 @@ class AnimeService {
 					type: filters?.format as AnimeType,
 					status: filters?.status as AnimeSearchStatus,
 					rating: filters?.rating as AnimeRating,
+					sfw: true,
 				});
 			return response.data;
 		} catch (error) {

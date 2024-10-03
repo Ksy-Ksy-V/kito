@@ -19,7 +19,7 @@ export interface SearchState {
 	error: boolean;
 	query: string;
 	filters: {
-		genres: '';
+		genres: string | undefined;
 		format: AnimeType | undefined;
 		status: AnimeSearchStatus | undefined;
 		rating: AnimeRating | undefined;
@@ -72,7 +72,8 @@ export function searchReducer(state: SearchState, action: Action): SearchState {
 		case SET_FILTERS:
 			return {
 				...state,
-				filters: { ...state.filters, ...action.payload },
+				filters: { ...state.filters },
+				...action.payload,
 			};
 		case RESET:
 			return initialState;

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
@@ -7,9 +7,11 @@ import {
 	createFilterOptions,
 	ListItem,
 } from '@mui/material';
-import { AnimeClient, JikanImages } from '@tutkli/jikan-ts';
+import { JikanImages } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
 import { useSearchContext } from '../../context/SearchContext';
+import { animeService } from '../../services/animeService';
+import { buildQueryParams } from '../../utils/urlParams';
 
 interface AnimeOptionType {
 	inputValue?: string;
@@ -23,30 +25,28 @@ const SearchInputField: React.FC = () => {
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();
-	const animeClient = new AnimeClient();
+
+	const isSearchPage = location.pathname === '/search2';
+
+	useEffect(() => {
+		const urlParams = new URLSearchParams(location.search);
+		const queryFromUrl = urlParams.get('q') || '';
+		setValue(queryFromUrl);
+		dispatch({ type: 'SET_QUERY', payload: queryFromUrl });
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [location.search]);
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedHandleAnimeOptions = useCallback(
 		debounce(async (query: string) => {
-			dispatch({ type: 'SET_LOADING', payload: true });
 			try {
-				const response = await animeClient.getAnimeSearch({
-					q: query,
-					limit: 10,
-				});
-				const options = response.data.map((anime) => ({
-					title: anime.title,
-					mal_id: anime.mal_id,
-					images: anime.images,
-				}));
-				setAnimeOptions(options.slice(0, 10));
+				const options = await animeService.searchAnime(query, 10);
+				setAnimeOptions(options);
 			} catch (error) {
-				console.error('Failed to fetch options:', error);
-			} finally {
-				dispatch({ type: 'SET_LOADING', payload: false });
+				console.error('Failed to fetch anime options:', error);
 			}
 		}, 700),
-		[animeClient]
+		[]
 	);
 
 	const handleInputChange = (
@@ -56,7 +56,10 @@ const SearchInputField: React.FC = () => {
 		setValue(newInputValue);
 		dispatch({ type: 'SET_QUERY', payload: newInputValue });
 
-		if (newInputValue.length >= 3) {
+		if (newInputValue === '') {
+			window.history.replaceState(null, '', '/search2');
+			dispatch({ type: 'SET_ANIME_LIST', payload: [] });
+		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
 		}
 	};
@@ -70,12 +73,33 @@ const SearchInputField: React.FC = () => {
 				inputValue={value}
 				options={animeOptions}
 				onInputChange={handleInputChange}
-				onChange={(_event, newValue) => {
-					if (typeof newValue === 'object' && newValue?.title) {
-						navigate(`/anime/${newValue.mal_id}`);
+				onChange={async (_event, newValue) => {
+					if (typeof newValue === 'object' && newValue?.inputValue) {
+						if (isSearchPage) {
+							// navigate(`/search2?q=${newValue.inputValue}`);
+
+							const queryString = buildQueryParams(
+								newValue.inputValue
+							);
+
+							window.history.replaceState(
+								null,
+								'',
+								`/search2${queryString}`
+							);
+
+							const response = await animeService.searchAnime(
+								newValue.inputValue,
+								25
+							);
+							dispatch({
+								type: 'SET_ANIME_LIST',
+								payload: response,
+							});
+						}
 					} else if (
 						typeof newValue === 'object' &&
-						newValue?.inputValue
+						newValue?.title
 					) {
 						navigate(`/anime/${newValue.mal_id}`);
 					}
