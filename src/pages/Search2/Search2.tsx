@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import SearchCard from '../../components/SearchCard';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
+import SearchFilter from '../../components/Search/SearchFilters';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
@@ -81,6 +82,9 @@ const Search: React.FC = () => {
 			</Grid2>
 
 			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
+				<Grid2 size={12}>
+					<SearchFilter />
+				</Grid2>
 				<Grid2 size={12}>
 					<StyledButton
 						onClick={handleApplyFilters}
