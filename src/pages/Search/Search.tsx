@@ -10,9 +10,9 @@ import {
 } from '@tutkli/jikan-ts';
 
 import SearchInputField from '../../components/Search/SearchInputField';
-import SearchFilters from '../../components/Search/SearchFilters';
+import GenresFilters from '../../components/Search/GenresFilters';
 import SearchCard from '../../components/SearchCard';
-import { AnimeFilters, AnimeSearchFilters } from '../../models/animeFilters';
+import { AnimeFilters, AnimeGenresFilters } from '../../models/animeFilters';
 import StyledButton from '../../components/StyledButton';
 
 const Search: React.FC = () => {
@@ -23,7 +23,7 @@ const Search: React.FC = () => {
 	const [searchFromTyping, setSearchFromTyping] = useState(false);
 
 	const [inputSearch, setInputSearch] = useState('');
-	const [searchFilters, setSearchFilters] = useState<AnimeSearchFilters>({
+	const [GenresFilters, setGenresFilters] = useState<AnimeGenresFilters>({
 		q: '',
 		genres: '',
 		type: undefined,
@@ -55,7 +55,7 @@ const Search: React.FC = () => {
 		};
 
 		setSelectedFilters(newFilters);
-		setSearchFilters({
+		setGenresFilters({
 			q: query,
 			genres,
 			type: format as AnimeType,
@@ -87,7 +87,7 @@ const Search: React.FC = () => {
 
 	const buildQueryParams = (
 		inputSearch: string,
-		filters: AnimeSearchFilters
+		filters: AnimeGenresFilters
 	) => {
 		const queryParams: string[] = [];
 		if (inputSearch) queryParams.push(`q=${inputSearch}`);
@@ -99,17 +99,17 @@ const Search: React.FC = () => {
 	};
 
 	const handleApplyFilters = () => {
-		const queryString = buildQueryParams(inputSearch, searchFilters);
+		const queryString = buildQueryParams(inputSearch, GenresFilters);
 		window.history.replaceState(null, 'New Page Title', queryString);
 
 		const animeClient = new AnimeClient();
 		animeClient
 			.getAnimeSearch({
 				q: inputSearch,
-				genres: searchFilters.genres,
-				type: searchFilters.type,
-				status: searchFilters.status,
-				rating: searchFilters.rating,
+				genres: GenresFilters.genres,
+				type: GenresFilters.type,
+				status: GenresFilters.status,
+				rating: GenresFilters.rating,
 				limit: 10,
 			})
 			.then((response: JikanResponse<Anime[]>) => {
@@ -121,7 +121,7 @@ const Search: React.FC = () => {
 	};
 
 	useEffect(() => {
-		setSearchFilters({
+		setGenresFilters({
 			q: inputSearch,
 			genres: selectedFilters.selectedGenres,
 			type: selectedFilters.selectedFormat as AnimeType,
@@ -147,14 +147,14 @@ const Search: React.FC = () => {
 					callbackSearch={(value) => {
 						const queryString = buildQueryParams(
 							value,
-							searchFilters
+							GenresFilters
 						);
 						window.history.replaceState(
 							null,
 							'New Page Title',
 							queryString
 						);
-						setSearchFilters((prev) => ({
+						setGenresFilters((prev) => ({
 							...prev,
 							q: value,
 						}));
@@ -172,7 +172,7 @@ const Search: React.FC = () => {
 					>
 						Apply Filters
 					</StyledButton>
-					<SearchFilters
+					<GenresFilters
 						defaultFilters={selectedFilters}
 						clearInputField={() => {
 							setResetInputField(true);

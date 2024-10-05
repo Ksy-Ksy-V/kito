@@ -21,10 +21,10 @@ export const animeStatuses: AnimeSearchStatus[] = [
 ];
 export const animeRatings: AnimeRating[] = ['g', 'pg', 'pg13', 'r17', 'r'];
 
-export interface AnimeSearchFilters {
+export interface AnimeGenresFilters {
 	q?: string;
 	status?: AnimeSearchStatus;
-	type?: AnimeType;
+	format?: AnimeType;
 	genres?: string;
 	rating?: AnimeRating;
 }

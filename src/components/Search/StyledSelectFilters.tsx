@@ -12,7 +12,7 @@ import theme from '../../styles/theme';
 
 interface StyledSarchFiltersProps {
 	label: string;
-	value: string | '';
+	value: string | undefined;
 	onChange?: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;

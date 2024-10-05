@@ -2,12 +2,10 @@ import {
 	Box,
 	Checkbox,
 	Collapse,
-	// FormControl,
 	FormControlLabel,
 	FormGroup,
 	IconButton,
 	Paper,
-	// Select,
 	Typography,
 } from '@mui/material';
 
@@ -18,7 +16,7 @@ import { useEffect, useState } from 'react';
 import { Genre, GenresClient, JikanResponse } from '@tutkli/jikan-ts';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 
-const SearchFilter: React.FC = () => {
+const GenresFilter: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const [genresOpen, setGenresOpen] = useState(true);
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
@@ -152,4 +150,4 @@ const SearchFilter: React.FC = () => {
 	);
 };
 
-export default SearchFilter;
+export default GenresFilter;

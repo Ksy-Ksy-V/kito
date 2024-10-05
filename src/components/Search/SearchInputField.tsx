@@ -57,8 +57,10 @@ const SearchInputField: React.FC = () => {
 		dispatch({ type: 'SET_QUERY', payload: newInputValue });
 
 		if (newInputValue === '') {
-			window.history.replaceState(null, '', '/search2');
-			dispatch({ type: 'SET_ANIME_LIST', payload: [] });
+			// window.history.replaceState(null, '', '/search2');
+
+			const queryString = buildQueryParams('');
+			window.history.replaceState(null, '', `/search2${queryString}`);
 		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
 		}
@@ -164,12 +166,6 @@ const SearchInputField: React.FC = () => {
 						variant="outlined"
 						size="small"
 						sx={{
-							width: {
-								xl: '23rem',
-								lg: '23rem',
-								md: '23rem',
-								sm: '18rem',
-							},
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',

@@ -8,7 +8,9 @@ import { useEffect } from 'react';
 import SearchCard from '../../components/SearchCard';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-import SearchFilter from '../../components/Search/SearchFilters';
+import GenresFilter from '../../components/Search/GenresFilter';
+import Filters from '../../components/Search/Filters';
+import Sorting from '../../components/Search/Sorting';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
@@ -16,26 +18,25 @@ const Search: React.FC = () => {
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
-		const { q, type, genres, status, rating } = urlFilters;
+		const { query, format, genres, status, rating } = urlFilters;
 
-		if (q) {
-			dispatch({ type: 'SET_QUERY', payload: q });
+		if (query) {
+			dispatch({ type: 'SET_QUERY', payload: query });
 		}
 
 		dispatch({
 			type: 'SET_FILTERS',
-			payload: { format: type, genres, status, rating },
+			payload: { format, genres, status, rating },
 		});
 
 		animeService
-			.searchAnime(q || '', 25, {
+			.searchAnime(query || '', 25, {
 				genres,
-				format: type,
+				format,
 				status,
 				rating,
 			})
 			.then((animeList) => {
-				console.log(animeList, ' animeList');
 				dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
 			})
 			.catch((error) => {
@@ -81,22 +82,42 @@ const Search: React.FC = () => {
 				<SearchInputField />
 			</Grid2>
 
-			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
+			<Grid2
+				container
+				spacing={2}
+				size={3}
+				sx={{ marginTop: '2rem', alignContent: 'flex-start' }}
+			>
 				<Grid2 size={12}>
-					<SearchFilter />
-				</Grid2>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleApplyFilters}
-						sx={{ marginBottom: '1rem' }}
-					>
+					<StyledButton onClick={handleApplyFilters}>
 						Apply Filters
 					</StyledButton>
 				</Grid2>
 				<Grid2 size={12}>
 					<StyledButton
 						onClick={handleClearFilters}
-						sx={{ marginBottom: '1rem' }}
+						sx={{
+							backgroundColor: 'transparent',
+						}}
+					>
+						Reset Filters
+					</StyledButton>
+				</Grid2>
+				<Grid2 size={12}>
+					<Filters />
+				</Grid2>
+				<Grid2 size={12}>
+					<GenresFilter />
+				</Grid2>
+				<Grid2 size={12}>
+					<StyledButton onClick={handleApplyFilters}>
+						Apply Filters
+					</StyledButton>
+				</Grid2>
+				<Grid2 size={12}>
+					<StyledButton
+						onClick={handleClearFilters}
+						sx={{ backgroundColor: 'transparent' }}
 					>
 						Reset Filters
 					</StyledButton>
@@ -104,6 +125,16 @@ const Search: React.FC = () => {
 			</Grid2>
 
 			<Grid2 container spacing={3} size={9} sx={{}}>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						flexDirection: 'row',
+					}}
+				>
+					<Sorting />
+				</Grid2>
 				{state.animeList.map((anime) => (
 					<Grid2
 						key={anime.mal_id}

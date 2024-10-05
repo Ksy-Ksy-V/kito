@@ -5,6 +5,8 @@ import {
 	AnimeSearchStatus,
 	AnimeType,
 	JikanResponse,
+	SearchOrder,
+	SortOptions,
 } from '@tutkli/jikan-ts';
 import { SearchState } from '../context/SearchReducers';
 
@@ -16,7 +18,9 @@ class AnimeService {
 	async searchAnime(
 		query: SearchState['query'],
 		limit: number,
-		filters?: SearchState['filters']
+		filters?: SearchState['filters'],
+		orderBy?: SearchState['orderBy'],
+		sort?: SearchState['sort']
 	): Promise<Anime[]> {
 		try {
 			const response: JikanResponse<Anime[]> =
@@ -28,6 +32,8 @@ class AnimeService {
 					status: filters?.status as AnimeSearchStatus,
 					rating: filters?.rating as AnimeRating,
 					sfw: true,
+					order_by: orderBy as SearchOrder,
+					sort: sort as SortOptions,
 				});
 			return response.data;
 		} catch (error) {
