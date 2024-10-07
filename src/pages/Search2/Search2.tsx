@@ -1,7 +1,6 @@
 import { Grid2, Typography } from '@mui/material';
 
 import SearchInputField from '../../components/Search/SearchInputField';
-
 import StyledButton from '../../components/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
 import { useEffect } from 'react';
@@ -14,11 +13,14 @@ import Sorting from '../../components/Search/Sorting';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
-	const { query, filters } = state;
+	const { query, filters, sorting } = state;
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
 		const { query, format, genres, status, rating } = urlFilters;
+
+		const urlSorting = parseQueryParams();
+		const { orderBy, sort } = urlSorting;
 
 		if (query) {
 			dispatch({ type: 'SET_QUERY', payload: query });
@@ -29,13 +31,23 @@ const Search: React.FC = () => {
 			payload: { format, genres, status, rating },
 		});
 
+		dispatch({
+			type: 'SET_SORTING',
+			payload: { orderBy, sort },
+		});
+
 		animeService
-			.searchAnime(query || '', 25, {
-				genres,
-				format,
-				status,
-				rating,
-			})
+			.searchAnime(
+				query || '',
+				25,
+				{
+					genres,
+					format,
+					status,
+					rating,
+				},
+				{ orderBy, sort }
+			)
 			.then((animeList) => {
 				dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
 			})
@@ -46,11 +58,17 @@ const Search: React.FC = () => {
 	}, []);
 
 	const handleApplyFilters = () => {
-		const queryString = buildQueryParams(state.query, state.filters);
+		const queryString = buildQueryParams(
+			state.query,
+			state.filters,
+			state.sorting
+		);
 		window.history.replaceState(null, '', `/search2${queryString}`);
-		animeService.searchAnime(query, 25, filters).then((animeList) => {
-			dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
-		});
+		animeService
+			.searchAnime(query, 25, filters, sorting)
+			.then((animeList) => {
+				dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
+			});
 	};
 
 	const handleClearFilters = () => {
@@ -62,6 +80,13 @@ const Search: React.FC = () => {
 				format: undefined,
 				status: undefined,
 				rating: undefined,
+			},
+		});
+		dispatch({
+			type: 'SET_SORTING',
+			payload: {
+				orderBy: undefined,
+				sort: undefined,
 			},
 		});
 

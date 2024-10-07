@@ -19,6 +19,7 @@ interface StyledSarchFiltersProps {
 	capitalizeOptions?: boolean;
 	defaultValue?: string;
 	upperCaseOptions?: boolean;
+	underscoreOptions?: boolean;
 }
 
 const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
@@ -30,6 +31,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
+	underscoreOptions = false,
 }) => {
 	const transformOption = (option: string) => {
 		if (capitalizeOptions) {
@@ -39,6 +41,12 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 		}
 		if (upperCaseOptions) {
 			return option.toUpperCase();
+		}
+		if (underscoreOptions) {
+			return (
+				option.charAt(0).toUpperCase() +
+				option.slice(1).toLowerCase().replace('_', ' ')
+			);
 		}
 		return option;
 	};

@@ -19,8 +19,7 @@ class AnimeService {
 		query: SearchState['query'],
 		limit: number,
 		filters?: SearchState['filters'],
-		orderBy?: SearchState['orderBy'],
-		sort?: SearchState['sort']
+		sorting?: SearchState['sorting']
 	): Promise<Anime[]> {
 		try {
 			const response: JikanResponse<Anime[]> =
@@ -32,9 +31,11 @@ class AnimeService {
 					status: filters?.status as AnimeSearchStatus,
 					rating: filters?.rating as AnimeRating,
 					sfw: true,
-					order_by: orderBy as SearchOrder,
-					sort: sort as SortOptions,
+					order_by: sorting?.orderBy as SearchOrder,
+					sort: sorting?.sort as SortOptions,
 				});
+			console.log(sorting?.orderBy, 'order_by');
+			console.log(sorting?.sort, 'sort');
 			return response.data;
 		} catch (error) {
 			console.error('Failed to fetch anime:', error);

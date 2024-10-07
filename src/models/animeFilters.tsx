@@ -1,4 +1,10 @@
-import { AnimeRating, AnimeType, AnimeSearchStatus } from '@tutkli/jikan-ts';
+import {
+	AnimeRating,
+	AnimeType,
+	AnimeSearchStatus,
+	SearchOrder,
+	SortOptions,
+} from '@tutkli/jikan-ts';
 
 export interface AnimeFilters {
 	selectedGenres?: string;
@@ -20,6 +26,15 @@ export const animeStatuses: AnimeSearchStatus[] = [
 	'upcoming',
 ];
 export const animeRatings: AnimeRating[] = ['g', 'pg', 'pg13', 'r17', 'r'];
+
+export const animeOrder: SearchOrder[] = [
+	'title',
+	'popularity',
+	'score',
+	'start_date',
+];
+
+export const animeSorting: SortOptions[] = ['asc', 'desc'];
 
 export interface AnimeGenresFilters {
 	q?: string;

@@ -38,7 +38,7 @@ const SearchCard: React.FC<SearchCardProps> = ({ image, title, onClick }) => {
 					boxShadow: `0px 0px 15px ${theme.palette.secondary.main}`,
 				},
 				'&:hover .card-media': {
-					transform: 'scale(1.1)',
+					// transform: 'scale(1.1)',
 				},
 			}}
 			onClick={onClick}
@@ -77,7 +77,7 @@ const SearchCard: React.FC<SearchCardProps> = ({ image, title, onClick }) => {
 					}}
 				>
 					<Typography
-						variant="body1"
+						variant="h5"
 						sx={{
 							color: theme.palette.text.primary,
 						}}

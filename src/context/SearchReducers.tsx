@@ -12,8 +12,8 @@ export const SET_LOADING = 'SET_LOADING';
 export const SET_ANIME_LIST = 'SET_ANIME_LIST';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_QUERY = 'SET_QUERY';
-export const SET_ORDER = 'SET_ORDER';
-export const SET_SORT = 'SET_SORT';
+export const SET_SORTING = 'SET_SORTING';
+export const SET_SORTING_VALUE = 'SET_SORTING_VALUE';
 export const SET_FILTERS = 'SET_FILTERS';
 export const SET_FILTERS_VALUE = 'SET_FILTERS_VALUE';
 export const RESET = 'RESET';
@@ -23,8 +23,14 @@ export interface SearchState {
 	loading: boolean;
 	error: boolean;
 	query: string;
-	sort: SortOptions | undefined;
-	orderBy: SearchOrder | undefined;
+	sorting: {
+		sort: SortOptions | undefined;
+		orderBy: SearchOrder | undefined;
+	};
+	sortingValue: {
+		sortValue: string;
+		orderByValue: string;
+	};
 	filters: {
 		genres: string | undefined;
 		format: AnimeType | undefined;
@@ -44,8 +50,14 @@ export const initialState: SearchState = {
 	loading: false,
 	error: false,
 	query: '',
-	sort: undefined,
-	orderBy: undefined,
+	sorting: {
+		sort: undefined,
+		orderBy: undefined,
+	},
+	sortingValue: {
+		sortValue: '',
+		orderByValue: '',
+	},
 	filters: {
 		genres: '',
 		format: undefined,
@@ -65,8 +77,11 @@ export type Action =
 	| { type: 'SET_ANIME_LIST'; payload: Anime[] }
 	| { type: 'SET_ERROR'; payload: boolean }
 	| { type: 'SET_QUERY'; payload: string }
-	| { type: 'SET_ORDER'; payload: string }
-	| { type: 'SET_SORT'; payload: string }
+	| { type: 'SET_SORTING'; payload: Partial<SearchState['sorting']> }
+	| {
+			type: 'SET_SORTING_VALUE';
+			payload: Partial<SearchState['sortingValue']>;
+	  }
 	| { type: 'SET_FILTERS'; payload: Partial<SearchState['filters']> }
 	| {
 			type: 'SET_FILTERS_VALUE';
@@ -84,15 +99,27 @@ export function searchReducer(state: SearchState, action: Action): SearchState {
 			return { ...state, error: action.payload, loading: false };
 		case SET_QUERY:
 			return { ...state, query: action.payload };
-		case SET_ORDER:
-			return { ...state, query: action.payload };
-		case SET_SORT:
-			return { ...state, query: action.payload };
 		case SET_FILTERS:
 			return {
 				...state,
 				filters: {
 					...state.filters,
+					...action.payload,
+				},
+			};
+		case SET_SORTING:
+			return {
+				...state,
+				sorting: {
+					...state.sorting,
+					...action.payload,
+				},
+			};
+		case SET_SORTING_VALUE:
+			return {
+				...state,
+				sortingValue: {
+					...state.sortingValue,
 					...action.payload,
 				},
 			};

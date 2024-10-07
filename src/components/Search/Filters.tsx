@@ -53,11 +53,15 @@ const Filters: React.FC = () => {
 			payload: { [filterName]: value },
 		});
 
-		const queryString = buildQueryParams(state.query, {
-			...state.filters,
+		const queryString = buildQueryParams(
+			state.query,
+			{
+				...state.filters,
 
-			[filterName]: value,
-		});
+				[filterName]: value,
+			},
+			state.sorting
+		);
 
 		window.history.replaceState(null, '', `/search2${queryString}`);
 	};
@@ -77,10 +81,14 @@ const Filters: React.FC = () => {
 			payload: { [filterName]: undefined },
 		});
 
-		const queryString = buildQueryParams(state.query, {
-			...state.filters,
-			[filterName]: '',
-		});
+		const queryString = buildQueryParams(
+			state.query,
+			{
+				...state.filters,
+				[filterName]: '',
+			},
+			state.sorting
+		);
 
 		window.history.replaceState(null, '', `/search2${queryString}`);
 	};

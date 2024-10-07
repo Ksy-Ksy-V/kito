@@ -1,133 +1,132 @@
 // import { useEffect } from 'react';
-import { Grid2, IconButton, Typography } from '@mui/material';
-// import { useSearchContext } from '../../context/SearchContext';
-// import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
+import { Grid2 } from '@mui/material';
 
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined';
-import ArrowDropUpOutlinedIcon from '@mui/icons-material/ArrowDropUpOutlined';
+import { useSearchContext } from '../../context/SearchContext';
+import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
+import StyledSarchFilters from './StyledSelectFilters';
+import { animeOrder, animeSorting } from '../../models/animeFilters';
+import { useEffect } from 'react';
 
 const Sorting: React.FC = () => {
-	// const { state, dispatch } = useSearchContext();
+	const { state, dispatch } = useSearchContext();
 
-	// useEffect(() => {
-	// 	const urlFilters = parseQueryParams();
-	// 	const { format, status, rating } = urlFilters;
+	useEffect(() => {
+		const urlFilters = parseQueryParams();
+		const { sort, orderBy } = urlFilters;
 
-	// 	const filterMapping = [
-	// 		{ filterName: 'format', value: format, valueKey: 'formatValue' },
-	// 		{ filterName: 'status', value: status, valueKey: 'statusValue' },
-	// 		{ filterName: 'rating', value: rating, valueKey: 'ratingValue' },
-	// 	];
+		const sortingMapping = [
+			{ filterName: 'sort', value: sort, valueKey: 'sortValue' },
+			{ filterName: 'orderBy', value: orderBy, valueKey: 'orderByValue' },
+		];
 
-	// 	filterMapping.forEach(({ filterName, value, valueKey }) => {
-	// 		dispatch({
-	// 			type: 'SET_FILTERS',
-	// 			payload: { [filterName]: value },
-	// 		});
+		sortingMapping.forEach(({ filterName, value, valueKey }) => {
+			dispatch({
+				type: 'SET_SORTING',
+				payload: { [filterName]: value },
+			});
 
-	// 		dispatch({
-	// 			type: 'SET_FILTERS_VALUE',
-	// 			payload: { [valueKey]: value || '' },
-	// 		});
-	// 	});
+			dispatch({
+				type: 'SET_SORTING_VALUE',
+				payload: { [valueKey]: value || '' },
+			});
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [location.search]);
 
-	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	// }, [location.search]);
+	const handleSortingChange = (sortName: string, value: string) => {
+		const sortingValue = sortName.concat('Value');
+		console.log(sortName, 'sortName2');
+		console.log(sortingValue, 'sortingValue2');
+		console.log(sortName, 'sortName2');
+		console.log(value, 'value2');
 
-	// const handleFilterChange = (filterName: string, value: string) => {
-	// 	const filterValue = filterName.concat('Value');
+		dispatch({
+			type: 'SET_SORTING_VALUE',
+			payload: {
+				[sortingValue]: value,
+			},
+		});
 
-	// 	dispatch({
-	// 		type: 'SET_FILTERS_VALUE',
-	// 		payload: {
-	// 			[filterValue]: value,
-	// 		},
-	// 	});
+		dispatch({
+			type: 'SET_SORTING',
+			payload: { [sortName]: value },
+		});
 
-	// 	dispatch({
-	// 		type: 'SET_FILTERS',
-	// 		payload: { [filterName]: value },
-	// 	});
+		console.log(sortName, 'sortName');
+		console.log(sortingValue, 'sortingValue');
+		console.log(sortName, 'sortName');
+		console.log(value, 'value');
 
-	// 	const queryString = buildQueryParams(state.query, {
-	// 		...state.filters,
+		const queryString = buildQueryParams(
+			state.query,
+			{
+				...state.filters,
+			},
+			{
+				...state.sorting,
+				[sortName]: value,
+			}
+		);
 
-	// 		[filterName]: value,
-	// 	});
+		window.history.replaceState(null, '', `/search2${queryString}`);
+	};
 
-	// 	window.history.replaceState(null, '', `/search2${queryString}`);
-	// };
+	const handleClearValue = (sortName: string) => {
+		const sortingValue = sortName.concat('Value');
 
-	// const handleClearValue = (filterName: string) => {
-	// 	const filterValue = filterName.concat('Value');
+		dispatch({
+			type: 'SET_SORTING_VALUE',
+			payload: {
+				[sortingValue]: '',
+			},
+		});
 
-	// 	dispatch({
-	// 		type: 'SET_FILTERS_VALUE',
-	// 		payload: {
-	// 			[filterValue]: '',
-	// 		},
-	// 	});
+		dispatch({
+			type: 'SET_SORTING',
+			payload: { [sortName]: undefined },
+		});
 
-	// 	dispatch({
-	// 		type: 'SET_FILTERS',
-	// 		payload: { [filterName]: undefined },
-	// 	});
+		const queryString = buildQueryParams(
+			state.query,
+			{
+				...state.filters,
+			},
+			{
+				...state.sorting,
+				[sortName]: '',
+			}
+		);
 
-	// 	const queryString = buildQueryParams(state.query, {
-	// 		...state.filters,
-	// 		[filterName]: '',
-	// 	});
-
-	// 	window.history.replaceState(null, '', `/search2${queryString}`);
-	// };
+		window.history.replaceState(null, '', `/search2${queryString}`);
+	};
 
 	return (
 		<>
-			<Grid2 size={2}>
-				<Typography variant="h5">Order by:</Typography>
+			<Grid2 size={6}>
+				<StyledSarchFilters
+					label="Order by:"
+					value={state.sortingValue.orderByValue}
+					defaultValue={state.sortingValue.orderByValue}
+					onChange={(e) =>
+						handleSortingChange('orderBy', e.target.value)
+					}
+					options={animeOrder}
+					clearValue={() => handleClearValue('orderBy')}
+					underscoreOptions
+				/>
 			</Grid2>
-			<Grid2 size={2}>
-				<Typography variant="h5">Alphabet</Typography>
-
-				<IconButton>
-					<ArrowDropDownOutlinedIcon />
-				</IconButton>
-				<IconButton>
-					<ArrowDropUpOutlinedIcon />
-				</IconButton>
-			</Grid2>
-
-			<Grid2 size={2}>
-				<Typography variant="h5">Starting Date</Typography>
-
-				<IconButton>
-					<ArrowDropDownOutlinedIcon />
-				</IconButton>
-				<IconButton>
-					<ArrowDropUpOutlinedIcon />
-				</IconButton>
-			</Grid2>
-
-			<Grid2 size={2}>
-				<Typography variant="h5">Score</Typography>
-
-				<IconButton>
-					<ArrowDropDownOutlinedIcon />
-				</IconButton>
-				<IconButton>
-					<ArrowDropUpOutlinedIcon />
-				</IconButton>
-			</Grid2>
-
-			<Grid2 size={2}>
-				<Typography variant="h5">Popularity</Typography>
-
-				<IconButton>
-					<ArrowDropDownOutlinedIcon />
-				</IconButton>
-				<IconButton>
-					<ArrowDropUpOutlinedIcon />
-				</IconButton>
+			<Grid2 size={6}>
+				<StyledSarchFilters
+					label="Sort"
+					value={state.sortingValue.sortValue}
+					defaultValue={state.sortingValue.sortValue}
+					onChange={(e) =>
+						handleSortingChange('sort', e.target.value)
+					}
+					options={animeSorting}
+					clearValue={() => handleClearValue('sort')}
+					capitalizeOptions
+				/>
 			</Grid2>
 		</>
 	);

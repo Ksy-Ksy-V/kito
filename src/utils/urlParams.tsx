@@ -13,17 +13,21 @@ enum FormatURLEnum {
 	ona = 'Ona',
 }
 
+enum OrderURLEnum {
+	title = 'Title',
+	score = 'Score',
+	popularity = 'Popularity',
+	start_date = 'Start date',
+}
+
 import { SearchState } from '../context/SearchReducers';
 export const buildQueryParams = (
 	inputSearch: string,
 	filters?: SearchState['filters'],
-	orderBy?: SearchState['orderBy'],
-	sort?: SearchState['sort']
+	sorting?: SearchState['sorting']
 ) => {
 	const queryParams: string[] = [];
 	if (inputSearch) queryParams.push(`q=${inputSearch}`);
-	if (orderBy) queryParams.push(`order=${orderBy}`);
-	if (sort) queryParams.push(`sort=${sort}`);
 
 	if (filters?.genres) queryParams.push(`genres=${filters.genres}`);
 	if (filters?.format) {
@@ -36,14 +40,26 @@ export const buildQueryParams = (
 	}
 	if (filters?.status) queryParams.push(`status=${filters.status}`);
 	if (filters?.rating) queryParams.push(`rating=${filters.rating}`);
+	if (sorting?.orderBy) queryParams.push(`order=${sorting.orderBy}`);
+
+	if (sorting?.sort) queryParams.push(`sort=${sorting.sort}`);
+
+	if (sorting?.orderBy) {
+		const sortingKey = Object.keys(OrderURLEnum).find(
+			(key) =>
+				OrderURLEnum[key as keyof typeof OrderURLEnum].toLowerCase() ===
+				sorting.orderBy?.toLowerCase()
+		);
+		if (sortingKey) queryParams.push(`order=${sortingKey}`);
+	}
+
 	return queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
 };
 
-export const parseQueryParams = (): SearchState['filters'] & {
-	query: string;
-	sort: SortOptions | undefined;
-	orderBy: SearchOrder | undefined;
-} => {
+export const parseQueryParams = (): SearchState['filters'] &
+	SearchState['sorting'] & {
+		query: string;
+	} => {
 	const queryParams = new URLSearchParams(window.location.search);
 
 	const format =
