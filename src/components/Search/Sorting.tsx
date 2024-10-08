@@ -1,10 +1,16 @@
 // import { useEffect } from 'react';
-import { Grid2 } from '@mui/material';
+import {
+	FormControl,
+	FormControlLabel,
+	FormLabel,
+	Grid2,
+	Radio,
+	RadioGroup,
+} from '@mui/material';
 
 import { useSearchContext } from '../../context/SearchContext';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-import StyledSarchFilters from './StyledSelectFilters';
-import { animeOrder, animeSorting } from '../../models/animeFilters';
+
 import { useEffect } from 'react';
 
 const Sorting: React.FC = () => {
@@ -30,6 +36,7 @@ const Sorting: React.FC = () => {
 				payload: { [valueKey]: value || '' },
 			});
 		});
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.search]);
 
@@ -71,39 +78,74 @@ const Sorting: React.FC = () => {
 		window.history.replaceState(null, '', `/search2${queryString}`);
 	};
 
-	const handleClearValue = (sortName: string) => {
-		const sortingValue = sortName.concat('Value');
+	// const handleClearValue = (sortName: string) => {
+	// 	const sortingValue = sortName.concat('Value');
 
-		dispatch({
-			type: 'SET_SORTING_VALUE',
-			payload: {
-				[sortingValue]: '',
-			},
-		});
+	// 	dispatch({
+	// 		type: 'SET_SORTING_VALUE',
+	// 		payload: {
+	// 			[sortingValue]: '',
+	// 		},
+	// 	});
 
-		dispatch({
-			type: 'SET_SORTING',
-			payload: { [sortName]: undefined },
-		});
+	// 	dispatch({
+	// 		type: 'SET_SORTING',
+	// 		payload: { [sortName]: undefined },
+	// 	});
 
-		const queryString = buildQueryParams(
-			state.query,
-			{
-				...state.filters,
-			},
-			{
-				...state.sorting,
-				[sortName]: '',
-			}
-		);
+	// 	const queryString = buildQueryParams(
+	// 		state.query,
+	// 		{
+	// 			...state.filters,
+	// 		},
+	// 		{
+	// 			...state.sorting,
+	// 			[sortName]: '',
+	// 		}
+	// 	);
 
-		window.history.replaceState(null, '', `/search2${queryString}`);
-	};
+	// 	window.history.replaceState(null, '', `/search2${queryString}`);
+	// };
 
 	return (
 		<>
 			<Grid2 size={6}>
-				<StyledSarchFilters
+				<FormControl>
+					<FormLabel id="order-row-radio-buttons-group-label">
+						Order by:
+					</FormLabel>
+					<RadioGroup
+						row
+						name="order-by"
+						// defaultValue={state.sortingValue.orderByValue}
+						onChange={(e) =>
+							handleSortingChange('orderBy', e.target.value)
+						}
+					>
+						<FormControlLabel
+							value="title"
+							control={<Radio />}
+							label="Title"
+						/>
+						<FormControlLabel
+							value="popularity"
+							control={<Radio />}
+							label="Popularity"
+						/>
+						<FormControlLabel
+							value="score"
+							control={<Radio />}
+							label="Score"
+						/>
+						<FormControlLabel
+							value="start_date"
+							control={<Radio />}
+							label="Start date"
+						/>
+					</RadioGroup>
+				</FormControl>
+
+				{/* <StyledSarchFilters
 					label="Order by:"
 					value={state.sortingValue.orderByValue}
 					defaultValue={state.sortingValue.orderByValue}
@@ -113,10 +155,36 @@ const Sorting: React.FC = () => {
 					options={animeOrder}
 					clearValue={() => handleClearValue('orderBy')}
 					underscoreOptions
-				/>
+				/> */}
 			</Grid2>
 			<Grid2 size={6}>
-				<StyledSarchFilters
+				<FormControl>
+					<FormLabel id="sorting-row-radio-buttons-group-label">
+						Sort
+					</FormLabel>
+					<RadioGroup
+						row
+						aria-labelledby="sorting-row-radio-buttons-group-label"
+						name="row-radio-buttons-group"
+						// defaultValue={state.sortingValue.sortValue}
+						onChange={(e) =>
+							handleSortingChange('sort', e.target.value)
+						}
+					>
+						<FormControlLabel
+							value="Asc"
+							control={<Radio />}
+							label="Asc"
+						/>
+						<FormControlLabel
+							value="Desc"
+							control={<Radio />}
+							label="Desc"
+						/>
+					</RadioGroup>
+				</FormControl>
+
+				{/* <StyledSarchFilters
 					label="Sort"
 					value={state.sortingValue.sortValue}
 					defaultValue={state.sortingValue.sortValue}
@@ -126,7 +194,7 @@ const Sorting: React.FC = () => {
 					options={animeSorting}
 					clearValue={() => handleClearValue('sort')}
 					capitalizeOptions
-				/>
+				/> */}
 			</Grid2>
 		</>
 	);

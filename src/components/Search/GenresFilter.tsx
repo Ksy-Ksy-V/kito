@@ -84,10 +84,14 @@ const GenresFilter: React.FC = () => {
 			},
 		});
 
-		const queryString = buildQueryParams(state.query, {
-			...state.filters,
-			genres: updatedGenres.join(','),
-		});
+		const queryString = buildQueryParams(
+			state.query,
+			{
+				...state.filters,
+				genres: updatedGenres.join(','),
+			},
+			state.sorting
+		);
 
 		window.history.replaceState(null, '', `/search2${queryString}`);
 	};
