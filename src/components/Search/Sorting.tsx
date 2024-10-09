@@ -11,7 +11,11 @@ import { useSearchContext } from '../../context/SearchContext';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 
 import { useEffect } from 'react';
-import { animeOrder, animeSorting } from '../../models/animeFilters';
+import {
+	animeOrder,
+	animeSorting,
+	AnimeSortingLabel,
+} from '../../models/animeFilters';
 import theme from '../../styles/theme';
 
 const Sorting: React.FC = () => {
@@ -74,19 +78,27 @@ const Sorting: React.FC = () => {
 				size={8}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
-					borderRadius: '0.5rem',
-					display: 'inline',
+
+					flexDirection: 'row',
 				}}
 			>
-				<FormControl>
+				<FormControl
+					sx={{
+						display: 'flex',
+
+						flexDirection: 'row',
+					}}
+				>
 					<FormLabel
 						id="order-row-radio-buttons-group-label"
 						sx={{
+							marginLeft: '1rem',
+							marginTop: '0.6rem',
 							marginRight: '1rem',
 							color: theme.palette.secondary.main,
 						}}
 					>
-						Order by:
+						Order by
 					</FormLabel>
 
 					<RadioGroup
@@ -120,18 +132,25 @@ const Sorting: React.FC = () => {
 				size={4}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
-					borderRadius: '0.5rem',
 				}}
 			>
-				<FormControl>
+				<FormControl
+					sx={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}
+				>
 					<FormLabel
 						id="sorting-row-radio-buttons-group-label"
 						sx={{
-							marginRight: '1rem',
+							marginLeft: '1rem',
 							color: theme.palette.secondary.main,
+							marginRight: '1rem',
+							marginTop: '0.6rem',
+							paddingRight: '1rem',
 						}}
 					>
-						Sort:
+						Sort by
 					</FormLabel>
 					<RadioGroup
 						row
@@ -146,10 +165,7 @@ const Sorting: React.FC = () => {
 								key={option}
 								value={option}
 								control={<Radio />}
-								label={
-									option.charAt(0).toUpperCase() +
-									option.slice(1).toLowerCase()
-								}
+								label={AnimeSortingLabel[option]}
 								checked={
 									state.sortingValue.sortValue === option
 								}

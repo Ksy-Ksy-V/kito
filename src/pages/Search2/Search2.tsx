@@ -11,7 +11,6 @@ import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
-import theme from '../../styles/theme';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
@@ -41,7 +40,7 @@ const Search: React.FC = () => {
 		animeService
 			.searchAnime(
 				query || '',
-				25,
+				24,
 				{
 					genres,
 					format,
@@ -165,24 +164,25 @@ const Search: React.FC = () => {
 				</Grid2>
 			</Grid2>
 
-			<Grid2 container spacing={3} size={9}>
-				<Grid2 size={9}>
+			<Grid2 container spacing={3} size={9} sx={{ marginTop: '1.5rem' }}>
+				<Grid2 size={12}>
 					<Sorting />
 				</Grid2>
 				<Grid2
 					container
-					size={3}
+					size={12}
 					sx={{
-						backgroundColor: theme.palette.primary.light,
-						borderRadius: '0.5rem',
+						justifyContent: 'right',
 					}}
 				>
 					{paginationData && (
 						<Pagination
+							size="large"
 							count={paginationData.last_visible_page}
 							page={page}
 							onChange={handlePageChange}
 							sx={{
+								color: 'primary.main',
 								'& .Mui-selected': {
 									backgroundColor: 'primary.main',
 								},
@@ -216,8 +216,10 @@ const Search: React.FC = () => {
 					<Pagination
 						count={paginationData.last_visible_page}
 						page={page}
+						size="large"
 						onChange={handlePageChange}
 						sx={{
+							color: 'primary.main',
 							'& .Mui-selected': {
 								backgroundColor: 'primary.main',
 							},
