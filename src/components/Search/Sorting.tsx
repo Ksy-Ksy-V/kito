@@ -12,6 +12,7 @@ import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 
 import { useEffect } from 'react';
 import { animeOrder, animeSorting } from '../../models/animeFilters';
+import theme from '../../styles/theme';
 
 const Sorting: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
@@ -24,7 +25,6 @@ const Sorting: React.FC = () => {
 			{ filterName: 'sort', value: sort, valueKey: 'sortValue' },
 			{ filterName: 'orderBy', value: orderBy, valueKey: 'orderByValue' },
 		];
-
 		sortingMapping.forEach(({ filterName, value, valueKey }) => {
 			dispatch({
 				type: 'SET_SORTING',
@@ -33,7 +33,7 @@ const Sorting: React.FC = () => {
 
 			dispatch({
 				type: 'SET_SORTING_VALUE',
-				payload: { [valueKey]: value || '' },
+				payload: { [valueKey]: value },
 			});
 		});
 
@@ -69,12 +69,26 @@ const Sorting: React.FC = () => {
 	};
 
 	return (
-		<>
-			<Grid2 size={6}>
+		<Grid2 size={12} container spacing={2}>
+			<Grid2
+				size={8}
+				sx={{
+					backgroundColor: theme.palette.primary.light,
+					borderRadius: '0.5rem',
+					display: 'inline',
+				}}
+			>
 				<FormControl>
-					<FormLabel id="order-row-radio-buttons-group-label">
+					<FormLabel
+						id="order-row-radio-buttons-group-label"
+						sx={{
+							marginRight: '1rem',
+							color: theme.palette.secondary.main,
+						}}
+					>
 						Order by:
 					</FormLabel>
+
 					<RadioGroup
 						row
 						name="order-by"
@@ -102,10 +116,22 @@ const Sorting: React.FC = () => {
 					</RadioGroup>
 				</FormControl>
 			</Grid2>
-			<Grid2 size={6}>
+			<Grid2
+				size={4}
+				sx={{
+					backgroundColor: theme.palette.primary.light,
+					borderRadius: '0.5rem',
+				}}
+			>
 				<FormControl>
-					<FormLabel id="sorting-row-radio-buttons-group-label">
-						Sort
+					<FormLabel
+						id="sorting-row-radio-buttons-group-label"
+						sx={{
+							marginRight: '1rem',
+							color: theme.palette.secondary.main,
+						}}
+					>
+						Sort:
 					</FormLabel>
 					<RadioGroup
 						row
@@ -132,7 +158,7 @@ const Sorting: React.FC = () => {
 					</RadioGroup>
 				</FormControl>
 			</Grid2>
-		</>
+		</Grid2>
 	);
 };
 

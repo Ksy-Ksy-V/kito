@@ -1,26 +1,29 @@
-import { Grid2, Typography } from '@mui/material';
+import { Grid2, Pagination, Typography } from '@mui/material';
 
 import SearchInputField from '../../components/Search/SearchInputField';
 import StyledButton from '../../components/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SearchCard from '../../components/SearchCard';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
+import { JikanPagination } from '@tutkli/jikan-ts';
+import theme from '../../styles/theme';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const { query, filters, sorting } = state;
+	const [page, setPage] = useState(1);
+	const [paginationData, setPaginationData] =
+		useState<JikanPagination | null>(null);
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
-		const { query, format, genres, status, rating } = urlFilters;
-
-		const urlSorting = parseQueryParams();
-		const { orderBy, sort } = urlSorting;
+		const { query, format, genres, status, rating, orderBy, sort } =
+			urlFilters;
 
 		if (query) {
 			dispatch({ type: 'SET_QUERY', payload: query });
@@ -35,7 +38,6 @@ const Search: React.FC = () => {
 			type: 'SET_SORTING',
 			payload: { orderBy, sort },
 		});
-
 		animeService
 			.searchAnime(
 				query || '',
@@ -46,16 +48,25 @@ const Search: React.FC = () => {
 					status,
 					rating,
 				},
-				{ orderBy, sort }
+				{ orderBy, sort },
+				page
 			)
 			.then((animeList) => {
-				dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
+				dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
+				setPaginationData(animeList.pagination as JikanPagination);
 			})
 			.catch((error) => {
 				console.error('Failed to fetch anime:', error);
 			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [page]);
+
+	const handlePageChange = (
+		_event: React.ChangeEvent<unknown>,
+		value: number
+	) => {
+		setPage(value);
+	};
 
 	const handleApplyFilters = () => {
 		const queryString = buildQueryParams(
@@ -67,7 +78,7 @@ const Search: React.FC = () => {
 		animeService
 			.searchAnime(query, 25, filters, sorting)
 			.then((animeList) => {
-				dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
+				dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
 			});
 	};
 
@@ -92,6 +103,11 @@ const Search: React.FC = () => {
 
 		window.history.replaceState(null, '', '/search2');
 	};
+
+	const uniqueAnimeList = state.animeList.filter(
+		(anime, index, self) =>
+			index === self.findIndex((a) => a.mal_id === anime.mal_id)
+	);
 
 	return (
 		<Grid2 container spacing={2}>
@@ -149,22 +165,42 @@ const Search: React.FC = () => {
 				</Grid2>
 			</Grid2>
 
-			<Grid2 container spacing={3} size={9} sx={{}}>
-				<Grid2
-					size={12}
-					sx={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						flexDirection: 'row',
-					}}
-				>
+			<Grid2 container spacing={3} size={9}>
+				<Grid2 size={9}>
 					<Sorting />
 				</Grid2>
-				{state.animeList.map((anime) => (
+				<Grid2
+					container
+					size={3}
+					sx={{
+						backgroundColor: theme.palette.primary.light,
+						borderRadius: '0.5rem',
+					}}
+				>
+					{paginationData && (
+						<Pagination
+							count={paginationData.last_visible_page}
+							page={page}
+							onChange={handlePageChange}
+							sx={{
+								'& .Mui-selected': {
+									backgroundColor: 'primary.main',
+								},
+								'& .MuiPaginationItem-root': {
+									'&:hover': {
+										backgroundColor: 'primary.main',
+									},
+								},
+							}}
+						/>
+					)}
+				</Grid2>
+
+				{uniqueAnimeList.map((anime) => (
 					<Grid2
 						key={anime.mal_id}
 						sx={{
-							marginTop: '2rem',
+							marginTop: '1rem',
 						}}
 					>
 						<SearchCard
@@ -173,6 +209,26 @@ const Search: React.FC = () => {
 						/>
 					</Grid2>
 				))}
+			</Grid2>
+
+			<Grid2 size={12} sx={{ display: 'flex', justifyContent: 'right' }}>
+				{paginationData && (
+					<Pagination
+						count={paginationData.last_visible_page}
+						page={page}
+						onChange={handlePageChange}
+						sx={{
+							'& .Mui-selected': {
+								backgroundColor: 'primary.main',
+							},
+							'& .MuiPaginationItem-root': {
+								'&:hover': {
+									backgroundColor: 'primary.main',
+								},
+							},
+						}}
+					/>
+				)}
 			</Grid2>
 		</Grid2>
 	);

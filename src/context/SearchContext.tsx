@@ -15,7 +15,8 @@ const SearchContext = createContext<{
 	searchAnime: (
 		query: SearchState['query'],
 		limit: number,
-		filters?: SearchState['filters']
+		filters?: SearchState['filters'],
+		sorting?: SearchState['sorting']
 	) => void;
 } | null>(null);
 
@@ -27,16 +28,18 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 	const searchAnime = async (
 		query: SearchState['query'],
 		limit: number,
-		filters?: SearchState['filters']
+		filters?: SearchState['filters'],
+		sorting?: SearchState['sorting']
 	) => {
 		dispatch({ type: 'SET_LOADING', payload: true });
 		try {
 			const animeList = await animeService.searchAnime(
 				query,
 				limit,
-				filters
+				filters,
+				sorting
 			);
-			dispatch({ type: 'SET_ANIME_LIST', payload: animeList });
+			dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
 			dispatch({ type: 'SET_LOADING', payload: false });
 		} catch (error) {
 			console.log(error);
@@ -51,6 +54,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 	);
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useSearchContext = () => {
 	const context = useContext(SearchContext);
 	if (!context) {

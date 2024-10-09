@@ -19,8 +19,9 @@ class AnimeService {
 		query: SearchState['query'],
 		limit: number,
 		filters?: SearchState['filters'],
-		sorting?: SearchState['sorting']
-	): Promise<Anime[]> {
+		sorting?: SearchState['sorting'],
+		page?: number
+	): Promise<JikanResponse<Anime[]>> {
 		try {
 			const response: JikanResponse<Anime[]> =
 				await this.animeClient.getAnimeSearch({
@@ -33,8 +34,9 @@ class AnimeService {
 					sfw: true,
 					order_by: sorting?.orderBy as SearchOrder,
 					sort: sorting?.sort as SortOptions,
+					page,
 				});
-			return response.data;
+			return response;
 		} catch (error) {
 			console.error('Failed to fetch anime:', error);
 			throw error;
