@@ -34,8 +34,6 @@ class AnimeService {
 					order_by: sorting?.orderBy as SearchOrder,
 					sort: sorting?.sort as SortOptions,
 				});
-			console.log(sorting?.orderBy, 'order_by');
-			console.log(sorting?.sort, 'sort');
 			return response.data;
 		} catch (error) {
 			console.error('Failed to fetch anime:', error);
