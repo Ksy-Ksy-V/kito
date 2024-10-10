@@ -34,7 +34,7 @@ class AnimeService {
 					sfw: true,
 					order_by: sorting?.orderBy as SearchOrder,
 					sort: sorting?.sort as SortOptions,
-					page,
+					page: page,
 				});
 			return response;
 		} catch (error) {

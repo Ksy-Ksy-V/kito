@@ -3,12 +3,14 @@ import {
 	AnimeRating,
 	AnimeSearchStatus,
 	AnimeType,
+	JikanPagination,
 	SearchOrder,
 	SortOptions,
 } from '@tutkli/jikan-ts';
 
 export const SET_LOADING = 'SET_LOADING';
-
+export const SET_PAGINATION = 'SET_PAGINATION';
+export const SET_PAGE = 'SET_PAGE';
 export const SET_ANIME_LIST = 'SET_ANIME_LIST';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_QUERY = 'SET_QUERY';
@@ -23,6 +25,8 @@ export interface SearchState {
 	loading: boolean;
 	error: boolean;
 	query: string;
+	pagination: JikanPagination | undefined;
+	page: number;
 	sorting: {
 		sort: SortOptions | undefined;
 		orderBy: SearchOrder | undefined;
@@ -50,6 +54,8 @@ export const initialState: SearchState = {
 	loading: false,
 	error: false,
 	query: '',
+	pagination: undefined,
+	page: 1,
 	sorting: {
 		sort: undefined,
 		orderBy: undefined,
@@ -77,6 +83,8 @@ export type Action =
 	| { type: 'SET_ANIME_LIST'; payload: Anime[] }
 	| { type: 'SET_ERROR'; payload: boolean }
 	| { type: 'SET_QUERY'; payload: string }
+	| { type: 'SET_PAGINATION'; payload: JikanPagination }
+	| { type: 'SET_PAGE'; payload: number }
 	| { type: 'SET_SORTING'; payload: Partial<SearchState['sorting']> }
 	| {
 			type: 'SET_SORTING_VALUE';
@@ -99,6 +107,10 @@ export function searchReducer(state: SearchState, action: Action): SearchState {
 			return { ...state, error: action.payload, loading: false };
 		case SET_QUERY:
 			return { ...state, query: action.payload };
+		case SET_PAGINATION:
+			return { ...state, pagination: action.payload };
+		case SET_PAGE:
+			return { ...state, page: action.payload };
 		case SET_FILTERS:
 			return {
 				...state,

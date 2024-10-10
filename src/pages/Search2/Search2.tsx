@@ -3,7 +3,7 @@ import { Grid2, Pagination, Typography } from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
 import StyledButton from '../../components/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import SearchCard from '../../components/SearchCard';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
@@ -14,10 +14,7 @@ import { JikanPagination } from '@tutkli/jikan-ts';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
-	const { query, filters, sorting } = state;
-	const [page, setPage] = useState(1);
-	const [paginationData, setPaginationData] =
-		useState<JikanPagination | null>(null);
+	const { query, filters, sorting, pagination, page } = state;
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -37,6 +34,7 @@ const Search: React.FC = () => {
 			type: 'SET_SORTING',
 			payload: { orderBy, sort },
 		});
+
 		animeService
 			.searchAnime(
 				query || '',
@@ -50,9 +48,13 @@ const Search: React.FC = () => {
 				{ orderBy, sort },
 				page
 			)
-			.then((animeList) => {
-				dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
-				setPaginationData(animeList.pagination as JikanPagination);
+			.then((response) => {
+				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
+				dispatch({
+					type: 'SET_PAGINATION',
+					payload: response.pagination as JikanPagination,
+				});
+				// setPaginationData(animeList.pagination as JikanPagination);
 			})
 			.catch((error) => {
 				console.error('Failed to fetch anime:', error);
@@ -64,7 +66,7 @@ const Search: React.FC = () => {
 		_event: React.ChangeEvent<unknown>,
 		value: number
 	) => {
-		setPage(value);
+		dispatch({ type: 'SET_PAGE', payload: value });
 	};
 
 	const handleApplyFilters = () => {
@@ -76,8 +78,16 @@ const Search: React.FC = () => {
 		window.history.replaceState(null, '', `/search2${queryString}`);
 		animeService
 			.searchAnime(query, 25, filters, sorting)
-			.then((animeList) => {
-				dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
+			.then((response) => {
+				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
+				dispatch({
+					type: 'SET_PAGINATION',
+					payload: response.pagination as JikanPagination,
+				});
+				dispatch({
+					type: 'SET_PAGE',
+					payload: 1,
+				});
 			});
 	};
 
@@ -175,14 +185,14 @@ const Search: React.FC = () => {
 						justifyContent: 'right',
 					}}
 				>
-					{paginationData && (
+					{pagination && (
 						<Pagination
 							size="large"
-							count={paginationData.last_visible_page}
+							count={pagination.last_visible_page}
 							page={page}
 							onChange={handlePageChange}
 							sx={{
-								color: 'primary.main',
+								color: 'theme.pallete.primary.main',
 								'& .Mui-selected': {
 									backgroundColor: 'primary.main',
 								},
@@ -212,14 +222,14 @@ const Search: React.FC = () => {
 			</Grid2>
 
 			<Grid2 size={12} sx={{ display: 'flex', justifyContent: 'right' }}>
-				{paginationData && (
+				{pagination && (
 					<Pagination
-						count={paginationData.last_visible_page}
+						count={pagination.last_visible_page}
 						page={page}
 						size="large"
 						onChange={handlePageChange}
 						sx={{
-							color: 'primary.main',
+							color: 'theme.pallete.primary.main',
 							'& .Mui-selected': {
 								backgroundColor: 'primary.main',
 							},

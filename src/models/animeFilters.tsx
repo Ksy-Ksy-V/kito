@@ -36,7 +36,7 @@ export const animeOrder: SearchOrder[] = [
 
 export const animeSorting: SortOptions[] = ['asc', 'desc'];
 
-export enum AnimeSortingLabel {
+export enum AnimeSortingLabel {        
 	asc = 'Ascending',
 	desc = 'Descending',
 }
