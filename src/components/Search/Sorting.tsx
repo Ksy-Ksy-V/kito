@@ -75,7 +75,7 @@ const Sorting: React.FC = () => {
 	return (
 		<Grid2 size={12} container spacing={2}>
 			<Grid2
-				size={8}
+				size={12}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
 
@@ -129,7 +129,7 @@ const Sorting: React.FC = () => {
 				</FormControl>
 			</Grid2>
 			<Grid2
-				size={4}
+				size={12}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
 				}}

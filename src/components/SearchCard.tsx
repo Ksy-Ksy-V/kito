@@ -1,44 +1,66 @@
 import React from 'react';
 import {
 	Card,
-	CardActionArea,
 	CardMedia,
 	Typography,
 	Box,
 	useTheme,
+	CardActionArea,
+	Grid2,
 } from '@mui/material';
+import StyledButton from './StyledButton';
+import { JikanResource } from '@tutkli/jikan-ts';
+
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 
 interface SearchCardProps {
 	image: string;
 	title: string;
+	description: string;
+	genres: JikanResource[];
+	score: number;
+	rating: string;
 	onClick?: () => void;
 }
 
-const SearchCard: React.FC<SearchCardProps> = ({ image, title, onClick }) => {
+const SearchCard: React.FC<SearchCardProps> = ({
+	image,
+	title,
+	description,
+	genres,
+	score,
+	rating,
+	onClick,
+}) => {
 	const theme = useTheme();
 
 	return (
 		<Card
 			sx={{
-				width: '250px',
-				height: '450px',
-				marginBottom: '10px',
-				cursor: 'pointer',
-				boxShadow: 'rgba(29, 51, 53, 0.7)',
+				position: 'relative',
+				display: 'flex',
+				flexDirection: 'column',
+				width: '100%',
+				maxWidth: '350px',
 				overflow: 'hidden',
-				backgroundColor:
-					// 'theme.palette.primary.light' ,
-
-					'transparent',
-				transition:
-					'transform 0.50s ease-in-out, box-shadow 0.50s ease-in-out, border 0.50s ease-in-out',
+				cursor: 'pointer',
+				borderRadius: '1rem',
+				boxShadow:
+					'0 4px 8px rgba(0,0,0,0.1), 0 8px 16px rgba(0,0,0,0.1)',
+				transition: 'transform 0.7s cubic-bezier(0.19, 1, 0.22, 1)',
 				'&:hover': {
 					transform: 'scale(1.05)',
-					border: `2px solid ${theme.palette.secondary.main}`,
-					boxShadow: `0px 0px 15px ${theme.palette.secondary.main}`,
+				},
+				'&:hover .rating-label': {
+					opacity: 1,
+					top: '-0.5rem',
+				},
+				'&:hover .content': {
+					transform: 'translateY(0)',
 				},
 				'&:hover .card-media': {
-					// transform: 'scale(1.1)',
+					transform: 'scale(1.2)',
+					opacity: 0.3,
 				},
 			}}
 			onClick={onClick}
@@ -49,42 +71,135 @@ const SearchCard: React.FC<SearchCardProps> = ({ image, title, onClick }) => {
 					height: '100%',
 					position: 'relative',
 					overflow: 'hidden',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
 				}}
 			>
-				<Box sx={{ flex: '1 1 auto', width: '100%' }}>
-					<CardMedia
-						component="img"
-						image={image}
-						alt="Anime thumbnail"
-						className="card-media"
-						sx={{
-							width: '100%',
-							height: '400px',
-							objectFit: 'cover',
-							transition: 'transform 0.50s ease-in-out',
-						}}
-					/>
-				</Box>
-
-				<Box
+				<CardMedia
+					component="img"
+					image={image}
+					alt={title}
+					className="card-media"
 					sx={{
 						width: '100%',
-						padding: '10px 8px',
-						textAlign: 'center',
+						height: '400px',
+						objectFit: 'cover',
+						transition:
+							'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in-out',
+						opacity: 1,
+					}}
+				/>
+
+				<Box
+					className="rating-label"
+					sx={{
+						position: 'absolute',
+						top: '0.5rem',
+						right: '1rem',
+						height: '5rem',
+						width: '3rem',
+						backgroundColor: 'rgba(38, 71, 71)',
+						borderEndStartRadius: '0.5rem',
+						borderEndEndRadius: '0.5rem',
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						opacity: 0,
+						transition:
+							'opacity 0.5s ease-in-out, top 0.5s ease-in-out',
 					}}
 				>
 					<Typography
 						variant="h5"
 						sx={{
-							color: theme.palette.text.primary,
+							color: theme.palette.text.secondary,
+							textAlign: 'center',
 						}}
+					>
+						{rating?.split(' - ')[0]}
+					</Typography>
+				</Box>
+
+				<Grid2
+					className="content"
+					sx={{
+						position: 'absolute',
+						bottom: 0,
+						left: 0,
+						width: '100%',
+						background:
+							'linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0))',
+						color: 'whitesmoke',
+						padding: '1rem',
+						transform: 'translateY(100%)',
+						transition:
+							'transform 0.7s cubic-bezier(0.19, 1, 0.22, 1)',
+					}}
+				>
+					<Typography
+						variant="h3"
+						sx={{ color: theme.palette.secondary.main }}
 					>
 						{title}
 					</Typography>
-				</Box>
+
+					<Typography
+						variant="h5"
+						sx={{
+							color: theme.palette.text.primary,
+							display: 'flex',
+							alignItems: 'center',
+						}}
+					>
+						<StarOutlinedIcon
+							sx={{
+								marginRight: '0.5rem',
+							}}
+						/>
+						{score}
+					</Typography>
+
+					<Typography
+						variant="body1"
+						className="description"
+						sx={{
+							display: '-webkit-box',
+							WebkitBoxOrient: 'vertical',
+							overflow: 'hidden',
+							WebkitLineClamp: 4,
+							textOverflow: 'ellipsis',
+							transition: 'WebkitLineClamp 0.7s ease',
+						}}
+					>
+						{description}
+					</Typography>
+
+					<Grid2
+						sx={{
+							marginTop: '1rem',
+							marginBottom: '1rem',
+							display: 'flex',
+							flexWrap: 'wrap',
+							gap: '0.5rem',
+						}}
+					>
+						{genres.map((genre) => (
+							<Box
+								key={genre.mal_id}
+								sx={{
+									backgroundColor: 'rgba(56, 113, 113, 0.7)',
+									padding: '0.25rem 0.5rem',
+									borderRadius: '8px',
+									fontSize: '0.875rem',
+									display: 'inline-block',
+									color: theme.palette.text.primary,
+								}}
+							>
+								{genre.name}
+							</Box>
+						))}
+					</Grid2>
+
+					<StyledButton> See more</StyledButton>
+				</Grid2>
 			</CardActionArea>
 		</Card>
 	);

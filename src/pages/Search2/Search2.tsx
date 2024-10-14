@@ -11,10 +11,13 @@ import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
+import { useNavigate } from 'react-router-dom';
+// import theme from '../../styles/theme';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const { query, filters, sorting, pagination, page } = state;
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -175,50 +178,50 @@ const Search: React.FC = () => {
 			</Grid2>
 
 			<Grid2 container spacing={3} size={9} sx={{ marginTop: '1.5rem' }}>
-				<Grid2 size={12}>
+				<Grid2 size={7}>
 					<Sorting />
+				</Grid2>
+				<Grid2 size={5}>
+					<Grid2
+						container
+						size={12}
+						sx={{
+							justifyContent: 'right',
+						}}
+					>
+						{pagination && (
+							<Pagination
+								size="large"
+								count={pagination.last_visible_page}
+								page={page}
+								color="primary"
+								onChange={handlePageChange}
+							/>
+						)}
+					</Grid2>
 				</Grid2>
 				<Grid2
 					container
-					size={12}
 					sx={{
-						justifyContent: 'right',
+						marginTop: '1rem',
 					}}
 				>
-					{pagination && (
-						<Pagination
-							size="large"
-							count={pagination.last_visible_page}
-							page={page}
-							onChange={handlePageChange}
-							sx={{
-								color: 'theme.pallete.primary.main',
-								'& .Mui-selected': {
-									backgroundColor: 'primary.main',
-								},
-								'& .MuiPaginationItem-root': {
-									'&:hover': {
-										backgroundColor: 'primary.main',
-									},
-								},
-							}}
-						/>
-					)}
+					{uniqueAnimeList.map((anime) => (
+						<Grid2 key={anime.mal_id} size={3}>
+							<SearchCard
+								image={anime.images.jpg.image_url}
+								title={anime.title}
+								description={anime.synopsis}
+								genres={anime.genres}
+								score={anime.score}
+								rating={anime.rating}
+								onClick={() =>
+									navigate(`/anime/${anime.mal_id}`)
+								}
+							/>
+						</Grid2>
+					))}
 				</Grid2>
-
-				{uniqueAnimeList.map((anime) => (
-					<Grid2
-						key={anime.mal_id}
-						sx={{
-							marginTop: '1rem',
-						}}
-					>
-						<SearchCard
-							image={anime.images.jpg.image_url}
-							title={anime.title}
-						/>
-					</Grid2>
-				))}
 			</Grid2>
 
 			<Grid2 size={12} sx={{ display: 'flex', justifyContent: 'right' }}>
@@ -227,18 +230,8 @@ const Search: React.FC = () => {
 						count={pagination.last_visible_page}
 						page={page}
 						size="large"
+						color="primary"
 						onChange={handlePageChange}
-						sx={{
-							color: 'theme.pallete.primary.main',
-							'& .Mui-selected': {
-								backgroundColor: 'primary.main',
-							},
-							'& .MuiPaginationItem-root': {
-								'&:hover': {
-									backgroundColor: 'primary.main',
-								},
-							},
-						}}
 					/>
 				)}
 			</Grid2>

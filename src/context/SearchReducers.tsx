@@ -61,7 +61,7 @@ export const initialState: SearchState = {
 		orderBy: undefined,
 	},
 	sortingValue: {
-		sortValue: 'desc',
+		sortValue: 'asc',
 		orderByValue: 'title',
 	},
 	filters: {
