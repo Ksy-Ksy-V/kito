@@ -1,5 +1,11 @@
-import { Grid2, Pagination, Typography } from '@mui/material';
-
+import {
+	Box,
+	Grid2,
+	keyframes,
+	Pagination,
+	Skeleton,
+	Typography,
+} from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
 import StyledButton from '../../components/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
@@ -12,12 +18,24 @@ import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-// import theme from '../../styles/theme';
+import kitoLoading from '../../images/loading.png';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
-	const { query, filters, sorting, pagination, page } = state;
+	const { query, filters, sorting, pagination, page, loading } = state;
 	const navigate = useNavigate();
+
+	const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);  
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -36,6 +54,11 @@ const Search: React.FC = () => {
 		dispatch({
 			type: 'SET_SORTING',
 			payload: { orderBy, sort },
+		});
+
+		dispatch({
+			type: 'SET_LOADING',
+			payload: true,
 		});
 
 		animeService
@@ -57,7 +80,11 @@ const Search: React.FC = () => {
 					type: 'SET_PAGINATION',
 					payload: response.pagination as JikanPagination,
 				});
-				// setPaginationData(animeList.pagination as JikanPagination);
+
+				dispatch({
+					type: 'SET_LOADING',
+					payload: false,
+				});
 			})
 			.catch((error) => {
 				console.error('Failed to fetch anime:', error);
@@ -123,14 +150,35 @@ const Search: React.FC = () => {
 
 	return (
 		<Grid2 container spacing={2}>
-			<Grid2 size={{ xs: 12 }}>
-				<Typography
-					variant="h1"
-					sx={{ textAlign: 'center', marginTop: '1.5rem' }}
+			{loading ? (
+				<Grid2
+					size={{ xs: 12 }}
+					sx={{
+						display: 'flex',
+						textAlign: 'center',
+						justifyContent: 'center',
+					}}
 				>
-					There's something for everyone!
-				</Typography>
-			</Grid2>
+					<Skeleton
+						variant="rectangular"
+						width={950}
+						height={60}
+						sx={{
+							marginTop: '1.5rem',
+						}}
+					/>
+				</Grid2>
+			) : (
+				<Grid2 size={{ xs: 12 }}>
+					<Typography
+						variant="h1"
+						sx={{ textAlign: 'center', marginTop: '1.5rem' }}
+					>
+						There's something for everyone!
+					</Typography>
+				</Grid2>
+			)}
+
 			<Grid2 size={{ xs: 12 }}>
 				<SearchInputField />
 			</Grid2>
@@ -142,13 +190,17 @@ const Search: React.FC = () => {
 				sx={{ marginTop: '2rem', alignContent: 'flex-start' }}
 			>
 				<Grid2 size={12}>
-					<StyledButton onClick={handleApplyFilters}>
+					<StyledButton
+						onClick={handleApplyFilters}
+						disabled={loading}
+					>
 						Apply Filters
 					</StyledButton>
 				</Grid2>
 				<Grid2 size={12}>
 					<StyledButton
 						onClick={handleClearFilters}
+						disabled={loading}
 						sx={{
 							backgroundColor: 'transparent',
 						}}
@@ -163,13 +215,17 @@ const Search: React.FC = () => {
 					<GenresFilter />
 				</Grid2>
 				<Grid2 size={12}>
-					<StyledButton onClick={handleApplyFilters}>
+					<StyledButton
+						onClick={handleApplyFilters}
+						disabled={loading}
+					>
 						Apply Filters
 					</StyledButton>
 				</Grid2>
 				<Grid2 size={12}>
 					<StyledButton
 						onClick={handleClearFilters}
+						disabled={loading}
 						sx={{ backgroundColor: 'transparent' }}
 					>
 						Reset Filters
@@ -177,10 +233,34 @@ const Search: React.FC = () => {
 				</Grid2>
 			</Grid2>
 
-			<Grid2 container spacing={3} size={9} sx={{ marginTop: '1.5rem' }}>
-				<Grid2 size={7}>
-					<Sorting />
-				</Grid2>
+			<Grid2
+				container
+				spacing={3}
+				size={9}
+				sx={{
+					marginTop: '1rem',
+					alignContent: 'flex-start',
+				}}
+			>
+				{loading ? (
+					<>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
+						/>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
+						/>
+					</>
+				) : (
+					<Grid2 size={7}>
+						<Sorting />
+					</Grid2>
+				)}
+
 				<Grid2 size={5}>
 					<Grid2
 						container
@@ -189,43 +269,89 @@ const Search: React.FC = () => {
 							justifyContent: 'right',
 						}}
 					>
-						{pagination && (
+						{!loading && pagination && (
 							<Pagination
 								size="large"
 								count={pagination.last_visible_page}
 								page={page}
 								color="primary"
 								onChange={handlePageChange}
+								sx={{ marginTop: '1.25rem' }}
 							/>
 						)}
 					</Grid2>
 				</Grid2>
-				<Grid2
-					container
-					sx={{
-						marginTop: '1rem',
-					}}
-				>
-					{uniqueAnimeList.map((anime) => (
-						<Grid2 key={anime.mal_id} size={3}>
-							<SearchCard
-								image={anime.images.jpg.image_url}
-								title={anime.title}
-								description={anime.synopsis}
-								genres={anime.genres}
-								score={anime.score}
-								rating={anime.rating}
-								onClick={() =>
-									navigate(`/anime/${anime.mal_id}`)
-								}
-							/>
+
+				{loading ? (
+					<Grid2
+						size={12}
+						sx={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							display: 'flex',
+						}}
+					>
+						<Grid2 container className="test2">
+							<Grid2
+								className="test"
+								size={12}
+								sx={{
+									justifyContent: 'center',
+									alignItems: 'center',
+									display: 'flex',
+								}}
+							>
+								<Box
+									className="test3"
+									component="img"
+									src={kitoLoading}
+									sx={{
+										width: '25rem',
+										marginTop: '5rem',
+										animation: `${pulse} 5s ease-in-out infinite`,
+									}}
+								/>
+							</Grid2>
 						</Grid2>
-					))}
-				</Grid2>
+					</Grid2>
+				) : (
+					<Grid2 size={12}>
+						<Grid2
+							container
+							spacing={3}
+							sx={{
+								marginTop: '1rem',
+								justifyContent: 'right',
+							}}
+						>
+							{uniqueAnimeList.map((anime) => (
+								<Grid2 key={anime.mal_id} size={3}>
+									<SearchCard
+										image={anime.images.jpg.image_url}
+										title={anime.title}
+										description={anime.synopsis}
+										genres={anime.genres}
+										score={anime.score}
+										rating={anime.rating}
+										onClick={() =>
+											navigate(`/anime/${anime.mal_id}`)
+										}
+									/>
+								</Grid2>
+							))}
+						</Grid2>
+					</Grid2>
+				)}
 			</Grid2>
 
-			<Grid2 size={12} sx={{ display: 'flex', justifyContent: 'right' }}>
-				{pagination && (
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: 'right',
+				}}
+			>
+				{!loading && pagination && (
 					<Pagination
 						count={pagination.last_visible_page}
 						page={page}

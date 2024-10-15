@@ -40,8 +40,19 @@ const SearchCard: React.FC<SearchCardProps> = ({
 				position: 'relative',
 				display: 'flex',
 				flexDirection: 'column',
-				width: '100%',
-				maxWidth: '350px',
+				width: {
+					xs: '150px',
+					sm: '200px',
+					md: '220px',
+					lg: '240px',
+					xl: '260px',
+				},
+				maxWidth: {
+					xs: '150px',
+					sm: '200px',
+					md: '300px',
+					lg: '400px',
+				},
 				overflow: 'hidden',
 				cursor: 'pointer',
 				borderRadius: '1rem',
@@ -80,7 +91,13 @@ const SearchCard: React.FC<SearchCardProps> = ({
 					className="card-media"
 					sx={{
 						width: '100%',
-						height: '400px',
+						height: {
+							xs: '250px',
+							sm: '330px',
+							md: '350px',
+							lg: '370px',
+							xl: '400px',
+						},
 						objectFit: 'cover',
 						transition:
 							'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in-out',
@@ -136,7 +153,16 @@ const SearchCard: React.FC<SearchCardProps> = ({
 				>
 					<Typography
 						variant="h3"
-						sx={{ color: theme.palette.secondary.main }}
+						sx={{
+							color: theme.palette.secondary.main,
+							fontSize: {
+								xs: theme.typography.h5.fontSize,
+								sm: theme.typography.h5.fontSize,
+								md: theme.typography.h5.fontSize,
+								lg: theme.typography.h4.fontSize,
+								xl: theme.typography.h3.fontSize,
+							},
+						}}
 					>
 						{title}
 					</Typography>
@@ -147,6 +173,13 @@ const SearchCard: React.FC<SearchCardProps> = ({
 							color: theme.palette.text.primary,
 							display: 'flex',
 							alignItems: 'center',
+							fontSize: {
+								xs: theme.typography.body1.fontSize,
+								sm: theme.typography.body1.fontSize,
+								md: theme.typography.body1.fontSize,
+								lg: theme.typography.h5.fontSize,
+								xl: theme.typography.h5.fontSize,
+							},
 						}}
 					>
 						<StarOutlinedIcon
@@ -167,6 +200,13 @@ const SearchCard: React.FC<SearchCardProps> = ({
 							WebkitLineClamp: 4,
 							textOverflow: 'ellipsis',
 							transition: 'WebkitLineClamp 0.7s ease',
+							fontSize: {
+								xs: theme.typography.body2.fontSize,
+								sm: theme.typography.body2.fontSize,
+								md: theme.typography.body1.fontSize,
+								lg: theme.typography.body1.fontSize,
+								xl: theme.typography.body1.fontSize,
+							},
 						}}
 					>
 						{description}

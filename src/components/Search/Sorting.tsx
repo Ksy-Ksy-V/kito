@@ -78,14 +78,13 @@ const Sorting: React.FC = () => {
 				size={12}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
-
 					flexDirection: 'row',
+					marginTop: '1rem',
 				}}
 			>
 				<FormControl
 					sx={{
 						display: 'flex',
-
 						flexDirection: 'row',
 					}}
 				>

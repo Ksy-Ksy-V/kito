@@ -6,6 +6,7 @@ import {
 	FormGroup,
 	IconButton,
 	Paper,
+	Skeleton,
 	Typography,
 } from '@mui/material';
 
@@ -98,58 +99,70 @@ const GenresFilter: React.FC = () => {
 
 	return (
 		<>
-			<Paper
-				sx={{
-					backgroundColor: theme.palette.primary.light,
-					padding: '1rem',
-					marginTop: '1rem',
-				}}
-			>
-				<Box
+			{state.loading ? (
+				<Skeleton
+					variant="rectangular"
+					width={360}
+					height={800}
 					sx={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						cursor: 'pointer',
+						marginTop: '1rem',
+						backgroundColor: theme.palette.primary.light,
 					}}
-					onClick={() => setGenresOpen((prev) => !prev)}
+				/>
+			) : (
+				<Paper
+					sx={{
+						backgroundColor: theme.palette.primary.light,
+						padding: '1rem',
+						marginTop: '1rem',
+					}}
 				>
-					<Typography variant="h6">Genres</Typography>
-					<IconButton
-						onClick={() => setGenresOpen(genresOpen)}
-						aria-expanded={genresOpen}
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							cursor: 'pointer',
+						}}
+						onClick={() => setGenresOpen((prev) => !prev)}
 					>
-						<ExpandMore
-							sx={{
-								transform: genresOpen
-									? 'rotate(180deg)'
-									: 'rotate(0deg)',
-								transition: 'transform 0.3s ease',
-							}}
-						/>
-					</IconButton>
-				</Box>
-
-				<Collapse in={genresOpen} timeout="auto" unmountOnExit>
-					<FormGroup>
-						{animeGenres.map((genre) => (
-							<FormControlLabel
-								key={genre.mal_id}
-								control={
-									<Checkbox
-										value={genre.mal_id}
-										checked={state.filtersValue.genresValue.includes(
-											genre.mal_id.toString()
-										)}
-										onChange={handleGenreChange}
-									/>
-								}
-								label={genre.name}
+						<Typography variant="h6">Genres</Typography>
+						<IconButton
+							onClick={() => setGenresOpen(genresOpen)}
+							aria-expanded={genresOpen}
+						>
+							<ExpandMore
+								sx={{
+									transform: genresOpen
+										? 'rotate(180deg)'
+										: 'rotate(0deg)',
+									transition: 'transform 0.3s ease',
+								}}
 							/>
-						))}
-					</FormGroup>
-				</Collapse>
-			</Paper>
+						</IconButton>
+					</Box>
+
+					<Collapse in={genresOpen} timeout="auto" unmountOnExit>
+						<FormGroup>
+							{animeGenres.map((genre) => (
+								<FormControlLabel
+									key={genre.mal_id}
+									control={
+										<Checkbox
+											value={genre.mal_id}
+											checked={state.filtersValue.genresValue.includes(
+												genre.mal_id.toString()
+											)}
+											onChange={handleGenreChange}
+										/>
+									}
+									label={genre.name}
+								/>
+							))}
+						</FormGroup>
+					</Collapse>
+				</Paper>
+			)}
 		</>
 	);
 };
