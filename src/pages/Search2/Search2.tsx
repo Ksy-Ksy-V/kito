@@ -1,41 +1,33 @@
-import {
-	Box,
-	Grid2,
-	keyframes,
-	Pagination,
-	Skeleton,
-	Typography,
-} from '@mui/material';
+import { Box, Grid2, keyframes, Skeleton, Typography } from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
-import StyledButton from '../../components/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import SearchCard from '../../components/SearchCard';
 import { animeService } from '../../services/animeService';
-import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
+import { parseQueryParams } from '../../utils/urlParams';
 import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
 import kitoLoading from '../../images/loading.png';
+import SearchButtons from '../../components/Search/SearchButtons';
+import theme from '../../styles/theme';
+import PaginationSearch from '../../components/Search/Pagination';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
-	const { query, filters, sorting, pagination, page, loading } = state;
+	const { page, loading } = state;
 	const navigate = useNavigate();
 
-	const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);  
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+	const pulse = useMemo(
+		() => keyframes`
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+		`,
+		[]
+	);
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -55,12 +47,10 @@ const Search: React.FC = () => {
 			type: 'SET_SORTING',
 			payload: { orderBy, sort },
 		});
-
 		dispatch({
 			type: 'SET_LOADING',
 			payload: true,
 		});
-
 		animeService
 			.searchAnime(
 				query || '',
@@ -80,7 +70,6 @@ const Search: React.FC = () => {
 					type: 'SET_PAGINATION',
 					payload: response.pagination as JikanPagination,
 				});
-
 				dispatch({
 					type: 'SET_LOADING',
 					payload: false,
@@ -89,64 +78,16 @@ const Search: React.FC = () => {
 			.catch((error) => {
 				console.error('Failed to fetch anime:', error);
 			});
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page]);
 
-	const handlePageChange = (
-		_event: React.ChangeEvent<unknown>,
-		value: number
-	) => {
-		dispatch({ type: 'SET_PAGE', payload: value });
-	};
-
-	const handleApplyFilters = () => {
-		const queryString = buildQueryParams(
-			state.query,
-			state.filters,
-			state.sorting
+	const uniqueAnimeList = useMemo(() => {
+		return state.animeList.filter(
+			(anime, index, self) =>
+				index === self.findIndex((a) => a.mal_id === anime.mal_id)
 		);
-		window.history.replaceState(null, '', `/search2${queryString}`);
-		animeService
-			.searchAnime(query, 25, filters, sorting)
-			.then((response) => {
-				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
-				dispatch({
-					type: 'SET_PAGINATION',
-					payload: response.pagination as JikanPagination,
-				});
-				dispatch({
-					type: 'SET_PAGE',
-					payload: 1,
-				});
-			});
-	};
-
-	const handleClearFilters = () => {
-		dispatch({ type: 'SET_QUERY', payload: '' });
-		dispatch({
-			type: 'SET_FILTERS',
-			payload: {
-				genres: undefined,
-				format: undefined,
-				status: undefined,
-				rating: undefined,
-			},
-		});
-		dispatch({
-			type: 'SET_SORTING',
-			payload: {
-				orderBy: undefined,
-				sort: undefined,
-			},
-		});
-
-		window.history.replaceState(null, '', '/search2');
-	};
-
-	const uniqueAnimeList = state.animeList.filter(
-		(anime, index, self) =>
-			index === self.findIndex((a) => a.mal_id === anime.mal_id)
-	);
+	}, [state.animeList]);
 
 	return (
 		<Grid2 container spacing={2}>
@@ -172,7 +113,17 @@ const Search: React.FC = () => {
 				<Grid2 size={{ xs: 12 }}>
 					<Typography
 						variant="h1"
-						sx={{ textAlign: 'center', marginTop: '1.5rem' }}
+						sx={{
+							textAlign: 'center',
+							marginTop: '1.5rem',
+							fontSize: {
+								xs: theme.typography.h4.fontSize,
+								sm: theme.typography.h3.fontSize,
+								md: theme.typography.h2.fontSize,
+								lg: theme.typography.h1.fontSize,
+								xl: theme.typography.h1.fontSize,
+							},
+						}}
 					>
 						There's something for everyone!
 					</Typography>
@@ -189,48 +140,14 @@ const Search: React.FC = () => {
 				size={3}
 				sx={{ marginTop: '2rem', alignContent: 'flex-start' }}
 			>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleApplyFilters}
-						disabled={loading}
-					>
-						Apply Filters
-					</StyledButton>
-				</Grid2>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleClearFilters}
-						disabled={loading}
-						sx={{
-							backgroundColor: 'transparent',
-						}}
-					>
-						Reset Filters
-					</StyledButton>
-				</Grid2>
+				<SearchButtons />
 				<Grid2 size={12}>
 					<Filters />
 				</Grid2>
 				<Grid2 size={12}>
 					<GenresFilter />
 				</Grid2>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleApplyFilters}
-						disabled={loading}
-					>
-						Apply Filters
-					</StyledButton>
-				</Grid2>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleClearFilters}
-						disabled={loading}
-						sx={{ backgroundColor: 'transparent' }}
-					>
-						Reset Filters
-					</StyledButton>
-				</Grid2>
+				<SearchButtons />
 			</Grid2>
 
 			<Grid2
@@ -269,16 +186,7 @@ const Search: React.FC = () => {
 							justifyContent: 'right',
 						}}
 					>
-						{!loading && pagination && (
-							<Pagination
-								size="large"
-								count={pagination.last_visible_page}
-								page={page}
-								color="primary"
-								onChange={handlePageChange}
-								sx={{ marginTop: '1.25rem' }}
-							/>
-						)}
+						<PaginationSearch />
 					</Grid2>
 				</Grid2>
 
@@ -291,9 +199,8 @@ const Search: React.FC = () => {
 							display: 'flex',
 						}}
 					>
-						<Grid2 container className="test2">
+						<Grid2 container>
 							<Grid2
-								className="test"
 								size={12}
 								sx={{
 									justifyContent: 'center',
@@ -302,7 +209,6 @@ const Search: React.FC = () => {
 								}}
 							>
 								<Box
-									className="test3"
 									component="img"
 									src={kitoLoading}
 									sx={{
@@ -351,15 +257,7 @@ const Search: React.FC = () => {
 					justifyContent: 'right',
 				}}
 			>
-				{!loading && pagination && (
-					<Pagination
-						count={pagination.last_visible_page}
-						page={page}
-						size="large"
-						color="primary"
-						onChange={handlePageChange}
-					/>
-				)}
+				<PaginationSearch />
 			</Grid2>
 		</Grid2>
 	);

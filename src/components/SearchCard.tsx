@@ -8,7 +8,7 @@ import {
 	CardActionArea,
 	Grid2,
 } from '@mui/material';
-import StyledButton from './StyledButton';
+// import StyledButton from './StyledButton';
 import { JikanResource } from '@tutkli/jikan-ts';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
@@ -238,7 +238,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 						))}
 					</Grid2>
 
-					<StyledButton> See more</StyledButton>
+					{/* <StyledButton> See more</StyledButton> */}
 				</Grid2>
 			</CardActionArea>
 		</Card>

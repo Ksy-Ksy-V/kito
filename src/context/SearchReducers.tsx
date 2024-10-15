@@ -102,9 +102,9 @@ export function searchReducer(state: SearchState, action: Action): SearchState {
 		case SET_LOADING:
 			return { ...state, loading: action.payload };
 		case SET_ANIME_LIST:
-			return { ...state, animeList: action.payload, loading: false };
+			return { ...state, animeList: action.payload };
 		case SET_ERROR:
-			return { ...state, error: action.payload, loading: false };
+			return { ...state, error: action.payload };
 		case SET_QUERY:
 			return { ...state, query: action.payload };
 		case SET_PAGINATION:

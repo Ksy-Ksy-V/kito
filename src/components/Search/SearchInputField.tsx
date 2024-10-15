@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
@@ -21,18 +21,24 @@ interface AnimeOptionType {
 }
 
 const SearchInputField: React.FC = () => {
-	const { state, dispatch } = useSearchContext();
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();
 
 	const isSearchPage = location.pathname === '/search2';
 
+	// eslint-disable-next-line react-hooks/rules-of-hooks
+	const context = isSearchPage ? useSearchContext() : null;
+	const dispatch = context ? context.dispatch : null;
+
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
 		const queryFromUrl = urlParams.get('q') || '';
 		setValue(queryFromUrl);
-		dispatch({ type: 'SET_QUERY', payload: queryFromUrl });
+
+		if (dispatch) {
+			dispatch({ type: 'SET_QUERY', payload: queryFromUrl });
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [location.search]);
 
@@ -41,7 +47,7 @@ const SearchInputField: React.FC = () => {
 		debounce(async (query: string) => {
 			try {
 				const options = await animeService.searchAnime(query, 10);
-				setAnimeOptions(options);
+				setAnimeOptions(options.data);
 			} catch (error) {
 				console.error('Failed to fetch anime options:', error);
 			}
@@ -54,17 +60,25 @@ const SearchInputField: React.FC = () => {
 		newInputValue: string
 	) => {
 		setValue(newInputValue);
-		dispatch({ type: 'SET_QUERY', payload: newInputValue });
+
+		if (dispatch) {
+			dispatch({ type: 'SET_QUERY', payload: newInputValue });
+		}
 
 		if (newInputValue === '') {
-			// window.history.replaceState(null, '', '/search2');
-
 			const queryString = buildQueryParams('');
 			window.history.replaceState(null, '', `/search2${queryString}`);
 		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
 		}
 	};
+
+	const uniqueAnimeList = useMemo(() => {
+		return animeOptions.filter(
+			(anime, index, self) =>
+				index === self.findIndex((a) => a.mal_id === anime.mal_id)
+		);
+	}, [animeOptions]);
 
 	const filter = createFilterOptions<AnimeOptionType>();
 
@@ -73,13 +87,11 @@ const SearchInputField: React.FC = () => {
 			<Autocomplete
 				freeSolo
 				inputValue={value}
-				options={animeOptions}
+				options={uniqueAnimeList}
 				onInputChange={handleInputChange}
 				onChange={async (_event, newValue) => {
 					if (typeof newValue === 'object' && newValue?.inputValue) {
 						if (isSearchPage) {
-							// navigate(`/search2?q=${newValue.inputValue}`);
-
 							const queryString = buildQueryParams(
 								newValue.inputValue
 							);
@@ -94,10 +106,14 @@ const SearchInputField: React.FC = () => {
 								newValue.inputValue,
 								25
 							);
-							dispatch({
-								type: 'SET_ANIME_LIST',
-								payload: response,
-							});
+							if (dispatch) {
+								dispatch({
+									type: 'SET_ANIME_LIST',
+									payload: response.data,
+								});
+							}
+						} else {
+							navigate(`/search2?q=${newValue.inputValue}`);
 						}
 					} else if (
 						typeof newValue === 'object' &&
@@ -158,7 +174,6 @@ const SearchInputField: React.FC = () => {
 						? option?.inputValue
 						: option.title;
 				}}
-				loading={state.loading}
 				renderInput={(params) => (
 					<TextField
 						{...params}
