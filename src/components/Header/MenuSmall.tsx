@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
+import { Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import theme from '../../styles/theme';
 
-const NavBar = () => {
+const MenuSmall = () => {
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
 		null
 	);
-
-	const theme = useTheme();
 
 	const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElBrowse(event.currentTarget);
@@ -21,16 +20,9 @@ const NavBar = () => {
 
 	return (
 		<>
-			<Button
+			<IconButton
 				color="inherit"
 				onClick={handleMenuClick}
-				endIcon={
-					<ArrowDropDownIcon
-						sx={{
-							color: theme.palette.primary.main,
-						}}
-					/>
-				}
 				sx={{
 					color: theme.palette.primary.main,
 					'&:hover': {
@@ -38,16 +30,28 @@ const NavBar = () => {
 					},
 				}}
 			>
-				<Typography variant="body1" sx={{ color: 'inherit' }}>
-					Browse
-				</Typography>
-			</Button>
+				<MenuOutlinedIcon sx={{ fontSize: '2rem' }} />
+			</IconButton>
 			<Menu
 				anchorEl={anchorElBrowse}
 				open={Boolean(anchorElBrowse)}
 				onClose={handleMenuClose}
 				sx={menuStyles}
 			>
+				<MenuItem
+					component={Link}
+					to="/profile"
+					onClick={handleMenuClose}
+					sx={menuItemStyles(theme)}
+				>
+					Profile
+				</MenuItem>
+
+				<Divider
+					variant="middle"
+					sx={{ backgroundColor: theme.palette.primary.main }}
+				/>
+
 				<MenuItem
 					component={Link}
 					to="/search"
@@ -80,9 +84,23 @@ const NavBar = () => {
 				>
 					Randomizer
 				</MenuItem>
+
+				<Divider
+					variant="middle"
+					sx={{ backgroundColor: theme.palette.primary.main }}
+				/>
+
+				<MenuItem
+					component={Link}
+					to="/settings"
+					onClick={handleMenuClose}
+					sx={menuItemStyles(theme)}
+				>
+					Settings
+				</MenuItem>
 			</Menu>
 		</>
 	);
 };
 
-export default NavBar;
+export default MenuSmall;
