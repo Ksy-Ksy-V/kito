@@ -69,7 +69,7 @@ const Sorting: React.FC = () => {
 			}
 		);
 
-		window.history.replaceState(null, '', `/search2${queryString}`);
+		window.history.replaceState(null, '', `/search${queryString}`);
 	};
 
 	return (

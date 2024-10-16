@@ -3,7 +3,7 @@ import { useSearchContext } from '../../context/SearchContext';
 
 const PaginationSearch = () => {
 	const { state, dispatch } = useSearchContext();
-	const { pagination, page, loading } = state;
+	const { pagination, page, loading, animeList, error } = state;
 
 	const handlePageChange = (
 		_event: React.ChangeEvent<unknown>,
@@ -14,7 +14,7 @@ const PaginationSearch = () => {
 
 	return (
 		<>
-			{!loading && pagination && (
+			{!error && animeList.length > 0 && !loading && pagination && (
 				<Pagination
 					size="large"
 					count={pagination.last_visible_page}

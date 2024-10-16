@@ -65,7 +65,7 @@ const Filters: React.FC = () => {
 			state.sorting
 		);
 
-		window.history.replaceState(null, '', `/search2${queryString}`);
+		window.history.replaceState(null, '', `/search${queryString}`);
 	};
 
 	const handleClearValue = (filterName: string) => {
@@ -92,7 +92,7 @@ const Filters: React.FC = () => {
 			state.sorting
 		);
 
-		window.history.replaceState(null, '', `/search2${queryString}`);
+		window.history.replaceState(null, '', `/search${queryString}`);
 	};
 
 	return (

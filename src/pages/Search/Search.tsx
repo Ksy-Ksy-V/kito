@@ -1,228 +1,244 @@
-import React, { useEffect, useState } from 'react';
-import { Grid2, Skeleton, Typography } from '@mui/material';
-import {
-	Anime,
-	AnimeClient,
-	AnimeRating,
-	AnimeSearchStatus,
-	AnimeType,
-	JikanResponse,
-} from '@tutkli/jikan-ts';
-
+import { Box, Grid2, keyframes, Skeleton, Typography } from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
-import GenresFilters from '../../components/Search/GenresFilters';
-import SearchCard from '../../components/SearchCard';
-import { AnimeFilters, AnimeGenresFilters } from '../../models/animeFilters';
-import StyledButton from '../../components/StyledButton';
+import { useSearchContext } from '../../context/SearchContext';
+import { useEffect, useMemo } from 'react';
+
+import { animeService } from '../../services/animeService';
+import { parseQueryParams } from '../../utils/urlParams';
+import GenresFilter from '../../components/Search/GenresFilter';
+import Filters from '../../components/Search/Filters';
+import Sorting from '../../components/Search/Sorting';
+import { JikanPagination } from '@tutkli/jikan-ts';
+import kitoLoading from '../../images/loading.png';
+import SearchButtons from '../../components/Search/SearchButtons';
+import theme from '../../styles/theme';
+import PaginationSearch from '../../components/Search/Pagination';
+import CardSection from '../../components/Search/CardSection';
+import NotResultsSection from '../../components/Search/NotResultsSection';
+import ErrorSection from '../../components/Search/ErrorSection';
 
 const Search: React.FC = () => {
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
-	const [loading, setLoading] = useState(false);
+	const { state, dispatch } = useSearchContext();
+	const { page, loading } = state;
 
-	const [resetInputField, setResetInputField] = useState(false);
-	const [searchFromTyping, setSearchFromTyping] = useState(false);
-
-	const [inputSearch, setInputSearch] = useState('');
-	const [GenresFilters, setGenresFilters] = useState<AnimeGenresFilters>({
-		q: '',
-		genres: '',
-		type: undefined,
-		status: undefined,
-		rating: undefined,
-	});
-	const [selectedFilters, setSelectedFilters] = useState<AnimeFilters>({
-		selectedGenres: '',
-		selectedFormat: '',
-		selectedStatus: '',
-		selectedRating: '',
-	});
-
-	const [isInitialSearch, setIsInitialSearch] = useState(true);
+	const pulse = useMemo(
+		() => keyframes`
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+		`,
+		[]
+	);
 
 	useEffect(() => {
-		const queryParams = new URLSearchParams(window.location.search);
-		const query = queryParams.get('q') || '';
-		const genres = queryParams.get('genres') || '';
-		const format = queryParams.get('format') || '';
-		const status = queryParams.get('status') || '';
-		const rating = queryParams.get('rating') || '';
+		const urlFilters = parseQueryParams();
+		const { query, format, genres, status, rating, orderBy, sort } =
+			urlFilters;
 
-		const newFilters: AnimeFilters = {
-			selectedGenres: genres,
-			selectedFormat: format,
-			selectedStatus: status,
-			selectedRating: rating,
-		};
-
-		setSelectedFilters(newFilters);
-		setGenresFilters({
-			q: query,
-			genres,
-			type: format as AnimeType,
-			status: status as AnimeSearchStatus,
-			rating: rating as AnimeRating,
-		});
-
-		if (isInitialSearch || searchFromTyping) {
-			const animeClient = new AnimeClient();
-			animeClient
-				.getAnimeSearch({
-					q: query,
-					genres,
-					type: format as AnimeType,
-					status: status as AnimeSearchStatus,
-					rating: rating as AnimeRating,
-					limit: 25,
-				})
-				.then((response: JikanResponse<Anime[]>) => {
-					setAnimeList(response.data);
-					setLoading(false);
-				})
-				.catch((err) => console.error('Failed to fetch anime:', err));
-
-			setIsInitialSearch(false);
-			setSearchFromTyping(false);
+		if (query) {
+			dispatch({ type: 'SET_QUERY', payload: query });
 		}
-	}, [isInitialSearch, searchFromTyping]);
 
-	const buildQueryParams = (
-		inputSearch: string,
-		filters: AnimeGenresFilters
-	) => {
-		const queryParams: string[] = [];
-		if (inputSearch) queryParams.push(`q=${inputSearch}`);
-		if (filters.genres) queryParams.push(`genres=${filters.genres}`);
-		if (filters.type) queryParams.push(`format=${filters.type}`);
-		if (filters.status) queryParams.push(`status=${filters.status}`);
-		if (filters.rating) queryParams.push(`rating=${filters.rating}`);
-		return queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
-	};
-
-	const handleApplyFilters = () => {
-		const queryString = buildQueryParams(inputSearch, GenresFilters);
-		window.history.replaceState(null, 'New Page Title', queryString);
-
-		const animeClient = new AnimeClient();
-		animeClient
-			.getAnimeSearch({
-				q: inputSearch,
-				genres: GenresFilters.genres,
-				type: GenresFilters.type,
-				status: GenresFilters.status,
-				rating: GenresFilters.rating,
-				limit: 10,
-			})
-			.then((response: JikanResponse<Anime[]>) => {
-				setAnimeList(response.data);
-			})
-			.catch((err) => {
-				console.error('Failed to fetch anime:', err);
-			});
-	};
-
-	useEffect(() => {
-		setGenresFilters({
-			q: inputSearch,
-			genres: selectedFilters.selectedGenres,
-			type: selectedFilters.selectedFormat as AnimeType,
-			status: selectedFilters.selectedStatus as AnimeSearchStatus,
-			rating: selectedFilters.selectedRating as AnimeRating,
+		dispatch({
+			type: 'SET_FILTERS',
+			payload: { format, genres, status, rating },
 		});
-	}, [selectedFilters, inputSearch, resetInputField]);
+
+		dispatch({
+			type: 'SET_SORTING',
+			payload: { orderBy, sort },
+		});
+		dispatch({
+			type: 'SET_LOADING',
+			payload: true,
+		});
+		dispatch({
+			type: 'SET_ERROR',
+			payload: false,
+		});
+		animeService
+			.searchAnime(
+				query || '',
+				24,
+				{
+					genres,
+					format,
+					status,
+					rating,
+				},
+				{ orderBy, sort },
+				page
+			)
+			.then((response) => {
+				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
+				dispatch({
+					type: 'SET_PAGINATION',
+					payload: response.pagination as JikanPagination,
+				});
+				dispatch({
+					type: 'SET_LOADING',
+					payload: false,
+				});
+			})
+			.catch((error) => {
+				console.error('Failed to fetch anime:', error);
+				dispatch({
+					type: 'SET_ERROR',
+					payload: true,
+				});
+			});
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [page]);
 
 	return (
 		<Grid2 container spacing={2}>
-			<Grid2 size={{ xs: 12 }}>
-				<Typography
-					variant="h1"
-					sx={{ textAlign: 'center', marginTop: '1.5rem' }}
-				>
-					There's something for everyone!
-				</Typography>
-			</Grid2>
-			<Grid2 size={{ xs: 12 }}>
-				<SearchInputField
-					resetValue={resetInputField}
-					revertResetValue={() => setResetInputField(false)}
-					callbackSearch={(value) => {
-						const queryString = buildQueryParams(
-							value,
-							GenresFilters
-						);
-						window.history.replaceState(
-							null,
-							'New Page Title',
-							queryString
-						);
-						setGenresFilters((prev) => ({
-							...prev,
-							q: value,
-						}));
-						setInputSearch(value);
-						setSearchFromTyping(true);
+			{loading ? (
+				<Grid2
+					size={{ xs: 12 }}
+					sx={{
+						display: 'flex',
+						textAlign: 'center',
+						justifyContent: 'center',
 					}}
-				/>
-			</Grid2>
-
-			<Grid2 container spacing={2} size={3} sx={{ marginTop: '2rem' }}>
-				<Grid2 size={12}>
-					<StyledButton
-						onClick={handleApplyFilters}
-						sx={{ marginBottom: '1rem' }}
-					>
-						Apply Filters
-					</StyledButton>
-					<GenresFilters
-						defaultFilters={selectedFilters}
-						clearInputField={() => {
-							setResetInputField(true);
-							setInputSearch('');
-						}}
-						callbackSearch={(filters) => {
-							const queryString = buildQueryParams(inputSearch, {
-								type: filters?.selectedFormat as AnimeType,
-								status: filters?.selectedStatus as AnimeSearchStatus,
-								rating: filters?.selectedRating as AnimeRating,
-								genres: filters.selectedGenres,
-							});
-							window.history.replaceState(
-								null,
-								'New Page Title',
-								queryString
-							);
-							setSelectedFilters(filters);
-
-							// handleApplyFilters();
+				>
+					<Skeleton
+						variant="rectangular"
+						width={950}
+						height={60}
+						sx={{
+							marginTop: '1.5rem',
 						}}
 					/>
 				</Grid2>
-				<Grid2 container spacing={2} size={12}>
-					<StyledButton>Search</StyledButton>
-				</Grid2>
-			</Grid2>
-
-			<Grid2 container spacing={3} size={9} sx={{}}>
-				{animeList.map((anime) => (
-					<Grid2
-						key={anime.mal_id}
+			) : (
+				<Grid2 size={{ xs: 12 }}>
+					<Typography
+						variant="h1"
 						sx={{
-							marginTop: '2rem',
+							textAlign: 'center',
+							marginTop: '1.5rem',
+							fontSize: {
+								xs: theme.typography.h4.fontSize,
+								sm: theme.typography.h3.fontSize,
+								md: theme.typography.h2.fontSize,
+								lg: theme.typography.h1.fontSize,
+								xl: theme.typography.h1.fontSize,
+							},
 						}}
 					>
-						{loading ? (
-							<Skeleton
-								variant="rectangular"
-								width="250px"
-								height="450px"
-							/>
-						) : (
-							<SearchCard
-								image={anime.images.jpg.image_url}
-								title={anime.title}
-							/>
-						)}
+						There's something for everyone!
+					</Typography>
+				</Grid2>
+			)}
+
+			<Grid2 size={{ xs: 12 }}>
+				<SearchInputField />
+			</Grid2>
+
+			<Grid2
+				container
+				spacing={2}
+				size={3}
+				sx={{ marginTop: '2rem', alignContent: 'flex-start' }}
+			>
+				<SearchButtons />
+				<Grid2 size={12}>
+					<Filters />
+				</Grid2>
+				<Grid2 size={12}>
+					<GenresFilter />
+				</Grid2>
+				<SearchButtons />
+			</Grid2>
+
+			<Grid2
+				container
+				spacing={3}
+				size={9}
+				sx={{
+					marginTop: '1rem',
+					alignContent: 'flex-start',
+				}}
+			>
+				{loading ? (
+					<>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
+						/>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
+						/>
+					</>
+				) : (
+					<Grid2 size={7}>
+						<Sorting />
 					</Grid2>
-				))}
+				)}
+
+				<Grid2 size={5}>
+					<Grid2
+						container
+						size={12}
+						sx={{
+							justifyContent: 'right',
+						}}
+					>
+						<PaginationSearch />
+					</Grid2>
+				</Grid2>
+
+				{loading ? (
+					<Grid2
+						size={12}
+						sx={{
+							justifyContent: 'center',
+							alignItems: 'center',
+							display: 'flex',
+						}}
+					>
+						<Grid2 container>
+							<Grid2
+								size={12}
+								sx={{
+									justifyContent: 'center',
+									alignItems: 'center',
+									display: 'flex',
+								}}
+							>
+								<Box
+									component="img"
+									src={kitoLoading}
+									sx={{
+										width: '25rem',
+										marginTop: '5rem',
+										animation: `${pulse} 5s ease-in-out infinite`,
+									}}
+								/>
+							</Grid2>
+						</Grid2>
+					</Grid2>
+				) : state.error ? (
+					<ErrorSection />
+				) : state.animeList.length === 0 ? (
+					<NotResultsSection />
+				) : (
+					<CardSection />
+				)}
+			</Grid2>
+
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: 'right',
+				}}
+			>
+				<PaginationSearch />
 			</Grid2>
 		</Grid2>
 	);

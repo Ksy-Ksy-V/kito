@@ -25,7 +25,7 @@ const SearchInputField: React.FC = () => {
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();
 
-	const isSearchPage = location.pathname === '/search2';
+	const isSearchPage = location.pathname === '/search';
 
 	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const context = isSearchPage ? useSearchContext() : null;
@@ -67,7 +67,7 @@ const SearchInputField: React.FC = () => {
 
 		if (newInputValue === '') {
 			const queryString = buildQueryParams('');
-			window.history.replaceState(null, '', `/search2${queryString}`);
+			window.history.replaceState(null, '', `/search${queryString}`);
 		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
 		}
@@ -99,7 +99,7 @@ const SearchInputField: React.FC = () => {
 							window.history.replaceState(
 								null,
 								'',
-								`/search2${queryString}`
+								`/search${queryString}`
 							);
 
 							const response = await animeService.searchAnime(
@@ -113,7 +113,7 @@ const SearchInputField: React.FC = () => {
 								});
 							}
 						} else {
-							navigate(`/search2?q=${newValue.inputValue}`);
+							navigate(`/search?q=${newValue.inputValue}`);
 						}
 					} else if (
 						typeof newValue === 'object' &&

@@ -11,7 +11,7 @@ const Header = () => {
 	const location = useLocation();
 
 	const isSearchOrHomePage =
-		location.pathname === '/search2' || location.pathname === '/';
+		location.pathname === '/search' || location.pathname === '/';
 
 	return (
 		<AppBar
