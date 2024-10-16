@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
+import { menuStyles, menuItemStyles } from '../styles/menuStyles';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import theme from '../../styles/theme';
+import theme from '../styles/theme';
 
 const MenuSmall = () => {
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
@@ -45,6 +45,15 @@ const MenuSmall = () => {
 					sx={menuItemStyles(theme)}
 				>
 					Profile
+				</MenuItem>
+
+				<MenuItem
+					component={Link}
+					to="/settings"
+					onClick={handleMenuClose}
+					sx={menuItemStyles(theme)}
+				>
+					Settings
 				</MenuItem>
 
 				<Divider
@@ -92,11 +101,29 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/settings"
+					to="/"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
-					Settings
+					About Project
+				</MenuItem>
+
+				<MenuItem
+					component={Link}
+					to="/"
+					onClick={handleMenuClose}
+					sx={menuItemStyles(theme)}
+				>
+					Privacy Policy
+				</MenuItem>
+
+				<MenuItem
+					component={Link}
+					to="/"
+					onClick={handleMenuClose}
+					sx={menuItemStyles(theme)}
+				>
+					Terms of Service
 				</MenuItem>
 			</Menu>
 		</>
