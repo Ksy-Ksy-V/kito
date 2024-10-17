@@ -5,6 +5,7 @@ import {
 	Grid2,
 	Radio,
 	RadioGroup,
+	useMediaQuery,
 } from '@mui/material';
 
 import { useSearchContext } from '../../context/SearchContext';
@@ -20,6 +21,7 @@ import theme from '../../styles/theme';
 
 const Sorting: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -78,30 +80,30 @@ const Sorting: React.FC = () => {
 				size={12}
 				sx={{
 					backgroundColor: theme.palette.primary.light,
-					flexDirection: 'row',
 					marginTop: '1rem',
 				}}
 			>
 				<FormControl
 					sx={{
 						display: 'flex',
-						flexDirection: 'row',
+						flexDirection: { xs: 'colom', md: 'row' },
+						paddingLeft: '1rem',
 					}}
 				>
 					<FormLabel
 						id="order-row-radio-buttons-group-label"
 						sx={{
-							marginLeft: '1rem',
+							marginLeft: { xs: '0', md: '1rem' },
 							marginTop: '0.6rem',
 							marginRight: '1rem',
-							color: theme.palette.secondary.main,
+							color: theme.palette.primary.main,
 						}}
 					>
 						Order by
 					</FormLabel>
 
 					<RadioGroup
-						row
+						row={isLargeScreen ? true : false}
 						name="order-by"
 						onChange={(e) =>
 							handleSortingChange('orderBy', e.target.value)
@@ -136,14 +138,15 @@ const Sorting: React.FC = () => {
 				<FormControl
 					sx={{
 						display: 'flex',
-						flexDirection: 'row',
+						flexDirection: { xs: 'colom', md: 'row' },
+						paddingLeft: '1rem',
 					}}
 				>
 					<FormLabel
 						id="sorting-row-radio-buttons-group-label"
 						sx={{
-							marginLeft: '1rem',
-							color: theme.palette.secondary.main,
+							marginLeft: { xs: '0', md: '1rem' },
+							color: theme.palette.primary.main,
 							marginRight: '1rem',
 							marginTop: '0.6rem',
 							paddingRight: '1rem',
@@ -152,7 +155,7 @@ const Sorting: React.FC = () => {
 						Sort by
 					</FormLabel>
 					<RadioGroup
-						row
+						row={isLargeScreen ? true : false}
 						aria-labelledby="sorting-row-radio-buttons-group-label"
 						name="row-radio-buttons-group"
 						onChange={(e) =>

@@ -75,7 +75,7 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 				<StyledButton
 					onClick={() => handleApplyFilters()}
 					disabled={loading}
-					sx={{ marginTop: '0.5rem' }}
+					sx={{ marginTop: { xs: '0', md: '0.5rem' } }}
 				>
 					Apply Filters
 				</StyledButton>
@@ -86,7 +86,7 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 					disabled={loading}
 					sx={{
 						backgroundColor: 'transparent',
-						marginTop: '0.5rem',
+						marginTop: { xs: '1rem', md: '0.8rem' },
 					}}
 				>
 					Reset Filters

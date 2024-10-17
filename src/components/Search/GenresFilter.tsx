@@ -17,9 +17,13 @@ import { useEffect, useState } from 'react';
 import { Genre, GenresClient, JikanResponse } from '@tutkli/jikan-ts';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 
-const GenresFilter: React.FC = () => {
+interface GenresFilterProps {
+	genresOpenValue: boolean;
+}
+
+const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 	const { state, dispatch } = useSearchContext();
-	const [genresOpen, setGenresOpen] = useState(true);
+	const [genresOpen, setGenresOpen] = useState(genresOpenValue);
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
 	const [isInitialGenres, setIsInitialGenres] = useState(true);
 
@@ -105,7 +109,6 @@ const GenresFilter: React.FC = () => {
 					width="100%"
 					height={800}
 					sx={{
-						marginTop: '1rem',
 						backgroundColor: theme.palette.primary.light,
 					}}
 				/>
@@ -113,8 +116,8 @@ const GenresFilter: React.FC = () => {
 				<Paper
 					sx={{
 						backgroundColor: theme.palette.primary.light,
-						padding: '1rem',
-						marginTop: '1rem',
+						paddingLeft: '1rem',
+						marginTop: { xs: '1rem', md: '0' },
 					}}
 				>
 					<Box
@@ -123,10 +126,11 @@ const GenresFilter: React.FC = () => {
 							justifyContent: 'space-between',
 							alignItems: 'center',
 							cursor: 'pointer',
+							height: '56px',
 						}}
 						onClick={() => setGenresOpen((prev) => !prev)}
 					>
-						<Typography variant="h6" component="span">
+						<Typography variant="body1" component="span">
 							Genres
 						</Typography>
 						<IconButton
@@ -144,7 +148,7 @@ const GenresFilter: React.FC = () => {
 						</IconButton>
 					</Box>
 
-					<Collapse in={genresOpen} timeout="auto" unmountOnExit>
+					<Collapse in={genresOpen}>
 						<FormGroup>
 							{animeGenres.map((genre) => (
 								<FormControlLabel

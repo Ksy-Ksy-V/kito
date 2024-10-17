@@ -62,7 +62,14 @@ const ResultSection = () => {
 			) : state.error ? (
 				<ErrorSection />
 			) : state.animeList.length === 0 ? (
-				<NotResultsSection />
+				<Grid2
+					container
+					justifyContent={'center'}
+					textAlign={'center'}
+					size={12}
+				>
+					<NotResultsSection />
+				</Grid2>
 			) : (
 				<CardSection />
 			)}

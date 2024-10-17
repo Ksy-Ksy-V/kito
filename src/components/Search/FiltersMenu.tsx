@@ -39,6 +39,7 @@ const FiltersMenu = () => {
 				startIcon={<TuneOutlinedIcon />}
 				disabled={state.loading}
 				sx={{
+					lineHeight: 1.9,
 					backgrounsColor: 'transparent',
 				}}
 			>
@@ -66,7 +67,6 @@ const FiltersMenu = () => {
 						sx={{
 							color: theme.palette.primary.main,
 							fontSize: '4rem',
-							marginTop: '0.7rem',
 						}}
 					>
 						<CloseIcon />
@@ -89,12 +89,12 @@ const FiltersMenu = () => {
 						<Sorting />
 					</Grid2>
 
-					<Grid2 size={12} sx={{ marginTop: '1rem' }}>
+					<Grid2 size={12}>
 						<Filters />
 					</Grid2>
 
 					<Grid2 size={12}>
-						<GenresFilter />
+						<GenresFilter genresOpenValue={false} />
 					</Grid2>
 
 					<Grid2 size={12} sx={{ marginTop: '1rem' }}>

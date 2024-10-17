@@ -52,7 +52,11 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	};
 
 	return (
-		<FormControl fullWidth variant="filled">
+		<FormControl
+			fullWidth
+			variant="filled"
+			sx={{ marginTop: { xs: '1rem', md: '1.1rem' } }}
+		>
 			<InputLabel>{label}</InputLabel>
 			<Select
 				defaultValue={defaultValue}
@@ -73,7 +77,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 							<IconButton size="small" onClick={clearValue}>
 								<ClearIcon
 									sx={{
-										fontSize: '1.25rem',
+										fontSize: '20px',
 									}}
 								/>
 							</IconButton>

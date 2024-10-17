@@ -156,10 +156,16 @@ const SearchCard: React.FC<SearchCardProps> = ({
 						<Typography
 							variant="h3"
 							sx={{
+								display: '-webkit-box',
+								WebkitBoxOrient: 'vertical',
+								overflow: 'hidden',
+								WebkitLineClamp: 3,
+								textOverflow: 'ellipsis',
+								transition: 'WebkitLineClamp 0.7s ease',
 								color: theme.palette.secondary.main,
 								fontSize: {
-									xs: theme.typography.h5.fontSize,
-									sm: theme.typography.h5.fontSize,
+									xs: theme.typography.h6.fontSize,
+									sm: theme.typography.h6.fontSize,
 									md: theme.typography.h5.fontSize,
 									lg: theme.typography.h4.fontSize,
 									xl: theme.typography.h3.fontSize,
@@ -240,8 +246,6 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								</Box>
 							))}
 						</Grid2>
-
-						{/* <StyledButton> See more</StyledButton> */}
 					</Grid2>
 				</CardActionArea>
 			</Card>

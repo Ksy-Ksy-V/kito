@@ -103,7 +103,7 @@ const Filters: React.FC = () => {
 					width="100%"
 					height={56}
 					sx={{
-						marginTop: '1rem',
+						marginTop: '0.5rem',
 						backgroundColor: theme.palette.primary.light,
 					}}
 				/>

@@ -144,7 +144,7 @@ const Search: React.FC = () => {
 						<Filters />
 					</Grid2>
 					<Grid2 size={12}>
-						<GenresFilter />
+						<GenresFilter genresOpenValue={true} />
 					</Grid2>
 					<SearchButtons />
 				</Grid2>
