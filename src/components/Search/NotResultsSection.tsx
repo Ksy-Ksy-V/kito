@@ -29,7 +29,11 @@ const NotResultsSection = () => {
 			<Grid2
 				sx={{
 					width: '100%',
-					height: '25rem',
+					height: {
+						xs: '10rem',
+						sm: '20rem',
+						xl: '25rem',
+					},
 					backgroundImage: `url(${notFoundImg})`,
 					backgroundSize: 'contain',
 					backgroundPosition: 'center',
@@ -47,6 +51,7 @@ const NotResultsSection = () => {
 					alignItems: 'center',
 					display: 'flex',
 					flexDirection: 'column',
+					marginTop: '1rem',
 					fontSize: {
 						xs: theme.typography.h5.fontSize,
 						sm: theme.typography.h4.fontSize,

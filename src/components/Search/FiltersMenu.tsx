@@ -46,7 +46,6 @@ const FiltersMenu = () => {
 			</StyledButton>
 
 			<Dialog
-				fullWidth
 				scroll="body"
 				onClose={handleClose}
 				aria-labelledby="scroll-dialog-title"

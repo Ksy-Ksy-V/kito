@@ -40,7 +40,7 @@ const Search: React.FC = () => {
 		});
 		dispatch({
 			type: 'SET_LOADING',
-			payload: false,
+			payload: true,
 		});
 		dispatch({
 			type: 'SET_ERROR',
@@ -67,7 +67,7 @@ const Search: React.FC = () => {
 				});
 				dispatch({
 					type: 'SET_LOADING',
-					payload: true,
+					payload: false,
 				});
 			})
 			.catch((error) => {

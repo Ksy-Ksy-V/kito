@@ -33,7 +33,11 @@ const ErrorSection = () => {
 			<Grid2
 				sx={{
 					width: '100%',
-					height: '25rem',
+					height: {
+						xs: '10rem',
+						sm: '20rem',
+						xl: '25rem',
+					},
 					backgroundImage: `url(${errorImg})`,
 					backgroundSize: 'contain',
 					backgroundPosition: 'center',
