@@ -100,7 +100,7 @@ const Filters: React.FC = () => {
 			{state.loading ? (
 				<Skeleton
 					variant="rectangular"
-					width={360}
+					width="100%"
 					height={56}
 					sx={{
 						marginTop: '1rem',
@@ -123,7 +123,7 @@ const Filters: React.FC = () => {
 			{state.loading ? (
 				<Skeleton
 					variant="rectangular"
-					width={360}
+					width="100%"
 					height={56}
 					sx={{
 						marginTop: '1rem',
@@ -147,7 +147,7 @@ const Filters: React.FC = () => {
 			{state.loading ? (
 				<Skeleton
 					variant="rectangular"
-					width={360}
+					width="100%"
 					height={56}
 					sx={{
 						marginTop: '1rem',

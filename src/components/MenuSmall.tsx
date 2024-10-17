@@ -23,6 +23,8 @@ const MenuSmall = () => {
 			<IconButton
 				color="inherit"
 				onClick={handleMenuClick}
+				aria-controls="simple-menu"
+				aria-haspopup="true"
 				sx={{
 					color: theme.palette.primary.main,
 					'&:hover': {
@@ -37,6 +39,10 @@ const MenuSmall = () => {
 				open={Boolean(anchorElBrowse)}
 				onClose={handleMenuClose}
 				sx={menuStyles}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
 			>
 				<MenuItem
 					component={Link}

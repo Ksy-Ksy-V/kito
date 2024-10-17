@@ -5,7 +5,15 @@ import { JikanPagination } from '@tutkli/jikan-ts';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams } from '../../utils/urlParams';
 
-const SearchButtons: React.FC = () => {
+interface SearchButtonsProps {
+	dialogOptions?: boolean;
+	closeDialog?: () => void;
+}
+
+const SearchButtons: React.FC<SearchButtonsProps> = ({
+	dialogOptions = false,
+	closeDialog,
+}) => {
 	const { state, dispatch } = useSearchContext();
 	const { query, filters, sorting, loading } = state;
 
@@ -19,7 +27,7 @@ const SearchButtons: React.FC = () => {
 		);
 		window.history.replaceState(null, '', `/search${queryString}`);
 		animeService
-			.searchAnime(query, 25, filters, sorting)
+			.searchAnime(query, 24, filters, sorting)
 			.then((response) => {
 				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
 				dispatch({
@@ -31,6 +39,10 @@ const SearchButtons: React.FC = () => {
 					payload: 1,
 				});
 				dispatch({ type: 'SET_LOADING', payload: false });
+
+				if (dialogOptions && closeDialog) {
+					return closeDialog();
+				}
 			});
 	};
 
@@ -63,6 +75,7 @@ const SearchButtons: React.FC = () => {
 				<StyledButton
 					onClick={() => handleApplyFilters()}
 					disabled={loading}
+					sx={{ marginTop: '0.5rem' }}
 				>
 					Apply Filters
 				</StyledButton>
@@ -73,6 +86,7 @@ const SearchButtons: React.FC = () => {
 					disabled={loading}
 					sx={{
 						backgroundColor: 'transparent',
+						marginTop: '0.5rem',
 					}}
 				>
 					Reset Filters

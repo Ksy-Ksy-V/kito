@@ -29,7 +29,7 @@ const Footer = () => {
 			position="static"
 			sx={{
 				background: 'rgba(29, 51, 53, 0.51)',
-				borderRadius: '5px',
+				borderRadius: '0.3rem',
 				boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
 				backdropFilter: 'blur(4.9px)',
 				border: '1px solid rgba(29, 51, 53, 0.3)',

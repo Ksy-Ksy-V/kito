@@ -1,9 +1,11 @@
-import { Pagination } from '@mui/material';
+import { Pagination, useMediaQuery } from '@mui/material';
 import { useSearchContext } from '../../context/SearchContext';
+import theme from '../../styles/theme';
 
 const PaginationSearch = () => {
 	const { state, dispatch } = useSearchContext();
 	const { pagination, page, loading, animeList, error } = state;
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
 	const handlePageChange = (
 		_event: React.ChangeEvent<unknown>,
@@ -16,8 +18,8 @@ const PaginationSearch = () => {
 		<>
 			{!error && animeList.length > 0 && !loading && pagination && (
 				<Pagination
-					size="large"
-					count={pagination.last_visible_page}
+					size={isLargeScreen ? 'large' : 'small'}
+					count={pagination?.last_visible_page}
 					page={page}
 					color="primary"
 					onChange={handlePageChange}

@@ -102,7 +102,7 @@ const GenresFilter: React.FC = () => {
 			{state.loading ? (
 				<Skeleton
 					variant="rectangular"
-					width={360}
+					width="100%"
 					height={800}
 					sx={{
 						marginTop: '1rem',
@@ -126,7 +126,9 @@ const GenresFilter: React.FC = () => {
 						}}
 						onClick={() => setGenresOpen((prev) => !prev)}
 					>
-						<Typography variant="h6">Genres</Typography>
+						<Typography variant="h6" component="span">
+							Genres
+						</Typography>
 						<IconButton
 							onClick={() => setGenresOpen(genresOpen)}
 							aria-expanded={genresOpen}

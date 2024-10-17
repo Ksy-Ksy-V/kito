@@ -20,7 +20,7 @@ const NotFound = () => {
 				<Box
 					sx={{
 						width: '100%',
-						height: '500px',
+						height: '31.25rem',
 						backgroundImage: `url(${notFoundImg})`,
 						backgroundSize: 'contain',
 						backgroundPosition: 'center',

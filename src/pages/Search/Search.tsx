@@ -1,7 +1,7 @@
-import { Box, Grid2, keyframes, Skeleton, Typography } from '@mui/material';
+import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { animeService } from '../../services/animeService';
 import { parseQueryParams } from '../../utils/urlParams';
@@ -9,26 +9,16 @@ import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
-import kitoLoading from '../../images/loading.png';
 import SearchButtons from '../../components/Search/SearchButtons';
 import theme from '../../styles/theme';
 import PaginationSearch from '../../components/Search/Pagination';
-import CardSection from '../../components/Search/CardSection';
-import NotResultsSection from '../../components/Search/NotResultsSection';
-import ErrorSection from '../../components/Search/ErrorSection';
+import ResultSection from '../../components/Search/ResultSection';
+import FiltersMenu from '../../components/Search/FiltersMenu';
 
 const Search: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const { page, loading } = state;
-
-	const pulse = useMemo(
-		() => keyframes`
-			0% { transform: scale(1); }
-			50% { transform: scale(1.2); }
-			100% { transform: scale(1); }
-		`,
-		[]
-	);
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const urlFilters = parseQueryParams();
@@ -50,7 +40,7 @@ const Search: React.FC = () => {
 		});
 		dispatch({
 			type: 'SET_LOADING',
-			payload: true,
+			payload: false,
 		});
 		dispatch({
 			type: 'SET_ERROR',
@@ -77,7 +67,7 @@ const Search: React.FC = () => {
 				});
 				dispatch({
 					type: 'SET_LOADING',
-					payload: false,
+					payload: true,
 				});
 			})
 			.catch((error) => {
@@ -132,36 +122,44 @@ const Search: React.FC = () => {
 				</Grid2>
 			)}
 
-			<Grid2 size={{ xs: 12 }}>
+			<Grid2 size={{ xs: 12, sm: 10, md: 12 }}>
 				<SearchInputField />
 			</Grid2>
 
-			<Grid2
-				container
-				spacing={2}
-				size={3}
-				sx={{ marginTop: '2rem', alignContent: 'flex-start' }}
-			>
-				<SearchButtons />
-				<Grid2 size={12}>
-					<Filters />
+			{!isLargeScreen && (
+				<Grid2 size={{ xs: 12, sm: 2 }}>
+					<FiltersMenu />
 				</Grid2>
-				<Grid2 size={12}>
-					<GenresFilter />
+			)}
+
+			{isLargeScreen && (
+				<Grid2
+					container
+					spacing={2}
+					size={3}
+					sx={{ marginTop: '1.5rem', alignContent: 'flex-start' }}
+				>
+					<SearchButtons />
+					<Grid2 size={12}>
+						<Filters />
+					</Grid2>
+					<Grid2 size={12}>
+						<GenresFilter />
+					</Grid2>
+					<SearchButtons />
 				</Grid2>
-				<SearchButtons />
-			</Grid2>
+			)}
 
 			<Grid2
 				container
 				spacing={3}
-				size={9}
+				size={{ xs: 12, sm: 12, md: 9 }}
 				sx={{
 					marginTop: '1rem',
 					alignContent: 'flex-start',
 				}}
 			>
-				{loading ? (
+				{isLargeScreen && loading && (
 					<>
 						<Skeleton
 							variant="rectangular"
@@ -174,71 +172,33 @@ const Search: React.FC = () => {
 							width="60%"
 						/>
 					</>
-				) : (
-					<Grid2 size={7}>
+				)}
+				{isLargeScreen && !loading && (
+					<Grid2 size={{ md: 12, lg: 7 }}>
 						<Sorting />
 					</Grid2>
 				)}
-
-				<Grid2 size={5}>
+				<Grid2 size={{ xs: 12, sm: 12, md: 12, lg: 5 }}>
 					<Grid2
 						container
 						size={12}
 						sx={{
-							justifyContent: 'right',
+							justifyContent: 'center',
 						}}
 					>
 						<PaginationSearch />
 					</Grid2>
 				</Grid2>
-
-				{loading ? (
-					<Grid2
-						size={12}
-						sx={{
-							justifyContent: 'center',
-							alignItems: 'center',
-							display: 'flex',
-						}}
-					>
-						<Grid2 container>
-							<Grid2
-								size={12}
-								sx={{
-									justifyContent: 'center',
-									alignItems: 'center',
-									display: 'flex',
-								}}
-							>
-								<Box
-									component="img"
-									src={kitoLoading}
-									sx={{
-										width: '25rem',
-										marginTop: '5rem',
-										animation: `${pulse} 5s ease-in-out infinite`,
-									}}
-								/>
-							</Grid2>
-						</Grid2>
-					</Grid2>
-				) : state.error ? (
-					<ErrorSection />
-				) : state.animeList.length === 0 ? (
-					<NotResultsSection />
-				) : (
-					<CardSection />
-				)}
-			</Grid2>
-
-			<Grid2
-				size={12}
-				sx={{
-					display: 'flex',
-					justifyContent: 'right',
-				}}
-			>
-				<PaginationSearch />
+				<ResultSection />
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+					}}
+				>
+					<PaginationSearch />
+				</Grid2>
 			</Grid2>
 		</Grid2>
 	);

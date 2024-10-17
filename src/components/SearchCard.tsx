@@ -8,7 +8,6 @@ import {
 	CardActionArea,
 	Grid2,
 } from '@mui/material';
-// import StyledButton from './StyledButton';
 import { JikanResource } from '@tutkli/jikan-ts';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
@@ -42,17 +41,18 @@ const SearchCard: React.FC<SearchCardProps> = ({
 					display: 'flex',
 					flexDirection: 'column',
 					width: {
-						xs: '150px',
-						sm: '200px',
-						md: '220px',
-						lg: '240px',
-						xl: '260px',
+						xs: '8.75rem',
+						sm: '11.8rem',
+						md: '13rem',
+						lg: '13.7rem',
+						xl: '16.25rem',
 					},
 					maxWidth: {
-						xs: '150px',
-						sm: '200px',
-						md: '300px',
-						lg: '400px',
+						xs: '8.75rem',
+						sm: '11.8rem',
+						md: '13rem',
+						lg: '13.7rem',
+						xl: '16.25rem',
 					},
 					overflow: 'hidden',
 					cursor: 'pointer',
@@ -94,11 +94,11 @@ const SearchCard: React.FC<SearchCardProps> = ({
 						sx={{
 							width: '100%',
 							height: {
-								xs: '250px',
-								sm: '330px',
-								md: '350px',
-								lg: '370px',
-								xl: '400px',
+								xs: '13.75rem',
+								sm: '17.5rem',
+								md: '19.2rem',
+								lg: '19.5rem',
+								xl: '25.9rem',
 							},
 							objectFit: 'cover',
 							transition:
@@ -230,7 +230,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 										backgroundColor:
 											'rgba(56, 113, 113, 0.7)',
 										padding: '0.25rem 0.5rem',
-										borderRadius: '8px',
+										borderRadius: '0.5rem',
 										fontSize: '0.875rem',
 										display: 'inline-block',
 										color: theme.palette.text.primary,
@@ -250,11 +250,11 @@ const SearchCard: React.FC<SearchCardProps> = ({
 				sx={{
 					marginTop: '1rem',
 					width: {
-						xs: '150px',
-						sm: '200px',
-						md: '220px',
-						lg: '240px',
-						xl: '260px',
+						xs: '8.75rem',
+						sm: '11.8rem',
+						md: '13rem',
+						lg: '13.7rem',
+						xl: '16.25rem',
 					},
 					textAlign: 'center',
 					color: theme.palette.secondary.main,

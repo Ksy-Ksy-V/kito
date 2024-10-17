@@ -29,7 +29,7 @@ const NotResultsSection = () => {
 			<Grid2
 				sx={{
 					width: '100%',
-					height: '400px',
+					height: '25rem',
 					backgroundImage: `url(${notFoundImg})`,
 					backgroundSize: 'contain',
 					backgroundPosition: 'center',
@@ -40,6 +40,7 @@ const NotResultsSection = () => {
 
 			<Typography
 				variant="h3"
+				component="span"
 				sx={{
 					zIndex: 1,
 					justifyContent: 'center',

@@ -154,8 +154,8 @@ const SearchInputField: React.FC = () => {
 									src={`${option.images?.jpg.image_url}?w=164&h=164&fit=crop&auto=format`}
 									alt={option.title}
 									style={{
-										width: '50px',
-										height: '50px',
+										width: '3rem',
+										height: '3rem',
 										objectFit: 'cover',
 										borderRadius: '0.5rem',
 										marginRight: '0.625rem',
@@ -184,10 +184,7 @@ const SearchInputField: React.FC = () => {
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',
-									borderColor: {
-										sm: 'primary.main',
-										xs: 'secondary.main',
-									},
+									borderColor: 'primary.main',
 								},
 								'&:hover fieldset': {
 									borderColor: 'primary.main',
@@ -197,10 +194,7 @@ const SearchInputField: React.FC = () => {
 								},
 							},
 							'& .MuiInputLabel-root': {
-								color: {
-									sm: 'primary.main',
-									xs: 'secondary.main',
-								},
+								color: 'primary.main',
 							},
 						}}
 					/>

@@ -16,7 +16,7 @@ const RandomizerSection = () => {
 				right: '50%',
 				marginLeft: '-50vw',
 				marginRight: '-50vw',
-				height: '250px',
+				height: '15.5rem',
 				overflow: 'hidden',
 				marginTop: '3rem',
 			}}

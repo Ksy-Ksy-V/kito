@@ -73,7 +73,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 							<IconButton size="small" onClick={clearValue}>
 								<ClearIcon
 									sx={{
-										fontSize: '20px',
+										fontSize: '1.25rem',
 									}}
 								/>
 							</IconButton>
