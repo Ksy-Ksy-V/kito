@@ -16,16 +16,21 @@ const PaginationSearch = () => {
 
 	return (
 		<>
-			{!error && animeList.length > 0 && !loading && pagination && (
-				<Pagination
-					size={isLargeScreen ? 'large' : 'small'}
-					count={pagination?.last_visible_page}
-					page={page}
-					color="primary"
-					onChange={handlePageChange}
-					sx={{ marginTop: '1.25rem' }}
-				/>
-			)}
+			{!error &&
+				animeList.length > 0 &&
+				!loading &&
+				pagination &&
+				pagination.items &&
+				pagination.items?.total > 24 && (
+					<Pagination
+						size={isLargeScreen ? 'large' : 'small'}
+						count={pagination?.last_visible_page}
+						page={page}
+						color="primary"
+						onChange={handlePageChange}
+						sx={{ marginTop: '1.25rem' }}
+					/>
+				)}
 		</>
 	);
 };

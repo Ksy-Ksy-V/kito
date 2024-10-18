@@ -91,12 +91,13 @@ const Sorting: React.FC = () => {
 					}}
 				>
 					<FormLabel
+						focused={false}
 						id="order-row-radio-buttons-group-label"
 						sx={{
 							marginLeft: { xs: '0', md: '1rem' },
 							marginTop: '0.6rem',
 							marginRight: '1rem',
-							color: theme.palette.primary.main,
+							color: 'secondary.main',
 						}}
 					>
 						Order by
@@ -143,10 +144,11 @@ const Sorting: React.FC = () => {
 					}}
 				>
 					<FormLabel
+						focused={false}
 						id="sorting-row-radio-buttons-group-label"
 						sx={{
 							marginLeft: { xs: '0', md: '1rem' },
-							color: theme.palette.primary.main,
+							color: 'secondary.main',
 							marginRight: '1rem',
 							marginTop: '0.6rem',
 							paddingRight: '1rem',
