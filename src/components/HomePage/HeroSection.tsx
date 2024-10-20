@@ -3,7 +3,7 @@ import { Grid2, Typography } from '@mui/material';
 import heroSectionBackground from '../../images/heroSectionBackground.png';
 import heroSectionBackground2 from '../../images/heroSectionBackground2.png';
 import theme from '../../styles/theme';
-import AnimeSearchField from '../Search/AnimeSearchField';
+import SearchInputField from '../Search/SearchInputField';
 
 const HeroSection = () => {
 	return (
@@ -106,7 +106,7 @@ const HeroSection = () => {
 				</Typography>
 
 				<Grid2 size={6}>
-					<AnimeSearchField />
+					<SearchInputField />
 				</Grid2>
 			</Grid2>
 		</Grid2>

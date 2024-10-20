@@ -1,7 +1,7 @@
 import { Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import errorImg from '../../images/errorImg.png';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 
 const ErrorSection = () => {
 	const handleReload = () => {

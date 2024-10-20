@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material';
-import StyledButton from '../StyledButton';
+import StyledButton from './StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
 import { JikanPagination } from '@tutkli/jikan-ts';
 import { animeService } from '../../services/animeService';

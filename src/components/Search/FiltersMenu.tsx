@@ -13,9 +13,9 @@ import { useState } from 'react';
 import Sorting from './Sorting';
 import Filters from './Filters';
 import GenresFilter from './GenresFilter';
-import SearchButtons from './SearchButtons';
+import SearchButtons from '../Buttons/SearchButtons';
 import React from 'react';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import { useSearchContext } from '../../context/SearchContext';
 
 const FiltersMenu = () => {

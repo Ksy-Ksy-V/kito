@@ -9,7 +9,7 @@ import GenresFilter from '../../components/Search/GenresFilter';
 import Filters from '../../components/Search/Filters';
 import Sorting from '../../components/Search/Sorting';
 import { JikanPagination } from '@tutkli/jikan-ts';
-import SearchButtons from '../../components/Search/SearchButtons';
+import SearchButtons from '../../components/Buttons/SearchButtons';
 import theme from '../../styles/theme';
 import PaginationSearch from '../../components/Search/Pagination';
 import ResultSection from '../../components/Search/ResultSection';
