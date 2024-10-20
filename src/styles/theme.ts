@@ -4,6 +4,7 @@ const theme = createTheme({
 	palette: {
 		primary: {
 			main: '#387171',
+			dark: 'rgba(56, 113, 113, 0.5)',
 			light: 'rgba(56, 113, 113, 0.1)',
 		},
 		secondary: {
@@ -63,7 +64,7 @@ const theme = createTheme({
 		body2: {
 			fontFamily: 'DM Sans, sans-serif',
 			fontWeight: 400,
-			fontSize: '0.750rem',
+			fontSize: '0.8rem',
 			color: '#dbfeff',
 		},
 	},

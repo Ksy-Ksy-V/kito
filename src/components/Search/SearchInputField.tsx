@@ -181,6 +181,12 @@ const SearchInputField: React.FC = () => {
 						variant="outlined"
 						size="small"
 						sx={{
+							width: {
+								xl: '23rem',
+								lg: '23rem',
+								md: '23rem',
+								sm: '18rem',
+							},
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',

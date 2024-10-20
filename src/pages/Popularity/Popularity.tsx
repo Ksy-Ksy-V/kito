@@ -1,124 +1,91 @@
-import { Typography, IconButton, Box } from '@mui/material';
-import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
+import { Typography, Grid2 } from '@mui/material';
+import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
+import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import AnimeCard from '../../components/AnimeCard';
+import Slyder from '../../components/Popularity/Slider';
+import Error from '../../components/Error';
+import theme from '../../styles/theme';
 
 function Popularity() {
 	const top = new TopClient();
 	const [topList, setTopList] = useState<Anime[]>([]);
-	const [currentSlide, setCurrentSlide] = useState(0);
+
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
 		const fetchTopAnime = async () => {
+			setLoading(true);
 			try {
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
-					limit: 10,
+					limit: 25,
 				});
 
 				setTopList(response.data);
+
+				setLoading(false);
 			} catch (err) {
 				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
 			}
 		};
 
 		if (topList.length === 0) {
 			fetchTopAnime();
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [topList, TopClient]);
 
-	const slideCount = 5;
-
-	const handlePrevSlide = () => {
-		setCurrentSlide((prev) =>
-			prev === 0 ? topList.length - slideCount : prev - 1
-		);
-	};
-
-	const handleNextSlide = () => {
-		setCurrentSlide((prev) =>
-			prev === topList.length - slideCount ? 0 : prev + 1
-		);
-	};
+	if (error) {
+		return <Error />;
+	}
 
 	return (
-		<Box sx={{ position: 'relative', width: '100%' }}>
+		<>
+			<Slyder />
 			<Typography
-				variant="h1"
+				variant="h2"
 				sx={{
 					textAlign: 'center',
-					marginTop: '1rem',
+					marginTop: '2rem',
 					marginBottom: '2rem',
+					fontSize: {
+						xs: theme.typography.h4.fontSize,
+						sm: theme.typography.h3.fontSize,
+						md: theme.typography.h2.fontSize,
+						lg: theme.typography.h1.fontSize,
+						xl: theme.typography.h1.fontSize,
+					},
 				}}
 			>
-				Top 10 Anime by Popularity
+				Top Anime by Popularity
 			</Typography>
 
-			<Box
-				sx={{
-					display: 'flex',
-					overflow: 'hidden',
-					width: '100%',
-					position: 'relative',
-				}}
-			>
-				<Box
-					sx={{
-						display: 'flex',
-						transition: 'transform 0.5s ease-in-out',
-						transform: `translateX(-${
-							currentSlide * (100 / slideCount)
-						}%)`,
-						width: `${(topList.length / slideCount) * 100}%`,
-					}}
-				>
-					{topList.map((anime) => (
-						<Box
-							key={anime.mal_id}
-							sx={{
-								minWidth: `${100 / slideCount}%`,
-								boxSizing: 'border-box',
-								padding: '0 8px',
-							}}
-						>
-							<AnimeCard
-								title={anime.title}
-								image={anime.images.jpg.image_url}
-							/>
-						</Box>
-					))}
-				</Box>
-			</Box>
-
-			<IconButton
-				onClick={handlePrevSlide}
-				sx={{
-					position: 'absolute',
-					top: '50%',
-					left: '0',
-					transform: 'translateY(-50%)',
-					zIndex: 10,
-				}}
-			>
-				<ArrowBackIosIcon />
-			</IconButton>
-
-			<IconButton
-				onClick={handleNextSlide}
-				sx={{
-					position: 'absolute',
-					top: '50%',
-					right: '0',
-					transform: 'translateY(-50%)',
-					zIndex: 10,
-				}}
-			>
-				<ArrowForwardIosIcon />
-			</IconButton>
-		</Box>
+			<Grid2 container spacing={2} size={12}>
+				{topList.map((anime, index) => (
+					<AnimeInfoCard
+						key={anime.mal_id}
+						mal_id={anime.mal_id}
+						number={index + 1}
+						image={anime.images.jpg.image_url}
+						title={anime.title}
+						score={anime.score || 0}
+						genres={anime.genres.map((genre) => genre.name)}
+						description={
+							anime.synopsis || 'No description available.'
+						}
+						rating={anime.rating || 'Unknown'}
+						onAddToList={() =>
+							console.log(`Added ${anime.title} to list`)
+						}
+						loading={loading}
+					/>
+				))}
+			</Grid2>
+		</>
 	);
 }
 

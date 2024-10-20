@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import randomizerImg from '../../images/background.jpg';
 
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
+import theme from '../../styles/theme';
 
 const RandomizerSection = () => {
 	const [imageLoaded, setImageLoaded] = useState(false);
@@ -16,7 +17,13 @@ const RandomizerSection = () => {
 				right: '50%',
 				marginLeft: '-50vw',
 				marginRight: '-50vw',
-				height: '15.5rem',
+				height: {
+					xl: '250px',
+					lg: '250px',
+					md: '240px',
+					sm: '200px',
+					xs: '180px',
+				},
 				overflow: 'hidden',
 				marginTop: '3rem',
 			}}
@@ -86,6 +93,13 @@ const RandomizerSection = () => {
 							variant="h2"
 							sx={{
 								marginBottom: '2rem',
+								fontSize: {
+									xs: theme.typography.h4.fontSize,
+									sm: theme.typography.h3.fontSize,
+									md: theme.typography.h2.fontSize,
+									lg: theme.typography.h2.fontSize,
+									xl: theme.typography.h2.fontSize,
+								},
 							}}
 						>
 							Don't know what to watch?

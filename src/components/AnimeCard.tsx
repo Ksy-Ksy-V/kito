@@ -1,20 +1,16 @@
 import React from 'react';
-import {
-	Card,
-	CardActionArea,
-	CardMedia,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Card, CardActionArea, CardMedia, useTheme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 interface AnimeCardProps {
 	image: string;
 	title: string;
-	onClick?: () => void;
+	mal_id?: number;
 }
 
-const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
+const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 	const theme = useTheme();
+	const navigate = useNavigate();
 
 	return (
 		<Card
@@ -27,7 +23,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 				boxShadow: 'rgba(29, 51, 53, 0.7)',
 				overflow: 'hidden',
 				transition:
-					'transform 0.50s ease-in-out, box-shadow 0.50s ease-in-out, border 0.50s ease-in-out',
+					'transform 0.30s ease-in-out, box-shadow 0.30s ease-in-out, border 0.30s ease-in-out',
 				'&:hover': {
 					transform: 'scale(1.1)',
 					border: `2px solid ${theme.palette.secondary.main}`,
@@ -37,7 +33,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 					transform: 'scale(1.1)',
 				},
 			}}
-			onClick={onClick}
+			onClick={() => navigate(`/anime/${mal_id}`)}
 		>
 			<CardActionArea
 				sx={{
@@ -51,32 +47,16 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, onClick }) => {
 				<CardMedia
 					component="img"
 					image={image}
-					alt="Anime thumbnail"
+					alt={title}
 					className="card-media"
 					sx={{
 						width: '100%',
 						height: '100%',
 						objectFit: 'cover',
 						borderRadius: '10px',
-						transition: 'transform 0.50s ease-in-out',
+						transition: 'transform 0.30s ease-in-out',
 					}}
 				/>
-				<Typography
-					variant="body1"
-					sx={{
-						position: 'absolute',
-						bottom: 0,
-						left: 0,
-						width: '100%',
-						background:
-							'linear-gradient(to top, #1d3335 15%, rgba(29, 51, 53, 0) 100%)',
-						textAlign: 'center',
-						padding: '8px',
-						boxSizing: 'border-box',
-					}}
-				>
-					{title}
-				</Typography>
 			</CardActionArea>
 		</Card>
 	);

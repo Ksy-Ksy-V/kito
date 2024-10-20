@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
-import { Box, Typography, IconButton, Grid2, Skeleton } from '@mui/material';
+import {
+	Box,
+	Typography,
+	IconButton,
+	Grid2,
+	Skeleton,
+	useMediaQuery,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StyledButton from '../StyledButton';
+import StyledButton from '../Buttons/StyledButton';
 import { sliderItems as items } from '../../data/sliderContent';
+import { useNavigate } from 'react-router-dom';
+import theme from '../../styles/theme';
 
-
-const SliderHomePage: React.FC = () => {
+const Slider: React.FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
+	const navigate = useNavigate();
 
 	const [imageLoaded, setImageLoaded] = useState(
 		Array(items.length).fill(false)
 	);
+
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
 	const handleNext = () => {
 		setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
@@ -46,6 +57,7 @@ const SliderHomePage: React.FC = () => {
 				marginRight: '-50vw',
 				height: '500px',
 				overflow: 'hidden',
+				marginTop: '2rem',
 			}}
 		>
 			<Box
@@ -68,9 +80,15 @@ const SliderHomePage: React.FC = () => {
 								index === currentIndex
 									? 'translateX(0)'
 									: index < currentIndex
-										? 'translateX(-100%)'
-										: 'translateX(100%)',
-							transition: 'transform 2.00s ease-in-out',
+									? 'translateX(-100%)'
+									: 'translateX(100%)',
+							transition: {
+								xs: 'transform 0.50s ease-in-out',
+								sm: 'transform 1.00s ease-in-out',
+								md: 'transform 1.00s ease-in-out',
+								lg: 'transform 1.30s ease-in-out',
+								xl: 'transform 2.00s ease-in-out',
+							},
 						}}
 					>
 						{!imageLoaded[index] && (
@@ -101,57 +119,131 @@ const SliderHomePage: React.FC = () => {
 				container
 				sx={{
 					height: '100%',
-					alignItems: 'center',
-					paddingLeft: '5%',
-					paddingRight: '5%',
+					alignItems: {
+						xs: 'flex-end',
+						sm: 'flex-end',
+						md: 'center',
+						lg: 'center',
+						xl: 'center',
+					},
+					paddingLeft: isSmallScreen ? '2%' : '5%',
+					paddingRight: isSmallScreen ? '2%' : '5%',
 					backgroundColor: 'rgba(0, 0, 0, 0.7)',
 					position: 'relative',
 					zIndex: 1,
+					flexDirection: isSmallScreen ? 'column' : 'row',
 				}}
 			>
 				<Grid2
-					size={{ xs: 3 }}
+					size={isSmallScreen ? 12 : 4}
 					sx={{
-						marginTop: '2rem',
-						marginLeft: '10%'
+						alignItems: {
+							xs: 'flex-end',
+							sm: 'flex-end',
+							md: 'flex-end',
+							lg: 'center',
+							xl: 'center',
+						},
+						marginLeft: {
+							xs: '0%',
+							sm: '0%',
+							md: '0%',
+							lg: '5%',
+							xl: '10%',
+						},
+						textAlign: {
+							xs: 'center',
+							sm: 'center',
+							md: 'left',
+							lg: 'left',
+							xl: 'left',
+						},
 					}}
 				>
 					{!imageLoaded[currentIndex] ? (
 						<>
-							<Skeleton variant="text" width="30%" height={20} />
-							<Skeleton variant="text" width="70%" height={50} />
-							{[...Array(3)].map((_, index) => (
-								<Skeleton
-									key={index}
-									variant="text"
-									width="90%"
-									height={20}
-									sx={{
-										marginTop: '10px',
-									}}
-								/>
-							))}
+							<Skeleton
+								variant="text"
+								width="30%"
+								height={20}
+								sx={{
+									marginTop: {
+										xs: '110%',
+									sm: '50%',
+									md: '0%',
+									lg: '0%',
+									xl: '0%',
+									},
+									mx: isSmallScreen ? 'auto' : 'left',
+								}}
+							/>
+							<Skeleton
+								variant="text"
+								width="70%"
+								height={50}
+								sx={{ mx: isSmallScreen ? 'auto' : 'left' }}
+							/>
+							{!isSmallScreen &&
+								[...Array(3)].map((_, index) => (
+									<Skeleton
+										key={index}
+										variant="text"
+										width="90%"
+										height={20}
+										sx={{
+											marginTop: '10px',
+										}}
+									/>
+								))}
 						</>
 					) : (
-						<>
-							<Typography variant="body2">
-								№{currentIndex + 1} by Kito opinion
-							</Typography>
-							<Typography variant="h3">
-								{items[currentIndex].title}
+						<Grid2
+							sx={{
+								marginTop: {
+									xs: '110%',
+									sm: '50%',
+									md: '0%',
+									lg: '0%',
+									xl: '0%',
+								},
+							}}
+						>
+							<Typography variant="body1">
+								#{currentIndex + 1} by Kito opinion
 							</Typography>
 							<Typography
-								variant="body1"
-								sx={{
-									marginTop: '10px',
-									marginBottom: '20px',
-								}}
+								variant={isSmallScreen ? 'h4' : 'h3'}
+								sx={{ color: theme.palette.secondary.main }}
 							>
-								{items[currentIndex].description}
+								{items[currentIndex].title}
 							</Typography>
 
-							<StyledButton>Read More</StyledButton>
-						</>
+							{!isSmallScreen && (
+								<Typography
+									variant="body1"
+									sx={{
+										marginTop: '10px',
+										marginBottom: '20px',
+									}}
+								>
+									{items[currentIndex].description}
+								</Typography>
+							)}
+
+							<StyledButton
+								sx={{
+									backgroundColor: 'transparent',
+									borderColor: 'primary.main',
+								}}
+								onClick={() =>
+									navigate(
+										`/anime/${items[currentIndex].mal_id}`
+									)
+								}
+							>
+								Read More
+							</StyledButton>
+						</Grid2>
 					)}
 				</Grid2>
 
@@ -162,15 +254,34 @@ const SliderHomePage: React.FC = () => {
 						position: 'absolute',
 						right: '10px',
 						zIndex: 2,
-						marginRight: '10%',
+						marginRight: {
+							xs: '0%',
+							sm: '25%',
+							md: '0%',
+							lg: '5%',
+							xl: '10%',
+						},
 					}}
 				>
 					{items.map((thumbItem, thumbIndex) => (
 						<Box
 							key={thumbIndex}
 							sx={{
-								width: '150px',
-								height: '250px',
+								width: {
+									xs: '4.5rem',
+									sm: '6rem',
+									md: '7rem',
+									lg: '10rem',
+									xl: '10rem',
+								},
+								height: {
+									xs: '7rem',
+									sm: '9rem',
+									md: '11rem',
+									lg: '15rem',
+									xl: '15rem',
+								},
+
 								backgroundSize: 'cover',
 								backgroundPosition: 'center',
 								borderRadius: '10px',
@@ -242,4 +353,4 @@ const SliderHomePage: React.FC = () => {
 	);
 };
 
-export default SliderHomePage;
+export default Slider;
