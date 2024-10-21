@@ -20,10 +20,10 @@ import {
 } from '../../components/Authentication/validation';
 import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
 import theme from '../../styles/theme';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+// import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const SignUp = () => {
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const [name, setName] = useState('');
@@ -32,7 +32,7 @@ const SignUp = () => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-	const [loading, setLoading] = useState(false);
+	// const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState({
 		name: '',
 		email: '',
