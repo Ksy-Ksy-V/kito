@@ -10,24 +10,28 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 
-interface SearchFiltersProps {
+interface StyledSarchFiltersProps {
 	label: string;
-	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
+	value: string | undefined;
+	onChange?: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
+	defaultValue?: string;
 	upperCaseOptions?: boolean;
+	underscoreOptions?: boolean;
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({
+const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	label,
 	value,
 	onChange,
 	options,
 	clearValue,
+	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
+	underscoreOptions = false,
 }) => {
 	const transformOption = (option: string) => {
 		if (capitalizeOptions) {
@@ -38,13 +42,24 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 		if (upperCaseOptions) {
 			return option.toUpperCase();
 		}
+		if (underscoreOptions) {
+			return (
+				option.charAt(0).toUpperCase() +
+				option.slice(1).toLowerCase().replace('_', ' ')
+			);
+		}
 		return option;
 	};
 
 	return (
-		<FormControl fullWidth variant="filled">
+		<FormControl
+			fullWidth
+			variant="filled"
+			sx={{ marginTop: { xs: '1rem', md: '1.1rem' } }}
+		>
 			<InputLabel>{label}</InputLabel>
 			<Select
+				defaultValue={defaultValue}
 				value={value}
 				onChange={onChange}
 				sx={{
@@ -80,4 +95,4 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 	);
 };
 
-export default SearchFilters;
+export default StyledSarchFilters;

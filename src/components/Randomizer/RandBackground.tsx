@@ -21,7 +21,7 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 					right: '50%',
 					marginLeft: '-50vw',
 					marginRight: '-50vw',
-					height: '500px',
+					height: '31.25rem',
 					marginTop: '2rem',
 				}}
 			>
@@ -50,7 +50,7 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 				right: '50%',
 				marginLeft: '-50vw',
 				marginRight: '-50vw',
-				height: '500px',
+				height: '31.25rem',
 				marginTop: '2rem',
 			}}
 		>
