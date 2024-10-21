@@ -10,6 +10,11 @@ const MenuSmall = () => {
 		null
 	);
 
+	const [
+		userAuthorised,
+		// setUserAuthorised
+	] = useState(false);
+
 	const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElBrowse(event.currentTarget);
 	};
@@ -44,23 +49,45 @@ const MenuSmall = () => {
 					horizontal: 'right',
 				}}
 			>
-				<MenuItem
-					component={Link}
-					to="/profile"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Profile
-				</MenuItem>
+				{userAuthorised ? (
+					<MenuItem
+						component={Link}
+						to="/profile"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Profile
+					</MenuItem>
+				) : (
+					<MenuItem
+						component={Link}
+						to="/signin"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Sign In
+					</MenuItem>
+				)}
 
-				<MenuItem
-					component={Link}
-					to="/settings"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Settings
-				</MenuItem>
+				{userAuthorised ? (
+					<MenuItem
+						component={Link}
+						to="/settings"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Settings
+					</MenuItem>
+				) : (
+					<MenuItem
+						component={Link}
+						to="/signup"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Sign Up
+					</MenuItem>
+				)}
 
 				<Divider
 					variant="middle"
@@ -131,6 +158,22 @@ const MenuSmall = () => {
 				>
 					Terms of Service
 				</MenuItem>
+
+				{userAuthorised && (
+					<Divider
+						variant="middle"
+						sx={{ backgroundColor: theme.palette.primary.main }}
+					/>
+				)}
+
+				{userAuthorised && (
+					<MenuItem
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Log Out
+					</MenuItem>
+				)}
 			</Menu>
 		</>
 	);

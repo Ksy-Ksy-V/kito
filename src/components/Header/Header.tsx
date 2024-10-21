@@ -2,13 +2,14 @@ import { AppBar, Toolbar, Grid2, useMediaQuery } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 import NavBar from './NavBar';
-//  import AccountMenu from './AccountMenu';
+import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
 import AuthButtons from '../Authentication/AuthenticationButtons';
 import SearchInputField from '../Search/SearchInputField';
 import MenuSmall from '../MenuSmall';
 import theme from '../../styles/theme';
+import { useState } from 'react';
 
 const Header = () => {
 	const location = useLocation();
@@ -16,6 +17,11 @@ const Header = () => {
 
 	const isSearchOrHomePage =
 		location.pathname === '/search' || location.pathname === '/';
+
+	const [
+		userAuthorised,
+		// setUserAuthorised
+	] = useState(false);
 
 	return (
 		<AppBar
@@ -40,28 +46,37 @@ const Header = () => {
 							<Grid2 size={{ xs: 2 }}>
 								<Logo />
 							</Grid2>
-
 							<Grid2 size={{ xs: 2 }}>
 								<NavBar />
 							</Grid2>
-
 							{!isSearchOrHomePage && (
-								<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
+								<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
 									<SearchInputField />
 								</Grid2>
 							)}
-
-							<Grid2
-								size={{ xs: 1 }}
-								offset={
-									isSearchOrHomePage
-										? { md: 7, lg: 7, xl: 7 }
-										: { md: 0 }
-								}
-							>
-								{/* <AccountMenu /> */}
-								<AuthButtons />
-							</Grid2>
+							{userAuthorised ? (
+								<Grid2
+									size={{ xs: 1 }}
+									offset={
+										isSearchOrHomePage
+											? { md: 7, lg: 7, xl: 7 }
+											: { md: 0 }
+									}
+								>
+									<AccountMenu />
+								</Grid2>
+							) : (
+								<Grid2
+									size={{ xs: 2 }}
+									offset={
+										isSearchOrHomePage
+											? { md: 6, lg: 6, xl: 6 }
+											: { md: 0 }
+									}
+								>
+									<AuthButtons />
+								</Grid2>
+							)}
 						</>
 					) : (
 						<>

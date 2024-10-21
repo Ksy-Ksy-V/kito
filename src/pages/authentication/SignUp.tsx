@@ -5,6 +5,7 @@ import {
 	FormControlLabel,
 	FormHelperText,
 	Grid2,
+	Link,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -20,10 +21,11 @@ import {
 } from '../../components/Authentication/validation';
 import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
 import theme from '../../styles/theme';
-// import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { useDispatch } from 'react-redux';
+import { signup } from '../../store/reducers/authSlice';
 
 const SignUp = () => {
-	// const dispatch = useAppDispatch();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const [name, setName] = useState('');
@@ -32,7 +34,7 @@ const SignUp = () => {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
 
-	// const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState({
 		name: '',
 		email: '',
@@ -98,6 +100,32 @@ const SignUp = () => {
 		}
 	};
 
+	const handleApply = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+	) => {
+		e.preventDefault();
+		// console.log(name, email, password, 'reg');
+		dispatch(signup({ email, name, password }));
+		// setLoading(true);
+
+		// dispatch(signup({ name, email, password, passwordConf }))
+		//   .unwrap()
+		//   .then(() => {
+		// 	dispatch(loginAsync({ email, password }))
+		// 	  .unwrap()
+		// 	  .then(() => {
+		// 		setLoading(true);
+		// 		navigate('/');
+		// 		window.location.reload();
+		// 	  })
+		// 	  .catch(() => {
+		// 		setLoading(false);
+		// 	  });
+		//   })
+		//   .catch(() => {
+		// 	setLoading(false);
+		//   });
+	};
 	return (
 		<Grid2
 			container
@@ -200,7 +228,27 @@ const SignUp = () => {
 							</FormHelperText>
 						)}
 
-						<StyledButton type="submit" sx={{ '&:hover': {} }}>
+						<Typography
+							color={theme.palette.primary.main}
+							sx={{
+								margin: '1rem',
+								textAlign: 'center',
+							}}
+						>
+							<span>Already registered? </span>
+							<Link
+								href="/signin"
+								color={theme.palette.secondary.main}
+								sx={{ textDecoration: 'none' }}
+							>
+								Sign In
+							</Link>
+						</Typography>
+
+						<StyledButton
+							type="submit"
+							onClick={(e) => handleApply(e)}
+						>
 							Sign Up
 						</StyledButton>
 					</form>
