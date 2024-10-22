@@ -256,7 +256,9 @@ const SignUp = () => {
 							</Link>
 						</Typography>
 
-						<StyledButton type="submit">Sign Up</StyledButton>
+						<StyledButton type="submit" disabled={loading}>
+							Sign Up
+						</StyledButton>
 					</form>
 				</Grid2>
 			</Grid2>

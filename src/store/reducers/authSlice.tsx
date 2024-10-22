@@ -1,10 +1,15 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { AuthState, User, UserRegister } from '../../models/authModels';
+import {
+	AuthState,
+	User,
+	UserCredentials,
+	UserRegister,
+} from '../../models/authModels';
 import authService from '../../services/authService';
-// import { RootState } from '@reduxjs/toolkit/query';
 import axios, { AxiosError } from 'axios';
 import tokenService from '../../services/tokenService';
+import { RootState } from '../store';
 
 const user: User = tokenService.getUser();
 const initialState: AuthState = user.token
@@ -44,6 +49,34 @@ export const signup = createAsyncThunk<AuthState, UserRegister>(
 	}
 );
 
+export const signin = createAsyncThunk<AuthState, UserCredentials>(
+	'auth/login',
+	async (userCredentials: UserCredentials, thunkApi) => {
+		try {
+			const response = await authService.signin(
+				userCredentials.email,
+				userCredentials.password
+			);
+			if (response.token) {
+				return response;
+			}
+		} catch (_error) {
+			const error = _error as Error | AxiosError;
+			console.log(error);
+			if (axios.isAxiosError(error)) {
+				thunkApi.dispatch(setError(error.response?.data.message));
+				return thunkApi.rejectWithValue(error.response?.data.message);
+			}
+			thunkApi.dispatch(setError(error.message));
+			return thunkApi.rejectWithValue(error.message);
+		}
+	}
+);
+
+export const singout = createAsyncThunk('auth/logout', async () => {
+	authService.logout();
+});
+
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
@@ -58,20 +91,33 @@ const authSlice = createSlice({
 	},
 	extraReducers: (bulder) => {
 		bulder
+			.addCase(signin.fulfilled, (state, { payload }) => {
+				state.isLoggedIn = true;
+				state.user = payload.user;
+				state.error = '';
+			})
+			.addCase(signin.rejected, (state) => {
+				state.isLoggedIn = false;
+			})
 			// .addCase(signup.pending, (state) => {
 			// 	state.isLoading = true;
 			// })
 			.addCase(signup.fulfilled, (state) => {
 				state.error = '';
+			})
+			.addCase(signup.rejected, (state) => {
+				state.isLoggedIn = false;
+			})
+			.addCase(singout.fulfilled, (state) => {
+				state.isLoggedIn = false;
+				state.user = { token: '', refreshToken: '' };
+				state.error = '';
 			});
-		// .addCase(signup.rejected, (state) => {
-		// 	state.isLoading = false;
-		// });
 	},
 });
 
 export const { setError, refreshToken } = authSlice.actions;
 
-// export const selectAuth = (state: RootState) => state.auth;
+export const selectAuth = (state: RootState) => state.auth;
 
 export default authSlice.reducer;

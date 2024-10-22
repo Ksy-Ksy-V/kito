@@ -4,8 +4,11 @@ import { Link } from 'react-router-dom';
 import { menuStyles, menuItemStyles } from '../styles/menuStyles';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import theme from '../styles/theme';
+import { singout } from '../store/reducers/authSlice';
+import { useAppDispatch } from '../store/hooks';
 
 const MenuSmall = () => {
+	const dispatch = useAppDispatch();
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
 		null
 	);
@@ -20,6 +23,11 @@ const MenuSmall = () => {
 	};
 
 	const handleMenuClose = () => {
+		setAnchorElBrowse(null);
+	};
+
+	const handleSingOut = () => {
+		dispatch(singout());
 		setAnchorElBrowse(null);
 	};
 
@@ -168,7 +176,7 @@ const MenuSmall = () => {
 
 				{userAuthorised && (
 					<MenuItem
-						onClick={handleMenuClose}
+						onClick={handleSingOut}
 						sx={menuItemStyles(theme)}
 					>
 						Log Out

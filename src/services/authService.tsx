@@ -2,7 +2,7 @@ import { http } from './links';
 import TokenService from './tokenService';
 
 class AuthService {
-	async login(email: string, password: string) {
+	async signin(email: string, password: string) {
 		return http
 			.post('/api/signin', {
 				email,

@@ -54,3 +54,12 @@ export const validateForm = (
 
 	return errors;
 };
+
+export const validateFormSingIn = (email: string, password: string) => {
+	const errors = {
+		email: validateEmail(email),
+		password: validatePassword(password),
+	};
+
+	return errors;
+};
