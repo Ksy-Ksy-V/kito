@@ -21,11 +21,11 @@ import {
 } from '../../components/Authentication/validation';
 import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
 import theme from '../../styles/theme';
-import { useDispatch } from 'react-redux';
 import { signup } from '../../store/reducers/authSlice';
+import { useAppDispatch } from '../../store/hooks';
 
 const SignUp = () => {
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
 	const [name, setName] = useState('');
@@ -43,7 +43,9 @@ const SignUp = () => {
 		terms: '',
 	});
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (
+		e: React.FormEvent<HTMLFormElement>
+	): Promise<void> => {
 		e.preventDefault();
 
 		const newErrors = validateForm(
@@ -59,7 +61,17 @@ const SignUp = () => {
 		const isValid = Object.values(newErrors).every((error) => error === '');
 
 		if (isValid) {
-			navigate('/welcome');
+			setLoading(true);
+			dispatch(
+				signup({
+					name,
+					email,
+					password,
+				})
+			)
+				.unwrap()
+				.then(() => navigate('/'))
+				.catch(() => setLoading(false));
 		}
 	};
 
@@ -100,32 +112,31 @@ const SignUp = () => {
 		}
 	};
 
-	const handleApply = (
-		e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-	) => {
-		e.preventDefault();
-		// console.log(name, email, password, 'reg');
-		dispatch(signup({ email, name, password }));
-		// setLoading(true);
+	// const handleApply = async (
+	// 	e: React.FormEvent<HTMLFormElement>
+	// ): Promise<void> => {
+	// 	e.preventDefault();
+	// 	setLoading(true);
 
-		// dispatch(signup({ name, email, password, passwordConf }))
-		//   .unwrap()
-		//   .then(() => {
-		// 	dispatch(loginAsync({ email, password }))
-		// 	  .unwrap()
-		// 	  .then(() => {
-		// 		setLoading(true);
-		// 		navigate('/');
-		// 		window.location.reload();
-		// 	  })
-		// 	  .catch(() => {
-		// 		setLoading(false);
-		// 	  });
-		//   })
-		//   .catch(() => {
-		// 	setLoading(false);
-		//   });
-	};
+	// 	dispatch(signup({ name, email, password, confirmPassword }))
+	// 		.unwrap()
+	// 		// .then(() => {
+	// 		// 	dispatch(loginAsync({ email, password }))
+	// 		// 		.unwrap()
+	// 		// 		.then(() => {
+	// 		// 			setLoading(true);
+	// 		// 			navigate('/');
+	// 		// 			window.location.reload();
+	// 		// 		})
+	// 		// 		.catch(() => {
+	// 		// 			setLoading(false);
+	// 		// 		});
+	// 		// })
+	// 		.catch(() => {
+	// 			setLoading(false);
+	// 		});
+	// };
+
 	return (
 		<Grid2
 			container
@@ -245,12 +256,7 @@ const SignUp = () => {
 							</Link>
 						</Typography>
 
-						<StyledButton
-							type="submit"
-							onClick={(e) => handleApply(e)}
-						>
-							Sign Up
-						</StyledButton>
+						<StyledButton type="submit">Sign Up</StyledButton>
 					</form>
 				</Grid2>
 			</Grid2>
