@@ -1,15 +1,15 @@
-import { Grid2, Skeleton, Box, Typography } from '@mui/material';
+import { Grid2, Skeleton, Box, Typography, useMediaQuery } from '@mui/material';
 import RandBackground from './RandBackground';
 import RandCardContainer from './RandCardContainer';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import { RandomAnime } from '../../models/AbstractAnime';
+import { AbstractAnime } from '../../models/AbstractAnime';
 import theme from '../../styles/theme';
 import RandInformation from './RandInformation';
 import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
 
 interface RandHeroSectionProps {
-	randomAnime: RandomAnime | null;
+	randomAnime: AbstractAnime | null;
 	loading: boolean;
 	fetchAnimeList: () => void;
 }
@@ -29,12 +29,22 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 		navigate(`/randomizer`);
 	};
 
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
 	return (
 		<>
 			<RandBackground randomAnime={randomAnime} loading={loading} />
-			<RandCardContainer loading={loading} randomAnime={randomAnime} />
+			<RandCardContainer
+				loading={loading}
+				randomAnime={randomAnime}
+				fetchAnimeList={fetchAnimeList}
+			/>
 
-			<Grid2 size={5} offset={1} sx={{ zIndex: 3 }}>
+			<Grid2
+				size={{ md: 5, xs: 12 }}
+				offset={{ md: 1, xs: 0 }}
+				sx={{ zIndex: 3 }}
+			>
 				{loading ? (
 					<>
 						<Skeleton variant="text" width="80%" height={40} />
@@ -42,14 +52,26 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 					</>
 				) : (
 					<>
-						<Box sx={{ display: 'flex' }}>
-							<Typography
-								variant="h3"
-								sx={{ marginTop: '3.5rem' }}
+						{isLargeScreen && (
+							<Box
+								sx={{
+									display: 'flex',
+									textAlign: { xs: 'center', md: 'left' },
+								}}
 							>
-								{randomAnime ? randomAnime.title : 'Sorry...'}
-							</Typography>
-						</Box>
+								<Typography
+									variant="h3"
+									sx={{
+										marginTop: { md: '3.5rem', xs: '0rem' },
+									}}
+								>
+									{randomAnime
+										? randomAnime.title
+										: 'Sorry...'}
+								</Typography>
+							</Box>
+						)}
+
 						{randomAnime && randomAnime.score && (
 							<Typography
 								variant="h5"
@@ -68,7 +90,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 						)}
 						<Box
 							sx={{
-								marginTop: '0.5rem',
+								marginTop: { md: '0.5rem', xs: '1rem' },
 								display: 'flex',
 								flexWrap: 'wrap',
 								gap: '0.5rem',
@@ -95,8 +117,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 						</Box>
 					</>
 				)}
-
-				{!loading || !randomAnime ? (
+				{loading || !randomAnime ? (
 					<>
 						<Typography variant="body1">
 							We couldn't find matching anime.
@@ -108,30 +129,32 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 				) : (
 					<RandInformation
 						loading={loading}
-						randomAnime={randomAnime as RandomAnime}
+						randomAnime={randomAnime as AbstractAnime}
 					/>
 				)}
 
-				<Grid2 container spacing={2}>
-					<Grid2 size={6}>
-						<StyledButton
-							onClick={handleRandomize}
-							disabled={loading || !randomAnime}
-							sx={{ marginTop: '2rem' }}
-						>
-							Randomize
-						</StyledButton>
-					</Grid2>
+				{isLargeScreen && (
+					<Grid2 container spacing={2}>
+						<Grid2 size={{ md: 6, xs: 12 }}>
+							<StyledButton
+								onClick={handleRandomize}
+								disabled={loading || !randomAnime}
+								sx={{ marginTop: { md: '2rem', xs: '1rem' } }}
+							>
+								Randomize
+							</StyledButton>
+						</Grid2>
 
-					<Grid2 size={6}>
-						<StyledButton
-							onClick={handleReturnToFilter}
-							sx={{ marginTop: '2rem' }}
-						>
-							New Filter
-						</StyledButton>
+						<Grid2 size={{ md: 6, xs: 12 }}>
+							<StyledButton
+								onClick={handleReturnToFilter}
+								sx={{ marginTop: { md: '2rem', xs: '0rem' } }}
+							>
+								New Filter
+							</StyledButton>
+						</Grid2>
 					</Grid2>
-				</Grid2>
+				)}
 			</Grid2>
 		</>
 	);

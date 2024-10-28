@@ -15,14 +15,10 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 		return (
 			<Box
 				sx={{
-					position: 'relative',
-					width: '100vw',
-					left: '50%',
-					right: '50%',
-					marginLeft: '-50vw',
-					marginRight: '-50vw',
+					width: '100%',
 					height: '31.25rem',
-					marginTop: '2rem',
+
+					position: 'relative',
 				}}
 			>
 				<Skeleton

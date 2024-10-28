@@ -12,13 +12,14 @@ import {
 
 import RandHeroSection from '../../components/Randomizer/RandHeroSection';
 import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
-import { RandomAnime } from '../../models/AbstractAnime';
+import { AbstractAnime } from '../../models/AbstractAnime';
+import Error from '../../components/Error';
 
 function RandomizerSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
-	// const [error, setError] = useState(false);
+	const [error, setError] = useState(false);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -79,6 +80,7 @@ function RandomizerSearch() {
 			}
 		} catch (err) {
 			console.error('Error fetching anime list:', err);
+			setError(true);
 		}
 	}, [location.search]);
 
@@ -86,17 +88,21 @@ function RandomizerSearch() {
 		fetchAnimeList();
 	}, [fetchAnimeList]);
 
+	if (error) {
+		return <Error />;
+	}
+
 	return (
 		<Grid2 container spacing={2}>
 			<RandHeroSection
 				loading={loading}
-				randomAnime={randomAnime as RandomAnime}
+				randomAnime={randomAnime as AbstractAnime}
 				fetchAnimeList={() => fetchAnimeList()}
 			/>
 
 			<RandDescriptionSection
 				loading={loading}
-				randomAnime={randomAnime as RandomAnime}
+				randomAnime={randomAnime as AbstractAnime}
 			/>
 		</Grid2>
 	);

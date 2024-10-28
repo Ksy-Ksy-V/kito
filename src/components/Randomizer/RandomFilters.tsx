@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
 	Grid2,
 	useTheme,
@@ -8,8 +8,6 @@ import {
 	Skeleton,
 } from '@mui/material';
 import {
-	GenresClient,
-	JikanResponse,
 	Genre,
 	AnimeType,
 	AnimeSearchStatus,
@@ -24,13 +22,18 @@ import {
 	animeRatings,
 	animeStatuses,
 } from '../../models/animeFilters';
-import Error from '../../components/Error';
 
-const RandomFilters = () => {
-	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
+interface RandomFiltersProps {
+	loading?: boolean;
+	error?: boolean;
+	animeGenres: Genre[];
+}
+
+const RandomFilters: React.FC<RandomFiltersProps> = ({
+	loading,
+	animeGenres,
+}) => {
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState(true);
 	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const [selectedStatus, setSelectedStatus] = useState<
 		AnimeSearchStatus | ''
@@ -38,27 +41,6 @@ const RandomFilters = () => {
 	const [selectedRating, setSelectedRating] = useState<AnimeRating | ''>('');
 	const navigate = useNavigate();
 	const theme = useTheme();
-
-	useEffect(() => {
-		const fetchAnimeGenres = async () => {
-			try {
-				setLoading(true);
-				const genresClient = new GenresClient();
-				const response: JikanResponse<Genre[]> =
-					await genresClient.getAnimeGenres();
-				setAnimeGenres(response.data);
-			} catch (error) {
-				console.error('Failed to fetch anime genres:', error);
-				setError(false);
-				setLoading(false);
-			}
-		};
-		if (!animeGenres || animeGenres.length === 0) {
-			fetchAnimeGenres();
-		}
-
-		setLoading(false);
-	}, [animeGenres]);
 
 	const handleGenreChange = (
 		_event: React.SyntheticEvent,
@@ -86,10 +68,6 @@ const RandomFilters = () => {
 			queryParams.length > 0 ? `?${queryParams.join('&')}` : '';
 		navigate(`/randomizer-search${queryString}`);
 	};
-
-	if (error) {
-		return <Error />;
-	}
 
 	return (
 		<Grid2 container spacing={2}>

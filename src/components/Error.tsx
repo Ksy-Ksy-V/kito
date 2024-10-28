@@ -1,12 +1,22 @@
-import { Box, Grid2, Typography } from '@mui/material';
+import { Box, Grid2, keyframes, Typography } from '@mui/material';
 import errorImg from '../images/error.png';
 import StyledButton from './Buttons/StyledButton';
 import theme from '../styles/theme';
+import { useMemo } from 'react';
 
 const Errors = () => {
 	const handleReload = () => {
 		window.location.reload();
 	};
+
+	const pulse = useMemo(
+		() => keyframes`
+			0% { transform: scale(1); }
+			50% { transform: scale(1.2); }
+			100% { transform: scale(1); }
+		`,
+		[]
+	);
 
 	return (
 		<Grid2
@@ -18,7 +28,10 @@ const Errors = () => {
 				justifyContent: 'center',
 				flexDirection: { xs: 'column', md: 'row' },
 				position: 'relative',
-				height: { xs: '100vh', md: 'auto' },
+				height: {
+					xs: '70vh',
+					xl: '80vh',
+				},
 			}}
 		>
 			<Grid2
@@ -76,6 +89,7 @@ const Errors = () => {
 						backgroundSize: 'contain',
 						backgroundPosition: 'center',
 						backgroundRepeat: 'no-repeat',
+						animation: `${pulse} 5s ease-in-out infinite`,
 					}}
 				/>
 			</Grid2>
