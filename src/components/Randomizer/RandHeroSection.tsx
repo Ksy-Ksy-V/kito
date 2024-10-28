@@ -1,5 +1,4 @@
 import { Grid2, Skeleton, Box, Typography, useMediaQuery } from '@mui/material';
-import RandBackground from './RandBackground';
 import RandCardContainer from './RandCardContainer';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { AbstractAnime } from '../../models/AbstractAnime';
@@ -7,6 +6,7 @@ import theme from '../../styles/theme';
 import RandInformation from './RandInformation';
 import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
+import BackgroundImg from '../BackgroundImg';
 
 interface RandHeroSectionProps {
 	randomAnime: AbstractAnime | null;
@@ -33,7 +33,11 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 
 	return (
 		<>
-			<RandBackground randomAnime={randomAnime} loading={loading} />
+			<BackgroundImg
+				anime={randomAnime}
+				loading={loading}
+				height={'31.25rem'}
+			/>
 			<RandCardContainer
 				loading={loading}
 				randomAnime={randomAnime}

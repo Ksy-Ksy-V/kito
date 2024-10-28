@@ -6,12 +6,12 @@ import {
 	Typography,
 	useMediaQuery,
 } from '@mui/material';
-import RandomCard from './RandomCard';
 import notFoundImg from '../../images/notFound.png';
 import { Anime } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
 import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
+import CardAnimeDetails from '../Cards/CardAnimeDetails';
 
 interface RandCardContainerProps {
 	loading: boolean;
@@ -63,7 +63,7 @@ const RandCardContainer: React.FC<RandCardContainerProps> = ({
 			{loading ? (
 				<Skeleton variant="rectangular" width="100%" height={300} />
 			) : randomAnime ? (
-				<RandomCard
+				<CardAnimeDetails
 					title={randomAnime.title}
 					imageUrl={randomAnime.images.jpg.image_url}
 					mal_id={randomAnime.mal_id}
@@ -94,12 +94,6 @@ const RandCardContainer: React.FC<RandCardContainerProps> = ({
 						<StyledButton
 							onClick={handleRandomize}
 							disabled={loading || !randomAnime}
-							sx={{
-								marginTop: {
-									md: '2rem',
-									xs: '0.5rem',
-								},
-							}}
 						>
 							Randomize
 						</StyledButton>

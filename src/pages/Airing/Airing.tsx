@@ -17,7 +17,7 @@ import { ExtendedSeasonNowParams } from '../../models/ContinuingSeason';
 import PagePagination from '../../components/PagePagination';
 import theme from '../../styles/theme';
 import Error from '../../components/Error';
-import SearchCard from '../../components/SearchCard';
+import SearchCard from '../../components/Cards/SearchCard';
 import { useNavigate } from 'react-router-dom';
 
 const SeasonAnimePage: React.FC = () => {

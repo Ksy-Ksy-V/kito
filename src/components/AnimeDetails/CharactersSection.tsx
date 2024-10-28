@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import { Anime, AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
-import CharacterCard from './CharacterCard';
+import AnimeCard from '../Cards/AnimeCard';
 
 interface CharacterSectionProps {
 	anime: Anime | null;
@@ -52,7 +52,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 						<Typography
 							variant={isLargeScreen ? 'h3' : 'h4'}
 							sx={{
-								color: theme.palette.secondary.main, 
+								color: theme.palette.secondary.main,
 							}}
 						>
 							Characters
@@ -95,7 +95,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 									alignItems: 'center',
 								}}
 							>
-								<CharacterCard
+								<AnimeCard
 									image={
 										character.character.images.jpg.image_url
 									}

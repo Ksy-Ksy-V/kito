@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material';
-import SearchCard from '../../components/SearchCard';
+import SearchCard from '../Cards/SearchCard';
 import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useSearchContext } from '../../context/SearchContext';

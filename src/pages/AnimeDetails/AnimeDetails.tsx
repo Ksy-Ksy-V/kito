@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AnimeClient, Anime } from '@tutkli/jikan-ts';
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
-import CardAnimeDetails from '../../components/AnimeDetails/CardAnimeDetails';
+import CardAnimeDetails from '../../components/Cards/CardAnimeDetails';
 import YourRatingField from '../../components/YourRatingField';
 import AddButton from '../../components/Buttons/AddButton';
-import BackgroundAnimeDetail from '../../components/AnimeDetails/BackgroundAnimeDetail';
 import RatingLabel from '../../components/AnimeDetails/RatingLabel';
 import TitleInformation from '../../components/AnimeDetails/TitleInformation';
 import MainInformation from '../../components/AnimeDetails/MainInformation';
@@ -13,6 +12,7 @@ import theme from '../../styles/theme';
 import CharacterSection from '../../components/AnimeDetails/CharactersSection';
 import SimilarTitlesSection from '../../components/AnimeDetails/SimilarTitlesSection';
 import Error from '../../components/Error';
+import BackgroundImg from '../../components/BackgroundImg';
 
 function AnimeDetails() {
 	const { id } = useParams<{ id: string }>();
@@ -50,7 +50,7 @@ function AnimeDetails() {
 				spacing={2}
 				sx={{
 					marginTop: {
-						xs: '0rem',
+						xs: '2rem',
 						md: '2rem',
 					},
 				}}
@@ -64,11 +64,15 @@ function AnimeDetails() {
 						zIndex: 0,
 						marginTop: {
 							xs: '4rem',
-							md: '6rem',
+							md: '4rem',
 						},
 					}}
 				>
-					<BackgroundAnimeDetail anime={anime} loading={loading} />
+					<BackgroundImg
+						anime={anime}
+						loading={loading}
+						height={'23rem'}
+					/>
 				</Grid2>
 
 				{isLargeScreen && (
@@ -344,10 +348,24 @@ function AnimeDetails() {
 					)}
 				</Grid2>
 
-				<Grid2 size={12}>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						alignContent: 'flex-start',
+						alignItems: 'flex-start',
+					}}
+				>
 					<CharacterSection anime={anime} />
 				</Grid2>
-				<Grid2 size={12}>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						alignContent: 'flex-start',
+						alignItems: 'flex-start',
+					}}
+				>
 					<SimilarTitlesSection anime={anime} />
 				</Grid2>
 			</Grid2>
