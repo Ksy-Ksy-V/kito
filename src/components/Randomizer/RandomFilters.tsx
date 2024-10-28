@@ -19,12 +19,18 @@ import { useNavigate } from 'react-router-dom';
 import StyledButton from '../Buttons/StyledButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
-import { animeFormats, animeRatings, animeStatuses } from '../../models/animeFilters';
+import {
+	animeFormats,
+	animeRatings,
+	animeStatuses,
+} from '../../models/animeFilters';
+import Error from '../../components/Error';
 
 const RandomFilters = () => {
 	const [animeGenres, setAnimeGenres] = useState<Genre[]>([]);
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(true);
 	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const [selectedStatus, setSelectedStatus] = useState<
 		AnimeSearchStatus | ''
@@ -43,6 +49,8 @@ const RandomFilters = () => {
 				setAnimeGenres(response.data);
 			} catch (error) {
 				console.error('Failed to fetch anime genres:', error);
+				setError(false);
+				setLoading(false);
 			}
 		};
 		if (!animeGenres || animeGenres.length === 0) {
@@ -79,9 +87,16 @@ const RandomFilters = () => {
 		navigate(`/randomizer-search${queryString}`);
 	};
 
+	if (error) {
+		return <Error />;
+	}
+
 	return (
 		<Grid2 container spacing={2}>
-			<Grid2 size={{ xs: 6 }} offset={{ xs: 3 }}>
+			<Grid2
+				size={{ xs: 12, sm: 10, md: 6, lg: 6 }}
+				offset={{ xs: 0, sm: 1, md: 3, lg: 3 }}
+			>
 				{loading ? (
 					<Skeleton variant="rectangular" width="100%" height={56} />
 				) : (
@@ -104,12 +119,12 @@ const RandomFilters = () => {
 										key={key}
 										{...rest}
 										onMouseEnter={(e) =>
-										(e.currentTarget.style.backgroundColor =
-											theme.palette.primary.main)
+											(e.currentTarget.style.backgroundColor =
+												theme.palette.primary.main)
 										}
 										onMouseLeave={(e) =>
-										(e.currentTarget.style.backgroundColor =
-											'inherit')
+											(e.currentTarget.style.backgroundColor =
+												'inherit')
 										}
 									>
 										{option.name}
@@ -127,39 +142,51 @@ const RandomFilters = () => {
 					</FormControl>
 				)}
 
-				<SelectForm
-					label="Type"
-					value={selectedType}
-					onChange={(event) =>
-						setSelectedType(event.target.value as AnimeType)
-					}
-					options={animeFormats}
-					clearValue={() => setSelectedType('')}
-				/>
+				{loading ? (
+					<Skeleton variant="rectangular" width="100%" height={56} />
+				) : (
+					<SelectForm
+						label="Type"
+						value={selectedType}
+						onChange={(event) =>
+							setSelectedType(event.target.value as AnimeType)
+						}
+						options={animeFormats}
+						clearValue={() => setSelectedType('')}
+					/>
+				)}
 
-				<SelectForm
-					label="Status"
-					value={selectedStatus}
-					onChange={(event) =>
-						setSelectedStatus(
-							event.target.value as AnimeSearchStatus
-						)
-					}
-					options={animeStatuses}
-					clearValue={() => setSelectedStatus('')}
-					capitalizeOptions
-				/>
+				{loading ? (
+					<Skeleton variant="rectangular" width="100%" height={56} />
+				) : (
+					<SelectForm
+						label="Status"
+						value={selectedStatus}
+						onChange={(event) =>
+							setSelectedStatus(
+								event.target.value as AnimeSearchStatus
+							)
+						}
+						options={animeStatuses}
+						clearValue={() => setSelectedStatus('')}
+						capitalizeOptions
+					/>
+				)}
 
-				<SelectForm
-					label="Rating"
-					value={selectedRating}
-					onChange={(event) =>
-						setSelectedRating(event.target.value as AnimeRating)
-					}
-					options={animeRatings}
-					clearValue={() => setSelectedRating('')}
-					upperCaseOptions
-				/>
+				{loading ? (
+					<Skeleton variant="rectangular" width="100%" height={56} />
+				) : (
+					<SelectForm
+						label="Rating"
+						value={selectedRating}
+						onChange={(event) =>
+							setSelectedRating(event.target.value as AnimeRating)
+						}
+						options={animeRatings}
+						clearValue={() => setSelectedRating('')}
+						upperCaseOptions
+					/>
+				)}
 
 				<StyledButton
 					disabled={loading}

@@ -66,7 +66,7 @@ const PopularSection: React.FC = () => {
 							},
 						}}
 					>
-						Popular
+						Popularity
 					</Typography>
 				</Grid2>
 

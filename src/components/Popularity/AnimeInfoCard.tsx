@@ -274,7 +274,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									<Skeleton
 										key={index}
 										variant="text"
-										width="55rem"
+										width="100%"
 										height={20}
 										sx={{ marginBottom: '0.5rem' }}
 									/>

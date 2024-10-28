@@ -19,16 +19,7 @@ const PagePagination: React.FC<PagePaginationProps> = ({
 			page={page}
 			onChange={onChange}
 			disabled={loading}
-			sx={{
-				'& .Mui-selected': {
-					backgroundColor: 'primary.main',
-				},
-				'& .MuiPaginationItem-root': {
-					'&:hover': {
-						backgroundColor: 'primary.main',
-					},
-				},
-			}}
+			color="primary"
 		/>
 	);
 };

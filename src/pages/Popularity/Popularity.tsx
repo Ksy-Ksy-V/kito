@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Typography, Grid2 } from '@mui/material';
+import { Typography, Grid2, Skeleton } from '@mui/material';
 import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
@@ -16,7 +16,7 @@ function Popularity() {
 
 	useEffect(() => {
 		const fetchTopAnime = async () => {
-			setLoading(true);
+			setLoading(false);
 			try {
 				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
@@ -46,23 +46,36 @@ function Popularity() {
 	return (
 		<>
 			<Slyder />
-			<Typography
-				variant="h2"
-				sx={{
-					textAlign: 'center',
-					marginTop: '2rem',
-					marginBottom: '2rem',
-					fontSize: {
-						xs: theme.typography.h4.fontSize,
-						sm: theme.typography.h3.fontSize,
-						md: theme.typography.h2.fontSize,
-						lg: theme.typography.h1.fontSize,
-						xl: theme.typography.h1.fontSize,
-					},
-				}}
-			>
-				Top Anime by Popularity
-			</Typography>
+
+			{loading ? (
+				<Skeleton
+					variant="rectangular"
+					width="100%"
+					height="4rem"
+					sx={{
+						marginTop: '2rem',
+						marginBottom: '2rem',
+					}}
+				/>
+			) : (
+				<Typography
+					variant="h2"
+					sx={{
+						textAlign: 'center',
+						marginTop: '2rem',
+						marginBottom: '2rem',
+						fontSize: {
+							xs: theme.typography.h4.fontSize,
+							sm: theme.typography.h3.fontSize,
+							md: theme.typography.h2.fontSize,
+							lg: theme.typography.h1.fontSize,
+							xl: theme.typography.h1.fontSize,
+						},
+					}}
+				>
+					Top Anime by Popularity
+				</Typography>
+			)}
 
 			<Grid2 container spacing={2} size={12}>
 				{topList.map((anime, index) => (
