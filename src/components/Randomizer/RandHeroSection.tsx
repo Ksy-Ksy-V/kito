@@ -51,7 +51,12 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 			>
 				{loading ? (
 					<>
-						<Skeleton variant="text" width="80%" height={40} />
+						<Skeleton
+							variant="text"
+							width="80%"
+							height={40}
+							sx={{ marginTop: '3rem' }}
+						/>
 						<Skeleton variant="text" width="20%" height={30} />
 					</>
 				) : (
@@ -69,9 +74,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 										marginTop: { md: '3.5rem', xs: '0rem' },
 									}}
 								>
-									{randomAnime
-										? randomAnime.title
-										: 'Sorry...'}
+									{randomAnime?.title}
 								</Typography>
 							</Box>
 						)}
@@ -121,21 +124,11 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 						</Box>
 					</>
 				)}
-				{loading || !randomAnime ? (
-					<>
-						<Typography variant="body1">
-							We couldn't find matching anime.
-						</Typography>
-						<Typography variant="body1">
-							Try changing your filter parameters
-						</Typography>
-					</>
-				) : (
-					<RandInformation
-						loading={loading}
-						randomAnime={randomAnime as AbstractAnime}
-					/>
-				)}
+
+				<RandInformation
+					loading={loading}
+					randomAnime={randomAnime as AbstractAnime}
+				/>
 
 				{isLargeScreen && (
 					<Grid2 container spacing={2}>
@@ -153,6 +146,7 @@ const RandHeroSection: React.FC<RandHeroSectionProps> = ({
 							<StyledButton
 								onClick={handleReturnToFilter}
 								sx={{ marginTop: { md: '2rem', xs: '0rem' } }}
+								disabled={loading || !randomAnime}
 							>
 								New Filter
 							</StyledButton>

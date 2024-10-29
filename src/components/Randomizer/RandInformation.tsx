@@ -16,7 +16,7 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 		<Grid2 container spacing={2} sx={{ marginTop: '1rem' }}>
 			{loading ? (
 				<>
-					{[...Array(6)].map((_, index) => (
+					{[...Array(5)].map((_, index) => (
 						<Grid2 key={index} size={12}>
 							<Skeleton variant="text" width="100%" height={40} />
 						</Grid2>

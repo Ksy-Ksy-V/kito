@@ -19,7 +19,11 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 				sx={{
 					width: '100%',
 					height: { height },
-					position: 'relative',
+					position: 'absolute',
+					left: '50%',
+					right: '50%',
+					marginLeft: '-50vw',
+					marginRight: '-50vw',
 				}}
 			>
 				<Skeleton
@@ -28,14 +32,11 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					height="100%"
 					sx={{
 						bgcolor: 'rgba(0, 0, 0, 0.5)',
+						zIndex: 1,
 					}}
 				/>
 			</Box>
 		);
-	}
-
-	if (!anime) {
-		return null;
 	}
 
 	return (

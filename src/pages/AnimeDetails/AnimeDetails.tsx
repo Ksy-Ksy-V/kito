@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { AnimeClient, Anime } from '@tutkli/jikan-ts';
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import CardAnimeDetails from '../../components/Cards/CardAnimeDetails';
-import YourRatingField from '../../components/YourRatingField';
+import YourRatingField from '../../components/Buttons/YourRatingField';
 import AddButton from '../../components/Buttons/AddButton';
 import RatingLabel from '../../components/AnimeDetails/RatingLabel';
 import TitleInformation from '../../components/AnimeDetails/TitleInformation';
@@ -109,6 +109,7 @@ function AnimeDetails() {
 								<CardAnimeDetails
 									title={anime?.title}
 									imageUrl={anime?.images?.jpg?.image_url}
+									loading={loading}
 								/>
 								<AddButton
 									loading={loading}
@@ -171,6 +172,7 @@ function AnimeDetails() {
 									<>
 										<CardAnimeDetails
 											title={anime?.title}
+											loading={loading}
 											imageUrl={
 												anime?.images?.jpg?.image_url
 											}

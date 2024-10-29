@@ -37,7 +37,7 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 			)}
 
 			<Grid2 container spacing={2} size={12}>
-				<Grid2 size={{ md: randomAnime.trailer ? 5 : 12, xs: 12 }}>
+				<Grid2 size={randomAnime.trailer ? 5 : 12}>
 					<Typography
 						variant="body1"
 						marginBottom="2rem"
@@ -50,7 +50,7 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 					>
 						{loading ? (
 							<>
-								{[...Array(6)].map((_, index) => (
+								{[...Array(8)].map((_, index) => (
 									<Skeleton key={index} variant="text" />
 								))}
 							</>

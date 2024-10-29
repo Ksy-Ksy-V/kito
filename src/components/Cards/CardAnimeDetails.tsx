@@ -6,10 +6,40 @@ interface CardAnimeDetailsProps {
 	title?: string;
 	imageUrl?: string;
 	mal_id?: number;
+	loading: boolean;
 }
 
-function CardAnimeDetails({ title, imageUrl, mal_id }: CardAnimeDetailsProps) {
+function CardAnimeDetails({
+	title,
+	imageUrl,
+	mal_id,
+	loading,
+}: CardAnimeDetailsProps) {
 	const navigate = useNavigate();
+
+	if (loading) {
+		return (
+			<Card
+				sx={{
+					width: {
+						xs: '12rem',
+						sm: '14rem',
+						md: '17rem',
+					},
+					height: {
+						xs: '16rem',
+						sm: '21rem',
+						md: '25rem',
+					},
+					borderRadius: '1rem',
+					border: `0.125rem solid ${theme.palette.secondary.main}`,
+					marginBottom: '2rem',
+					background: 'rgba(29, 51, 53, 0.51)',
+					marginTop: { xs: '1rem', md: '0' },
+				}}
+			></Card>
+		);
+	}
 	return (
 		<Card
 			sx={{

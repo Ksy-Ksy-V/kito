@@ -14,6 +14,7 @@ import RandHeroSection from '../../components/Randomizer/RandHeroSection';
 import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
 import { AbstractAnime } from '../../models/AbstractAnime';
 import Error from '../../components/Error';
+import RandNotResult from '../../components/Randomizer/RandNotResult';
 
 function RandomizerSearch() {
 	const location = useLocation();
@@ -90,6 +91,10 @@ function RandomizerSearch() {
 
 	if (error) {
 		return <Error />;
+	}
+
+	if (!randomAnime) {
+		return <RandNotResult />;
 	}
 
 	return (
