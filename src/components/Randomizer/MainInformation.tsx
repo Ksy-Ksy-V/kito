@@ -3,12 +3,12 @@ import { JikanResource } from '@tutkli/jikan-ts';
 import { AbstractAnime } from '../../models/AbstractAnime';
 import StyledInformation from '../StyledInformation';
 
-interface AnimeDetailsProps {
+interface MainInformationProps {
 	randomAnime: AbstractAnime;
 	loading: boolean;
 }
 
-const AnimeDetails: React.FC<AnimeDetailsProps> = ({
+const MainInformation: React.FC<MainInformationProps> = ({
 	randomAnime,
 	loading,
 }) => {
@@ -90,4 +90,4 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 	);
 };
 
-export default AnimeDetails;
+export default MainInformation;

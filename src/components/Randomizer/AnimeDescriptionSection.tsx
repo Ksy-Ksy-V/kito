@@ -1,15 +1,34 @@
-import { Grid2, Skeleton, Box, Typography } from '@mui/material';
+import { Grid2, Skeleton, Typography } from '@mui/material';
 import { AbstractAnime } from '../../models/AbstractAnime';
+import { useEffect, useState } from 'react';
 
-interface RandDescriptionSectionProps {
+interface AnimeDescriptionSectionProps {
 	randomAnime: AbstractAnime | null;
 	loading: boolean;
 }
 
-const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
+const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 	randomAnime,
 	loading,
 }) => {
+	const [iframeHeight, setIframeHeight] = useState('300px');
+
+	useEffect(() => {
+		const updateHeight = () => {
+			if (window.innerWidth < 600) {
+				setIframeHeight('160px');
+			} else if (window.innerWidth < 960) {
+				setIframeHeight('200px');
+			} else {
+				setIframeHeight('300px');
+			}
+		};
+
+		updateHeight();
+		window.addEventListener('resize', updateHeight);
+		return () => window.removeEventListener('resize', updateHeight);
+	}, []);
+
 	if (!randomAnime) {
 		return null;
 	}
@@ -37,7 +56,7 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 			)}
 
 			<Grid2 container spacing={2} size={12}>
-				<Grid2 size={{ md: 5, xs: 12 }}>
+				<Grid2 size={{ sm: 5, xs: 12 }}>
 					<Typography
 						variant="body1"
 						marginBottom="2rem"
@@ -61,37 +80,29 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 				</Grid2>
 
 				{randomAnime.trailer && (
-					<Grid2 size={{ md: 6, xs: 12 }} offset={{ md: 1, xs: 0 }}>
+					<Grid2 size={{ sm: 6, xs: 12 }} offset={{ sm: 1, xs: 0 }}>
 						{loading ? (
 							<Skeleton
 								variant="rectangular"
 								width="100%"
-								height={0}
+								height="300"
 								sx={{ paddingTop: '56.25%' }}
 							/>
 						) : (
-							<Box
-								sx={{
-									marginTop: '1rem',
-									position: 'relative',
-									paddingTop: '56.25%',
-									marginBottom: '2rem',
-								}}
-							>
+							<>
 								<iframe
-									src={randomAnime.trailer.embed_url}
+									width="100%"
+									height={iframeHeight}
+									loading="lazy"
+									allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowFullScreen
+									src={`${randomAnime?.trailer.embed_url}?autoplay=0`}
 									title="Anime Trailer"
 									style={{
-										position: 'absolute',
-										top: 0,
-										left: 0,
-										width: '100%',
-										height: '100%',
 										border: 'none',
 									}}
-									allowFullScreen
 								></iframe>
-							</Box>
+							</>
 						)}
 					</Grid2>
 				)}
@@ -100,4 +111,4 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 	);
 };
 
-export default RandDescriptionSection;
+export default AnimeDescriptionSection;

@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid2 } from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -10,11 +9,10 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 
-import RandHeroSection from '../../components/Randomizer/RandHeroSection';
-import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
 import { AbstractAnime } from '../../models/AbstractAnime';
 import Error from '../../components/Error';
 import RandNotResult from '../../components/Randomizer/RandNotResult';
+import AnimeDetail from '../../components/AnimeDetailComponent';
 
 function RandomizerSearch() {
 	const location = useLocation();
@@ -98,18 +96,11 @@ function RandomizerSearch() {
 	}
 
 	return (
-		<Grid2 container spacing={2}>
-			<RandHeroSection
-				loading={loading}
-				randomAnime={randomAnime as AbstractAnime}
-				fetchAnimeList={() => fetchAnimeList()}
-			/>
-
-			<RandDescriptionSection
-				loading={loading}
-				randomAnime={randomAnime as AbstractAnime}
-			/>
-		</Grid2>
+		<AnimeDetail
+			loading={loading}
+			anime={randomAnime as AbstractAnime}
+			fetchAnimeList={() => fetchAnimeList()}
+		/>
 	);
 }
 

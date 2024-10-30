@@ -1,0 +1,122 @@
+import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
+import { Anime } from '@tutkli/jikan-ts';
+import theme from '../../styles/theme';
+import CardAnimeDetails from '../Cards/CardAnimeDetails';
+import AddButton from '../Buttons/AddButton';
+import YourRatingField from '../Buttons/YourRatingField';
+
+interface AnimeCardContainerProps {
+	loading: boolean;
+	randomAnime: Anime | null;
+}
+
+const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
+	loading,
+	randomAnime,
+}) => {
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+
+	return (
+		<Grid2
+			container
+			size={{ md: 3, sm: 5, xs: 10 }}
+			sx={{
+				marginTop: '2rem',
+				position: 'relative',
+				zIndex: 3,
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'colum',
+				alignContent: 'flex-start',
+			}}
+		>
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				{loading
+					? !isLargeScreen && (
+							<Skeleton
+								variant="rectangular"
+								width="80%"
+								height="2rem"
+							/>
+					  )
+					: !isLargeScreen && (
+							<Typography
+								variant="h4"
+								sx={{
+									color: theme.palette.secondary.main,
+									textAlign: 'center',
+								}}
+							>
+								{randomAnime?.title}
+							</Typography>
+					  )}
+			</Grid2>
+
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: { xs: 'center', sm: 'left' },
+					alignContent: 'flex-start',
+					marginTop: { xs: '2rem', sm: '1rem' },
+				}}
+			>
+				<CardAnimeDetails
+					title={randomAnime?.title}
+					imageUrl={randomAnime?.images.jpg.image_url}
+					mal_id={randomAnime?.mal_id}
+					loading={loading}
+				/>
+			</Grid2>
+
+			<>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: { xs: 'center', sm: 'left' },
+						alignItems: 'center',
+						marginTop: {
+							md: '1rem',
+							xs: '0rem',
+						},
+					}}
+				>
+					<AddButton
+						loading={loading}
+						sx={{
+							width: {
+								xs: '11rem',
+								sm: '12rem',
+								md: '14rem',
+							},
+							marginTop: '1rem',
+						}}
+					>
+						Add To List
+					</AddButton>
+				</Grid2>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: { xs: 'center', sm: 'left' },
+						alignItems: 'center',
+					}}
+				>
+					<YourRatingField />
+				</Grid2>
+			</>
+		</Grid2>
+	);
+};
+
+export default AnimeCardContainer;
