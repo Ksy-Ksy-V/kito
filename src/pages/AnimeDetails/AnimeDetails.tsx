@@ -19,7 +19,8 @@ function AnimeDetails() {
 	const [anime, setAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
-	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+	const isPhone = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
 		const fetchAnimeDetails = async () => {
@@ -49,35 +50,29 @@ function AnimeDetails() {
 				container
 				spacing={2}
 				sx={{
-					marginTop: {
-						xs: '2rem',
-						md: '2rem',
-					},
+					marginTop: '2rem',
 				}}
 			>
 				<Grid2
-					size={{ xs: 12, md: 12, lg: 12 }}
+					size={12}
 					sx={{
 						position: 'absolute',
 						top: 0,
 						left: 0,
 						zIndex: 0,
-						marginTop: {
-							xs: '4rem',
-							md: '4rem',
-						},
+						marginTop: '4rem',
 					}}
 				>
 					<BackgroundImg
 						anime={anime}
 						loading={loading}
-						height={'23rem'}
+						height={'31.25rem'}
 					/>
 				</Grid2>
 
 				{isLargeScreen && (
 					<Grid2
-						size={{ xs: 12, md: 4 }}
+						size={4}
 						sx={{
 							zIndex: 1,
 							display: 'flex',
@@ -86,22 +81,15 @@ function AnimeDetails() {
 								sm: 'normal',
 							},
 							flexDirection: 'column',
+							marginTop: '1rem',
 						}}
 					>
 						{loading ? (
 							<Skeleton
 								variant="rectangular"
 								sx={{
-									width: {
-										xs: '12rem',
-										sm: '14rem',
-										md: '17rem',
-									},
-									height: {
-										xs: '18rem',
-										sm: '21rem',
-										md: '25rem',
-									},
+									width: '17rem',
+									height: '25rem',
 								}}
 							/>
 						) : (
@@ -115,10 +103,11 @@ function AnimeDetails() {
 									loading={loading}
 									sx={{
 										width: {
-											xs: '12rem',
-											sm: '14rem',
-											md: '17rem',
+											xs: '11rem',
+											sm: '12rem',
+											md: '14rem',
 										},
+										marginTop: '1rem',
 									}}
 								>
 									Add To List
@@ -130,7 +119,7 @@ function AnimeDetails() {
 				)}
 
 				<Grid2
-					size={{ xs: 12, md: 8 }}
+					size={{ xs: 12, sm: 6, md: 8 }}
 					sx={{
 						zIndex: 1,
 					}}
@@ -140,6 +129,7 @@ function AnimeDetails() {
 						spacing={2}
 						size={12}
 						sx={{
+							flexDirection: 'row',
 							justifyContent: {
 								xs: 'center',
 								sm: 'flex-start',
@@ -148,13 +138,13 @@ function AnimeDetails() {
 						}}
 					>
 						<TitleInformation anime={anime} loading={loading} />
-						{isLargeScreen && (
+						{isPhone && (
 							<RatingLabel anime={anime} loading={loading} />
 						)}
 
 						{!isLargeScreen && (
 							<Grid2
-								size={{ xs: 12, md: 4 }}
+								size={{ xs: 12, sm: 6 }}
 								sx={{
 									zIndex: 1,
 									display: 'flex',
@@ -177,7 +167,17 @@ function AnimeDetails() {
 												anime?.images?.jpg?.image_url
 											}
 										/>
-										<AddButton loading={loading}>
+										<AddButton
+											loading={loading}
+											sx={{
+												marginTop: '1rem',
+												width: {
+													xs: '11rem',
+													sm: '12rem',
+													md: '14rem',
+												},
+											}}
+										>
 											Add To List
 										</AddButton>
 										<YourRatingField />
@@ -186,7 +186,7 @@ function AnimeDetails() {
 							</Grid2>
 						)}
 
-						<Grid2 size={{ xs: 12, sm: 4, md: 8 }}>
+						<Grid2 size={12}>
 							<MainInformation anime={anime} loading={loading} />
 
 							{loading ? (
@@ -258,7 +258,7 @@ function AnimeDetails() {
 					</Grid2>
 
 					<Grid2 container spacing={2}>
-						<Grid2 size={12} sx={{ marginTop: '3rem' }}>
+						<Grid2 size={12} sx={{ marginTop: '2rem' }}>
 							{loading ? (
 								<Skeleton
 									variant="rectangular"
@@ -270,6 +270,7 @@ function AnimeDetails() {
 									variant={isLargeScreen ? 'h3' : 'h4'}
 									sx={{
 										color: theme.palette.text.secondary,
+										marginTop: '2rem',
 									}}
 								>
 									Description:
@@ -303,10 +304,7 @@ function AnimeDetails() {
 						</Grid2>
 					</Grid2>
 					{isLargeScreen && anime?.trailer.embed_url && (
-						<Grid2
-							size={{ xs: 12, sm: 6, md: 8 }}
-							sx={{ marginTop: '1rem' }}
-						>
+						<Grid2 size={{ xs: 12 }} sx={{ marginTop: '1rem' }}>
 							{loading ? (
 								<>
 									<Skeleton

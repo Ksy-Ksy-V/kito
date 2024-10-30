@@ -57,7 +57,7 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${anime.images.jpg.large_image_url})`,
+					backgroundImage: `url(${anime?.images.jpg.large_image_url})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,

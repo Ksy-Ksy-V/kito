@@ -4,6 +4,8 @@ import theme from '../../styles/theme';
 import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
 import CardAnimeDetails from '../Cards/CardAnimeDetails';
+import AddButton from '../Buttons/AddButton';
+import YourRatingField from '../Buttons/YourRatingField';
 
 interface RandCardContainerProps {
 	loading: boolean;
@@ -32,40 +34,99 @@ const RandCardContainer: React.FC<RandCardContainerProps> = ({
 			size={{ md: 3, sm: 6, xs: 7 }}
 			offset={{ md: 1, sm: 3, xs: 2 }}
 			sx={{
-				marginTop: { md: '4rem', xs: '2rem' },
+				marginTop: '2rem',
 				position: 'relative',
 				zIndex: 3,
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
+				flexDirection: 'colum',
 			}}
 		>
-			{loading
-				? !isLargeScreen && (
-						<Skeleton
-							variant="rectangular"
-							width="80%"
-							height="2rem"
-						/>
-				  )
-				: !isLargeScreen && (
-						<Typography
-							variant="h4"
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				{loading
+					? !isLargeScreen && (
+							<Skeleton
+								variant="rectangular"
+								width="80%"
+								height="2rem"
+							/>
+					  )
+					: !isLargeScreen && (
+							<Typography
+								variant="h4"
+								sx={{
+									color: theme.palette.secondary.main,
+									textAlign: 'center',
+								}}
+							>
+								{randomAnime?.title}
+							</Typography>
+					  )}
+			</Grid2>
+
+			<Grid2
+				size={12}
+				sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				<CardAnimeDetails
+					title={randomAnime?.title}
+					imageUrl={randomAnime?.images.jpg.image_url}
+					mal_id={randomAnime?.mal_id}
+					loading={loading}
+				/>
+			</Grid2>
+
+			{isLargeScreen && (
+				<>
+					<Grid2
+						size={12}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							marginTop: {
+								md: '1rem',
+								xs: '0rem',
+							},
+						}}
+					>
+						<AddButton
+							loading={loading}
 							sx={{
-								color: theme.palette.secondary.main,
-								textAlign: 'center',
+								width: {
+									xs: '12rem',
+									sm: '14rem',
+									md: '14rem',
+								},
 							}}
 						>
-							{randomAnime?.title}
-						</Typography>
-				  )}
-
-			<CardAnimeDetails
-				title={randomAnime?.title}
-				imageUrl={randomAnime?.images.jpg.image_url}
-				mal_id={randomAnime?.mal_id}
-				loading={loading}
-			/>
+							Add To List
+						</AddButton>
+					</Grid2>
+					<Grid2
+						size={12}
+						sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<YourRatingField />
+					</Grid2>
+				</>
+			)}
 
 			{!isLargeScreen && (
 				<Grid2 container spacing={2}>

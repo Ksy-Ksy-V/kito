@@ -45,11 +45,7 @@ const AddButton: React.FC<AddButtonProps> = ({
 				marginBottom: '1rem',
 				textAlign: 'left',
 
-				height: {
-					xs: '2.5rem',
-					sm: '2.5rem',
-					md: '3rem',
-				},
+				height: '3rem',
 
 				border: 'solid 1px',
 				'&:hover': {

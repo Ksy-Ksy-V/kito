@@ -23,11 +23,12 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	return (
-		<Grid2 size={10}>
+		<Grid2 size={{ xs: 12, md: 10 }}>
 			<Grid2
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
+					marginTop: '1rem',
 				}}
 			>
 				{' '}
@@ -35,74 +36,58 @@ const TitleInformation: React.FC<TitleInformationProps> = ({
 					<Skeleton variant="text" width="19rem" height="4rem" />
 				) : (
 					<Typography
-						variant={isLargeScreen ? 'h2' : 'h3'}
+						variant="h2"
 						sx={{
 							marginRight: '1rem',
 							width: '100%',
+							color: theme.palette.secondary.main,
 							textAlign: {
 								xs: 'center',
-								md: 'left',
 								sm: 'left',
+							},
+							fontSize: {
+								xl: theme.typography.h2.fontSize,
+								lg: theme.typography.h3.fontSize,
+								md: theme.typography.h3.fontSize,
+								sm: theme.typography.h4.fontSize,
+								xs: theme.typography.h4.fontSize,
 							},
 						}}
 					>
 						{anime?.title_english || anime?.title_japanese}
 					</Typography>
 				)}
-				{loading
-					? isLargeScreen && (
-							<Skeleton
-								variant="rectangular"
-								width="5rem"
-								height="2rem"
-								sx={{ marginLeft: '1rem' }}
-							/>
-					  )
-					: anime &&
-					  anime.score &&
-					  isLargeScreen && (
-							<Typography
-								variant="h4"
-								sx={{
-									color: theme.palette.text.primary,
-									display: 'flex',
-									alignItems: 'center',
-								}}
-							>
-								<StarOutlinedIcon
-									sx={{
-										marginRight: '0.5rem',
-									}}
-								/>
-								{anime.score}
-							</Typography>
-					  )}
 			</Grid2>
 
-			{isLargeScreen && anime?.title_english && (
-				<>
-					{loading ? (
+			{loading
+				? isLargeScreen && (
 						<Skeleton
-							variant="text"
-							width="15rem"
-							height="2.5rem"
+							variant="rectangular"
+							width="5rem"
+							height="2rem"
+							sx={{ marginLeft: '1rem', marginTop: '1.5rem' }}
 						/>
-					) : (
+				  )
+				: anime &&
+				  anime.score &&
+				  isLargeScreen && (
 						<Typography
 							variant="h4"
 							sx={{
-								fontFamily: 'Noto Sans JP, sans-serif',
-								fontWeight: 400,
-								fontSize: '1.777rem',
-								color: '#dbfeff',
-								marginTop: '0.5rem',
+								color: theme.palette.text.primary,
+								display: 'flex',
+								alignItems: 'center',
+								marginTop: '1rem',
 							}}
 						>
-							{anime?.title_japanese}
+							<StarOutlinedIcon
+								sx={{
+									marginRight: '0.5rem',
+								}}
+							/>
+							{anime.score}
 						</Typography>
-					)}
-				</>
-			)}
+				  )}
 
 			{isLargeScreen && (
 				<>

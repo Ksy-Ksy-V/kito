@@ -37,7 +37,7 @@ const RandDescriptionSection: React.FC<RandDescriptionSectionProps> = ({
 			)}
 
 			<Grid2 container spacing={2} size={12}>
-				<Grid2 size={randomAnime.trailer ? 5 : 12}>
+				<Grid2 size={{ md: 5, xs: 12 }}>
 					<Typography
 						variant="body1"
 						marginBottom="2rem"

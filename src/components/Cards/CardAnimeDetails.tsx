@@ -22,14 +22,14 @@ function CardAnimeDetails({
 			<Card
 				sx={{
 					width: {
-						xs: '12rem',
-						sm: '14rem',
-						md: '17rem',
+						xs: '11rem',
+						sm: '12rem',
+						md: '14rem',
 					},
 					height: {
 						xs: '16rem',
-						sm: '21rem',
-						md: '25rem',
+						sm: '18rem',
+						md: '20rem',
 					},
 					borderRadius: '1rem',
 					border: `0.125rem solid ${theme.palette.secondary.main}`,
@@ -44,18 +44,17 @@ function CardAnimeDetails({
 		<Card
 			sx={{
 				width: {
-					xs: '12rem',
-					sm: '14rem',
-					md: '17rem',
+					xs: '11rem',
+					sm: '12rem',
+					md: '14rem',
 				},
 				height: {
 					xs: '16rem',
-					sm: '21rem',
-					md: '25rem',
+					sm: '18rem',
+					md: '20rem',
 				},
 				borderRadius: '1rem',
 				border: `0.125rem solid ${theme.palette.secondary.main}`,
-				marginBottom: '2rem',
 			}}
 		>
 			{mal_id ? (

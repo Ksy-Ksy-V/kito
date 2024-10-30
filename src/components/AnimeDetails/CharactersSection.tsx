@@ -65,6 +65,10 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 				spacing={2}
 				sx={{
 					marginTop: '2rem',
+
+					display: 'flex',
+					alignContent: 'flex-start',
+					alignItems: 'flex-start',
 				}}
 			>
 				{loading
