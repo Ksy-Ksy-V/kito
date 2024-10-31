@@ -4,9 +4,17 @@ import theme from '../../styles/theme';
 
 interface YourRatingFieldProps {
 	loading?: boolean;
+	width: {
+		xs: string;
+		sm: string;
+		md: string;
+	};
 }
 
-const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
+const YourRatingField: React.FC<YourRatingFieldProps> = ({
+	loading,
+	width,
+}) => {
 	const ratingOptions: string[] = [
 		'This is Legendary - 10!!!',
 		'Almost Perfect - 9',
@@ -32,10 +40,15 @@ const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
 			>
 				<InputLabel
 					sx={{
-						color: theme.palette.secondary.main,
+						color: loading
+							? theme.palette.primary.main
+							: theme.palette.secondary.main,
 						'&:hover': { color: theme.palette.secondary.main },
 						'&.Mui-focused': {
 							color: theme.palette.secondary.main,
+						},
+						'& .Mui-disabled': {
+							color: theme.palette.primary.main,
 						},
 						fontSize: {
 							md: theme.typography.body2.fontSize,
@@ -53,14 +66,15 @@ const YourRatingField: React.FC<YourRatingFieldProps> = ({ loading }) => {
 					disabled={loading}
 					sx={{
 						height: '3rem',
-						width: {
-							xs: '11rem',
-							sm: '12rem',
-							md: '14rem',
-						},
 						border: 'solid 1px  ',
 						borderRadius: '0.25rem',
-						borderColor: theme.palette.secondary.main,
+						borderColor: loading
+							? theme.palette.primary.main
+							: theme.palette.secondary.main,
+						'& .Mui-disabled': {
+							borderColor: theme.palette.primary.main,
+						},
+						width: { ...width },
 					}}
 				>
 					{ratingOptions.map((option) => (

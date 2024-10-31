@@ -96,24 +96,26 @@ const RandNotResult = () => {
 					</StyledButton>
 				</Grid2>
 
-				{isLargeScreen && (
-					<Grid2
-						size={{ xs: 12, md: 4 }}
-						sx={{
-							order: { xs: 1, md: 1 },
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							position: { xs: 'absolute', md: 'relative' },
-
-							width: '100%',
-							height: { xs: '100%', md: '400px' },
-							opacity: { xs: 0.2, md: 1 },
-						}}
-					>
-						<NotFoundCard />
-					</Grid2>
-				)}
+				<Grid2>
+					{isLargeScreen && (
+						<Grid2
+							size={{ xs: 12, md: 4 }}
+							sx={{
+								order: { xs: 1, md: 1 },
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'flex-start',
+								position: { xs: 'absolute', md: 'relative' },
+								marginTop: '4rem',
+								width: '100%',
+								height: { xs: '100%', md: '400px' },
+								opacity: { xs: 0.2, md: 1 },
+							}}
+						>
+							<NotFoundCard />
+						</Grid2>
+					)}
+				</Grid2>
 			</Grid2>
 		</>
 	);

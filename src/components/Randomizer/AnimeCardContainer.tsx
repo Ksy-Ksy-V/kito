@@ -112,7 +112,14 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 						alignItems: 'center',
 					}}
 				>
-					<YourRatingField />
+					<YourRatingField
+						loading={loading}
+						width={{
+							xs: '11rem',
+							sm: '12rem',
+							md: '14rem',
+						}}
+					/>
 				</Grid2>
 			</>
 		</Grid2>

@@ -13,6 +13,7 @@ import { AbstractAnime } from '../../models/AbstractAnime';
 import Error from '../../components/Error';
 import RandNotResult from '../../components/Randomizer/RandNotResult';
 import AnimeDetail from '../../components/AnimeDetailComponent';
+import RandLoading from '../../components/Randomizer/RandLoading';
 
 function RandomizerSearch() {
 	const location = useLocation();
@@ -86,6 +87,10 @@ function RandomizerSearch() {
 	useEffect(() => {
 		fetchAnimeList();
 	}, [fetchAnimeList]);
+
+	if (loading) {
+		return <RandLoading />;
+	}
 
 	if (error) {
 		return <Error />;
