@@ -32,8 +32,8 @@ export interface SearchState {
 		orderBy: SearchOrder | undefined;
 	};
 	sortingValue: {
-		sortValue: string;
-		orderByValue: string;
+		sort: string;
+		orderBy: string;
 	};
 	filters: {
 		genres: string | undefined;
@@ -42,10 +42,10 @@ export interface SearchState {
 		rating: AnimeRating | undefined;
 	};
 	filtersValue: {
-		genresValue: string[];
-		formatValue: string;
-		statusValue: string;
-		ratingValue: string;
+		genres: string[];
+		format: string;
+		status: string;
+		rating: string;
 	};
 }
 
@@ -61,8 +61,8 @@ export const initialState: SearchState = {
 		orderBy: undefined,
 	},
 	sortingValue: {
-		sortValue: 'asc',
-		orderByValue: 'title',
+		sort: 'asc',
+		orderBy: 'title',
 	},
 	filters: {
 		genres: '',
@@ -71,10 +71,10 @@ export const initialState: SearchState = {
 		rating: undefined,
 	},
 	filtersValue: {
-		genresValue: [],
-		formatValue: '',
-		statusValue: '',
-		ratingValue: '',
+		genres: [],
+		format: '',
+		status: '',
+		rating: '',
 	},
 };
 

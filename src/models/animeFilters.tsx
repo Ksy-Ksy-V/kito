@@ -36,15 +36,7 @@ export const animeOrder: SearchOrder[] = [
 
 export const animeSorting: SortOptions[] = ['asc', 'desc'];
 
-export enum AnimeSortingLabel {        
+export enum AnimeSortingLabel {
 	asc = 'Ascending',
 	desc = 'Descending',
-}
-
-export interface AnimeGenresFilters {
-	q?: string;
-	status?: AnimeSearchStatus;
-	format?: AnimeType;
-	genres?: string;
-	rating?: AnimeRating;
 }

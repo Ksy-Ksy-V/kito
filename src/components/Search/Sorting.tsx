@@ -28,10 +28,10 @@ const Sorting: React.FC = () => {
 		const { sort, orderBy } = urlFilters;
 
 		const sortingMapping = [
-			{ filterName: 'sort', value: sort, valueKey: 'sortValue' },
-			{ filterName: 'orderBy', value: orderBy, valueKey: 'orderByValue' },
+			{ filterName: 'sort', value: sort },
+			{ filterName: 'orderBy', value: orderBy },
 		];
-		sortingMapping.forEach(({ filterName, value, valueKey }) => {
+		sortingMapping.forEach(({ filterName, value }) => {
 			dispatch({
 				type: 'SET_SORTING',
 				payload: { [filterName]: value },
@@ -39,7 +39,7 @@ const Sorting: React.FC = () => {
 
 			dispatch({
 				type: 'SET_SORTING_VALUE',
-				payload: { [valueKey]: value },
+				payload: { [filterName]: value },
 			});
 		});
 
@@ -122,9 +122,7 @@ const Sorting: React.FC = () => {
 										.toLowerCase()
 										.replace('_', ' ')
 								}
-								checked={
-									state.sortingValue.orderByValue === option
-								}
+								checked={state.sortingValue.orderBy === option}
 							/>
 						))}
 					</RadioGroup>
@@ -170,9 +168,7 @@ const Sorting: React.FC = () => {
 								value={option}
 								control={<Radio />}
 								label={AnimeSortingLabel[option]}
-								checked={
-									state.sortingValue.sortValue === option
-								}
+								checked={state.sortingValue.sort === option}
 							/>
 						))}
 					</RadioGroup>

@@ -42,7 +42,7 @@ export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
 			dispatch({ type: 'SET_ANIME_LIST', payload: animeList.data });
 			dispatch({ type: 'SET_LOADING', payload: false });
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			dispatch({ type: SET_ERROR, payload: true });
 		}
 	};

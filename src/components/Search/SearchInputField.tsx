@@ -7,7 +7,7 @@ import {
 	createFilterOptions,
 	ListItem,
 } from '@mui/material';
-import { JikanImages } from '@tutkli/jikan-ts';
+import { JikanImages, JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
 import { useSearchContext } from '../../context/SearchContext';
 import { animeService } from '../../services/animeService';
@@ -20,7 +20,16 @@ interface AnimeOptionType {
 	images?: JikanImages;
 }
 
-const SearchInputField: React.FC = () => {
+interface SearchInputFieldProps {
+	width?: {
+		xs: string;
+		sm: string;
+		md: string;
+		lg: string;
+	};
+}
+
+const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();
@@ -70,6 +79,40 @@ const SearchInputField: React.FC = () => {
 			window.history.replaceState(null, '', `/search${queryString}`);
 		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
+		}
+	};
+
+	const handleApplyFilters = async () => {
+		if (isSearchPage && dispatch && context) {
+			dispatch({ type: 'SET_LOADING', payload: true });
+
+			const query = context.state.query;
+			const filters = context.state.filters;
+			const sorting = context.state.sorting;
+
+			const queryString = buildQueryParams(
+				context.state.query,
+				context.state.filters,
+				context.state.sorting
+			);
+			window.history.replaceState(null, '', `/search${queryString}`);
+			animeService
+				.searchAnime(query, 24, filters, sorting)
+				.then((response) => {
+					dispatch({
+						type: 'SET_ANIME_LIST',
+						payload: response.data,
+					});
+					dispatch({
+						type: 'SET_PAGINATION',
+						payload: response.pagination as JikanPagination,
+					});
+					dispatch({
+						type: 'SET_PAGE',
+						payload: 1,
+					});
+					dispatch({ type: 'SET_LOADING', payload: false });
+				});
 		}
 	};
 
@@ -174,34 +217,47 @@ const SearchInputField: React.FC = () => {
 						? option?.inputValue
 						: option.title;
 				}}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						handleApplyFilters();
+					}
+				}}
 				renderInput={(params) => (
 					<TextField
 						{...params}
 						label="Search for Anime"
 						variant="outlined"
 						size="small"
+						disabled={context?.state.loading}
 						sx={{
-							// width: {
-							// 	xl: '23rem',
-							// 	lg: '23rem',
-							// 	md: '23rem',
-							// 	sm: '18rem',
-							// },
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 								'&:hover fieldset': {
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 								'&.Mui-focused fieldset': {
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 							},
 							'& .MuiInputLabel-root': {
-								color: 'primary.main',
+								color: {
+									md: 'primary.main',
+									xs: 'secondary.main',
+								},
 							},
+							width: { ...width },
 						}}
 					/>
 				)}

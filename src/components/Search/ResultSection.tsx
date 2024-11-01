@@ -1,7 +1,7 @@
 import { Box, Grid2, keyframes } from '@mui/material';
 
 import ErrorSection from './ErrorSection';
-import NotResultsSection from './NotResultsSection';
+import EmptyResult from './EmptyResult';
 import CardSection from './CardSection';
 
 import kitoLoading from '../../images/loading.png';
@@ -28,6 +28,7 @@ const ResultSection = () => {
 						justifyContent: 'center',
 						alignItems: 'center',
 						display: 'flex',
+						minHeight: '50vh',
 					}}
 				>
 					<Grid2 container>
@@ -68,7 +69,7 @@ const ResultSection = () => {
 					textAlign={'center'}
 					size={12}
 				>
-					<NotResultsSection />
+					<EmptyResult />
 				</Grid2>
 			) : (
 				<CardSection />
