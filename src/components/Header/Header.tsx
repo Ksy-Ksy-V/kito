@@ -1,18 +1,20 @@
-import { AppBar, Toolbar, IconButton, useTheme, Grid2 } from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Grid2, useMediaQuery } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
-import AnimeSearchField from '../Search/AnimeSearchField';
+import SearchInputField from '../Search/SearchInputField';
+import MenuSmall from '../MenuSmall';
+import theme from '../../styles/theme';
 
 const Header = () => {
-	const theme = useTheme();
 	const location = useLocation();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-	const isSearchPage = location.pathname === '/search';
+	const isSearchOrHomePage =
+		location.pathname === '/search' || location.pathname === '/';
 
 	return (
 		<AppBar
@@ -32,41 +34,44 @@ const Header = () => {
 					spacing={2}
 					size={{ xs: 12 }}
 				>
-					<Grid2 size={{ xs: 2 }}>
-						<Logo />
-					</Grid2>
+					{isLargeScreen ? (
+						<>
+							<Grid2 size={{ xs: 2 }}>
+								<Logo />
+							</Grid2>
 
-					<Grid2 size={{ xs: 2 }}>
-						<NavBar />
-					</Grid2>
+							<Grid2 size={{ xs: 2 }}>
+								<NavBar />
+							</Grid2>
 
-					{!isSearchPage && (
-						<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
-							<AnimeSearchField />
-						</Grid2>
+							{!isSearchOrHomePage && (
+								<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
+									<SearchInputField />
+								</Grid2>
+							)}
+
+							<Grid2
+								size={{ xs: 1 }}
+								offset={
+									isSearchOrHomePage
+										? { md: 7, lg: 7, xl: 7 }
+										: { md: 0 }
+								}
+							>
+								<AccountMenu />
+							</Grid2>
+						</>
+					) : (
+						<>
+							<Grid2 size={{ xs: 10 }}>
+								<Logo />
+							</Grid2>
+
+							<Grid2 size={{ xs: 2 }}>
+								<MenuSmall />
+							</Grid2>
+						</>
 					)}
-
-					<Grid2
-						size={{ xs: 1 }}
-						offset={isSearchPage ? { xs: 6 } : { xs: 0 }}
-					>
-						<IconButton
-							component={Link}
-							to="/search"
-							sx={{
-								color: theme.palette.primary.main,
-								'&:hover': {
-									color: theme.palette.secondary.main,
-								},
-							}}
-						>
-							<SearchIcon sx={{ fontSize: '2rem' }} />
-						</IconButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 1 }}>
-						<AccountMenu />
-					</Grid2>
 				</Grid2>
 			</Toolbar>
 		</AppBar>

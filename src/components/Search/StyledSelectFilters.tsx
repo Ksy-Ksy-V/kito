@@ -10,22 +10,24 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 
-interface SearchFiltersProps {
+interface StyledSearchFiltersProps {
 	label: string;
-	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
+	value: string | undefined;
+	onChange?: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
+	defaultValue?: string;
 	upperCaseOptions?: boolean;
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({
+const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 	label,
 	value,
 	onChange,
 	options,
 	clearValue,
+	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
 }) => {
@@ -38,13 +40,19 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 		if (upperCaseOptions) {
 			return option.toUpperCase();
 		}
+
 		return option;
 	};
 
 	return (
-		<FormControl fullWidth variant="filled">
+		<FormControl
+			fullWidth
+			variant="filled"
+			sx={{ marginTop: { xs: '1rem', md: '1.1rem' } }}
+		>
 			<InputLabel>{label}</InputLabel>
 			<Select
+				defaultValue={defaultValue}
 				value={value}
 				onChange={onChange}
 				sx={{
@@ -80,4 +88,4 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({
 	);
 };
 
-export default SearchFilters;
+export default StyledSearchFilters;

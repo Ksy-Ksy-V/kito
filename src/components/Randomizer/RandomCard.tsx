@@ -14,7 +14,7 @@ function RandomCard({ title, imageUrl, mal_id }: RandomCardProps) {
 			sx={{
 				position: 'relative',
 				overflow: 'visible',
-				borderRadius: '8px',
+				borderRadius: '0.5rem',
 				'&::before': {
 					content: '""',
 					position: 'absolute',
