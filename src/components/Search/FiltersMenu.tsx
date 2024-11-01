@@ -40,7 +40,7 @@ const FiltersMenu = () => {
 				disabled={state.loading}
 				sx={{
 					lineHeight: 1.9,
-					backgrounsColor: 'transparent',
+					backgroundColor: 'transparent',
 				}}
 			>
 				Filters

@@ -40,7 +40,7 @@ const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 
 		dispatch({
 			type: 'SET_FILTERS_VALUE',
-			payload: { genresValue: genresArr },
+			payload: { genres: genresArr },
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,15 +67,15 @@ const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 		const { value, checked } = event.target;
 
 		const updatedGenres = checked
-			? [...state.filtersValue.genresValue.filter(Boolean), value]
-			: state.filtersValue.genresValue.filter((genre) => genre !== value);
+			? [...state.filtersValue.genres.filter(Boolean), value]
+			: state.filtersValue.genres.filter((genre) => genre !== value);
 
 		updatedGenres.toString();
 
 		dispatch({
 			type: 'SET_FILTERS_VALUE',
 			payload: {
-				genresValue: updatedGenres.length > 0 ? updatedGenres : [],
+				genres: updatedGenres.length > 0 ? updatedGenres : [],
 			},
 		});
 
@@ -156,7 +156,7 @@ const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 									control={
 										<Checkbox
 											value={genre.mal_id}
-											checked={state.filtersValue.genresValue.includes(
+											checked={state.filtersValue.genres.includes(
 												genre.mal_id.toString()
 											)}
 											onChange={handleGenreChange}

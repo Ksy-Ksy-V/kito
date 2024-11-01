@@ -59,7 +59,7 @@ const HeroSection = () => {
 							sm: 'inherit',
 						},
 						marginTop: {
-							xs: '3rem',
+							xs: '4rem',
 							lg: '4rem',
 							md: '5rem',
 							sm: '6rem',
@@ -89,7 +89,7 @@ const HeroSection = () => {
 							lg: '1rem',
 							md: '1.5rem',
 							sm: '1.5rem',
-							xs: '3rem',
+							xs: '4rem',
 						},
 						color: theme.palette.primary.main,
 						fontSize: {
@@ -99,14 +99,21 @@ const HeroSection = () => {
 							sm: theme.typography.h3.fontSize,
 							xs: theme.typography.h4.fontSize,
 						},
-						marginBottom: '2rem',
+						marginBottom: '2.5rem',
 					}}
 				>
 					Find yours!
 				</Typography>
 
 				<Grid2 size={6}>
-					<SearchInputField />
+					<SearchInputField
+						width={{
+							xs: '100%',
+							sm: '50%',
+							md: '50%',
+							lg: '50%',
+						}}
+					/>
 				</Grid2>
 			</Grid2>
 		</Grid2>

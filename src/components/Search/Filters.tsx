@@ -1,7 +1,7 @@
 import { useSearchContext } from '../../context/SearchContext';
 
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-import StyledSarchFilters from './StyledSelectFilters';
+import StyledSearchFilters from './StyledSelectFilters';
 import {
 	animeFormats,
 	animeRatings,
@@ -20,12 +20,12 @@ const Filters: React.FC = () => {
 		const { format, status, rating } = urlFilters;
 
 		const filterMapping = [
-			{ filterName: 'format', value: format, valueKey: 'formatValue' },
-			{ filterName: 'status', value: status, valueKey: 'statusValue' },
-			{ filterName: 'rating', value: rating, valueKey: 'ratingValue' },
+			{ filterName: 'format', value: format },
+			{ filterName: 'status', value: status },
+			{ filterName: 'rating', value: rating },
 		];
 
-		filterMapping.forEach(({ filterName, value, valueKey }) => {
+		filterMapping.forEach(({ filterName, value }) => {
 			dispatch({
 				type: 'SET_FILTERS',
 				payload: { [filterName]: value },
@@ -33,7 +33,7 @@ const Filters: React.FC = () => {
 
 			dispatch({
 				type: 'SET_FILTERS_VALUE',
-				payload: { [valueKey]: value || '' },
+				payload: { [filterName]: value || '' },
 			});
 		});
 
@@ -108,10 +108,10 @@ const Filters: React.FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSarchFilters
+				<StyledSearchFilters
 					label="Format"
-					value={state.filtersValue.formatValue}
-					defaultValue={state.filtersValue.formatValue}
+					value={state.filtersValue.format}
+					defaultValue={state.filtersValue.format}
 					onChange={(e) =>
 						handleFilterChange('format', e.target.value)
 					}
@@ -131,10 +131,10 @@ const Filters: React.FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSarchFilters
+				<StyledSearchFilters
 					label="Status"
-					value={state.filtersValue.statusValue}
-					defaultValue={state.filtersValue.statusValue}
+					value={state.filtersValue.status}
+					defaultValue={state.filtersValue.status}
 					onChange={(e) =>
 						handleFilterChange('status', e.target.value)
 					}
@@ -155,10 +155,10 @@ const Filters: React.FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSarchFilters
+				<StyledSearchFilters
 					label="Rating"
-					value={state.filtersValue.ratingValue}
-					defaultValue={state.filtersValue.ratingValue}
+					value={state.filtersValue.rating}
+					defaultValue={state.filtersValue.rating}
 					onChange={(e) =>
 						handleFilterChange('rating', e.target.value)
 					}

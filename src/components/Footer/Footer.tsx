@@ -47,7 +47,7 @@ const Footer = () => {
 					<Grid2
 						size={{ xs: 6, sm: 6, md: 2, lg: 2, xl: 2 }}
 						sx={{
-							flexDirection: 'colom',
+							flexDirection: 'column',
 							alignItems: 'flex-start',
 						}}
 					>

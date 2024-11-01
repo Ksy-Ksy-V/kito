@@ -20,7 +20,16 @@ interface AnimeOptionType {
 	images?: JikanImages;
 }
 
-const SearchInputField: React.FC = () => {
+interface SearchInputFieldProps {
+	width?: {
+		xs: string;
+		sm: string;
+		md: string;
+		lg: string;
+	};
+}
+
+const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();
@@ -180,28 +189,36 @@ const SearchInputField: React.FC = () => {
 						label="Search for Anime"
 						variant="outlined"
 						size="small"
+						disabled={context?.state.loading}
 						sx={{
-							// width: {
-							// 	xl: '23rem',
-							// 	lg: '23rem',
-							// 	md: '23rem',
-							// 	sm: '18rem',
-							// },
 							'& .MuiOutlinedInput-root': {
 								'& fieldset': {
 									borderWidth: '0.15rem',
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 								'&:hover fieldset': {
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 								'&.Mui-focused fieldset': {
-									borderColor: 'primary.main',
+									borderColor: {
+										md: 'primary.main',
+										xs: 'secondary.main',
+									},
 								},
 							},
 							'& .MuiInputLabel-root': {
-								color: 'primary.main',
+								color: {
+									md: 'primary.main',
+									xs: 'secondary.main',
+								},
 							},
+							width: { ...width },
 						}}
 					/>
 				)}

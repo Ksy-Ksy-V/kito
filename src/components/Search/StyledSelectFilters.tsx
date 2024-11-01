@@ -10,7 +10,7 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 
-interface StyledSarchFiltersProps {
+interface StyledSearchFiltersProps {
 	label: string;
 	value: string | undefined;
 	onChange?: (event: SelectChangeEvent<string>) => void;
@@ -19,10 +19,9 @@ interface StyledSarchFiltersProps {
 	capitalizeOptions?: boolean;
 	defaultValue?: string;
 	upperCaseOptions?: boolean;
-	underscoreOptions?: boolean;
 }
 
-const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
+const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 	label,
 	value,
 	onChange,
@@ -31,7 +30,6 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
-	underscoreOptions = false,
 }) => {
 	const transformOption = (option: string) => {
 		if (capitalizeOptions) {
@@ -42,12 +40,7 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 		if (upperCaseOptions) {
 			return option.toUpperCase();
 		}
-		if (underscoreOptions) {
-			return (
-				option.charAt(0).toUpperCase() +
-				option.slice(1).toLowerCase().replace('_', ' ')
-			);
-		}
+
 		return option;
 	};
 
@@ -95,4 +88,4 @@ const StyledSarchFilters: React.FC<StyledSarchFiltersProps> = ({
 	);
 };
 
-export default StyledSarchFilters;
+export default StyledSearchFilters;

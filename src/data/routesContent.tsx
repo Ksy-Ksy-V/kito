@@ -32,7 +32,7 @@ export const routesWide: RouteContent[] = [
 		path: '/search',
 		element: (
 			<SearchProvider>
-				<Search />{' '}
+				<Search />
 			</SearchProvider>
 		),
 	},
