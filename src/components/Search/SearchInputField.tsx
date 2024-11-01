@@ -7,7 +7,7 @@ import {
 	createFilterOptions,
 	ListItem,
 } from '@mui/material';
-import { JikanImages } from '@tutkli/jikan-ts';
+import { JikanImages, JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
 import { useSearchContext } from '../../context/SearchContext';
 import { animeService } from '../../services/animeService';
@@ -79,6 +79,40 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 			window.history.replaceState(null, '', `/search${queryString}`);
 		} else if (newInputValue.length >= 3) {
 			debouncedHandleAnimeOptions(newInputValue);
+		}
+	};
+
+	const handleApplyFilters = async () => {
+		if (isSearchPage && dispatch && context) {
+			dispatch({ type: 'SET_LOADING', payload: true });
+
+			const query = context.state.query;
+			const filters = context.state.filters;
+			const sorting = context.state.sorting;
+
+			const queryString = buildQueryParams(
+				context.state.query,
+				context.state.filters,
+				context.state.sorting
+			);
+			window.history.replaceState(null, '', `/search${queryString}`);
+			animeService
+				.searchAnime(query, 24, filters, sorting)
+				.then((response) => {
+					dispatch({
+						type: 'SET_ANIME_LIST',
+						payload: response.data,
+					});
+					dispatch({
+						type: 'SET_PAGINATION',
+						payload: response.pagination as JikanPagination,
+					});
+					dispatch({
+						type: 'SET_PAGE',
+						payload: 1,
+					});
+					dispatch({ type: 'SET_LOADING', payload: false });
+				});
 		}
 	};
 
@@ -182,6 +216,11 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 					return option?.inputValue
 						? option?.inputValue
 						: option.title;
+				}}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter') {
+						handleApplyFilters();
+					}
 				}}
 				renderInput={(params) => (
 					<TextField
