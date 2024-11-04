@@ -7,18 +7,18 @@ import { useNavigate } from 'react-router-dom';
 interface RandomizerBtnProps {
 	loading: boolean;
 	randomAnime: Anime | null;
-	fetchAnimeList: () => void;
+	getRandomize: () => void;
 }
 
 const RandomizerBtn: React.FC<RandomizerBtnProps> = ({
 	loading,
 	randomAnime,
-	fetchAnimeList,
+	getRandomize,
 }) => {
 	const navigate = useNavigate();
 
 	const handleRandomize = () => {
-		fetchAnimeList();
+		getRandomize();
 	};
 
 	const handleReturnToFilter = () => {

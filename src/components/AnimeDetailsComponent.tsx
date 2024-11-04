@@ -1,33 +1,34 @@
 import { Grid2 } from '@mui/material';
-import DetailInformatioAboutAnime from './Randomizer/DetailInformatioAboutAnime';
+import DetailsInformationAboutAnime from './Randomizer/DetailsInformationAboutAnime';
 import AnimeDescriptionSection from './Randomizer/AnimeDescriptionSection';
-import CharacterSection from './Anime/CharactersSection';
-import SimilarTitlesSection from './Anime/SimilarTitlesSection';
+import CharacterSection from './AnimeInfo/CharactersSection';
+import SimilarTitlesSection from './AnimeInfo/SimilarTitlesSection';
 import { AbstractAnime } from '../models/AbstractAnime';
 
-interface AnimeDetailProps {
+interface AnimeDetailsProps {
 	anime?: AbstractAnime | null;
 	loading: boolean;
-	fetchAnimeList?: () => void;
+	getRandomize?: () => void;
 }
 
-const AnimeDetail: React.FC<AnimeDetailProps> = ({
+const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 	anime,
 	loading,
-	fetchAnimeList,
+	getRandomize,
 }) => {
 	const isRandomizerPage = location.pathname === '/randomizer-search';
 
 	return (
 		<Grid2 container spacing={2}>
-			{fetchAnimeList ? (
-				<DetailInformatioAboutAnime
+			{isRandomizerPage ? (
+				<DetailsInformationAboutAnime
 					loading={loading}
 					anime={anime as AbstractAnime}
-					fetchAnimeList={() => fetchAnimeList()}
+					randomizerPage={true}
+					getRandomize={getRandomize}
 				/>
 			) : (
-				<DetailInformatioAboutAnime
+				<DetailsInformationAboutAnime
 					loading={loading}
 					anime={anime as AbstractAnime}
 				/>
@@ -35,7 +36,7 @@ const AnimeDetail: React.FC<AnimeDetailProps> = ({
 
 			<AnimeDescriptionSection
 				loading={loading}
-				randomAnime={anime as AbstractAnime}
+				anime={anime as AbstractAnime}
 			/>
 
 			{!isRandomizerPage && (
@@ -66,4 +67,4 @@ const AnimeDetail: React.FC<AnimeDetailProps> = ({
 	);
 };
 
-export default AnimeDetail;
+export default AnimeDetails;

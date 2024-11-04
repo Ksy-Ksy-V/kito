@@ -27,7 +27,7 @@ const YourRatingField: React.FC<YourRatingFieldProps> = ({
 		'Barely Watchable - 2',
 		'Complete Disaster - 1',
 	];
-	const [yourrating, setYourrating] = useState<string>('');
+	const [yourRating, setYourRating] = useState<string>('');
 
 	return (
 		<>
@@ -61,8 +61,8 @@ const YourRatingField: React.FC<YourRatingFieldProps> = ({
 				</InputLabel>
 
 				<Select
-					value={yourrating}
-					onChange={(event) => setYourrating(event.target.value)}
+					value={yourRating}
+					onChange={(event) => setYourRating(event.target.value)}
 					disabled={loading}
 					sx={{
 						height: '3rem',

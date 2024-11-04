@@ -28,6 +28,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 					marginBottom: '10px',
 					boxShadow: 'rgba(29, 51, 53, 0.7)',
 					overflow: 'hidden',
+					cursor: 'pointer',
 					transition:
 						'transform 0.20s ease-in-out, box-shadow 0.20s ease-in-out, border 0.20s ease-in-out',
 					'&:hover': {

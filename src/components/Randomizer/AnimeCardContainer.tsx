@@ -39,25 +39,21 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 					alignItems: 'center',
 				}}
 			>
-				{loading
-					? !isLargeScreen && (
-							<Skeleton
-								variant="rectangular"
-								width="80%"
-								height="2rem"
-							/>
-					  )
-					: !isLargeScreen && (
-							<Typography
-								variant="h4"
-								sx={{
-									color: theme.palette.secondary.main,
-									textAlign: 'center',
-								}}
-							>
-								{randomAnime?.title}
-							</Typography>
-					  )}
+				{loading && !isLargeScreen && (
+					<Skeleton variant="rectangular" width="80%" height="2rem" />
+				)}
+				{!loading && !isLargeScreen && (
+					<Typography
+						variant="h4"
+						sx={{
+							color: theme.palette.secondary.main,
+							textAlign: 'center',
+							marginTop: '1.5rem',
+						}}
+					>
+						{randomAnime?.title}
+					</Typography>
+				)}
 			</Grid2>
 
 			<Grid2

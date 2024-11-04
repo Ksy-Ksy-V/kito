@@ -6,6 +6,7 @@ import {
 	TextField,
 	createFilterOptions,
 	ListItem,
+	AutocompleteInputChangeReason,
 } from '@mui/material';
 import { JikanImages, JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
@@ -65,20 +66,24 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 	);
 
 	const handleInputChange = (
-		_event: React.SyntheticEvent,
-		newInputValue: string
+		newInputValue: string,
+		reason: AutocompleteInputChangeReason
 	) => {
-		setValue(newInputValue);
+		if (reason === 'clear') {
+			setValue('');
+		} else {
+			setValue(newInputValue);
 
-		if (dispatch) {
-			dispatch({ type: 'SET_QUERY', payload: newInputValue });
-		}
+			if (dispatch) {
+				dispatch({ type: 'SET_QUERY', payload: newInputValue });
+			}
 
-		if (newInputValue === '') {
-			const queryString = buildQueryParams('');
-			window.history.replaceState(null, '', `/search${queryString}`);
-		} else if (newInputValue.length >= 3) {
-			debouncedHandleAnimeOptions(newInputValue);
+			if (newInputValue === '') {
+				const queryString = buildQueryParams('');
+				window.history.replaceState(null, '', `/search${queryString}`);
+			} else if (newInputValue.length >= 3) {
+				debouncedHandleAnimeOptions(newInputValue);
+			}
 		}
 	};
 
@@ -131,7 +136,9 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 				freeSolo
 				inputValue={value}
 				options={uniqueAnimeList}
-				onInputChange={handleInputChange}
+				onInputChange={(_event, val, reason) =>
+					handleInputChange(val, reason)
+				}
 				onChange={async (_event, newValue) => {
 					if (typeof newValue === 'object' && newValue?.inputValue) {
 						if (isSearchPage) {

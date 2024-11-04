@@ -9,7 +9,7 @@ export interface AnimeDetailsKito {
 	episodes: number;
 }
 
-export interface ProfileContet {
+export interface ProfileContent {
 	userId: number;
 	name: string;
 	status: string;
@@ -26,7 +26,7 @@ export interface ProfileContet {
 	};
 }
 
-export const profileContet: ProfileContet[] = [
+export const profileContent: ProfileContent[] = [
 	{
 		userId: 1,
 		name: 'Catch Me',

@@ -10,7 +10,7 @@ import theme from '../../styles/theme';
 import { useMemo } from 'react';
 import notFoundImg from '../../images/notFound.png';
 
-const RandLoading = () => {
+const RandomLoading = () => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	const pulse = useMemo(
@@ -131,4 +131,4 @@ const RandLoading = () => {
 	);
 };
 
-export default RandLoading;
+export default RandomLoading;

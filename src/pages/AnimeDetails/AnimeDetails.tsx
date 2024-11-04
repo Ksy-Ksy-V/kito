@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AnimeClient, Anime } from '@tutkli/jikan-ts';
 import Error from '../../components/Error';
-import AnimeDetail from '../../components/AnimeDetailComponent';
+import AnimeDetail from '../../components/AnimeDetailsComponent';
 
 function AnimeDetails() {
 	const { id } = useParams<{ id: string }>();

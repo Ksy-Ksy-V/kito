@@ -133,6 +133,7 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 								<AnimeCard
 									image={item.entry.images.jpg.image_url}
 									title={item.entry.title}
+									mal_id={item.entry.mal_id}
 								/>
 							</Grid2>
 					  ))}

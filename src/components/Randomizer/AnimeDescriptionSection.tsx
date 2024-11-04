@@ -3,12 +3,12 @@ import { AbstractAnime } from '../../models/AbstractAnime';
 import { useEffect, useState } from 'react';
 
 interface AnimeDescriptionSectionProps {
-	randomAnime: AbstractAnime | null;
+	anime: AbstractAnime | null;
 	loading: boolean;
 }
 
 const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
-	randomAnime,
+	anime,
 	loading,
 }) => {
 	const [iframeHeight, setIframeHeight] = useState('300px');
@@ -29,7 +29,7 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 		return () => window.removeEventListener('resize', updateHeight);
 	}, []);
 
-	if (!randomAnime) {
+	if (!anime) {
 		return null;
 	}
 
@@ -48,7 +48,7 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 					sx={{
 						marginTop: '1rem',
 						color: 'theme.palette.text.secondary',
-						textAlign: randomAnime.trailer ? 'left' : 'center',
+						textAlign: anime.trailer ? 'left' : 'center',
 					}}
 				>
 					Description
@@ -56,30 +56,55 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 			)}
 
 			<Grid2 container spacing={2} size={12}>
-				<Grid2 size={{ sm: 5, xs: 12 }}>
-					<Typography
-						variant="body1"
-						marginBottom="2rem"
-						sx={{
-							marginTop: '1rem',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							textAlign: randomAnime.trailer ? 'left' : 'center',
-						}}
-					>
-						{loading ? (
-							<>
-								{[...Array(8)].map((_, index) => (
-									<Skeleton key={index} variant="text" />
-								))}
-							</>
-						) : (
-							randomAnime.synopsis
-						)}
-					</Typography>
-				</Grid2>
+				{anime.trailer.embed_url ? (
+					<Grid2 size={{ sm: 5, xs: 12 }}>
+						<Typography
+							variant="body1"
+							marginBottom="2rem"
+							sx={{
+								marginTop: '1rem',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								textAlign: anime.trailer ? 'left' : 'center',
+							}}
+						>
+							{loading ? (
+								<>
+									{[...Array(8)].map((_, index) => (
+										<Skeleton key={index} variant="text" />
+									))}
+								</>
+							) : (
+								anime.synopsis
+							)}
+						</Typography>
+					</Grid2>
+				) : (
+					<Grid2 size={{ sm: 12, xs: 12 }}>
+						<Typography
+							variant="body1"
+							marginBottom="2rem"
+							sx={{
+								marginTop: '1rem',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								textAlign: anime.trailer ? 'left' : 'center',
+							}}
+						>
+							{loading ? (
+								<>
+									{[...Array(8)].map((_, index) => (
+										<Skeleton key={index} variant="text" />
+									))}
+								</>
+							) : (
+								anime.synopsis
+							)}
+						</Typography>
+					</Grid2>
+				)}
 
-				{randomAnime.trailer && (
+				{anime.trailer.embed_url && (
 					<Grid2 size={{ sm: 6, xs: 12 }} offset={{ sm: 1, xs: 0 }}>
 						{loading ? (
 							<Skeleton
@@ -96,7 +121,7 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 									loading="lazy"
 									allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 									allowFullScreen
-									src={`${randomAnime?.trailer.embed_url}?autoplay=0`}
+									src={`${anime?.trailer.embed_url}?autoplay=0`}
 									title="Anime Trailer"
 									style={{
 										border: 'none',

@@ -5,7 +5,7 @@ import StyledButton from '../Buttons/StyledButton';
 import { useNavigate } from 'react-router-dom';
 import NotFoundCard from '../Cards/NotFoundCard';
 
-const RandNotResult = () => {
+const RandomEmptyResult = () => {
 	const navigate = useNavigate();
 
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
@@ -121,4 +121,4 @@ const RandNotResult = () => {
 	);
 };
 
-export default RandNotResult;
+export default RandomEmptyResult;

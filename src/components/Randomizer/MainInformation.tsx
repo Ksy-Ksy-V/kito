@@ -4,12 +4,12 @@ import { AbstractAnime } from '../../models/AbstractAnime';
 import StyledInformation from '../StyledInformation';
 
 interface MainInformationProps {
-	randomAnime: AbstractAnime;
+	anime: AbstractAnime;
 	loading: boolean;
 }
 
 const MainInformation: React.FC<MainInformationProps> = ({
-	randomAnime,
+	anime,
 	loading,
 }) => {
 	return (
@@ -23,19 +23,19 @@ const MainInformation: React.FC<MainInformationProps> = ({
 					))}
 				</>
 			) : (
-				randomAnime && (
+				anime && (
 					<>
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Rating:"
-								value={randomAnime.rating || 'Unknown'}
+								value={anime.rating || 'Unknown'}
 							/>
 						</Grid2>
 
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Type:"
-								value={randomAnime.type || 'Unknown'}
+								value={anime.type || 'Unknown'}
 							/>
 						</Grid2>
 
@@ -43,9 +43,8 @@ const MainInformation: React.FC<MainInformationProps> = ({
 							<StyledInformation
 								label="Studio:"
 								value={
-									randomAnime.studios &&
-									randomAnime.studios.length > 0
-										? randomAnime.studios
+									anime.studios && anime.studios.length > 0
+										? anime.studios
 												.map(
 													(studio: JikanResource) =>
 														studio.name
@@ -59,14 +58,14 @@ const MainInformation: React.FC<MainInformationProps> = ({
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Status:"
-								value={randomAnime.status || 'Unknown'}
+								value={anime.status || 'Unknown'}
 							/>
 						</Grid2>
 
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Airing Dates:"
-								value={randomAnime.aired?.string || 'Unknown'}
+								value={anime.aired?.string || 'Unknown'}
 							/>
 						</Grid2>
 
@@ -74,9 +73,9 @@ const MainInformation: React.FC<MainInformationProps> = ({
 							<StyledInformation
 								label="Number of Episodes:"
 								value={
-									randomAnime.episodes
-										? `${randomAnime.episodes} episodes, ${
-												randomAnime.duration ||
+									anime.episodes
+										? `${anime.episodes} episodes, ${
+												anime.duration ||
 												'Unknown duration'
 										  }`
 										: 'Unknown'

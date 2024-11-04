@@ -5,22 +5,21 @@ import { AbstractAnime } from '../../models/AbstractAnime';
 import theme from '../../styles/theme';
 import MainInformation from './MainInformation';
 import BackgroundImg from '../BackgroundImg';
-import RatingLabel from '../Anime/RatingLabel';
+import RatingLabel from '../AnimeInfo/RatingLabel';
 import RandomizerBtn from '../Buttons/RandomizerBtn';
 
-interface DetailInformatioAboutAnimeProps {
+interface DetailsInformationAboutAnimeProps {
 	anime: AbstractAnime | null;
 	loading: boolean;
-	fetchAnimeList?: () => void;
+	randomizerPage?: boolean;
+	getRandomize?: () => void;
 }
 
-const DetailInformatioAboutAnime: React.FC<DetailInformatioAboutAnimeProps> = ({
-	anime,
-	loading,
-	fetchAnimeList,
-}) => {
+const DetailsInformationAboutAnime: React.FC<
+	DetailsInformationAboutAnimeProps
+> = ({ anime, loading, randomizerPage, getRandomize }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
-	const isPhone = useMediaQuery(theme.breakpoints.up('md'));
+	const isMobile = useMediaQuery(theme.breakpoints.up('md'));
 	return (
 		<>
 			<BackgroundImg
@@ -31,7 +30,7 @@ const DetailInformatioAboutAnime: React.FC<DetailInformatioAboutAnimeProps> = ({
 
 			<AnimeCardContainer loading={loading} randomAnime={anime} />
 
-			{fetchAnimeList && !isLargeScreen && (
+			{randomizerPage && !isLargeScreen && getRandomize && (
 				<Grid2
 					size={12}
 					sx={{
@@ -43,7 +42,7 @@ const DetailInformatioAboutAnime: React.FC<DetailInformatioAboutAnimeProps> = ({
 					<RandomizerBtn
 						loading={loading}
 						randomAnime={anime}
-						fetchAnimeList={fetchAnimeList}
+						getRandomize={getRandomize}
 					/>
 				</Grid2>
 			)}
@@ -141,23 +140,23 @@ const DetailInformatioAboutAnime: React.FC<DetailInformatioAboutAnimeProps> = ({
 
 				<MainInformation
 					loading={loading}
-					randomAnime={anime as AbstractAnime}
+					anime={anime as AbstractAnime}
 				/>
 
-				{isLargeScreen && fetchAnimeList && (
+				{randomizerPage && isLargeScreen && getRandomize && (
 					<RandomizerBtn
 						loading={loading}
 						randomAnime={anime}
-						fetchAnimeList={fetchAnimeList}
+						getRandomize={getRandomize}
 					/>
 				)}
 			</Grid2>
 
 			<Grid2 size={1} sx={{ zIndex: 3, marginTop: '2rem' }}>
-				{isPhone && <RatingLabel anime={anime} loading={loading} />}
+				{isMobile && <RatingLabel anime={anime} loading={loading} />}
 			</Grid2>
 		</>
 	);
 };
 
-export default DetailInformatioAboutAnime;
+export default DetailsInformationAboutAnime;

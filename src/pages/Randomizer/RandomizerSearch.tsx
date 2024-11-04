@@ -11,9 +11,9 @@ import {
 
 import { AbstractAnime } from '../../models/AbstractAnime';
 import Error from '../../components/Error';
-import RandNotResult from '../../components/Randomizer/RandNotResult';
-import AnimeDetail from '../../components/AnimeDetailComponent';
-import RandLoading from '../../components/Randomizer/RandLoading';
+import RandomEmptyResult from '../../components/Randomizer/RandomEmptyResult';
+import AnimeDetails from '../../components/AnimeDetailsComponent';
+import RandomLoading from '../../components/Randomizer/RandomLoading';
 
 function RandomizerSearch() {
 	const location = useLocation();
@@ -89,7 +89,7 @@ function RandomizerSearch() {
 	}, [fetchAnimeList]);
 
 	if (loading) {
-		return <RandLoading />;
+		return <RandomLoading />;
 	}
 
 	if (error) {
@@ -97,14 +97,14 @@ function RandomizerSearch() {
 	}
 
 	if (!randomAnime) {
-		return <RandNotResult />;
+		return <RandomEmptyResult />;
 	}
 
 	return (
-		<AnimeDetail
+		<AnimeDetails
 			loading={loading}
 			anime={randomAnime as AbstractAnime}
-			fetchAnimeList={() => fetchAnimeList()}
+			getRandomize={() => fetchAnimeList()}
 		/>
 	);
 }

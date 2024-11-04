@@ -62,7 +62,7 @@ const Errors = () => {
 					}}
 					onClick={handleReload}
 				>
-					Try again
+					Reload
 				</StyledButton>
 			</Grid2>
 

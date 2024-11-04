@@ -124,14 +124,14 @@ const Search: React.FC = () => {
 
 			<Grid2 size={{ xs: 12, sm: 10, md: 12 }}>
 				<SearchInputField />
-			</Grid2>
-
+			</Grid2> 
 			{!isLargeScreen && (
 				<Grid2 size={{ xs: 12, sm: 2 }}>
 					<FiltersMenu />
 				</Grid2>
 			)}
-
+			 
+			
 			{isLargeScreen && (
 				<Grid2
 					container
