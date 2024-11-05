@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import AnimeCard from '../AnimeCard';
+import AnimeCard from '../Cards/AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
 import StyledButton from '../Buttons/StyledButton';
 import Error from '../Error';
@@ -66,7 +66,7 @@ const PopularSection: React.FC = () => {
 							},
 						}}
 					>
-						Popular
+						Popularity
 					</Typography>
 				</Grid2>
 
@@ -132,8 +132,8 @@ const PopularSection: React.FC = () => {
 								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
 								sx={{
 									display: 'flex',
-									justifyContent: 'center',
-									alignItems: 'center',
+									alignContent: 'flex-start',
+									alignItems: 'flex-start',
 								}}
 							>
 								<AnimeCard

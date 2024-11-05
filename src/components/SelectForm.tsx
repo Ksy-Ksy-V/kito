@@ -50,7 +50,9 @@ const SelectForm: React.FC<CustomSelectProps> = ({
 					value && (
 						<InputAdornment
 							position="end"
-							sx={{ position: 'absolute', right: 32 }}
+							sx={{
+								marginRight: '1.2rem',
+							}}
 						>
 							<IconButton size="small" onClick={clearValue}>
 								<ClearIcon

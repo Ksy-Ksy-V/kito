@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Grid2 } from '@mui/material';
 import {
 	JikanResponse,
 	Anime,
@@ -10,15 +9,17 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 
-import RandHeroSection from '../../components/Randomizer/RandHeroSection';
-import RandDescriptionSection from '../../components/Randomizer/RandDescriptionSection';
-import { RandomAnime } from '../../models/AbstractAnime';
+import { AbstractAnime } from '../../models/AbstractAnime';
+import Error from '../../components/Error';
+import RandomEmptyResult from '../../components/Randomizer/RandomEmptyResult';
+import AnimeDetails from '../../components/AnimeDetailsComponent';
+import RandomLoading from '../../components/Randomizer/RandomLoading';
 
 function RandomizerSearch() {
 	const location = useLocation();
 	const [randomAnime, setRandomAnime] = useState<Anime | null>(null);
 	const [loading, setLoading] = useState(false);
-	// const [error, setError] = useState(false);
+	const [error, setError] = useState(false);
 
 	const getQueryParams = (query: string) => {
 		return new URLSearchParams(query);
@@ -79,6 +80,7 @@ function RandomizerSearch() {
 			}
 		} catch (err) {
 			console.error('Error fetching anime list:', err);
+			setError(true);
 		}
 	}, [location.search]);
 
@@ -86,19 +88,24 @@ function RandomizerSearch() {
 		fetchAnimeList();
 	}, [fetchAnimeList]);
 
-	return (
-		<Grid2 container spacing={2}>
-			<RandHeroSection
-				loading={loading}
-				randomAnime={randomAnime as RandomAnime}
-				fetchAnimeList={() => fetchAnimeList()}
-			/>
+	if (loading) {
+		return <RandomLoading />;
+	}
 
-			<RandDescriptionSection
-				loading={loading}
-				randomAnime={randomAnime as RandomAnime}
-			/>
-		</Grid2>
+	if (error) {
+		return <Error />;
+	}
+
+	if (!randomAnime) {
+		return <RandomEmptyResult />;
+	}
+
+	return (
+		<AnimeDetails
+			loading={loading}
+			anime={randomAnime as AbstractAnime}
+			getRandomize={() => fetchAnimeList()}
+		/>
 	);
 }
 
