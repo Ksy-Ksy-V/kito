@@ -26,7 +26,7 @@ const Footer = () => {
 				backdropFilter: 'blur(4.9px)',
 				border: '1px solid rgba(29, 51, 53, 0.3)',
 				marginTop: '2rem',
-				height: { md: '7rem', xs: '11rem' },
+				height: { sm: '7rem', xs: '11rem' },
 			}}
 		>
 			<Toolbar>
@@ -34,17 +34,17 @@ const Footer = () => {
 					container
 					alignItems="center"
 					spacing={2}
-					size={{ xs: 12 }}
-					sx={{ flexDirection: { xs: 'column', md: 'row' } }}
+					size={12}
+					sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
 				>
 					<Grid2
-						size={{ xs: 12, md: 5, lg: 4 }}
+						size={{ xs: 12, sm: 6, md: 5, lg: 4 }}
 						sx={{ marginTop: '1rem' }}
 					>
 						<Logo />
 					</Grid2>
 
-					<Grid2 size={{ xs: 12, md: 5, lg: 6 }}>
+					<Grid2 size={{ xs: 12, sm: 5, lg: 6 }}>
 						<Box
 							sx={{
 								display: 'flex',
@@ -77,18 +77,16 @@ const Footer = () => {
 					alignItems="center"
 					spacing={2}
 					size={{ xs: 12 }}
-					sx={{ flexDirection: { xs: 'column', md: 'row' } }}
+					sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
 				>
-					<Grid2
-						size={{ xs: 12, md: 4 }}
-						offset={{ xs: 0, sm: 6, md: 4 }}
-					>
+					<Grid2 size={{ xs: 10, sm: 6, md: 8 }}>
 						<Box
 							sx={{
 								display: 'flex',
 								marginTop: '1rem',
 								flexDirection: 'column',
 								alignItems: 'flex-start',
+								float: 'inline-end',
 							}}
 						>
 							{importantLinks.map((link) => (
@@ -115,13 +113,16 @@ const Footer = () => {
 
 					<Grid2
 						size={{ xs: 12, sm: 6, md: 4 }}
-						sx={{ marginTop: '1rem' }}
+						sx={{
+							marginTop: '1rem',
+						}}
 					>
 						<>
 							<Typography
 								variant="body2"
 								sx={{
 									color: theme.palette.primary.main,
+									textAlign: 'right',
 								}}
 							>
 								Copyright Ⓒ 2024 Kito.
@@ -131,6 +132,8 @@ const Footer = () => {
 								sx={{
 									marginTop: '0.5rem',
 									color: theme.palette.primary.main,
+									textAlign: 'right',
+									marginRight: '1.25rem',
 								}}
 							>
 								All Rights Reserved
