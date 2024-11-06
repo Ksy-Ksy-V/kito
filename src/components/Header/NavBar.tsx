@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Button,
-	Divider,
-	Menu,
-	MenuItem,
-	Typography,
-	useTheme,
-} from '@mui/material';
+import { Button, Menu, MenuItem, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
@@ -86,37 +79,6 @@ const NavBar = () => {
 					sx={menuItemStyles(theme)}
 				>
 					Randomizer
-				</MenuItem>
-				<Divider
-					variant="middle"
-					sx={{ backgroundColor: theme.palette.primary.main }}
-				/>
-
-				<MenuItem
-					component={Link}
-					to="/"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					About Project
-				</MenuItem>
-
-				<MenuItem
-					component={Link}
-					to="/"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Privacy Policy
-				</MenuItem>
-
-				<MenuItem
-					component={Link}
-					to="/"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Terms of Service
 				</MenuItem>
 			</Menu>
 		</>
