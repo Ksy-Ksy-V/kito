@@ -33,24 +33,29 @@ function RandomizerSearch() {
 		const randomIndex = Math.floor(Math.random() * list.length);
 		return list[randomIndex];
 	};
+	const fetchAnimeList = useCallback(
+		async (timeout: boolean) => {
+			try {
+				setLoading(true);
+				const animeClient = new AnimeClient();
+				const queryParams = getQueryParams(location.search);
+				const genre = queryParams.get('genre') || undefined;
+				const type =
+					(queryParams.get('type') as AnimeType) || undefined;
 
-	const fetchAnimeList = useCallback(async () => {
-		try {
-			setLoading(true);
-			const animeClient = new AnimeClient();
-			const queryParams = getQueryParams(location.search);
-			const genre = queryParams.get('genre') || undefined;
-			const type = (queryParams.get('type') as AnimeType) || undefined;
+				const status =
+					(queryParams.get('status') as AnimeSearchStatus) ||
+					undefined;
 
-			const status =
-				(queryParams.get('status') as AnimeSearchStatus) || undefined;
+				const rating =
+					(queryParams.get('rating') as AnimeRating) || undefined;
+				const randomPage = getRandomPage(1, 5);
+				let response: JikanResponse<Anime[]>;
 
-			const rating =
-				(queryParams.get('rating') as AnimeRating) || undefined;
-			const randomPage = getRandomPage(1, 5);
-
-			let response: JikanResponse<Anime[]> =
-				await animeClient.getAnimeSearch({
+				if (timeout) {
+					await new Promise((resolve) => setTimeout(resolve, 1100));
+				}
+				response = await animeClient.getAnimeSearch({
 					page: randomPage,
 					limit: 25,
 					sort: 'asc',
@@ -60,32 +65,37 @@ function RandomizerSearch() {
 					status,
 					rating,
 				});
-			if (response.data.length === 0) {
-				response = await animeClient.getAnimeSearch({
-					page: 1,
-					limit: 25,
-					sort: 'asc',
-					order_by: 'popularity',
-					genres: genre,
-					type,
-					status,
-					rating,
-				});
-			}
 
-			if (response.data && response.data.length > 0) {
-				const randomAnime = getRandomAnimeFromList(response.data);
-				setRandomAnime(randomAnime);
+				if (response.data.length === 0) {
+					await new Promise((resolve) => setTimeout(resolve, 1100));
+					response = await animeClient.getAnimeSearch({
+						page: 1,
+						limit: 25,
+						sort: 'asc',
+						order_by: 'popularity',
+						genres: genre,
+						type,
+						status,
+						rating,
+					});
+				}
+
+				if (response.data && response.data.length > 0) {
+					const randomAnime = getRandomAnimeFromList(response.data);
+					setRandomAnime(randomAnime);
+					setLoading(false);
+				}
 				setLoading(false);
+			} catch (err) {
+				console.error('Error fetching anime list:', err);
+				setError(true);
 			}
-		} catch (err) {
-			console.error('Error fetching anime list:', err);
-			setError(true);
-		}
-	}, [location.search]);
+		},
+		[location.search]
+	);
 
 	useEffect(() => {
-		fetchAnimeList();
+		fetchAnimeList(false);
 	}, [fetchAnimeList]);
 
 	if (loading) {
@@ -104,7 +114,7 @@ function RandomizerSearch() {
 		<AnimeDetails
 			loading={loading}
 			anime={randomAnime as AbstractAnime}
-			getRandomize={() => fetchAnimeList()}
+			getRandomize={(timeout) => fetchAnimeList(timeout)}
 		/>
 	);
 }

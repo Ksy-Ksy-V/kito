@@ -12,7 +12,7 @@ interface DetailsInformationAboutAnimeProps {
 	anime: AbstractAnime | null;
 	loading: boolean;
 	randomizerPage?: boolean;
-	getRandomize?: () => void;
+	getRandomize?: (timeout: boolean) => void;
 }
 
 const DetailsInformationAboutAnime: React.FC<
@@ -42,7 +42,7 @@ const DetailsInformationAboutAnime: React.FC<
 					<RandomizerBtn
 						loading={loading}
 						randomAnime={anime}
-						getRandomize={getRandomize}
+						getRandomize={(timeout) => getRandomize(timeout)}
 					/>
 				</Grid2>
 			)}
