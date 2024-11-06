@@ -6,7 +6,7 @@ import AccountMenu from './AccountMenu';
 import Logo from '../Logo';
 
 import SearchInputField from '../Search/SearchInputField';
-import MenuSmall from '../MenuSmall';
+import MenuSmall from '../Header/MenuSmall';
 import theme from '../../styles/theme';
 
 const Header = () => {
