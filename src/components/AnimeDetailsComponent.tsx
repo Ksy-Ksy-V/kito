@@ -8,7 +8,7 @@ import { AbstractAnime } from '../models/AbstractAnime';
 interface AnimeDetailsProps {
 	anime?: AbstractAnime | null;
 	loading: boolean;
-	getRandomize?: () => void;
+	getRandomize?: (timeout: boolean) => void;
 }
 
 const AnimeDetails: React.FC<AnimeDetailsProps> = ({
@@ -20,12 +20,12 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 
 	return (
 		<Grid2 container spacing={2}>
-			{isRandomizerPage ? (
+			{isRandomizerPage && getRandomize ? (
 				<DetailsInformationAboutAnime
 					loading={loading}
 					anime={anime as AbstractAnime}
 					randomizerPage={true}
-					getRandomize={getRandomize}
+					getRandomize={(timeout) => getRandomize(timeout)}
 				/>
 			) : (
 				<DetailsInformationAboutAnime
