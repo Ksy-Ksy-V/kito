@@ -1,64 +1,207 @@
-import { Typography, Grid } from '@mui/material';
-import { AnimeClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
-import { useEffect, useState } from 'react';
+import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
+import SearchInputField from '../../components/Search/SearchInputField';
+import { useSearchContext } from '../../context/SearchContext';
+import { useEffect } from 'react';
 
-import CardAnime from '../../components/TitleCard';
-import SearchFilter from '../../components/SearchFilter';
+import { animeService } from '../../services/animeService';
+import { parseQueryParams } from '../../utils/urlParams';
+import GenresFilter from '../../components/Search/GenresFilter';
+import Filters from '../../components/Search/Filters';
+import Sorting from '../../components/Search/Sorting';
+import { JikanPagination } from '@tutkli/jikan-ts';
+import SearchButtons from '../../components/Buttons/SearchButtons';
+import theme from '../../styles/theme';
+import PaginationSearch from '../../components/Search/Pagination';
+import ResultSection from '../../components/Search/ResultSection';
+import FiltersMenu from '../../components/Search/FiltersMenu';
 
-function Search() {
-	const animeClient = new AnimeClient();
-	const [animeList, setAnimeList] = useState<Anime[]>([]);
+const Search: React.FC = () => {
+	const { state, dispatch } = useSearchContext();
+	const { page, loading } = state;
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
 	useEffect(() => {
-		const fetchAnime = async () => {
-			try {
-				const response: JikanResponse<Anime[]> =
-					await animeClient.getAnimeSearch({ q: 'Naruto' });
-				setAnimeList(response.data);
-			} catch (error) {
-				console.error('Failed to fetch anime:', error);
-			}
-		};
+		const urlFilters = parseQueryParams();
+		const { query, format, genres, status, rating, orderBy, sort } =
+			urlFilters;
 
-		if (animeList.length === 0) {
-			fetchAnime();
+		if (query) {
+			dispatch({ type: 'SET_QUERY', payload: query });
 		}
-	}, [animeList, animeClient]);
+
+		dispatch({
+			type: 'SET_FILTERS',
+			payload: { format, genres, status, rating },
+		});
+
+		dispatch({
+			type: 'SET_SORTING',
+			payload: { orderBy, sort },
+		});
+		dispatch({
+			type: 'SET_LOADING',
+			payload: true,
+		});
+		dispatch({
+			type: 'SET_ERROR',
+			payload: false,
+		});
+		animeService
+			.searchAnime(
+				query || '',
+				24,
+				{
+					genres,
+					format,
+					status,
+					rating,
+				},
+				{ orderBy, sort },
+				page
+			)
+			.then((response) => {
+				dispatch({ type: 'SET_ANIME_LIST', payload: response.data });
+				dispatch({
+					type: 'SET_PAGINATION',
+					payload: response.pagination as JikanPagination,
+				});
+				dispatch({
+					type: 'SET_LOADING',
+					payload: false,
+				});
+			})
+			.catch((error) => {
+				console.error('Failed to fetch anime:', error);
+				dispatch({
+					type: 'SET_ERROR',
+					payload: true,
+				});
+			});
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [page]);
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
-				<Typography
-					variant="h1"
+		<Grid2 container spacing={2}>
+			{loading ? (
+				<Grid2
+					size={{ xs: 12 }}
 					sx={{
+						display: 'flex',
 						textAlign: 'center',
-						marginTop: '1rem',
-						marginBottom: '2rem',
+						justifyContent: 'center',
 					}}
 				>
-					There's something for everyone
-				</Typography>
-			</Grid>
+					<Skeleton
+						variant="rectangular"
+						width={950}
+						height={60}
+						sx={{
+							marginTop: '1.5rem',
+						}}
+					/>
+				</Grid2>
+			) : (
+				<Grid2 size={{ xs: 12 }}>
+					<Typography
+						variant="h1"
+						sx={{
+							textAlign: 'center',
+							marginTop: '1.5rem',
+							fontSize: {
+								xs: theme.typography.h4.fontSize,
+								sm: theme.typography.h3.fontSize,
+								md: theme.typography.h2.fontSize,
+								lg: theme.typography.h1.fontSize,
+								xl: theme.typography.h1.fontSize,
+							},
+						}}
+					>
+						There's something for everyone!
+					</Typography>
+				</Grid2>
+			)}
 
-			<Grid item xs={12}>
-				<SearchFilter />
-			</Grid>
+			<Grid2 size={{ xs: 12, sm: 10, md: 12 }}>
+				<SearchInputField />
+			</Grid2> 
+			{!isLargeScreen && (
+				<Grid2 size={{ xs: 12, sm: 2 }}>
+					<FiltersMenu />
+				</Grid2>
+			)}
+			 
+			
+			{isLargeScreen && (
+				<Grid2
+					container
+					spacing={2}
+					size={3}
+					sx={{ marginTop: '1.5rem', alignContent: 'flex-start' }}
+				>
+					<SearchButtons />
+					<Grid2 size={12}>
+						<Filters />
+					</Grid2>
+					<Grid2 size={12}>
+						<GenresFilter genresOpenValue={true} />
+					</Grid2>
+					<SearchButtons />
+				</Grid2>
+			)}
 
-			<Grid container spacing={2}>
-				{animeList.map((anime) => (
-					<Grid item xs={3} key={anime.mal_id}>
-						<CardAnime
-							title={anime.title}
-							description={
-								anime.synopsis || 'No description available.'
-							}
-							imageUrl={anime.images.jpg.image_url || ''}
+			<Grid2
+				container
+				spacing={3}
+				size={{ xs: 12, sm: 12, md: 9 }}
+				sx={{
+					marginTop: '1rem',
+					alignContent: 'flex-start',
+				}}
+			>
+				{isLargeScreen && loading && (
+					<>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
 						/>
-					</Grid>
-				))}
-			</Grid>
-		</Grid>
+						<Skeleton
+							variant="rectangular"
+							height={40}
+							width="60%"
+						/>
+					</>
+				)}
+				{isLargeScreen && !loading && (
+					<Grid2 size={{ md: 12, lg: 7 }}>
+						<Sorting />
+					</Grid2>
+				)}
+				<Grid2 size={{ xs: 12, sm: 12, md: 12, lg: 5 }}>
+					<Grid2
+						container
+						size={12}
+						sx={{
+							justifyContent: 'center',
+						}}
+					>
+						<PaginationSearch />
+					</Grid2>
+				</Grid2>
+				<ResultSection />
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+					}}
+				>
+					<PaginationSearch />
+				</Grid2>
+			</Grid2>
+		</Grid2>
 	);
-}
+};
 
 export default Search;

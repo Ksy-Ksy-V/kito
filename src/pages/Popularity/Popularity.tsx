@@ -1,52 +1,104 @@
-import { Typography, Grid } from '@mui/material';
-import {
-	AnimeClient,
-	JikanResponse,
-	Anime as GeneralAnime,
-} from '@tutkli/jikan-ts';
 import { useEffect, useState } from 'react';
+import { Typography, Grid2, Skeleton } from '@mui/material';
+import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
+import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
+
+import Slyder from '../../components/Popularity/Slider';
+import Error from '../../components/Error';
+import theme from '../../styles/theme';
 
 function Popularity() {
-	const animeClient = new AnimeClient();
-	const [animeList, setAnimeList] = useState<GeneralAnime[]>([]);
+	const top = new TopClient();
+	const [topList, setTopList] = useState<Anime[]>([]);
+
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(false);
 
 	useEffect(() => {
-		if (animeList.length === 0) {
-			animeClient
-				.getAnimeSearch({
+		const fetchTopAnime = async () => {
+			setLoading(false);
+			try {
+				const response: JikanResponse<Anime[]> = await top.getTopAnime({
 					page: 1,
-					limit: 1,
-					sort: 'asc',
-					order_by: 'popularity',
-					genres: '9,8',
-				})
-				.then((response: JikanResponse<GeneralAnime[]>) => {
-					console.log(response, 'resp');
-					console.log(response.data, 'res');
-					setAnimeList(response.data);
-				})
-				.catch((err) => {
-					console.log(err, 'err');
+					limit: 25,
 				});
+
+				setTopList(response.data);
+
+				setLoading(false);
+			} catch (err) {
+				console.error('Failed to fetch anime:', err);
+				setError(true);
+				setLoading(false);
+			}
+		};
+
+		if (topList.length === 0) {
+			fetchTopAnime();
 		}
-	}, [anime, animeClient, animeList]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [topList, TopClient]);
+
+	if (error) {
+		return <Error />;
+	}
 
 	return (
-		<Grid container spacing={2}>
-			<Grid item xs={12}>
+		<>
+			<Slyder />
+
+			{loading ? (
+				<Skeleton
+					variant="rectangular"
+					width="100%"
+					height="4rem"
+					sx={{
+						marginTop: '2rem',
+						marginBottom: '2rem',
+					}}
+				/>
+			) : (
 				<Typography
-					variant="h1"
+					variant="h2"
 					sx={{
 						textAlign: 'center',
-						marginTop: '1rem',
+						marginTop: '2rem',
 						marginBottom: '2rem',
+						fontSize: {
+							xs: theme.typography.h4.fontSize,
+							sm: theme.typography.h3.fontSize,
+							md: theme.typography.h2.fontSize,
+							lg: theme.typography.h1.fontSize,
+							xl: theme.typography.h1.fontSize,
+						},
 					}}
 				>
 					Top Anime by Popularity
-					{animeList.length === 0 ? 'Not loaded' : animeList[0].title}
 				</Typography>
-			</Grid>
-		</Grid>
+			)}
+
+			<Grid2 container spacing={2} size={12}>
+				{topList.map((anime, index) => (
+					<AnimeInfoCard
+						key={anime.mal_id}
+						mal_id={anime.mal_id}
+						number={index + 1}
+						image={anime.images.jpg.image_url}
+						title={anime.title}
+						score={anime.score || 0}
+						genres={anime.genres.map((genre) => genre.name)}
+						description={
+							anime.synopsis || 'No description available.'
+						}
+						rating={anime.rating || 'Unknown'}
+						onAddToList={() =>
+							console.log(`Added ${anime.title} to list`)
+						}
+						loading={loading}
+					/>
+				))}
+			</Grid2>
+		</>
 	);
 }
 

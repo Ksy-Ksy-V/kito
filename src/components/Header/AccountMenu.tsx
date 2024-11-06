@@ -55,9 +55,6 @@ const AccountMenu = () => {
 				>
 					Settings
 				</MenuItem>
-				{/* <MenuItem onClick={handleMenuClose} sx={menuItemStyles(theme)}>
-					<Typography variant="body1">Log out</Typography>
-				</MenuItem> */}
 			</Menu>
 		</>
 	);

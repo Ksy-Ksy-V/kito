@@ -4,6 +4,8 @@ const theme = createTheme({
 	palette: {
 		primary: {
 			main: '#387171',
+			dark: 'rgba(56, 113, 113, 0.5)',
+			light: 'rgba(56, 113, 113, 0.1)',
 		},
 		secondary: {
 			main: '#64fcf2',
@@ -14,10 +16,10 @@ const theme = createTheme({
 		},
 		text: {
 			primary: '#dbfeff',
-			secondary: '#E5BDC4',
+			secondary: '#8ed7d2',
 		},
 		action: {
-			active: '#387171',
+			active: '#64fcf2',
 			hover: '#387171',
 		},
 	},
@@ -62,8 +64,25 @@ const theme = createTheme({
 		body2: {
 			fontFamily: 'DM Sans, sans-serif',
 			fontWeight: 400,
-			fontSize: '0.750rem',
+			fontSize: '0.8rem',
 			color: '#dbfeff',
+		},
+	},
+
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				body: {
+					scrollbarColor: '#387171 #2b2b2b',
+				},
+			},
+		},
+		MuiSkeleton: {
+			styleOverrides: {
+				root: {
+					backgroundColor: 'rgba(29, 51, 53, 0.7)',
+				},
+			},
 		},
 	},
 });

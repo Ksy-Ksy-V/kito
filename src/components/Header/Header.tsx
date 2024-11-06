@@ -1,20 +1,21 @@
-import {
-	AppBar,
-	Toolbar,
-	IconButton,
-	Button,
-	Grid,
-	useTheme,
-} from '@mui/material';
-import { Link } from 'react-router-dom';
-import SearchIcon from '@mui/icons-material/Search';
+import { AppBar, Toolbar, Grid2, useMediaQuery } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 import NavBar from './NavBar';
 import AccountMenu from './AccountMenu';
-import logo from '../../images/logoBig.png';
+import Logo from '../Logo';
+
+import SearchInputField from '../Search/SearchInputField';
+import MenuSmall from '../Header/MenuSmall';
+import theme from '../../styles/theme';
 
 const Header = () => {
-	const theme = useTheme();
+	const location = useLocation();
+	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+	const isSearchOrHomePage =
+		location.pathname === '/search' || location.pathname === '/';
+
 	return (
 		<AppBar
 			position="static"
@@ -23,56 +24,55 @@ const Header = () => {
 				borderRadius: '5px',
 				boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
 				backdropFilter: 'blur(4.9px)',
-				webkitBackdropFilter: 'blur(4.9px)',
 				border: '1px solid rgba(29, 51, 53, 0.3)',
 			}}
 		>
 			<Toolbar>
-				<Grid container alignItems="center" spacing={2}>
-					<Grid item xs={2}>
-						<Button
-							component={Link}
-							to="/"
-							color="inherit"
-							sx={{
-								'&:hover': {
-									backgroundColor: 'transparent',
-								},
-							}}
-						>
-							<img
-								src={logo}
-								alt="Logo"
-								style={{ width: '8rem' }}
-							/>
-						</Button>
-					</Grid>
+				<Grid2
+					container
+					alignItems="center"
+					spacing={2}
+					size={{ xs: 12 }}
+				>
+					{isLargeScreen ? (
+						<>
+							<Grid2 size={{ xs: 2 }}>
+								<Logo />
+							</Grid2>
 
-					<Grid item xs={2}>
-						<NavBar />
-					</Grid>
+							<Grid2 size={{ xs: 2 }}>
+								<NavBar />
+							</Grid2>
 
-					<Grid item xs={6} />
+							{!isSearchOrHomePage && (
+								<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
+									<SearchInputField />
+								</Grid2>
+							)}
 
-					<Grid item xs={1}>
-						<IconButton
-							component={Link}
-							to="/search"
-							sx={{
-								color: theme.palette.primary.main,
-								'&:hover': {
-									color: theme.palette.secondary.main,
-								},
-							}}
-						>
-							<SearchIcon sx={{ fontSize: '2rem' }} />
-						</IconButton>
-					</Grid>
+							<Grid2
+								size={{ xs: 1 }}
+								offset={
+									isSearchOrHomePage
+										? { md: 7, lg: 7, xl: 7 }
+										: { md: 0 }
+								}
+							>
+								<AccountMenu />
+							</Grid2>
+						</>
+					) : (
+						<>
+							<Grid2 size={{ xs: 10 }}>
+								<Logo />
+							</Grid2>
 
-					<Grid item xs={1}>
-						<AccountMenu />
-					</Grid>
-				</Grid>
+							<Grid2 size={{ xs: 2 }}>
+								<MenuSmall />
+							</Grid2>
+						</>
+					)}
+				</Grid2>
 			</Toolbar>
 		</AppBar>
 	);
