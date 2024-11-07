@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
-import AnimeCard from '../AnimeCard';
+import AnimeCard from '../Cards/AnimeCard';
 import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
-import theme from '../../styles/theme'; 
+import theme from '../../styles/theme';
 
 interface SimilarTitlesSectionProps {
 	anime: Anime | null;
@@ -96,6 +96,10 @@ const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
 				spacing={2}
 				sx={{
 					marginTop: '2rem',
+
+					display: 'flex',
+					alignContent: 'flex-start',
+					alignItems: 'flex-start',
 				}}
 			>
 				{loading

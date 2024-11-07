@@ -13,11 +13,12 @@ import {
 	JikanResponse,
 	JikanPagination,
 } from '@tutkli/jikan-ts';
-import AnimeCard from '../../components/AnimeCard';
 import { ExtendedSeasonNowParams } from '../../models/ContinuingSeason';
 import PagePagination from '../../components/PagePagination';
 import theme from '../../styles/theme';
 import Error from '../../components/Error';
+import SearchCard from '../../components/Cards/SearchCard';
+import { useNavigate } from 'react-router-dom';
 
 const SeasonAnimePage: React.FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
@@ -27,6 +28,7 @@ const SeasonAnimePage: React.FC = () => {
 	const [page, setPage] = useState(1);
 	const [paginationData, setPaginationData] =
 		useState<JikanPagination | null>(null);
+	const navigate = useNavigate();
 
 	const fetchSeasonAnime = async () => {
 		setLoading(true);
@@ -223,26 +225,32 @@ const SeasonAnimePage: React.FC = () => {
 					? [...Array(24)].map((_, index) => (
 							<Grid2
 								key={index}
-								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
+								size={{ xs: 6, sm: 4, md: 4, lg: 3 }}
 								sx={{ justifyContent: 'center' }}
 							>
 								<Skeleton
 									variant="rectangular"
 									width="100%"
-									height={250}
+									height={400}
 								/>
 							</Grid2>
 					  ))
 					: uniqueAnimeList.map((anime) => (
 							<Grid2
 								key={anime.mal_id}
-								size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
+								size={{ xs: 6, sm: 4, md: 4, lg: 3 }}
 								sx={{ justifyContent: 'center' }}
 							>
-								<AnimeCard
-									image={anime?.images.jpg.image_url}
-									mal_id={anime.mal_id}
+								<SearchCard
+									image={anime.images.jpg.image_url}
 									title={anime.title}
+									description={anime.synopsis}
+									genres={anime.genres}
+									score={anime.score}
+									rating={anime.rating}
+									onClick={() =>
+										navigate(`/anime/${anime.mal_id}`)
+									}
 								/>
 							</Grid2>
 					  ))}

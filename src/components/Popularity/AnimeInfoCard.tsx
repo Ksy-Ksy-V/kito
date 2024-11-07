@@ -8,7 +8,7 @@ import {
 	useMediaQuery,
 } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import AnimeCard from '../AnimeCard';
+import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
 import AddButton from '../Buttons/AddButton';
 import StyledInformation from '../StyledInformation';
@@ -274,7 +274,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									<Skeleton
 										key={index}
 										variant="text"
-										width="55rem"
+										width="100%"
 										height={20}
 										sx={{ marginBottom: '0.5rem' }}
 									/>

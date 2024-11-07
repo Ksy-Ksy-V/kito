@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { menuStyles, menuItemStyles } from '../styles/menuStyles';
+import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import theme from '../styles/theme';
-import { singout } from '../store/reducers/authSlice';
-import { useAppDispatch } from '../store/hooks';
+
+import { singOut } from '../../store/reducers/authSlice';
+import { useAppDispatch } from '../../store/hooks';
+import theme from '../../styles/theme';
 
 const MenuSmall = () => {
 	const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ const MenuSmall = () => {
 	);
 
 	const [
-		userAuthorised,
+		userAuthorized,
 		// setUserAuthorised
 	] = useState(false);
 
@@ -27,7 +28,7 @@ const MenuSmall = () => {
 	};
 
 	const handleSingOut = () => {
-		dispatch(singout());
+		dispatch(singOut());
 		setAnchorElBrowse(null);
 	};
 
@@ -57,7 +58,7 @@ const MenuSmall = () => {
 					horizontal: 'right',
 				}}
 			>
-				{userAuthorised ? (
+				{userAuthorized ? (
 					<MenuItem
 						component={Link}
 						to="/profile"
@@ -69,7 +70,7 @@ const MenuSmall = () => {
 				) : (
 					<MenuItem
 						component={Link}
-						to="/signin"
+						to="/singout"
 						onClick={handleMenuClose}
 						sx={menuItemStyles(theme)}
 					>
@@ -77,7 +78,7 @@ const MenuSmall = () => {
 					</MenuItem>
 				)}
 
-				{userAuthorised ? (
+				{userAuthorized ? (
 					<MenuItem
 						component={Link}
 						to="/settings"
@@ -167,14 +168,14 @@ const MenuSmall = () => {
 					Terms of Service
 				</MenuItem>
 
-				{userAuthorised && (
+				{userAuthorized && (
 					<Divider
 						variant="middle"
 						sx={{ backgroundColor: theme.palette.primary.main }}
 					/>
 				)}
 
-				{userAuthorised && (
+				{userAuthorized && (
 					<MenuItem
 						onClick={handleSingOut}
 						sx={menuItemStyles(theme)}

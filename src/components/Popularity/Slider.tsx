@@ -168,11 +168,11 @@ const Slider: React.FC = () => {
 								height={20}
 								sx={{
 									marginTop: {
-										xs: '110%',
-									sm: '50%',
-									md: '0%',
-									lg: '0%',
-									xl: '0%',
+										xs: '100%',
+										sm: '50%',
+										md: '0%',
+										lg: '0%',
+										xl: '0%',
 									},
 									mx: isSmallScreen ? 'auto' : 'left',
 								}}
@@ -200,7 +200,7 @@ const Slider: React.FC = () => {
 						<Grid2
 							sx={{
 								marginTop: {
-									xs: '110%',
+									xs: '100%',
 									sm: '50%',
 									md: '0%',
 									lg: '0%',
@@ -255,7 +255,7 @@ const Slider: React.FC = () => {
 						right: '10px',
 						zIndex: 2,
 						marginRight: {
-							xs: '0%',
+							xs: '5%',
 							sm: '25%',
 							md: '0%',
 							lg: '5%',

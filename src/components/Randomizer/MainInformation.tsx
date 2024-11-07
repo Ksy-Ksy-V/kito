@@ -1,41 +1,41 @@
 import { Grid2, Skeleton } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
-import { RandomAnime } from '../../models/AbstractAnime';
+import { AbstractAnime } from '../../models/AbstractAnime';
 import StyledInformation from '../StyledInformation';
 
-interface AnimeDetailsProps {
-	randomAnime: RandomAnime;
+interface MainInformationProps {
+	anime: AbstractAnime;
 	loading: boolean;
 }
 
-const AnimeDetails: React.FC<AnimeDetailsProps> = ({
-	randomAnime,
+const MainInformation: React.FC<MainInformationProps> = ({
+	anime,
 	loading,
 }) => {
 	return (
 		<Grid2 container spacing={2} sx={{ marginTop: '1rem' }}>
 			{loading ? (
 				<>
-					{[...Array(6)].map((_, index) => (
+					{[...Array(5)].map((_, index) => (
 						<Grid2 key={index} size={12}>
 							<Skeleton variant="text" width="100%" height={40} />
 						</Grid2>
 					))}
 				</>
 			) : (
-				randomAnime && (
+				anime && (
 					<>
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Rating:"
-								value={randomAnime.rating || 'Unknown'}
+								value={anime.rating || 'Unknown'}
 							/>
 						</Grid2>
 
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Type:"
-								value={randomAnime.type || 'Unknown'}
+								value={anime.type || 'Unknown'}
 							/>
 						</Grid2>
 
@@ -43,9 +43,8 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 							<StyledInformation
 								label="Studio:"
 								value={
-									randomAnime.studios &&
-									randomAnime.studios.length > 0
-										? randomAnime.studios
+									anime.studios && anime.studios.length > 0
+										? anime.studios
 												.map(
 													(studio: JikanResource) =>
 														studio.name
@@ -59,14 +58,14 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Status:"
-								value={randomAnime.status || 'Unknown'}
+								value={anime.status || 'Unknown'}
 							/>
 						</Grid2>
 
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Airing Dates:"
-								value={randomAnime.aired?.string || 'Unknown'}
+								value={anime.aired?.string || 'Unknown'}
 							/>
 						</Grid2>
 
@@ -74,9 +73,9 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 							<StyledInformation
 								label="Number of Episodes:"
 								value={
-									randomAnime.episodes
-										? `${randomAnime.episodes} episodes, ${
-												randomAnime.duration ||
+									anime.episodes
+										? `${anime.episodes} episodes, ${
+												anime.duration ||
 												'Unknown duration'
 										  }`
 										: 'Unknown'
@@ -90,4 +89,4 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 	);
 };
 
-export default AnimeDetails;
+export default MainInformation;

@@ -2,7 +2,7 @@ import { Grid2, Typography } from '@mui/material';
 import notFoundImg from '../../images/notResultFound.png';
 import theme from '../../styles/theme';
 
-const NotResultsSection = () => {
+const EmptyResult = () => {
 	return (
 		<Grid2 size={12}>
 			<Typography
@@ -67,4 +67,4 @@ const NotResultsSection = () => {
 	);
 };
 
-export default NotResultsSection;
+export default EmptyResult;

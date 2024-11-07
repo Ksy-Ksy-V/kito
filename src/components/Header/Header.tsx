@@ -7,7 +7,7 @@ import Logo from '../Logo';
 
 import AuthButtons from '../Authentication/AuthenticationButtons';
 import SearchInputField from '../Search/SearchInputField';
-import MenuSmall from '../MenuSmall';
+import MenuSmall from '../Header/MenuSmall';
 import theme from '../../styles/theme';
 import { useState } from 'react';
 

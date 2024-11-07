@@ -2,27 +2,28 @@ import { Box, Skeleton } from '@mui/material';
 import { Anime } from '@tutkli/jikan-ts';
 import React from 'react';
 
-interface RandBackgroundProps {
-	randomAnime: Anime | null;
+interface BackgroundImgProps {
+	anime: Anime | null;
 	loading: boolean;
+	height: string;
 }
 
-const RandBackground: React.FC<RandBackgroundProps> = ({
-	randomAnime,
+const BackgroundImg: React.FC<BackgroundImgProps> = ({
+	anime,
 	loading,
+	height,
 }) => {
 	if (loading) {
 		return (
 			<Box
 				sx={{
-					position: 'relative',
-					width: '100vw',
+					width: '100%',
+					height: { height },
+					position: 'absolute',
 					left: '50%',
 					right: '50%',
 					marginLeft: '-50vw',
 					marginRight: '-50vw',
-					height: '31.25rem',
-					marginTop: '2rem',
 				}}
 			>
 				<Skeleton
@@ -31,14 +32,11 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 					height="100%"
 					sx={{
 						bgcolor: 'rgba(0, 0, 0, 0.5)',
+						zIndex: 1,
 					}}
 				/>
 			</Box>
 		);
-	}
-
-	if (!randomAnime) {
-		return null;
 	}
 
 	return (
@@ -50,7 +48,7 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 				right: '50%',
 				marginLeft: '-50vw',
 				marginRight: '-50vw',
-				height: '31.25rem',
+				height: { height },
 				marginTop: '2rem',
 			}}
 		>
@@ -59,18 +57,19 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${randomAnime.images.jpg.large_image_url})`,
+					backgroundImage: `url(${anime?.images.jpg.large_image_url})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,
 				}}
 			></Box>
+
 			<Box
 				sx={{
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundColor: 'rgba(0, 0, 0, 0.7)',
+					backgroundColor: 'rgba(0, 0, 0, 0.6)',
 					zIndex: 2,
 				}}
 			></Box>
@@ -78,4 +77,4 @@ const RandBackground: React.FC<RandBackgroundProps> = ({
 	);
 };
 
-export default RandBackground;
+export default BackgroundImg;

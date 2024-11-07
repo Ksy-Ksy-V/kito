@@ -6,9 +6,9 @@ import Randomizer from '../pages/Randomizer/Randomizer';
 import RandomizerSearch from '../pages/Randomizer/RandomizerSearch';
 
 import Settings from '../pages/Settings/Settings';
-import Profile from '../pages/Profile/Profile';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
+import Profile from '../pages/Account/Profile';
 
 interface RouteContent {
 	path: string;
@@ -23,8 +23,8 @@ export const routes: RouteContent[] = [
 	{ path: '/airing', element: <Airing /> },
 
 	{ path: '/settings', element: <Settings /> },
-	{ path: '/profile', element: <Profile /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
+	{ path: '/profile', element: <Profile /> },
 ];
 
 export const routesWide: RouteContent[] = [
@@ -32,7 +32,7 @@ export const routesWide: RouteContent[] = [
 		path: '/search',
 		element: (
 			<SearchProvider>
-				<Search />{' '}
+				<Search />
 			</SearchProvider>
 		),
 	},
