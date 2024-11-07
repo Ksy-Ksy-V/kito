@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Checkbox,
+	FormControl,
 	FormControlLabel,
 	FormHelperText,
 	Grid2,
+	IconButton,
+	InputAdornment,
+	InputLabel,
 	Link,
+	OutlinedInput,
 	TextField,
 	Typography,
 } from '@mui/material';
@@ -23,6 +28,8 @@ import { textFieldStyles } from '../../components/Authentication/TextFieldStyles
 import theme from '../../styles/theme';
 import { signup } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const SignUp = () => {
 	const dispatch = useAppDispatch();
@@ -33,6 +40,8 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState({
@@ -112,30 +121,13 @@ const SignUp = () => {
 		}
 	};
 
-	// const handleApply = async (
-	// 	e: React.FormEvent<HTMLFormElement>
-	// ): Promise<void> => {
-	// 	e.preventDefault();
-	// 	setLoading(true);
+	const handleClickShowPassword = () => setShowPassword(!showPassword);
+	const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
-	// 	dispatch(signup({ name, email, password, confirmPassword }))
-	// 		.unwrap()
-	// 		// .then(() => {
-	// 		// 	dispatch(loginAsync({ email, password }))
-	// 		// 		.unwrap()
-	// 		// 		.then(() => {
-	// 		// 			setLoading(true);
-	// 		// 			navigate('/');
-	// 		// 			window.location.reload();
-	// 		// 		})
-	// 		// 		.catch(() => {
-	// 		// 			setLoading(false);
-	// 		// 		});
-	// 		// })
-	// 		.catch(() => {
-	// 			setLoading(false);
-	// 		});
-	// };
+	const handleClickShowConfirmPassword = () =>
+		setShowConfirmPassword(!showConfirmPassword);
+	const handleMouseDownConfirmPassword = () =>
+		setShowConfirmPassword(!showConfirmPassword);
 
 	return (
 		<Grid2
@@ -202,25 +194,137 @@ const SignUp = () => {
 							sx={textFieldStyles}
 						/>
 
-						<TextField
+						<FormControl
+							variant="outlined"
 							fullWidth
-							label="Password"
-							type="password"
-							value={password}
 							onChange={handlePasswordChange}
-							helperText={errors.password}
-							sx={textFieldStyles}
-						/>
+							sx={{
+								marginBottom: '1rem',
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderWidth: '0.15rem',
+										borderColor: 'secondary.main',
+									},
+									'&:hover fieldset': {
+										borderColor: 'secondary.main',
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'secondary.main',
+									},
+								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
+								'& .MuiInputLabel-root': {
+									color: 'text.primary',
+								},
+							}}
+						>
+							<InputLabel htmlFor="outlined-adornment-password">
+								Password
+							</InputLabel>
+							<OutlinedInput
+								value={password}
+								id="outlined-adornment-password"
+								type={showPassword ? 'text' : 'password'}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label={
+												showPassword
+													? 'hide the password'
+													: 'display the password'
+											}
+											onClick={handleClickShowPassword}
+											onMouseDown={
+												handleMouseDownPassword
+											}
+											edge="end"
+										>
+											{showPassword ? (
+												<VisibilityIcon />
+											) : (
+												<VisibilityOffIcon />
+											)}
+										</IconButton>
+									</InputAdornment>
+								}
+								label="Password"
+							/>
 
-						<TextField
+							{errors.password && (
+								<FormHelperText>
+									{errors.password}
+								</FormHelperText>
+							)}
+						</FormControl>
+
+						<FormControl
+							variant="outlined"
 							fullWidth
-							label="Confirm Password"
-							type="password"
-							value={confirmPassword}
 							onChange={handleConfirmPasswordChange}
-							helperText={errors.confirmPassword}
-							sx={textFieldStyles}
-						/>
+							sx={{
+								marginBottom: '1rem',
+								'& .MuiOutlinedInput-root': {
+									'& fieldset': {
+										borderWidth: '0.15rem',
+										borderColor: 'secondary.main',
+									},
+									'&:hover fieldset': {
+										borderColor: 'secondary.main',
+									},
+									'&.Mui-focused fieldset': {
+										borderColor: 'secondary.main',
+									},
+								},
+								'& .MuiFormHelperText-root': {
+									color: 'red',
+								},
+								'& .MuiInputLabel-root': {
+									color: 'text.primary',
+								},
+							}}
+						>
+							<InputLabel htmlFor="outlined-adornment-confirm-password">
+								Confirm Password
+							</InputLabel>
+							<OutlinedInput
+								value={confirmPassword}
+								id="outlined-adornment-confirm-password"
+								type={showConfirmPassword ? 'text' : 'Password'}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label={
+												showConfirmPassword
+													? 'hide the confirm password'
+													: 'display the confirm password'
+											}
+											onClick={
+												handleClickShowConfirmPassword
+											}
+											onMouseDown={
+												handleMouseDownConfirmPassword
+											}
+											edge="end"
+										>
+											{showConfirmPassword ? (
+												<VisibilityIcon />
+											) : (
+												<VisibilityOffIcon />
+											)}
+										</IconButton>
+									</InputAdornment>
+								}
+								label="Confirm Password"
+							/>
+
+							{errors.confirmPassword && (
+								<FormHelperText>
+									{errors.confirmPassword}
+								</FormHelperText>
+							)}
+						</FormControl>
 
 						<FormControlLabel
 							control={

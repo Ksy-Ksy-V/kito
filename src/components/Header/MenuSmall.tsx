@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 
-import { singOut } from '../../store/reducers/authSlice';
+import { singout } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
 import theme from '../../styles/theme';
 
@@ -28,7 +28,7 @@ const MenuSmall = () => {
 	};
 
 	const handleSingOut = () => {
-		dispatch(singOut());
+		dispatch(singout());
 		setAnchorElBrowse(null);
 	};
 
