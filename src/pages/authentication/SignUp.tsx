@@ -23,7 +23,7 @@ import {
 	formContainerStyles,
 	gridContainerStyles,
 	textFieldStyles,
-} from '../../components/Authentication/TextFieldStyles ';
+} from '../../components/Authentication/AuthStyles';
 import theme from '../../styles/theme';
 import { signup } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';

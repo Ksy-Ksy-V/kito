@@ -11,7 +11,7 @@ import {
 import StyledButton from '../../components/Buttons/StyledButton';
 import theme from '../../styles/theme';
 import BackgroundImg from '../../images/backgroundKito.png';
-import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
+import { textFieldStyles } from '../../components/Authentication/AuthStyles';
 import { selectAuth, signin } from '../../store/reducers/authSlice';
 import {
 	validateEmail,

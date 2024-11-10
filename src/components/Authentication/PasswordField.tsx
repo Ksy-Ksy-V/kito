@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { textFieldStyles } from './TextFieldStyles ';
+import { textFieldStyles } from './AuthStyles';
 
 interface PasswordFieldProps {
 	label: string;
