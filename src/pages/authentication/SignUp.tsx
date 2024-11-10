@@ -2,20 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Checkbox,
-	FormControl,
 	FormControlLabel,
 	FormHelperText,
 	Grid2,
-	IconButton,
-	InputAdornment,
-	InputLabel,
 	Link,
-	OutlinedInput,
 	TextField,
 	Typography,
 } from '@mui/material';
 import StyledButton from '../../components/Buttons/StyledButton';
-import BackgroundImg from '../../images/backgroundKito.png';
+
 import {
 	validateName,
 	validateEmail,
@@ -24,12 +19,15 @@ import {
 	validateTerms,
 	validateForm,
 } from '../../components/Authentication/validation';
-import { textFieldStyles } from '../../components/Authentication/TextFieldStyles ';
+import {
+	formContainerStyles,
+	gridContainerStyles,
+	textFieldStyles,
+} from '../../components/Authentication/TextFieldStyles ';
 import theme from '../../styles/theme';
 import { signup } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import PasswordField from '../../components/Authentication/PasswordField';
 
 const SignUp = () => {
 	const dispatch = useAppDispatch();
@@ -40,8 +38,6 @@ const SignUp = () => {
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
-	const [showPassword, setShowPassword] = useState(false);
-	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const [loading, setLoading] = useState(false);
 	const [errors, setErrors] = useState({
@@ -84,253 +80,114 @@ const SignUp = () => {
 		}
 	};
 
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
-		if (validateEmail(e.target.value) === '') {
-			setErrors((prevErrors) => ({ ...prevErrors, email: '' }));
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value, checked } = e.target;
+		let errorMessage = '';
+
+		switch (name) {
+			case 'name':
+				setName(value);
+				errorMessage = validateName(value);
+				break;
+			case 'email':
+				setEmail(value);
+				errorMessage = validateEmail(value);
+				break;
+			case 'password':
+				setPassword(value);
+				errorMessage = validatePassword(value);
+				break;
+			case 'confirmPassword':
+				setConfirmPassword(value);
+				errorMessage = validateConfirmPassword(password, value);
+				break;
+			case 'agreeToTerms':
+				setAgreeToTerms(checked);
+				errorMessage = validateTerms(checked);
+				break;
+			default:
+				break;
 		}
+
+		setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
 	};
-
-	const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setName(e.target.value);
-		if (validateName(e.target.value) === '') {
-			setErrors((prevErrors) => ({ ...prevErrors, name: '' }));
-		}
-	};
-
-	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-		if (validatePassword(e.target.value) === '') {
-			setErrors((prevErrors) => ({ ...prevErrors, password: '' }));
-		}
-	};
-
-	const handleConfirmPasswordChange = (
-		e: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setConfirmPassword(e.target.value);
-		if (validateConfirmPassword(password, e.target.value) === '') {
-			setErrors((prevErrors) => ({ ...prevErrors, confirmPassword: '' }));
-		}
-	};
-
-	const handleTermsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setAgreeToTerms(e.target.checked);
-		if (validateTerms(e.target.checked) === '') {
-			setErrors((prevErrors) => ({ ...prevErrors, terms: '' }));
-		}
-	};
-
-	const handleClickShowPassword = () => setShowPassword(!showPassword);
-	const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
-	const handleClickShowConfirmPassword = () =>
-		setShowConfirmPassword(!showConfirmPassword);
-	const handleMouseDownConfirmPassword = () =>
-		setShowConfirmPassword(!showConfirmPassword);
 
 	return (
-		<Grid2
-			container
-			spacing={2}
-			size={12}
-			sx={{
-				backgroundImage: `url(${BackgroundImg})`,
-				backgroundSize: 'cover',
-				backgroundPosition: 'center',
-				minHeight: '100vh',
-				width: '100vw',
-				'&::before': {
-					content: '""',
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					width: '100%',
-					height: '100%',
-					backgroundColor: 'rgba(0, 0, 0, 0.6)',
-					zIndex: 0,
-				},
-			}}
-		>
+		<Grid2 container spacing={2} size={12} sx={gridContainerStyles}>
 			<Grid2
 				size={{ xl: 4, lg: 5, md: 6, sm: 8, xs: 12 }}
 				offset={{ xl: 8, lg: 7, md: 6, sm: 4, xs: 0 }}
-				sx={{
-					margin: 'auto',
-					padding: '2rem',
-					backgroundColor: 'rgba(29, 51, 53, 0.7)',
-					zIndex: 1,
-					minHeight: '100vh',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}
+				sx={formContainerStyles}
 			>
 				<Grid2>
 					<Typography
+						id="signup-title"
 						variant="h3"
 						sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
 					>
 						Create Account
 					</Typography>
 
-					<form onSubmit={handleSubmit}>
+					<form
+						onSubmit={handleSubmit}
+						aria-labelledby="signup-title"
+					>
 						<TextField
+							id="name"
 							fullWidth
 							label="Name"
 							value={name}
-							onChange={handleNameChange}
+							name="name"
+							onChange={handleChange}
 							helperText={errors.name}
 							sx={textFieldStyles}
 						/>
 
 						<TextField
+							id="email"
 							fullWidth
 							label="Email"
 							type="email"
 							value={email}
-							onChange={handleEmailChange}
+							name="email"
+							onChange={handleChange}
 							helperText={errors.email}
 							sx={textFieldStyles}
 						/>
 
-						<FormControl
-							variant="outlined"
-							fullWidth
-							onChange={handlePasswordChange}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
-									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
-						>
-							<InputLabel htmlFor="outlined-adornment-password">
-								Password
-							</InputLabel>
-							<OutlinedInput
-								value={password}
-								id="outlined-adornment-password"
-								type={showPassword ? 'text' : 'password'}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label={
-												showPassword
-													? 'hide the password'
-													: 'display the password'
-											}
-											onClick={handleClickShowPassword}
-											onMouseDown={
-												handleMouseDownPassword
-											}
-											edge="end"
-										>
-											{showPassword ? (
-												<VisibilityIcon />
-											) : (
-												<VisibilityOffIcon />
-											)}
-										</IconButton>
-									</InputAdornment>
-								}
-								label="Password"
-							/>
+						<PasswordField
+							label="Password"
+							value={password}
+							onChange={(e) =>
+								handleChange({
+									...e,
+									target: { ...e.target, name: 'password' },
+								})
+							}
+							error={errors.password}
+						/>
 
-							{errors.password && (
-								<FormHelperText>
-									{errors.password}
-								</FormHelperText>
-							)}
-						</FormControl>
-
-						<FormControl
-							variant="outlined"
-							fullWidth
-							onChange={handleConfirmPasswordChange}
-							sx={{
-								marginBottom: '1rem',
-								'& .MuiOutlinedInput-root': {
-									'& fieldset': {
-										borderWidth: '0.15rem',
-										borderColor: 'secondary.main',
+						<PasswordField
+							label="Confirm Password"
+							value={confirmPassword}
+							onChange={(e) =>
+								handleChange({
+									...e,
+									target: {
+										...e.target,
+										name: 'confirmPassword',
 									},
-									'&:hover fieldset': {
-										borderColor: 'secondary.main',
-									},
-									'&.Mui-focused fieldset': {
-										borderColor: 'secondary.main',
-									},
-								},
-								'& .MuiFormHelperText-root': {
-									color: 'red',
-								},
-								'& .MuiInputLabel-root': {
-									color: 'text.primary',
-								},
-							}}
-						>
-							<InputLabel htmlFor="outlined-adornment-confirm-password">
-								Confirm Password
-							</InputLabel>
-							<OutlinedInput
-								value={confirmPassword}
-								id="outlined-adornment-confirm-password"
-								type={showConfirmPassword ? 'text' : 'Password'}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label={
-												showConfirmPassword
-													? 'hide the confirm password'
-													: 'display the confirm password'
-											}
-											onClick={
-												handleClickShowConfirmPassword
-											}
-											onMouseDown={
-												handleMouseDownConfirmPassword
-											}
-											edge="end"
-										>
-											{showConfirmPassword ? (
-												<VisibilityIcon />
-											) : (
-												<VisibilityOffIcon />
-											)}
-										</IconButton>
-									</InputAdornment>
-								}
-								label="Confirm Password"
-							/>
-
-							{errors.confirmPassword && (
-								<FormHelperText>
-									{errors.confirmPassword}
-								</FormHelperText>
-							)}
-						</FormControl>
+								})
+							}
+							error={errors.confirmPassword}
+						/>
 
 						<FormControlLabel
 							control={
 								<Checkbox
 									checked={agreeToTerms}
-									onChange={handleTermsChange}
+									name="agreeToTerms"
+									onChange={handleChange}
 									sx={{ color: theme.palette.primary.main }}
 								/>
 							}
@@ -353,6 +210,7 @@ const SignUp = () => {
 							<span>Already registered? </span>
 							<Link
 								href="/signin"
+								aria-labelledby="login-link-text"
 								color={theme.palette.secondary.main}
 								sx={{ textDecoration: 'none' }}
 							>
@@ -360,7 +218,12 @@ const SignUp = () => {
 							</Link>
 						</Typography>
 
-						<StyledButton type="submit" disabled={loading}>
+						<StyledButton
+							type="submit"
+							disabled={loading}
+							aria-busy={loading}
+							aria-label="Sign Up"
+						>
 							Sign Up
 						</StyledButton>
 					</form>
