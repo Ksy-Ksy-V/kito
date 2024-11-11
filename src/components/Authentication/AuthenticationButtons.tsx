@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import AuthBtnStyled from '../Buttons/AuthBtnStyled';
+import AuthBtnStyled from '../../styles/AuthBtnStyled';
 import theme from '../../styles/theme';
 
 const AuthButtons: React.FC = () => {

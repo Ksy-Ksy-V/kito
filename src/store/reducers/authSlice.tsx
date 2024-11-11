@@ -73,7 +73,7 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 	}
 );
 
-export const singout = createAsyncThunk('auth/logout', async () => {
+export const signout = createAsyncThunk('auth/logout', async () => {
 	authService.logout();
 });
 
@@ -99,16 +99,13 @@ const authSlice = createSlice({
 			.addCase(signinAsync.rejected, (state) => {
 				state.isLoggedIn = false;
 			})
-			// .addCase(signup.pending, (state) => {
-			// 	state.isLoading = true;
-			// })
 			.addCase(signupAsync.fulfilled, (state) => {
 				state.error = '';
 			})
 			.addCase(signupAsync.rejected, (state) => {
 				state.isLoggedIn = false;
 			})
-			.addCase(singout.fulfilled, (state) => {
+			.addCase(signout.fulfilled, (state) => {
 				state.isLoggedIn = false;
 				state.user = { token: '', refreshToken: '' };
 				state.error = '';

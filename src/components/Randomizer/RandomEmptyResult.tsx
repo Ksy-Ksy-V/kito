@@ -1,7 +1,7 @@
 import { Box, Grid2, Typography, useMediaQuery } from '@mui/material';
 
 import theme from '../../styles/theme';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import { useNavigate } from 'react-router-dom';
 import NotFoundCard from '../Cards/NotFoundCard';
 
@@ -88,12 +88,12 @@ const RandomEmptyResult = () => {
 						Try changing your filter parameters
 					</Typography>
 
-					<StyledButton
+					<MainButton
 						onClick={handleReturnToFilter}
 						sx={{ marginTop: { md: '4rem', xs: '2rem' } }}
 					>
 						New Filter
-					</StyledButton>
+					</MainButton>
 				</Grid2>
 
 				<Grid2>

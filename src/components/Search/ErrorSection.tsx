@@ -1,7 +1,7 @@
 import { Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import errorImg from '../../images/errorImg.png';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 
 const ErrorSection = () => {
 	const handleReload = () => {
@@ -56,7 +56,7 @@ const ErrorSection = () => {
 					flexDirection: 'column',
 				}}
 			>
-				<StyledButton
+				<MainButton
 					sx={{
 						width: { xl: '20rem', sm: '15rem' },
 					}}
@@ -64,7 +64,7 @@ const ErrorSection = () => {
 				>
 					{' '}
 					Try again
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 		</Grid2>
 	);

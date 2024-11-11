@@ -8,10 +8,10 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import StyledButton from '../../components/Buttons/StyledButton';
+import MainButton from '../../components/Buttons/MainButton';
 import theme from '../../styles/theme';
 import BackgroundImg from '../../images/backgroundKito.png';
-import { textFieldStyles } from '../../components/Authentication/AuthStyles';
+import { textFieldStyles } from '../../styles/AuthStyles';
 import { selectAuth, signinAsync } from '../../store/reducers/authSlice';
 import {
 	validateEmail,
@@ -169,9 +169,9 @@ const SignIn = () => {
 
 						<Typography> {error} </Typography>
 
-						<StyledButton type="submit" disabled={loading}>
+						<MainButton type="submit" disabled={loading}>
 							Sign In
-						</StyledButton>
+						</MainButton>
 					</form>
 				</Grid2>
 			</Grid2>

@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material';
-import BackgroundImg from '../../images/backgroundKito.png';
+import BackgroundImg from '../images/backgroundKito.png';
 
 export const textFieldStyles: SxProps<Theme> = {
 	marginBottom: '1rem',

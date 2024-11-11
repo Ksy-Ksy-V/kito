@@ -9,7 +9,7 @@ import {
 	TextField,
 	Typography,
 } from '@mui/material';
-import StyledButton from '../../components/Buttons/StyledButton';
+import MainButton from '../../components/Buttons/MainButton';
 
 import {
 	validateName,
@@ -23,7 +23,7 @@ import {
 	formContainerStyles,
 	gridContainerStyles,
 	textFieldStyles,
-} from '../../components/Authentication/AuthStyles';
+} from '../../styles/AuthStyles';
 import theme from '../../styles/theme';
 import { signinAsync, signupAsync } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
@@ -32,14 +32,16 @@ import PasswordField from '../../components/Authentication/PasswordField';
 const SignUp = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
-	const [agreeToTerms, setAgreeToTerms] = useState(false);
-
 	const [loading, setLoading] = useState(false);
+
+	const [data, setData] = useState({
+		name: '',
+		email: '',
+		password: '',
+		confirmPassword: '',
+		agreeToTerms: false,
+	});
+
 	const [errors, setErrors] = useState({
 		name: '',
 		email: '',
@@ -54,11 +56,11 @@ const SignUp = () => {
 		e.preventDefault();
 
 		const newErrors = validateForm(
-			name,
-			email,
-			password,
-			confirmPassword,
-			agreeToTerms
+			data.name,
+			data.email,
+			data.password,
+			data.confirmPassword,
+			data.agreeToTerms
 		);
 
 		setErrors(newErrors);
@@ -69,14 +71,19 @@ const SignUp = () => {
 			setLoading(true);
 			dispatch(
 				signupAsync({
-					name,
-					email,
-					password,
+					name: data.name,
+					email: data.email,
+					password: data.password,
 				})
 			)
 				.unwrap()
 				.then(() => {
-					dispatch(signinAsync({ email, password }))
+					dispatch(
+						signinAsync({
+							email: data.email,
+							password: data.password,
+						})
+					)
 						.unwrap()
 						.then(() => {
 							setLoading(true);
@@ -92,28 +99,26 @@ const SignUp = () => {
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value, checked } = e.target;
+		const { name, value, checked, type } = e.target;
 		let errorMessage = '';
+
+		const newValue = type === 'checkbox' ? checked : value;
+		setData((prevData) => ({ ...prevData, [name]: newValue }));
 
 		switch (name) {
 			case 'name':
-				setName(value);
 				errorMessage = validateName(value);
 				break;
 			case 'email':
-				setEmail(value);
 				errorMessage = validateEmail(value);
 				break;
 			case 'password':
-				setPassword(value);
 				errorMessage = validatePassword(value);
 				break;
 			case 'confirmPassword':
-				setConfirmPassword(value);
-				errorMessage = validateConfirmPassword(password, value);
+				errorMessage = validateConfirmPassword(data.password, value);
 				break;
 			case 'agreeToTerms':
-				setAgreeToTerms(checked);
 				errorMessage = validateTerms(checked);
 				break;
 			default:
@@ -159,7 +164,7 @@ const SignUp = () => {
 							fullWidth
 							label="Email"
 							type="email"
-							value={email}
+							value={data.email}
 							name="email"
 							onChange={handleChange}
 							helperText={errors.email}
@@ -168,7 +173,7 @@ const SignUp = () => {
 
 						<PasswordField
 							label="Password"
-							value={password}
+							value={data.password}
 							onChange={(e) =>
 								handleChange({
 									...e,
@@ -180,7 +185,7 @@ const SignUp = () => {
 
 						<PasswordField
 							label="Confirm Password"
-							value={confirmPassword}
+							value={data.confirmPassword}
 							onChange={(e) =>
 								handleChange({
 									...e,
@@ -196,7 +201,7 @@ const SignUp = () => {
 						<FormControlLabel
 							control={
 								<Checkbox
-									checked={agreeToTerms}
+									checked={data.agreeToTerms}
 									name="agreeToTerms"
 									onChange={handleChange}
 									sx={{ color: theme.palette.primary.main }}
@@ -229,14 +234,14 @@ const SignUp = () => {
 							</Link>
 						</Typography>
 
-						<StyledButton
+						<MainButton
 							type="submit"
 							disabled={loading}
 							aria-busy={loading}
 							aria-label="Sign Up"
 						>
 							Sign Up
-						</StyledButton>
+						</MainButton>
 					</form>
 				</Grid2>
 			</Grid2>

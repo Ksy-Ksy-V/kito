@@ -30,7 +30,6 @@ class TokenService {
 	}
 
 	setUser(user: AuthState) {
-		console.log(JSON.stringify(user));
 		localStorage.setItem('user', JSON.stringify(user));
 	}
 

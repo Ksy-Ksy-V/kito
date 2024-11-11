@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonProps } from '@mui/material';
-import theme from '../../styles/theme';
+import theme from './theme';
 
 const AuthBtnStyled: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 	return (

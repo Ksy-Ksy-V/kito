@@ -1,7 +1,7 @@
 import { Grid2, Skeleton } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
 import { AbstractAnime } from '../../models/AbstractAnime';
-import StyledInformation from '../StyledInformation';
+import StyledInformation from '../../styles/StyledInformation';
 
 interface MainInformationProps {
 	anime: AbstractAnime;

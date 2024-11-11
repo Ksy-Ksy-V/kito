@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import { textFieldStyles } from './AuthStyles';
+import { textFieldStyles } from '../../styles/AuthStyles';
 
 interface PasswordFieldProps {
 	label: string;
@@ -27,11 +27,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 	const [showPassword, setShowPassword] = useState(false);
 
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
-	const handleMouseDownPassword = (
-		e: React.MouseEvent<HTMLButtonElement>
-	) => {
-		e.preventDefault();
-	};
 
 	return (
 		<FormControl variant="outlined" fullWidth sx={textFieldStyles}>
@@ -49,7 +44,6 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 									: 'display the password'
 							}
 							onClick={handleClickShowPassword}
-							onMouseDown={handleMouseDownPassword}
 							edge="end"
 						>
 							{showPassword ? (
