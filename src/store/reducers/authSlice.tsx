@@ -24,7 +24,7 @@ const initialState: AuthState = user.token
 			error: '',
 	  };
 
-export const signup = createAsyncThunk<AuthState, UserRegister>(
+export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 	'auth/signup',
 	async (userRegister: UserRegister, thunkApi) => {
 		try {
@@ -49,7 +49,7 @@ export const signup = createAsyncThunk<AuthState, UserRegister>(
 	}
 );
 
-export const signin = createAsyncThunk<AuthState, UserCredentials>(
+export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 	'auth/login',
 	async (userCredentials: UserCredentials, thunkApi) => {
 		try {
@@ -89,23 +89,23 @@ const authSlice = createSlice({
 			state.user.refreshToken = payload.refreshToken;
 		},
 	},
-	extraReducers: (bulder) => {
-		bulder
-			.addCase(signin.fulfilled, (state, { payload }) => {
+	extraReducers: (builder) => {
+		builder
+			.addCase(signinAsync.fulfilled, (state, { payload }) => {
 				state.isLoggedIn = true;
 				state.user = payload.user;
 				state.error = '';
 			})
-			.addCase(signin.rejected, (state) => {
+			.addCase(signinAsync.rejected, (state) => {
 				state.isLoggedIn = false;
 			})
 			// .addCase(signup.pending, (state) => {
 			// 	state.isLoading = true;
 			// })
-			.addCase(signup.fulfilled, (state) => {
+			.addCase(signupAsync.fulfilled, (state) => {
 				state.error = '';
 			})
-			.addCase(signup.rejected, (state) => {
+			.addCase(signupAsync.rejected, (state) => {
 				state.isLoggedIn = false;
 			})
 			.addCase(singout.fulfilled, (state) => {

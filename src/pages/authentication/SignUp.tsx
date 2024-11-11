@@ -25,7 +25,7 @@ import {
 	textFieldStyles,
 } from '../../components/Authentication/AuthStyles';
 import theme from '../../styles/theme';
-import { signup } from '../../store/reducers/authSlice';
+import { signinAsync, signupAsync } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
 import PasswordField from '../../components/Authentication/PasswordField';
 
@@ -68,14 +68,25 @@ const SignUp = () => {
 		if (isValid) {
 			setLoading(true);
 			dispatch(
-				signup({
+				signupAsync({
 					name,
 					email,
 					password,
 				})
 			)
 				.unwrap()
-				.then(() => navigate('/'))
+				.then(() => {
+					dispatch(signinAsync({ email, password }))
+						.unwrap()
+						.then(() => {
+							setLoading(true);
+							navigate('/');
+							window.location.reload();
+						})
+						.catch(() => {
+							setLoading(false);
+						});
+				})
 				.catch(() => setLoading(false));
 		}
 	};

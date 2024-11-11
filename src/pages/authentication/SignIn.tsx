@@ -12,7 +12,7 @@ import StyledButton from '../../components/Buttons/StyledButton';
 import theme from '../../styles/theme';
 import BackgroundImg from '../../images/backgroundKito.png';
 import { textFieldStyles } from '../../components/Authentication/AuthStyles';
-import { selectAuth, signin } from '../../store/reducers/authSlice';
+import { selectAuth, signinAsync } from '../../store/reducers/authSlice';
 import {
 	validateEmail,
 	validateFormSingIn,
@@ -46,7 +46,7 @@ const SignIn = () => {
 		const newValidationErrors = validateFormSingIn(email, password);
 		setValidationsErrors(newValidationErrors);
 
-		dispatch(signin({ email, password }))
+		dispatch(signinAsync({ email, password }))
 			.unwrap()
 			.then(() => {
 				setLoading(true);

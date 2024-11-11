@@ -9,7 +9,8 @@ import AuthButtons from '../Authentication/AuthenticationButtons';
 import SearchInputField from '../Search/SearchInputField';
 import MenuSmall from '../Header/MenuSmall';
 import theme from '../../styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import TokenService from '../../services/tokenService';
 
 const Header = () => {
 	const location = useLocation();
@@ -18,10 +19,12 @@ const Header = () => {
 	const isSearchOrHomePage =
 		location.pathname === '/search' || location.pathname === '/';
 
-	const [
-		userAuthorised,
-		// setUserAuthorised
-	] = useState(false);
+	const [userAuthorised, setUserAuthorised] = useState(false);
+
+	useEffect(() => {
+		const token = TokenService.getLocaltoken();
+		setUserAuthorised(!!token);
+	}, []);
 
 	return (
 		<AppBar
