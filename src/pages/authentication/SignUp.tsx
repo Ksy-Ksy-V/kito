@@ -152,7 +152,7 @@ const SignUp = () => {
 							id="name"
 							fullWidth
 							label="Name"
-							value={name}
+							value={data.name}
 							name="name"
 							onChange={handleChange}
 							helperText={errors.name}

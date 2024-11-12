@@ -73,8 +73,8 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 	}
 );
 
-export const signout = createAsyncThunk('auth/logout', async () => {
-	authService.logout();
+export const signout = createAsyncThunk('auth/signout', async () => {
+	authService.signout();
 });
 
 const authSlice = createSlice({
