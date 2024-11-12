@@ -1,33 +1,28 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import {
-	FormHelperText,
-	Grid2,
-	Link,
-	TextField,
-	Typography,
-} from '@mui/material';
+import { useAppDispatch } from '../../store/hooks';
+import { Grid2, Link, TextField, Typography } from '@mui/material';
 import MainButton from '../../components/Buttons/MainButton';
 import theme from '../../styles/theme';
 import BackgroundImg from '../../images/backgroundKito.png';
 import { textFieldStyles } from '../../styles/AuthStyles';
-import { selectAuth, signinAsync } from '../../store/reducers/authSlice';
+import { signinAsync } from '../../store/reducers/authSlice';
 import {
 	validateEmail,
 	validateFormSingIn,
 	validatePassword,
 } from '../../components/Authentication/validation';
+import PasswordField from '../../components/Authentication/PasswordField';
 
 const SignIn = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
 	const [loading, setLoading] = useState(false);
-	const authState = useAppSelector(selectAuth);
-	const error = authState?.error || '';
+
+	const [data, setData] = useState({
+		email: '',
+		password: '',
+	});
 
 	const [validationsErrors, setValidationsErrors] = useState({
 		email: '',
@@ -38,13 +33,22 @@ const SignIn = () => {
 		event: React.FormEvent<HTMLFormElement>
 	): Promise<void> => {
 		event.preventDefault();
-		const email = event.currentTarget.email.value;
-		const password = event.currentTarget.password.value;
+		const email = data.email;
+		const password = data.password;
 
 		setLoading(true);
 
 		const newValidationErrors = validateFormSingIn(email, password);
 		setValidationsErrors(newValidationErrors);
+
+		const isValid = Object.values(newValidationErrors).every(
+			(error) => error === ''
+		);
+
+		if (!isValid) {
+			setLoading(false);
+			return;
+		}
 
 		dispatch(signinAsync({ email, password }))
 			.unwrap()
@@ -58,24 +62,17 @@ const SignIn = () => {
 			});
 	};
 
-	const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setEmail(e.target.value);
-		if (validateEmail(e.target.value) === '') {
-			setValidationsErrors((prevErrors) => ({
-				...prevErrors,
-				email: '',
-			}));
-		}
-	};
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setData((prevData) => ({ ...prevData, [name]: value }));
 
-	const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPassword(e.target.value);
-		if (validatePassword(e.target.value) === '') {
-			setValidationsErrors((prevErrors) => ({
-				...prevErrors,
-				password: '',
-			}));
-		}
+		const error =
+			name === 'email' ? validateEmail(value) : validatePassword(value);
+
+		setValidationsErrors((prevErrors) => ({
+			...prevErrors,
+			[name]: error,
+		}));
 	};
 
 	return (
@@ -120,35 +117,36 @@ const SignIn = () => {
 						variant="h3"
 						sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
 					>
-						Create Account
+						Sign In
 					</Typography>
 
-					<form onSubmit={handleSubmit}>
+					<form
+						onSubmit={handleSubmit}
+						aria-labelledby="signup-title"
+					>
 						<TextField
+							id="email"
 							fullWidth
 							label="Email"
 							type="email"
+							value={data.email}
+							name="email"
+							onChange={handleChange}
 							helperText={validationsErrors.email}
-							value={email}
-							onChange={handleEmailChange}
 							sx={textFieldStyles}
 						/>
 
-						<TextField
-							fullWidth
+						<PasswordField
 							label="Password"
-							type="password"
-							value={password}
-							onChange={handlePasswordChange}
-							helperText={validationsErrors.password}
-							sx={textFieldStyles}
+							value={data.password}
+							onChange={(e) =>
+								handleChange({
+									...e,
+									target: { ...e.target, name: 'password' },
+								})
+							}
+							error={validationsErrors.password}
 						/>
-
-						{error && (
-							<FormHelperText error sx={{ marginBottom: '1rem' }}>
-								{error}
-							</FormHelperText>
-						)}
 
 						<Typography
 							color={theme.palette.primary.main}
@@ -166,8 +164,6 @@ const SignIn = () => {
 								Sign Up
 							</Link>
 						</Typography>
-
-						<Typography> {error} </Typography>
 
 						<MainButton type="submit" disabled={loading}>
 							Sign In

@@ -26,6 +26,10 @@ const Header = () => {
 		setUserAuthorised(!!token);
 	}, []);
 
+	const handleSignOut = () => {
+		setUserAuthorised(false);
+	};
+
 	return (
 		<AppBar
 			position="static"
@@ -66,7 +70,7 @@ const Header = () => {
 											: { md: 0 }
 									}
 								>
-									<AccountMenu />
+									<AccountMenu onSignOut={handleSignOut} />
 								</Grid2>
 							) : (
 								<Grid2

@@ -9,6 +9,7 @@ import Settings from '../pages/Settings/Settings';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
+import PrivateRoute from './privateRoute';
 
 interface RouteContent {
 	path: string;
@@ -22,9 +23,24 @@ export const routes: RouteContent[] = [
 	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
 
-	{ path: '/settings', element: <Settings /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
-	{ path: '/profile', element: <Profile /> },
+
+	{
+		path: '/settings',
+		element: (
+			<PrivateRoute>
+				<Settings />
+			</PrivateRoute>
+		),
+	},
+	{
+		path: '/profile',
+		element: (
+			<PrivateRoute>
+				<Profile />
+			</PrivateRoute>
+		),
+	},
 ];
 
 export const routesWide: RouteContent[] = [

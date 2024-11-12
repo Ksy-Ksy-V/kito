@@ -39,6 +39,7 @@ function App() {
 						/>
 					))}
 					<Route path="*" element={<NotFound />} />
+
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
 				</Routes>

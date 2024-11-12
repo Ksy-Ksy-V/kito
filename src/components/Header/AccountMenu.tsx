@@ -8,7 +8,11 @@ import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
 import { signout } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
 
-const AccountMenu = () => {
+interface AccountMenuProps {
+	onSignOut: () => void;
+}
+
+const AccountMenu: React.FC<AccountMenuProps> = ({ onSignOut }) => {
 	const dispatch = useAppDispatch();
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 	const theme = useTheme();
@@ -24,6 +28,7 @@ const AccountMenu = () => {
 	const handleSignOut = () => {
 		dispatch(signout());
 		setAnchorElUser(null);
+		onSignOut();
 	};
 
 	return (
