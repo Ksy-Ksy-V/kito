@@ -8,16 +8,16 @@ import { signout } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
 import theme from '../../styles/theme';
 
-const MenuSmall = () => {
+interface MenuSmallProps {
+	userAuthorized: boolean;
+	onSignOut: () => void;
+}
+
+const MenuSmall: React.FC<MenuSmallProps> = ({ userAuthorized, onSignOut }) => {
 	const dispatch = useAppDispatch();
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
 		null
 	);
-
-	const [
-		userAuthorized,
-		// setUserAuthorised
-	] = useState(false);
 
 	const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElBrowse(event.currentTarget);
@@ -30,6 +30,7 @@ const MenuSmall = () => {
 	const handleSignOut = () => {
 		dispatch(signout());
 		setAnchorElBrowse(null);
+		onSignOut();
 	};
 
 	return (
@@ -70,7 +71,7 @@ const MenuSmall = () => {
 				) : (
 					<MenuItem
 						component={Link}
-						to="/signout"
+						to="/signin"
 						onClick={handleMenuClose}
 						sx={menuItemStyles(theme)}
 					>
@@ -143,7 +144,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/about"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -152,7 +153,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/privacy-policy"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -161,7 +162,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/terms-of-service"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>

@@ -92,7 +92,10 @@ const Header = () => {
 							</Grid2>
 
 							<Grid2 size={{ xs: 2 }}>
-								<MenuSmall />
+								<MenuSmall
+									userAuthorized={userAuthorised}
+									onSignOut={handleSignOut}
+								/>
 							</Grid2>
 						</>
 					)}
