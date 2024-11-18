@@ -17,11 +17,13 @@ const initialState: AuthState = user.token
 			isLoggedIn: true,
 			user: user,
 			error: '',
+			loading: false,
 	  }
 	: {
 			isLoggedIn: false,
 			user: { token: '', refreshToken: '' },
 			error: '',
+			loading: false,
 	  };
 
 export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
@@ -89,21 +91,35 @@ const authSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
+			.addCase(signinAsync.pending, (state) => {
+				state.loading = true;
+			})
 			.addCase(signinAsync.fulfilled, (state, { payload }) => {
+				state.loading = false;
 				state.isLoggedIn = true;
 				state.user = payload.user;
 				state.error = '';
 			})
 			.addCase(signinAsync.rejected, (state) => {
+				state.loading = false;
 				state.isLoggedIn = false;
 			})
+			.addCase(signupAsync.pending, (state) => {
+				state.loading = true;
+			})
 			.addCase(signupAsync.fulfilled, (state) => {
+				state.loading = false;
 				state.error = '';
 			})
 			.addCase(signupAsync.rejected, (state) => {
+				state.loading = false;
 				state.isLoggedIn = false;
 			})
+			.addCase(signout.pending, (state) => {
+				state.loading = true;
+			})
 			.addCase(signout.fulfilled, (state) => {
+				state.loading = false;
 				state.isLoggedIn = false;
 				state.user = { token: '', refreshToken: '' };
 				state.error = '';

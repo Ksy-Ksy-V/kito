@@ -55,7 +55,6 @@ const SignIn = () => {
 			.then(() => {
 				setLoading(true);
 				navigate('/');
-				window.location.reload();
 			})
 			.catch(() => {
 				setLoading(false);

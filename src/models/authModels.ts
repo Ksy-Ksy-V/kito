@@ -7,6 +7,7 @@ export type AuthState = {
 	isLoggedIn: boolean;
 	user: User;
 	error: string;
+	loading: boolean;
 };
 
 export type UserCredentials = {
