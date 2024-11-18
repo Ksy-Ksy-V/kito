@@ -38,7 +38,6 @@ export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 			}
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
-			console.log(error);
 			if (axios.isAxiosError(error)) {
 				thunkApi.dispatch(setError(error.response?.data.message));
 				return thunkApi.rejectWithValue(error.response?.data.message);
@@ -62,7 +61,6 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 			}
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
-			console.log(error);
 			if (axios.isAxiosError(error)) {
 				thunkApi.dispatch(setError(error.response?.data.message));
 				return thunkApi.rejectWithValue(error.response?.data.message);
@@ -74,7 +72,7 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 );
 
 export const signout = createAsyncThunk('auth/signout', async () => {
-	authService.signout();
+	authService.removeLocalUser();
 });
 
 const authSlice = createSlice({
@@ -115,6 +113,6 @@ const authSlice = createSlice({
 
 export const { setError, refreshToken } = authSlice.actions;
 
-export const selectAuth = (state: RootState) => state.auth || {};
+export const selectAuth = (state: RootState) => state.auth;
 
 export default authSlice.reducer;

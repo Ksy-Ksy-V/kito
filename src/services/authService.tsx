@@ -17,7 +17,7 @@ class AuthService {
 			});
 	}
 
-	signout() {
+	removeLocalUser() {
 		TokenService.removeUser();
 	}
 
@@ -38,7 +38,7 @@ class AuthService {
 		return http
 			.post('/api/signout', { token: refreshToken })
 			.then((response) => {
-				this.signout();
+				this.removeLocalUser();
 				return response.data;
 			});
 	}

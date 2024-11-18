@@ -24,7 +24,6 @@ const setup = (store: any) => {
 		},
 
 		async (err) => {
-			console.log(http.defaults.headers.common);
 			const originalConfig = err.config;
 
 			if (originalConfig.url !== '/auth/signin' && err.response) {

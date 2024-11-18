@@ -3,7 +3,7 @@ import { AuthState } from '../models/authModels';
 class TokenService {
 	getLocalRefreshToken() {
 		const user = this.getUser();
-		return user?.refreshToken;
+		return user?.token;
 	}
 
 	getLocaltoken() {

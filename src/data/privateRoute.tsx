@@ -4,7 +4,6 @@ import { selectAuth } from '../store/reducers/authSlice';
 import { history } from '../helpers/history';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-	console.log(selectAuth, 'selectAuth');
 	const { isLoggedIn } = useAppSelector(selectAuth);
 
 	if (!isLoggedIn) {

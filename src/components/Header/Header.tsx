@@ -9,8 +9,9 @@ import AuthButtons from '../Authentication/AuthenticationButtons';
 import SearchInputField from '../Search/SearchInputField';
 import MenuSmall from '../Header/MenuSmall';
 import theme from '../../styles/theme';
-import { useEffect, useState } from 'react';
 import TokenService from '../../services/tokenService';
+import { useAppSelector } from '../../store/hooks';
+import { selectAuth } from '../../store/reducers/authSlice';
 
 const Header = () => {
 	const location = useLocation();
@@ -19,15 +20,10 @@ const Header = () => {
 	const isSearchOrHomePage =
 		location.pathname === '/search' || location.pathname === '/';
 
-	const [userAuthorised, setUserAuthorised] = useState(false);
-
-	useEffect(() => {
-		const token = TokenService.getLocaltoken();
-		setUserAuthorised(!!token);
-	}, []);
+	const { isLoggedIn } = useAppSelector(selectAuth);
 
 	const handleSignOut = () => {
-		setUserAuthorised(false);
+		TokenService.removeUser(); // TODO: Wait until BE implement token
 	};
 
 	return (
@@ -57,11 +53,11 @@ const Header = () => {
 								<NavBar />
 							</Grid2>
 							{!isSearchOrHomePage && (
-								<Grid2 size={{ xs: 4 }} offset={{ xs: 2 }}>
+								<Grid2 size={{ xs: 4 }} offset={{ xs: 3 }}>
 									<SearchInputField />
 								</Grid2>
 							)}
-							{userAuthorised ? (
+							{isLoggedIn ? (
 								<Grid2
 									size={{ xs: 1 }}
 									offset={
@@ -93,7 +89,7 @@ const Header = () => {
 
 							<Grid2 size={{ xs: 2 }}>
 								<MenuSmall
-									userAuthorized={userAuthorised}
+									userAuthorized={isLoggedIn}
 									onSignOut={handleSignOut}
 								/>
 							</Grid2>
