@@ -60,19 +60,17 @@ const Header = () => {
 							<Grid2
 								size={{ xs: 1 }}
 								offset={
-									isSearchOrHomePage
-										? { md: 7, lg: 7, xl: 7 }
-										: { md: 0 }
+									isSearchOrHomePage ? { md: 7 } : { md: 0 }
 								}
 							>
 								<AccountMenu onSignOut={handleSignOut} />
 							</Grid2>
 						) : (
 							<Grid2
-								size={{ xs: 2 }}
+								size={{ xs: 1 }}
 								offset={
 									isSearchOrHomePage
-										? { md: 6, lg: 6, xl: 6 }
+										? { md: 6, lg: 7 }
 										: { md: 0 }
 								}
 							>
