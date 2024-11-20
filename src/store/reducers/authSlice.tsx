@@ -41,7 +41,22 @@ export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
 			if (axios.isAxiosError(error)) {
-				thunkApi.dispatch(setError(error.response?.data.message));
+				if (error.response && error.response.status === 502) {
+					thunkApi.dispatch(
+						setError(
+							'Email is already in use. Please choose another one.'
+						)
+					);
+					return thunkApi.rejectWithValue(
+						'Email is already in use. Please choose another one.'
+					);
+				}
+				thunkApi.dispatch(
+					setError(
+						error.response?.data.message ||
+							'Email is already in use. Please choose another one.'
+					)
+				);
 				return thunkApi.rejectWithValue(error.response?.data.message);
 			}
 			thunkApi.dispatch(setError(error.message));

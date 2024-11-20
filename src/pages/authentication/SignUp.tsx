@@ -25,14 +25,19 @@ import {
 	textFieldStyles,
 } from '../../styles/AuthStyles';
 import theme from '../../styles/theme';
-import { signinAsync, signupAsync } from '../../store/reducers/authSlice';
-import { useAppDispatch } from '../../store/hooks';
+import {
+	selectAuth,
+	signinAsync,
+	signupAsync,
+} from '../../store/reducers/authSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import PasswordField from '../../components/Authentication/PasswordField';
+import LoadingOverlay from '../../components/Authentication/LoadingOverlay';
 
 const SignUp = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [loading, setLoading] = useState(false);
+	const { loading, error } = useAppSelector(selectAuth);
 
 	const [data, setData] = useState({
 		name: '',
@@ -68,7 +73,6 @@ const SignUp = () => {
 		const isValid = Object.values(newErrors).every((error) => error === '');
 
 		if (isValid) {
-			setLoading(true);
 			dispatch(
 				signupAsync({
 					name: data.name,
@@ -86,15 +90,16 @@ const SignUp = () => {
 					)
 						.unwrap()
 						.then(() => {
-							setLoading(true);
 							navigate('/');
 							window.location.reload();
 						})
-						.catch(() => {
-							setLoading(false);
+						.catch((_error) => {
+							console.error(_error);
 						});
 				})
-				.catch(() => setLoading(false));
+				.catch((_error) => {
+					console.error(_error);
+				});
 		}
 	};
 
@@ -129,123 +134,165 @@ const SignUp = () => {
 	};
 
 	return (
-		<Grid2 container spacing={2} size={12} sx={gridContainerStyles}>
-			<Grid2
-				size={{ xl: 4, lg: 5, md: 6, sm: 8, xs: 12 }}
-				offset={{ xl: 8, lg: 7, md: 6, sm: 4, xs: 0 }}
-				sx={formContainerStyles}
-			>
-				<Grid2>
-					<Typography
-						id="signup-title"
-						variant="h3"
-						sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
-					>
-						Create Account
-					</Typography>
+		<>
+			{loading && <LoadingOverlay />}
 
-					<form
-						onSubmit={handleSubmit}
-						aria-labelledby="signup-title"
-					>
-						<TextField
-							id="name"
-							fullWidth
-							label="Name"
-							value={data.name}
-							name="name"
-							onChange={handleChange}
-							helperText={errors.name}
-							sx={textFieldStyles}
-						/>
-
-						<TextField
-							id="email"
-							fullWidth
-							label="Email"
-							type="email"
-							value={data.email}
-							name="email"
-							onChange={handleChange}
-							helperText={errors.email}
-							sx={textFieldStyles}
-						/>
-
-						<PasswordField
-							label="Password"
-							value={data.password}
-							onChange={(e) =>
-								handleChange({
-									...e,
-									target: { ...e.target, name: 'password' },
-								})
-							}
-							error={errors.password}
-						/>
-
-						<PasswordField
-							label="Confirm Password"
-							value={data.confirmPassword}
-							onChange={(e) =>
-								handleChange({
-									...e,
-									target: {
-										...e.target,
-										name: 'confirmPassword',
-									},
-								})
-							}
-							error={errors.confirmPassword}
-						/>
-
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={data.agreeToTerms}
-									name="agreeToTerms"
-									onChange={handleChange}
-									sx={{ color: theme.palette.primary.main }}
-								/>
-							}
-							label="I agree with terms and conditions"
-						/>
-
-						{errors.terms && (
-							<FormHelperText error sx={{ marginBottom: '1rem' }}>
-								{errors.terms}
-							</FormHelperText>
-						)}
-
+			<Grid2 container spacing={2} size={12} sx={gridContainerStyles}>
+				<Grid2
+					size={{ xl: 4, lg: 5, md: 6, sm: 8, xs: 12 }}
+					offset={{ xl: 8, lg: 7, md: 6, sm: 4, xs: 0 }}
+					sx={formContainerStyles}
+				>
+					<Grid2>
 						<Typography
-							color={theme.palette.primary.main}
-							sx={{
-								margin: '1rem',
-								textAlign: 'center',
-							}}
+							id="signup-title"
+							variant="h3"
+							sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
 						>
-							<span>Already registered? </span>
-							<Link
-								href="/signin"
-								aria-labelledby="login-link-text"
-								color={theme.palette.secondary.main}
-								sx={{ textDecoration: 'none' }}
-							>
-								Sign In
-							</Link>
+							Create Account
 						</Typography>
 
-						<MainButton
-							type="submit"
-							disabled={loading}
-							aria-busy={loading}
-							aria-label="Sign Up"
+						<form
+							onSubmit={handleSubmit}
+							aria-labelledby="signup-title"
 						>
-							Sign Up
-						</MainButton>
-					</form>
+							<TextField
+								id="name"
+								fullWidth
+								label="Name"
+								value={data.name}
+								name="name"
+								onChange={handleChange}
+								helperText={errors.name}
+								sx={textFieldStyles}
+							/>
+
+							<TextField
+								id="email"
+								fullWidth
+								label="Email"
+								type="email"
+								value={data.email}
+								name="email"
+								onChange={handleChange}
+								helperText={errors.email}
+								sx={textFieldStyles}
+							/>
+
+							<PasswordField
+								label="Password"
+								value={data.password}
+								onChange={(e) =>
+									handleChange({
+										...e,
+										target: {
+											...e.target,
+											name: 'password',
+										},
+									})
+								}
+								error={errors.password}
+							/>
+
+							<PasswordField
+								label="Confirm Password"
+								value={data.confirmPassword}
+								onChange={(e) =>
+									handleChange({
+										...e,
+										target: {
+											...e.target,
+											name: 'confirmPassword',
+										},
+									})
+								}
+								error={errors.confirmPassword}
+							/>
+
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={data.agreeToTerms}
+										name="agreeToTerms"
+										onChange={handleChange}
+										sx={{
+											color: theme.palette.primary.main,
+										}}
+									/>
+								}
+								label="I agree with terms and conditions"
+							/>
+
+							{errors.terms && (
+								<FormHelperText
+									error
+									sx={{ marginBottom: '1rem' }}
+								>
+									{errors.terms}
+								</FormHelperText>
+							)}
+
+							{error && (
+								<>
+									<Typography
+										color="error"
+										sx={{
+											textAlign: 'center',
+											marginBottom: '1rem',
+										}}
+									>
+										{error}
+									</Typography>
+									<Typography
+										color={theme.palette.primary.main}
+										sx={{
+											margin: '1rem',
+											textAlign: 'center',
+										}}
+									>
+										<span>Forgot your password? </span>
+										<Link
+											href="/"
+											color={theme.palette.secondary.main}
+											sx={{ textDecoration: 'none' }}
+										>
+											Reset password
+										</Link>
+									</Typography>
+								</>
+							)}
+
+							<Typography
+								color={theme.palette.primary.main}
+								sx={{
+									margin: '1rem',
+									textAlign: 'center',
+								}}
+							>
+								<span>Already registered? </span>
+								<Link
+									href="/signin"
+									aria-labelledby="login-link-text"
+									color={theme.palette.secondary.main}
+									sx={{ textDecoration: 'none' }}
+								>
+									Sign In
+								</Link>
+							</Typography>
+
+							<MainButton
+								type="submit"
+								disabled={loading}
+								aria-busy={loading}
+								aria-label="Sign Up"
+							>
+								Sign Up
+							</MainButton>
+						</form>
+					</Grid2>
 				</Grid2>
 			</Grid2>
-		</Grid2>
+		</>
 	);
 };
 
