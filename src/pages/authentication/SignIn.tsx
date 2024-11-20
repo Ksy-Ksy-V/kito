@@ -19,7 +19,7 @@ const SignIn = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	const { loading } = useAppSelector(selectAuth);
+	const { loading, error } = useAppSelector(selectAuth);
 
 	const [data, setData] = useState({
 		email: '',
@@ -54,8 +54,8 @@ const SignIn = () => {
 			.then(() => {
 				navigate('/');
 			})
-			.catch(() => {
-				// setLoading(false);
+			.catch((_error) => {
+				console.error(_error);
 			});
 	};
 
@@ -150,6 +150,36 @@ const SignIn = () => {
 								}
 								error={validationsErrors.password}
 							/>
+
+							{error && (
+								<>
+									<Typography
+										color="error"
+										sx={{
+											textAlign: 'center',
+											marginBottom: '1rem',
+										}}
+									>
+										{error}
+									</Typography>
+									<Typography
+										color={theme.palette.primary.main}
+										sx={{
+											margin: '1rem',
+											textAlign: 'center',
+										}}
+									>
+										<span>Forgot your password? </span>
+										<Link
+											href="/"
+											color={theme.palette.secondary.main}
+											sx={{ textDecoration: 'none' }}
+										>
+											Reset password
+										</Link>
+									</Typography>
+								</>
+							)}
 
 							<Typography
 								color={theme.palette.primary.main}

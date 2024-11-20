@@ -64,7 +64,19 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
 			if (axios.isAxiosError(error)) {
-				thunkApi.dispatch(setError(error.response?.data.message));
+				if (error.response && error.response.status === 401) {
+					thunkApi.dispatch(
+						setError('Invalid email or password. Please try again.')
+					);
+					return thunkApi.rejectWithValue(
+						'Invalid email or password. Please try again.'
+					);
+				}
+				thunkApi.dispatch(
+					setError(
+						error.response?.data.message || 'An error occurred.'
+					)
+				);
 				return thunkApi.rejectWithValue(error.response?.data.message);
 			}
 			thunkApi.dispatch(setError(error.message));
