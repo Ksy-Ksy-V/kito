@@ -7,6 +7,7 @@ import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
 import { routes, routesWide } from './data/routesContent';
+import OpenOnTop from './utils/OpenOnTop';
 
 function App() {
 	return (
@@ -14,6 +15,7 @@ function App() {
 			<CssBaseline />
 
 			<Router>
+				<OpenOnTop />
 				<Routes>
 					{routes.map(({ path, element }) => (
 						<Route
