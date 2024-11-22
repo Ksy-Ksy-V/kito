@@ -9,10 +9,10 @@ export const termsOfService: termsOfServiceProps[] = [
 		id: 1,
 		title: 'Eligibility',
 		content: [
-			'To use our services, you must:',
-			'Be at least 13 years old (or the minimum legal age in your jurisdiction).',
-			'Provide accurate and truthful information during registration.',
-			'Use the website in compliance with all applicable laws and regulations.',
+			'To use our services, you must: ',
+			'- Be at least 13 years old (or the minimum legal age in your jurisdiction).',
+			'- Provide accurate and truthful information during registration.',
+			'- Use the website in compliance with all applicable laws and regulations.',
 		],
 	},
 	{
@@ -81,8 +81,7 @@ export const termsOfService: termsOfServiceProps[] = [
 		id: 8,
 		title: 'Limitation of Liability',
 		content: [
-			'Kito is provided "as is" without any warranties, express or implied.',
-			'We do not guarantee uninterrupted or error-free access to the platform.',
+			'Kito is provided "as is" without any warranties, express or implied. We do not guarantee uninterrupted or error-free access to the platform.',
 			'Kito is not liable for any damages resulting from:',
 			'- The use or inability to use the site.',
 			'- Errors or inaccuracies in content.',
@@ -116,13 +115,11 @@ export const termsOfService: termsOfServiceProps[] = [
 ];
 
 export interface WelComeTermsOfServiceProps {
-	id: number;
 	content: string[];
 }
 
 export const WelComeTermsOfService: WelComeTermsOfServiceProps[] = [
 	{
-		id: 1,
 		content: [
 			'Welcome to Kito!',
 			'By accessing or using our website, you agree to comply with these Terms of Service.',

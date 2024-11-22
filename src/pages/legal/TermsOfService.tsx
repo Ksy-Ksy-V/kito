@@ -1,19 +1,9 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import termsBackground from '../../images/termsBackground.jpg';
-import { useState } from 'react';
+import { termsOfService } from '../../data/termsOfService';
 
 const TermsOfService = () => {
-	const [open, setOpen] = useState(false);
-
-	const handleClickOpen = () => () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
 	return (
 		<Grid2 container spacing={2}>
 			<Grid2
@@ -77,6 +67,82 @@ const TermsOfService = () => {
 					</Typography>
 				</Box>
 			</Grid2>
+
+			<Typography
+				variant="h5"
+				sx={{
+					color: theme.palette.secondary.main,
+					textAlign: 'center',
+					marginBottom: '1rem',
+					marginTop: '1rem',
+				}}
+			>
+				By accessing or using our website, you agree to comply with
+				these Terms of Service. These terms govern your use of the Kito
+				platform, including its features, content, and services. <br />
+				If you do not agree to these terms, please do not use our
+				website.
+			</Typography>
+
+			{termsOfService.map((term) => (
+				<Grid2
+					container
+					spacing={2}
+					size={12}
+					key={term.id}
+					sx={{
+						padding: {
+							xs: '1rem',
+							sm: '1rem',
+							md: '1.5rem',
+						},
+						backgroundColor: theme.palette.primary.dark,
+						borderRadius: '12px',
+						boxShadow: '0 4px 10px rgba(0, 0, 0, 0.3)',
+						position: 'relative',
+					}}
+				>
+					<Grid2 size={12}>
+						<Typography
+							variant="h4"
+							sx={{
+								color: theme.palette.secondary.main,
+							}}
+						>
+							{term.title}
+						</Typography>
+					</Grid2>
+					<Grid2 size={12}>
+						{term.content.map((text, index) => {
+							if (text.trim().startsWith('-')) {
+								return (
+									<Typography
+										key={index}
+										variant="body1"
+										component="li"
+										sx={{
+											marginLeft: '1.5rem',
+											listStyleType: 'disc',
+										}}
+									>
+										{text.replace('-', '').trim()}
+									</Typography>
+								);
+							} else {
+								return (
+									<Typography
+										key={index}
+										variant="body1"
+										sx={{}}
+									>
+										{text}
+									</Typography>
+								);
+							}
+						})}
+					</Grid2>
+				</Grid2>
+			))}
 		</Grid2>
 	);
 };
