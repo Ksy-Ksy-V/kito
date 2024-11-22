@@ -1,7 +1,10 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import termsBackground from '../../images/termsBackground.jpg';
-import { termsOfService } from '../../data/termsOfService';
+import {
+	termsOfService,
+	WelComeTermsOfService,
+} from '../../data/termsOfService';
 
 const TermsOfService = () => {
 	return (
@@ -75,13 +78,16 @@ const TermsOfService = () => {
 					textAlign: 'center',
 					marginBottom: '1rem',
 					marginTop: '1rem',
+					fontSize: {
+						xs: theme.typography.body1.fontSize,
+						sm: theme.typography.h5.fontSize,
+						md: theme.typography.h5.fontSize,
+						lg: theme.typography.h5.fontSize,
+						xl: theme.typography.h4.fontSize,
+					},
 				}}
 			>
-				By accessing or using our website, you agree to comply with
-				these Terms of Service. These terms govern your use of the Kito
-				platform, including its features, content, and services. <br />
-				If you do not agree to these terms, please do not use our
-				website.
+				{WelComeTermsOfService[0].content}
 			</Typography>
 
 			{termsOfService.map((term) => (
@@ -107,6 +113,13 @@ const TermsOfService = () => {
 							variant="h4"
 							sx={{
 								color: theme.palette.secondary.main,
+								fontSize: {
+									xs: theme.typography.h5.fontSize,
+									sm: theme.typography.h5.fontSize,
+									md: theme.typography.h5.fontSize,
+									lg: theme.typography.h5.fontSize,
+									xl: theme.typography.h4.fontSize,
+								},
 							}}
 						>
 							{term.title}
@@ -130,11 +143,7 @@ const TermsOfService = () => {
 								);
 							} else {
 								return (
-									<Typography
-										key={index}
-										variant="body1"
-										sx={{}}
-									>
+									<Typography key={index} variant="body1">
 										{text}
 									</Typography>
 								);

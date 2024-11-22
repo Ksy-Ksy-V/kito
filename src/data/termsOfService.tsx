@@ -121,7 +121,6 @@ export interface WelComeTermsOfServiceProps {
 export const WelComeTermsOfService: WelComeTermsOfServiceProps[] = [
 	{
 		content: [
-			'Welcome to Kito!',
 			'By accessing or using our website, you agree to comply with these Terms of Service.',
 			'These terms govern your use of the Kito platform, including its features, content, and services.',
 			'If you do not agree to these terms, please do not use our website.',
