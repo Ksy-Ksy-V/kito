@@ -6,5 +6,5 @@ export interface FooterLink {
 export const importantLinks: FooterLink[] = [
 	{ name: 'About Project', path: '/' },
 	{ name: 'Privacy Policy', path: '/' },
-	{ name: 'Terms of Service', path: '/' },
+	{ name: 'Terms of Service', path: '/terms' },
 ];

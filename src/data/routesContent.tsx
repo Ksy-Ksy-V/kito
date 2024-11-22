@@ -9,6 +9,7 @@ import Settings from '../pages/Settings/Settings';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
+import TermsOfService from '../pages/legal/TermsOfService';
 
 interface RouteContent {
 	path: string;
@@ -25,6 +26,8 @@ export const routes: RouteContent[] = [
 	{ path: '/settings', element: <Settings /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
 	{ path: '/profile', element: <Profile /> },
+
+	{ path: '/terms', element: <TermsOfService /> },
 ];
 
 export const routesWide: RouteContent[] = [

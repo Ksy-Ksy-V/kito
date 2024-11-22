@@ -125,7 +125,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/terms"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
