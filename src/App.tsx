@@ -7,6 +7,7 @@ import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
 import { routes, routesWide } from './data/routesContent';
+import ScrollToTop from './components/Buttons/ScrollToTop';
 
 function App() {
 	return (
@@ -38,6 +39,7 @@ function App() {
 					))}
 					<Route path="*" element={<NotFound />} />
 				</Routes>
+				<ScrollToTop />
 			</Router>
 		</ThemeProvider>
 	);
