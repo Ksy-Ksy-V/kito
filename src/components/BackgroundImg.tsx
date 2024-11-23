@@ -1,15 +1,14 @@
 import { Box, Skeleton } from '@mui/material';
-import { Anime } from '@tutkli/jikan-ts';
 import React from 'react';
 
 interface BackgroundImgProps {
-	anime: Anime | null;
+	backgroundImage?: string;
 	loading: boolean;
 	height: string;
 }
 
 const BackgroundImg: React.FC<BackgroundImgProps> = ({
-	anime,
+	backgroundImage,
 	loading,
 	height,
 }) => {
@@ -57,7 +56,7 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${anime?.images.jpg.large_image_url})`,
+					backgroundImage: `url(${backgroundImage})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,

@@ -3,7 +3,7 @@ import theme from '../../styles/theme';
 import termsBackground from '../../images/termsBackground.jpg';
 import {
 	termsOfService,
-	WelComeTermsOfService,
+	WelcomeTermsOfService,
 } from '../../data/termsOfService';
 
 const TermsOfService = () => {
@@ -87,7 +87,7 @@ const TermsOfService = () => {
 					},
 				}}
 			>
-				{WelComeTermsOfService[0].content}
+				{WelcomeTermsOfService[0].content}
 			</Typography>
 
 			{termsOfService.map((term) => (

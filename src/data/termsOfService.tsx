@@ -114,11 +114,11 @@ export const termsOfService: termsOfServiceProps[] = [
 	},
 ];
 
-export interface WelComeTermsOfServiceProps {
+export interface WelcomeTermsOfServiceProps {
 	content: string[];
 }
 
-export const WelComeTermsOfService: WelComeTermsOfServiceProps[] = [
+export const WelcomeTermsOfService: WelcomeTermsOfServiceProps[] = [
 	{
 		content: [
 			'By accessing or using our website, you agree to comply with these Terms of Service.',

@@ -107,7 +107,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/about"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -116,7 +116,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/policy"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>

@@ -10,6 +10,8 @@ import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
 import TermsOfService from '../pages/legal/TermsOfService';
+import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
+import AboutKito from '../pages/legal/AboutKito';
 
 interface RouteContent {
 	path: string;
@@ -28,6 +30,8 @@ export const routes: RouteContent[] = [
 	{ path: '/profile', element: <Profile /> },
 
 	{ path: '/terms', element: <TermsOfService /> },
+	{ path: '/policy', element: <PrivacyPolicy /> },
+	{ path: '/about', element: <AboutKito /> },
 ];
 
 export const routesWide: RouteContent[] = [
