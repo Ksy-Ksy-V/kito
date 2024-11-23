@@ -1,6 +1,8 @@
 import { Grid2 } from '@mui/material';
 import BackgroundImg from '../../components/BackgroundImg';
 import policyBackground from '../../images/policyBackground.jpg';
+import TextBlock from '../../components/legal/TextBlock';
+import { privacyPolicy, welcomePrivacyPolicy } from '../../data/privacyPolicy';
 
 const PrivacyPolicy = () => {
 	return (
@@ -18,6 +20,11 @@ const PrivacyPolicy = () => {
 					}}
 				/>
 			</Grid2>
+
+			<TextBlock
+				welcomeText={welcomePrivacyPolicy}
+				itemText={privacyPolicy}
+			/>
 		</Grid2>
 	);
 };

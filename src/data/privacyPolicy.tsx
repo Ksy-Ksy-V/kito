@@ -1,10 +1,10 @@
-export interface privacyPolicyProps {
+export interface legalProps {
 	id: number;
 	title: string;
 	content: string[];
 }
 
-export const privacyPolicy: privacyPolicyProps[] = [
+export const privacyPolicy: legalProps[] = [
 	{
 		id: 1,
 		title: 'Information We Collect',
@@ -120,11 +120,11 @@ export const privacyPolicy: privacyPolicyProps[] = [
 	},
 ];
 
-export interface WelcomePrivacyPolicyProps {
+export interface WelcomeLegalProps {
 	content: string[];
 }
 
-export const welcomePrivacyPolicy: WelcomePrivacyPolicyProps[] = [
+export const welcomePrivacyPolicy: WelcomeLegalProps[] = [
 	{
 		content: [
 			'Kito ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, store, and share your personal information when you use our website and services.',

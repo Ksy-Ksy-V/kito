@@ -1,10 +1,6 @@
-export interface termsOfServiceProps {
-	id: number;
-	title: string;
-	content: string[];
-}
+import { legalProps, WelcomeLegalProps } from './privacyPolicy';
 
-export const termsOfService: termsOfServiceProps[] = [
+export const termsOfService: legalProps[] = [
 	{
 		id: 1,
 		title: 'Eligibility',
@@ -114,11 +110,7 @@ export const termsOfService: termsOfServiceProps[] = [
 	},
 ];
 
-export interface WelcomeTermsOfServiceProps {
-	content: string[];
-}
-
-export const WelcomeTermsOfService: WelcomeTermsOfServiceProps[] = [
+export const welcomeTermsOfService: WelcomeLegalProps[] = [
 	{
 		content: [
 			'By accessing or using our website, you agree to comply with these Terms of Service.',

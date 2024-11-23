@@ -1,10 +1,6 @@
-export interface aboutKitoProps {
-	id: number;
-	title: string;
-	content: string[];
-}
+import { legalProps, WelcomeLegalProps } from './privacyPolicy';
 
-export const aboutKito: aboutKitoProps[] = [
+export const aboutKito: legalProps[] = [
 	{
 		id: 1,
 		title: 'Our Mission',
@@ -59,11 +55,7 @@ export const aboutKito: aboutKitoProps[] = [
 	},
 ];
 
-export interface welcomeAboutKitoProps {
-	content: string[];
-}
-
-export const welcomeAboutKito: welcomeAboutKitoProps[] = [
+export const welcomeAboutKito: WelcomeLegalProps[] = [
 	{
 		content: [
 			'Welcome to Kito, your personalized gateway to the world of anime.',

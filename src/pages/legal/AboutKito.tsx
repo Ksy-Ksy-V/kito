@@ -1,6 +1,8 @@
 import { Grid2 } from '@mui/material';
 import BackgroundImg from '../../components/BackgroundImg';
 import heroSectionBackground from '../../images/heroSectionBackground.png';
+import TextBlock from '../../components/legal/TextBlock';
+import { aboutKito, welcomeAboutKito } from '../../data/aboutKito';
 
 const AboutKito = () => {
 	return (
@@ -18,6 +20,8 @@ const AboutKito = () => {
 					}}
 				/>
 			</Grid2>
+
+			<TextBlock welcomeText={welcomeAboutKito} itemText={aboutKito} />
 		</Grid2>
 	);
 };
