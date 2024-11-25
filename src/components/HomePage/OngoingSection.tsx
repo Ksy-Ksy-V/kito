@@ -3,7 +3,7 @@ import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../Cards/AnimeCard';
 import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import Error from '../Error';
 import theme from '../../styles/theme';
 
@@ -110,7 +110,7 @@ const OngoingSection: React.FC = () => {
 							textDecoration: 'none',
 						}}
 					>
-						<StyledButton
+						<MainButton
 							sx={{
 								backgroundColor: 'transparent',
 								color: 'primary.main',
@@ -125,7 +125,7 @@ const OngoingSection: React.FC = () => {
 							}}
 						>
 							See more
-						</StyledButton>
+						</MainButton>
 					</Link>
 				</Grid2>
 			</Grid2>

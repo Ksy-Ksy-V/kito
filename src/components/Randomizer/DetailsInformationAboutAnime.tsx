@@ -23,7 +23,7 @@ const DetailsInformationAboutAnime: React.FC<
 	return (
 		<>
 			<BackgroundImg
-				anime={anime}
+				backgroundImage={anime?.images.jpg.large_image_url}
 				loading={loading}
 				height={'31.25rem'}
 			/>

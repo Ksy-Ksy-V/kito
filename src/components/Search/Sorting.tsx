@@ -16,8 +16,9 @@ import {
 	animeOrder,
 	animeSorting,
 	AnimeSortingLabel,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
 import theme from '../../styles/theme';
+import { SearchOrder, SortOptions } from '@tutkli/jikan-ts';
 
 const Sorting: React.FC = () => {
 	const { state, dispatch } = useSearchContext();
@@ -110,7 +111,7 @@ const Sorting: React.FC = () => {
 							handleSortingChange('orderBy', e.target.value)
 						}
 					>
-						{animeOrder.map((option) => (
+						{animeOrder.map((option: SearchOrder) => (
 							<FormControlLabel
 								key={option}
 								value={option}
@@ -137,7 +138,7 @@ const Sorting: React.FC = () => {
 				<FormControl
 					sx={{
 						display: 'flex',
-						flexDirection: { xs: 'colom', md: 'row' },
+						flexDirection: { xs: 'column', md: 'row' },
 						paddingLeft: '1rem',
 					}}
 				>
@@ -162,7 +163,7 @@ const Sorting: React.FC = () => {
 							handleSortingChange('sort', e.target.value)
 						}
 					>
-						{animeSorting.map((option) => (
+						{animeSorting.map((option: SortOptions) => (
 							<FormControlLabel
 								key={option}
 								value={option}

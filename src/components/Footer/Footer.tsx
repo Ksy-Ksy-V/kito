@@ -1,11 +1,10 @@
 import {
-	AppBar,
-	Toolbar,
 	Grid2,
 	Typography,
 	useTheme,
 	Box,
 	IconButton,
+	AppBar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { importantLinks } from './footerLinksData';
@@ -26,25 +25,32 @@ const Footer = () => {
 				backdropFilter: 'blur(4.9px)',
 				border: '1px solid rgba(29, 51, 53, 0.3)',
 				marginTop: '2rem',
-				height: { sm: '7rem', xs: '11rem' },
+				height: { sm: '7rem', xs: '12.5rem' },
 			}}
 		>
-			<Toolbar>
+			<Grid2 container spacing={2} size={{ xs: 12 }}>
 				<Grid2
 					container
 					alignItems="center"
 					spacing={2}
-					size={12}
-					sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
+					size={{ xs: 6 }}
+					sx={{
+						flexDirection: { xs: 'column', sm: 'row' },
+						display: 'flex',
+						justifyContent: 'space-evenly',
+					}}
 				>
 					<Grid2
-						size={{ xs: 12, sm: 6, md: 5, lg: 4 }}
-						sx={{ marginTop: '1rem' }}
+						size={{ xs: 12, sm: 5 }}
+						sx={{
+							marginTop: '0.5rem',
+							marginLeft: { xs: '0', sm: '1rem' },
+						}}
 					>
 						<Logo />
 					</Grid2>
 
-					<Grid2 size={{ xs: 12, sm: 5, lg: 6 }}>
+					<Grid2 size={{ xs: 12, sm: 6 }}>
 						<Box
 							sx={{
 								display: 'flex',
@@ -76,10 +82,14 @@ const Footer = () => {
 					container
 					alignItems="center"
 					spacing={2}
-					size={{ xs: 12 }}
-					sx={{ flexDirection: { xs: 'column', sm: 'row' } }}
+					size={{ xs: 6 }}
+					sx={{
+						flexDirection: { xs: 'column', sm: 'row' },
+						display: 'flex',
+						justifyContent: 'space-evenly',
+					}}
 				>
-					<Grid2 size={{ xs: 10, sm: 6, md: 8 }}>
+					<Grid2 size={{ xs: 12, sm: 6 }}>
 						<Box
 							sx={{
 								display: 'flex',
@@ -87,6 +97,7 @@ const Footer = () => {
 								flexDirection: 'column',
 								alignItems: 'flex-start',
 								float: 'inline-end',
+								marginRight: '1rem',
 							}}
 						>
 							{importantLinks.map((link) => (
@@ -112,9 +123,13 @@ const Footer = () => {
 					</Grid2>
 
 					<Grid2
-						size={{ xs: 12, sm: 6, md: 4 }}
+						size={{ xs: 12, sm: 6 }}
 						sx={{
 							marginTop: '1rem',
+							display: 'flex',
+							alignItems: 'center',
+							flexDirection: 'column',
+							float: 'inline-end',
 						}}
 					>
 						<>
@@ -141,7 +156,7 @@ const Footer = () => {
 						</>
 					</Grid2>
 				</Grid2>
-			</Toolbar>
+			</Grid2>
 		</AppBar>
 	);
 };
