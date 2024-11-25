@@ -11,7 +11,7 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
 import AddButton from '../Buttons/AddButton';
-import StyledInformation from '../StyledInformation';
+import StyledInformation from '../../styles/StyledInformation';
 
 interface AnimeInfoCardProps {
 	number: number;

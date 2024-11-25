@@ -14,14 +14,14 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
 import {
 	animeFormats,
 	animeRatings,
 	animeStatuses,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
 
 interface RandomFiltersProps {
 	loading?: boolean;
@@ -166,13 +166,13 @@ const RandomFilters: React.FC<RandomFiltersProps> = ({
 					/>
 				)}
 
-				<StyledButton
+				<MainButton
 					disabled={loading}
 					onClick={handleRandomize}
 					sx={{ marginTop: '3rem', marginBottom: '2rem' }}
 				>
 					Randomize
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 		</Grid2>
 	);

@@ -1,6 +1,6 @@
 import { Grid2, Typography, useTheme, Box, Link } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import StyledButton from '../../components/Buttons/StyledButton';
+import MainButton from '../../components/Buttons/MainButton';
 import notFoundImg from '../../images/error.png';
 
 const NotFound = () => {
@@ -46,9 +46,9 @@ const NotFound = () => {
 						textDecoration: 'none',
 					}}
 				>
-					<StyledButton sx={{ marginTop: '2rem' }}>
+					<MainButton sx={{ marginTop: '2rem' }}>
 						Back to the homepage
-					</StyledButton>
+					</MainButton>
 				</Link>
 			</Grid2>
 		</Grid2>

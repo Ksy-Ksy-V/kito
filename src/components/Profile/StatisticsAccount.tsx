@@ -1,6 +1,6 @@
 import { Divider, Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import StyledInformation from '../StyledInformation';
+import StyledInformation from '../../styles/StyledInformation';
 
 const StatisticsAccount = () => {
 	const animeNumber = 0;

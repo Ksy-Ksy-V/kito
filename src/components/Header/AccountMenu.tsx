@@ -5,8 +5,15 @@ import { useTheme } from '@mui/material/styles';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
+import { signout } from '../../store/reducers/authSlice';
+import { useAppDispatch } from '../../store/hooks';
 
-const AccountMenu = () => {
+interface AccountMenuProps {
+	onSignOut: () => void;
+}
+
+const AccountMenu: React.FC<AccountMenuProps> = ({ onSignOut }) => {
+	const dispatch = useAppDispatch();
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 	const theme = useTheme();
 
@@ -16,6 +23,12 @@ const AccountMenu = () => {
 
 	const handleMenuClose = () => {
 		setAnchorElUser(null);
+	};
+
+	const handleSignOut = () => {
+		dispatch(signout());
+		setAnchorElUser(null);
+		onSignOut();
 	};
 
 	return (
@@ -54,6 +67,9 @@ const AccountMenu = () => {
 					sx={menuItemStyles(theme)}
 				>
 					Settings
+				</MenuItem>
+				<MenuItem onClick={handleSignOut} sx={menuItemStyles(theme)}>
+					Sign out
 				</MenuItem>
 			</Menu>
 		</>
