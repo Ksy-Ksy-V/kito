@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { selectAuth } from '../store/reducers/authSlice';
-import { history } from '../models/history';
+import { history } from '../models/History';
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
