@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import randomizerImg from '../../images/background.jpg';
 
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import theme from '../../styles/theme';
 
 const RandomizerSection = () => {
@@ -112,7 +112,7 @@ const RandomizerSection = () => {
 							textDecoration: 'none',
 						}}
 					>
-						<StyledButton
+						<MainButton
 							disabled={imageLoaded}
 							sx={{
 								width: 'auto',
@@ -120,7 +120,7 @@ const RandomizerSection = () => {
 							}}
 						>
 							Try Randomizer
-						</StyledButton>
+						</MainButton>
 					</Link>
 				</Grid2>
 			</Grid2>

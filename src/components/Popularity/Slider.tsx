@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import { sliderItems as items } from '../../data/sliderContent';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
@@ -230,7 +230,7 @@ const Slider: React.FC = () => {
 								</Typography>
 							)}
 
-							<StyledButton
+							<MainButton
 								sx={{
 									backgroundColor: 'transparent',
 									borderColor: 'primary.main',
@@ -242,7 +242,7 @@ const Slider: React.FC = () => {
 								}
 							>
 								Read More
-							</StyledButton>
+							</MainButton>
 						</Grid2>
 					)}
 				</Grid2>

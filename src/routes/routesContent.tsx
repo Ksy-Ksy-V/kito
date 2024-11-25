@@ -9,11 +9,8 @@ import Settings from '../pages/Settings/Settings';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
-
-interface RouteContent {
-	path: string;
-	element: JSX.Element;
-}
+import PrivateRoute from './PrivateRoute';
+import { RouteContent } from '../models/RouteModels';
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },
@@ -22,9 +19,24 @@ export const routes: RouteContent[] = [
 	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
 
-	{ path: '/settings', element: <Settings /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
-	{ path: '/profile', element: <Profile /> },
+
+	{
+		path: '/settings',
+		element: (
+			<PrivateRoute>
+				<Settings />
+			</PrivateRoute>
+		),
+	},
+	{
+		path: '/profile',
+		element: (
+			<PrivateRoute>
+				<Profile />
+			</PrivateRoute>
+		),
+	},
 ];
 
 export const routesWide: RouteContent[] = [

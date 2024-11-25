@@ -244,7 +244,7 @@ const SeasonAnimePage: React.FC = () => {
 								<SearchCard
 									image={anime.images.jpg.image_url}
 									title={anime.title}
-									description={anime.synopsis}
+									description={anime.synopsis as string}
 									genres={anime.genres}
 									score={anime.score}
 									rating={anime.rating}

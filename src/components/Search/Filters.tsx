@@ -6,7 +6,7 @@ import {
 	animeFormats,
 	animeRatings,
 	animeStatuses,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
 
 import { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
