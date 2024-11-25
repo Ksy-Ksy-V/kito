@@ -12,6 +12,7 @@ import Profile from '../pages/Account/Profile';
 import TermsOfService from '../pages/legal/TermsOfService';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
 import AboutKito from '../pages/legal/AboutKito';
+import PrivateRoute from './PrivateRoute';
 
 interface RouteContent {
 	path: string;
@@ -25,13 +26,29 @@ export const routes: RouteContent[] = [
 	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
 
-	{ path: '/settings', element: <Settings /> },
 	{ path: '/anime/:id', element: <AnimeDetails /> },
 	{ path: '/profile', element: <Profile /> },
 
 	{ path: '/terms', element: <TermsOfService /> },
 	{ path: '/policy', element: <PrivacyPolicy /> },
 	{ path: '/about', element: <AboutKito /> },
+
+	{
+		path: '/settings',
+		element: (
+			<PrivateRoute>
+				<Settings />
+			</PrivateRoute>
+		),
+	},
+	{
+		path: '/profile',
+		element: (
+			<PrivateRoute>
+				<Profile />
+			</PrivateRoute>
+		),
+	},
 ];
 
 export const routesWide: RouteContent[] = [

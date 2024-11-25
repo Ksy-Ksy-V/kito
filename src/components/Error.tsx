@@ -1,6 +1,6 @@
 import { Box, Grid2, keyframes, Typography } from '@mui/material';
 import errorImg from '../images/error.png';
-import StyledButton from './Buttons/StyledButton';
+import MainButton from './Buttons/MainButton';
 import theme from '../styles/theme';
 import { useMemo } from 'react';
 
@@ -54,7 +54,7 @@ const Errors = () => {
 					Something went wrong ...
 				</Typography>
 
-				<StyledButton
+				<MainButton
 					sx={{
 						marginTop: '2rem',
 						zIndex: 1,
@@ -63,7 +63,7 @@ const Errors = () => {
 					onClick={handleReload}
 				>
 					Reload
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 
 			<Grid2

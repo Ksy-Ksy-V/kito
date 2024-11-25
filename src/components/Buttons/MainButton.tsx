@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonProps, useTheme } from '@mui/material';
 
-const StyledButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
+const MainButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 	const theme = useTheme();
 
 	return (
@@ -35,4 +35,4 @@ const StyledButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
 	);
 };
 
-export default StyledButton;
+export default MainButton;
