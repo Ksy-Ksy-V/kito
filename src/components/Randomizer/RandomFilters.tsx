@@ -21,7 +21,7 @@ import {
 	animeFormats,
 	animeRatings,
 	animeStatuses,
-} from '../../models/AnimeFilters';
+} from '../../models/animeFilters';
 
 interface RandomFiltersProps {
 	loading?: boolean;

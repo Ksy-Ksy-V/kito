@@ -80,7 +80,7 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 
 			if (newInputValue === '') {
 				const queryString = buildQueryParams('');
-				window.History.replaceState(null, '', `/search${queryString}`);
+				window.history.replaceState(null, '', `/search${queryString}`);
 			} else if (newInputValue.length >= 3) {
 				debouncedHandleAnimeOptions(newInputValue);
 			}
@@ -100,7 +100,7 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 				context.state.filters,
 				context.state.sorting
 			);
-			window.History.replaceState(null, '', `/search${queryString}`);
+			window.history.replaceState(null, '', `/search${queryString}`);
 			animeService
 				.searchAnime(query, 24, filters, sorting)
 				.then((response) => {
@@ -146,7 +146,7 @@ const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
 								newValue.inputValue
 							);
 
-							window.History.replaceState(
+							window.history.replaceState(
 								null,
 								'',
 								`/search${queryString}`

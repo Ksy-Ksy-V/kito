@@ -1,4 +1,4 @@
-export const History = {
+export const history = {
 	navigate: null,
 	location: null,
 };

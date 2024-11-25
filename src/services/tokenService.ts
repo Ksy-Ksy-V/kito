@@ -1,4 +1,4 @@
-import { AuthState } from '../models/AuthModels';
+import { AuthState } from '../models/authModels';
 
 class TokenService {
 	getLocalRefreshToken() {
