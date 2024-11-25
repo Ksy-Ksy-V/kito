@@ -9,8 +9,15 @@ import Settings from '../pages/Settings/Settings';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
+import TermsOfService from '../pages/legal/TermsOfService';
+import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
+import AboutKito from '../pages/legal/AboutKito';
 import PrivateRoute from './PrivateRoute';
-import { RouteContent } from '../models/RouteModels';
+
+interface RouteContent {
+	path: string;
+	element: JSX.Element;
+}
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },
@@ -20,6 +27,11 @@ export const routes: RouteContent[] = [
 	{ path: '/airing', element: <Airing /> },
 
 	{ path: '/anime/:id', element: <AnimeDetails /> },
+	{ path: '/profile', element: <Profile /> },
+
+	{ path: '/terms', element: <TermsOfService /> },
+	{ path: '/policy', element: <PrivacyPolicy /> },
+	{ path: '/about', element: <AboutKito /> },
 
 	{
 		path: '/settings',

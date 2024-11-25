@@ -3,9 +3,9 @@ import { Typography, Grid2, Skeleton } from '@mui/material';
 import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
-import Slyder from '../../components/Popularity/Slider';
 import Error from '../../components/Error';
 import theme from '../../styles/theme';
+import Slider from '../../components/Popularity/Slider';
 
 function Popularity() {
 	const top = new TopClient();
@@ -45,7 +45,7 @@ function Popularity() {
 
 	return (
 		<>
-			<Slyder />
+			<Slider />
 
 			{loading ? (
 				<Skeleton

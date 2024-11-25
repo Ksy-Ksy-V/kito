@@ -153,7 +153,7 @@ const MenuSmall: React.FC<MenuSmallProps> = ({ userAuthorized, onSignOut }) => {
 
 				<MenuItem
 					component={Link}
-					to="/privacy-policy"
+					to="/policy"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -162,7 +162,7 @@ const MenuSmall: React.FC<MenuSmallProps> = ({ userAuthorized, onSignOut }) => {
 
 				<MenuItem
 					component={Link}
-					to="/terms-of-service"
+					to="/terms"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>

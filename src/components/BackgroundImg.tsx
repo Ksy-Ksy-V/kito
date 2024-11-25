@@ -1,25 +1,27 @@
-import { Box, Skeleton } from '@mui/material';
-import { Anime } from '@tutkli/jikan-ts';
+import { Box, Skeleton, Typography } from '@mui/material';
 import React from 'react';
+import theme from '../styles/theme';
 
 interface BackgroundImgProps {
-	anime: Anime | null;
-	loading: boolean;
-	height: string;
+	backgroundImage?: string;
+	loading?: boolean;
+	title?: string;
+	height?: string | Record<string, string>;
 }
 
 const BackgroundImg: React.FC<BackgroundImgProps> = ({
-	anime,
-	loading,
+	backgroundImage,
+	loading = false,
+	title,
 	height,
 }) => {
 	if (loading) {
 		return (
 			<Box
 				sx={{
-					width: '100%',
+					width: '100vw',
 					height: { height },
-					position: 'absolute',
+					position: 'relative',
 					left: '50%',
 					right: '50%',
 					marginLeft: '-50vw',
@@ -31,6 +33,7 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					width="100%"
 					height="100%"
 					sx={{
+						position: 'absolute',
 						bgcolor: 'rgba(0, 0, 0, 0.5)',
 						zIndex: 1,
 					}}
@@ -48,7 +51,7 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 				right: '50%',
 				marginLeft: '-50vw',
 				marginRight: '-50vw',
-				height: { height },
+				height: height,
 				marginTop: '2rem',
 			}}
 		>
@@ -57,13 +60,12 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${anime?.images.jpg.large_image_url})`,
+					backgroundImage: `url(${backgroundImage})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					zIndex: 1,
 				}}
 			></Box>
-
 			<Box
 				sx={{
 					position: 'absolute',
@@ -71,8 +73,29 @@ const BackgroundImg: React.FC<BackgroundImgProps> = ({
 					height: '100%',
 					backgroundColor: 'rgba(0, 0, 0, 0.6)',
 					zIndex: 2,
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
 				}}
-			></Box>
+			>
+				{title && (
+					<Typography
+						variant="h1"
+						sx={{
+							textAlign: 'center',
+							fontSize: {
+								xs: theme.typography.h4.fontSize,
+								sm: theme.typography.h3.fontSize,
+								md: theme.typography.h2.fontSize,
+								lg: theme.typography.h2.fontSize,
+								xl: theme.typography.h1.fontSize,
+							},
+						}}
+					>
+						{title}
+					</Typography>
+				)}
+			</Box>
 		</Box>
 	);
 };
