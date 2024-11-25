@@ -16,7 +16,7 @@ import {
 	animeOrder,
 	animeSorting,
 	AnimeSortingLabel,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
 import theme from '../../styles/theme';
 
 const Sorting: React.FC = () => {
@@ -71,7 +71,7 @@ const Sorting: React.FC = () => {
 			}
 		);
 
-		window.history.replaceState(null, '', `/search${queryString}`);
+		window.History.replaceState(null, '', `/search${queryString}`);
 	};
 
 	return (

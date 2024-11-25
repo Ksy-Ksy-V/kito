@@ -98,7 +98,7 @@ const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 			state.sorting
 		);
 
-		window.history.replaceState(null, '', `/search${queryString}`);
+		window.History.replaceState(null, '', `/search${queryString}`);
 	};
 
 	return (

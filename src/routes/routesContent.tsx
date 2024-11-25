@@ -9,12 +9,8 @@ import Settings from '../pages/Settings/Settings';
 import { SearchProvider } from '../context/SearchContext';
 import AnimeDetails from '../pages/AnimeDetails/AnimeDetails';
 import Profile from '../pages/Account/Profile';
-import PrivateRoute from './privateRoute';
-
-interface RouteContent {
-	path: string;
-	element: JSX.Element;
-}
+import PrivateRoute from './PrivateRoute';
+import { RouteContent } from '../models/RouteModels';
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },

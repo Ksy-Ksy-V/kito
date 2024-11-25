@@ -40,8 +40,8 @@ const PasswordField: React.FC<PasswordFieldProps> = ({
 						<IconButton
 							aria-label={
 								showPassword
-									? 'hide the password'
-									: 'display the password'
+									? 'Hide the password'
+									: 'Display the password'
 							}
 							onClick={handleClickShowPassword}
 							edge="end"

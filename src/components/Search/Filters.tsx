@@ -6,7 +6,7 @@ import {
 	animeFormats,
 	animeRatings,
 	animeStatuses,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
 
 import { useEffect } from 'react';
 import { Skeleton } from '@mui/material';
@@ -65,7 +65,7 @@ const Filters: React.FC = () => {
 			state.sorting
 		);
 
-		window.history.replaceState(null, '', `/search${queryString}`);
+		window.History.replaceState(null, '', `/search${queryString}`);
 	};
 
 	const handleClearValue = (filterName: string) => {
@@ -92,7 +92,7 @@ const Filters: React.FC = () => {
 			state.sorting
 		);
 
-		window.history.replaceState(null, '', `/search${queryString}`);
+		window.History.replaceState(null, '', `/search${queryString}`);
 	};
 
 	return (

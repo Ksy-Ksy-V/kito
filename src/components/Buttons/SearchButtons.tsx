@@ -25,7 +25,7 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 			state.filters,
 			state.sorting
 		);
-		window.history.replaceState(null, '', `/search${queryString}`);
+		window.History.replaceState(null, '', `/search${queryString}`);
 		animeService
 			.searchAnime(query, 24, filters, sorting)
 			.then((response) => {
@@ -65,7 +65,7 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 			},
 		});
 
-		window.history.replaceState(null, '', '/search');
+		window.History.replaceState(null, '', '/search');
 	};
 
 	return (

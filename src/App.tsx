@@ -6,7 +6,7 @@ import theme from './styles/theme';
 import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
-import { routes, routesWide } from './data/routesContent';
+import { routes, routesWide } from './routes/routesContent';
 import SignUp from './pages/authentication/SignUp';
 import SignIn from './pages/authentication/SignIn';
 
