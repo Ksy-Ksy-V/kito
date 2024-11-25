@@ -6,6 +6,7 @@ import theme from './styles/theme';
 import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
+import ScrollToTop from './components/Buttons/ScrollToTop';
 import { routes, routesWide } from './routes/routesContent';
 import SignUp from './pages/authentication/SignUp';
 import SignIn from './pages/authentication/SignIn';
@@ -48,6 +49,7 @@ function App() {
 					<Route path="/signin" element={<SignIn />} />
 					<Route path="/signup" element={<SignUp />} />
 				</Routes>
+				<ScrollToTop />
 			</Router>
 		</ThemeProvider>
 	);
