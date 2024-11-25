@@ -6,6 +6,7 @@ import theme from './styles/theme';
 import './App.css';
 import PageWrapper from './components/PageWrapper';
 import NotFound from './pages/Error/NotFound';
+import OpenOnTop from './utils/OpenOnTop';
 import ScrollToTop from './components/Buttons/ScrollToTop';
 import { routes, routesWide } from './routes/routesContent';
 import SignUp from './pages/authentication/SignUp';
@@ -22,6 +23,7 @@ function App() {
 					v7_startTransition: true,
 				}}
 			>
+				<OpenOnTop />
 				<Routes>
 					{routes.map(({ path, element }) => (
 						<Route
