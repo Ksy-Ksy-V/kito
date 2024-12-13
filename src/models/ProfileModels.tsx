@@ -1,24 +1,23 @@
-export interface AnimeDetailsKito {
-	mal_id: number;
+export interface Anime {
+	id: number;
+	name: string;
 	image: string;
-	title: string;
-	movie: boolean;
+	userRating?: number;
 	episodes: number;
+	type: 'TV' | 'Movie' | 'OVA' | 'Special' | 'ONA';
+	listName:
+		| 'Watching'
+		| 'Completed'
+		| 'On-Hold'
+		| 'Dropped'
+		| 'Plan to Watch';
 }
 
-export interface ProfileContent {
-	userId: number;
+export interface UserAccount {
+	id: number;
 	name: string;
 	status: string;
-
 	avatar: string;
-	backgroundCover: string;
-
-	userAnimeList: {
-		watching: AnimeDetailsKito[];
-		completed: AnimeDetailsKito[];
-		onHold: AnimeDetailsKito[];
-		dropped: AnimeDetailsKito[];
-		planToWatch: AnimeDetailsKito[];
-	};
+	background: string;
+	animeList: Anime[];
 }
