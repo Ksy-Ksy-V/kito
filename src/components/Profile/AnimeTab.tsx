@@ -5,6 +5,7 @@ import ListCard from '../Cards/ListCard';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import ScoreCard from '../Cards/ScoreCard';
+import PagePagination from '../PagePagination';
 
 interface Tab {
 	label: string;
@@ -13,6 +14,9 @@ interface Tab {
 
 const AnimeTabs = () => {
 	const navigate = useNavigate();
+	const [page, setPage] = useState(1);
+	const [itemsPerPage] = useState<number>(18);
+	const [loading] = useState(false);
 
 	const tabs: Tab[] = [
 		{ label: 'Watching', value: 'Watching' },
@@ -40,6 +44,14 @@ const AnimeTabs = () => {
 		newValue: string
 	) => {
 		setActiveTab(newValue);
+		setPage(1);
+	};
+
+	const handlePageChange = (
+		_event: React.ChangeEvent<unknown>,
+		value: number
+	) => {
+		setPage(value);
 	};
 
 	const filteredAnime = user.animeList.filter((anime) => {
@@ -49,6 +61,12 @@ const AnimeTabs = () => {
 		return anime.listName === activeTab;
 	});
 
+	const totalPages = Math.ceil(filteredAnime.length / itemsPerPage);
+
+	const paginatedAnime = filteredAnime.slice(
+		(page - 1) * itemsPerPage,
+		page * itemsPerPage
+	);
 	return (
 		<Grid2 container spacing={2} size={12} sx={{ marginTop: '3rem' }}>
 			<Box sx={{ width: '100%' }}>
@@ -108,9 +126,23 @@ const AnimeTabs = () => {
 					))}
 				</Tabs>
 
-				<Grid2 container spacing={2}>
-					{filteredAnime.length > 0 ? (
-						filteredAnime.map((anime) =>
+				<Grid2 container spacing={4}>
+					{filteredAnime.length > itemsPerPage ? (
+						<Grid2
+							size={{ xs: 12 }}
+							sx={{ display: 'flex', justifyContent: 'flex-end' }}
+						>
+							<PagePagination
+								loading={loading}
+								page={page}
+								count={totalPages}
+								onChange={handlePageChange}
+							/>
+						</Grid2>
+					) : null}
+
+					{paginatedAnime.length > 0 ? (
+						paginatedAnime.map((anime) =>
 							activeTab === 'Score' ? (
 								<ScoreCard
 									key={anime.id}
@@ -155,6 +187,23 @@ const AnimeTabs = () => {
 						</Typography>
 					)}
 				</Grid2>
+				{filteredAnime.length > itemsPerPage ? (
+					<Grid2
+						size={{ xs: 12 }}
+						sx={{
+							padding: '1rem',
+							display: 'flex',
+							justifyContent: 'flex-end',
+						}}
+					>
+						<PagePagination
+							loading={loading}
+							page={page}
+							count={totalPages}
+							onChange={handlePageChange}
+						/>
+					</Grid2>
+				) : null}
 			</Box>
 		</Grid2>
 	);

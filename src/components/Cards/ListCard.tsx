@@ -68,37 +68,27 @@ const ListCard: React.FC<ListCardProps> = ({
 				}}
 				onClick={onClick}
 			>
-				<Box
-					className="rating-label"
-					sx={{
-						position: 'absolute',
-						right: '1rem',
-						height: '5rem',
-						width: '5rem',
-						backgroundColor: 'rgba(38, 71, 71)',
-						borderEndStartRadius: '0.5rem',
-						borderEndEndRadius: '0.5rem',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'center',
-						zIndex: 2,
-						opacity: 1,
-						boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-						padding: '1rem',
-					}}
-				>
-					<Typography
-						variant="body2"
+				{playerScore ? (
+					<Box
+						className="rating-label"
 						sx={{
-							color: theme.palette.text.secondary,
-							textAlign: 'center',
+							position: 'absolute',
+							right: '0.5rem',
+							height: '3rem',
+							width: '4rem',
+							backgroundColor: 'rgba(38, 71, 71)',
+							borderEndStartRadius: '0.5rem',
+							borderEndEndRadius: '0.5rem',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+							zIndex: 2,
+							opacity: 1,
+							boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+							padding: '1rem',
 						}}
 					>
-						{list}
-					</Typography>
-
-					{playerScore ? (
 						<Typography
 							variant="body1"
 							sx={{
@@ -124,8 +114,8 @@ const ListCard: React.FC<ListCardProps> = ({
 							/>
 							{playerScore}
 						</Typography>
-					) : null}
-				</Box>
+					</Box>
+				) : null}
 
 				<CardActionArea
 					sx={{
@@ -178,8 +168,8 @@ const ListCard: React.FC<ListCardProps> = ({
 									xs: theme.typography.h6.fontSize,
 									sm: theme.typography.h6.fontSize,
 									md: theme.typography.h5.fontSize,
-									lg: theme.typography.h4.fontSize,
-									xl: theme.typography.h3.fontSize,
+									lg: theme.typography.h5.fontSize,
+									xl: theme.typography.h5.fontSize,
 								},
 							}}
 						>
