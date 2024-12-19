@@ -11,6 +11,10 @@ export interface Anime {
 		| 'On-Hold'
 		| 'Dropped'
 		| 'Plan to Watch';
+	description: string;
+	genres: string[];
+	score: number;
+	rating: string;
 }
 
 export interface UserAccount {
