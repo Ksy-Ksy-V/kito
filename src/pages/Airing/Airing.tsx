@@ -11,7 +11,6 @@ import PagePagination from '../../components/PagePagination';
 import theme from '../../styles/theme';
 import Error from '../../components/Error';
 import SearchCard from '../../components/Cards/SearchCard';
-import { useNavigate } from 'react-router-dom';
 import BackgroundImg from '../../components/BackgroundImg';
 
 const SeasonAnimePage: React.FC = () => {
@@ -22,7 +21,6 @@ const SeasonAnimePage: React.FC = () => {
 	const [page, setPage] = useState(1);
 	const [paginationData, setPaginationData] =
 		useState<JikanPagination | null>(null);
-	const navigate = useNavigate();
 
 	const fetchSeasonAnime = async () => {
 		setLoading(true);
@@ -173,9 +171,7 @@ const SeasonAnimePage: React.FC = () => {
 									genres={anime.genres}
 									score={anime.score}
 									rating={anime.rating}
-									onClick={() =>
-										navigate(`/anime/${anime.mal_id}`)
-									}
+									id={anime.mal_id}
 								/>
 							</Grid2>
 					  ))}

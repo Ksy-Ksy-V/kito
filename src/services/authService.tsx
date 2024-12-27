@@ -4,7 +4,7 @@ import TokenService from './tokenService';
 class AuthService {
 	async signin(email: string, password: string) {
 		return http
-			.post('/api/signin', {
+			.post('/auth/signin', {
 				email,
 				password,
 			})
@@ -23,7 +23,7 @@ class AuthService {
 
 	async signup(name: string, email: string, password: string) {
 		return http
-			.post('/api/signup', {
+			.post('/auth/signup', {
 				name,
 				email,
 				password,
@@ -36,7 +36,7 @@ class AuthService {
 	async signOut() {
 		const refreshToken = TokenService.getLocalRefreshToken();
 		return http
-			.post('/api/signout', { token: refreshToken })
+			.post('/auth/signout', { token: refreshToken })
 			.then((response) => {
 				this.removeLocalUser();
 				return response.data;

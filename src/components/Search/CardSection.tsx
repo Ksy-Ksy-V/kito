@@ -1,12 +1,10 @@
 import { Grid2 } from '@mui/material';
 import SearchCard from '../Cards/SearchCard';
-import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useSearchContext } from '../../context/SearchContext';
 
 const CardSection = () => {
 	const { state } = useSearchContext();
-	const navigate = useNavigate();
 
 	const uniqueAnimeList = useMemo(() => {
 		return state.animeList.filter(
@@ -36,7 +34,7 @@ const CardSection = () => {
 							genres={anime.genres}
 							score={anime.score}
 							rating={anime.rating}
-							onClick={() => navigate(`/anime/${anime.mal_id}`)}
+							id={anime.mal_id}
 						/>
 					</Grid2>
 				))}

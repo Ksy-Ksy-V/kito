@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid2, Typography, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 
 interface AnimeCardProps {
 	image: string;
@@ -10,7 +9,6 @@ interface AnimeCardProps {
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 	const theme = useTheme();
-	const navigate = useNavigate();
 
 	return (
 		<Grid2
@@ -22,10 +20,10 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 		>
 			<Grid2
 				sx={{
-					width: '170px',
-					height: '250px',
-					borderRadius: '16px',
-					marginBottom: '10px',
+					width: '10.625rem',
+					height: '15.625rem',
+					borderRadius: '1rem',
+					marginBottom: '0.625rem',
 					boxShadow: 'rgba(29, 51, 53, 0.7)',
 					overflow: 'hidden',
 					cursor: 'pointer',
@@ -42,18 +40,28 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 			>
 				{mal_id ? (
 					<Grid2
-						component="img"
-						src={image}
-						alt={title}
+						component="a"
+						href={`/anime/${mal_id}`}
+						rel="noopener noreferrer"
 						sx={{
 							width: '100%',
 							height: '100%',
-							objectFit: 'cover',
-							borderRadius: '10px',
-							transition: 'transform 0.30s ease-in-out',
+							display: 'block',
 						}}
-						onClick={() => navigate(`/anime/${mal_id}`)}
-					/>
+					>
+						<Grid2
+							component="img"
+							src={image}
+							alt={title}
+							sx={{
+								width: '100%',
+								height: '100%',
+								objectFit: 'cover',
+								borderRadius: '0.625rem',
+								transition: 'transform 0.30s ease-in-out',
+							}}
+						/>
+					</Grid2>
 				) : (
 					<Grid2
 						component="img"
@@ -63,7 +71,7 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 							width: '100%',
 							height: '100%',
 							objectFit: 'cover',
-							borderRadius: '10px',
+							borderRadius: '0.625rem',
 							transition: 'transform 0.30s ease-in-out',
 						}}
 					/>

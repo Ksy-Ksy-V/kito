@@ -9,8 +9,8 @@ import {
 import { Link } from 'react-router-dom';
 import { importantLinks } from './footerLinksData';
 
-import { socialLinks } from './socialLinksData';
 import Logo from '../Logo';
+import { socialLinks } from '../../data/SocialLinks';
 
 const Footer = () => {
 	const theme = useTheme();

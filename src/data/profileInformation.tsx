@@ -13,6 +13,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
 			userRating: 10,
 			episodes: 25,
+			episodesWatched: 25,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -26,10 +27,11 @@ export const user: UserAccount = {
 			name: 'Naruto',
 			image: 'https://cdn.myanimelist.net/images/anime/1141/142503.jpg',
 			episodes: 220,
+			episodesWatched: 112,
 			type: 'TV',
 			listName: 'Watching',
 			description:
-				"Moments before Naruto Uzumaki's birth, a huge demon known as the Nine-Tailed Fox attacked Konohagakure, the Hidden Leaf Village, and wreaked havoc. In order to put an end to the demon's rampage, the leader of the village, the Fourth Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto. In the present, Naruto is a hyperactive and knuckle-headed ninja growing up within Konohagakure. Shunned because of the demon inside him, Naruto struggles to find his place in the village. His one burning desire to become the Hokage and be acknowledged by the villagers who despite him. However, while his goal leads him to unbreakable bonds with lifelong friends, it also lands him in the crosshairs of many deadly foes.",
+				"Moments before Naruto Uzumakis birth, a huge demon known as the Nine-Tailed Fox attacked Konohagakure, the Hidden Leaf Village, and wreaked havoc. In order to put an end to the demon's rampage, the leader of the village, the Fourth Hokage, sacrificed his life and sealed the monstrous beast inside the newborn Naruto. In the present, Naruto is a hyperactive and knuckle-headed ninja growing up within Konohagakure. Shunned because of the demon inside him, Naruto struggles to find his place in the village. His one burning desire to become the Hokage and be acknowledged by the villagers who despite him. However, while his goal leads him to unbreakable bonds with lifelong friends, it also lands him in the crosshairs of many deadly foes.",
 			genres: ['Action', 'Adventure', 'Fantasy'],
 			score: 8,
 			rating: 'PG-13 - Teens 13 or older',
@@ -39,6 +41,7 @@ export const user: UserAccount = {
 			name: 'Death Note',
 			image: 'https://cdn.myanimelist.net/images/anime/1079/138100.jpg',
 			episodes: 37,
+			episodesWatched: 37,
 			userRating: 9,
 			type: 'TV',
 			listName: 'Completed',
@@ -54,6 +57,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/11/39717.jpg',
 			userRating: 6,
 			episodes: 10,
+			episodesWatched: 6,
 			type: 'TV',
 			listName: 'On-Hold',
 			description:
@@ -69,6 +73,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1015/138006.jpg',
 			userRating: 10,
 			episodes: 28,
+			episodesWatched: 28,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -84,6 +89,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1208/94745.jpg',
 			userRating: 10,
 			episodes: 64,
+			episodesWatched: 64,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -99,6 +105,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1337/99013.jpg',
 			userRating: 9,
 			episodes: 148,
+			episodesWatched: 148,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -114,6 +121,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1244/138851.jpg',
 			userRating: 10,
 			episodes: 1118,
+			episodesWatched: 678,
 			type: 'TV',
 			listName: 'Watching',
 			description:
@@ -129,6 +137,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1032/135088.jpg',
 			userRating: 7,
 			episodes: 25,
+			episodesWatched: 25,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -144,6 +153,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1584/144860.jpg',
 			userRating: 7,
 			episodes: 14,
+			episodesWatched: 14,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -159,6 +169,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1314/142015.jpg',
 			userRating: 6,
 			episodes: 22,
+			episodesWatched: 22,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -174,6 +185,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/3/79409.jpg',
 			userRating: 8,
 			episodes: 12,
+			episodesWatched: 12,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -189,6 +201,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1464/108330.jpg',
 			userRating: 9,
 			episodes: 11,
+			episodesWatched: 11,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -204,6 +217,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1467/137783.jpg',
 			userRating: 7,
 			episodes: 24,
+			episodesWatched: 24,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -219,6 +233,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1455/146229.jpg',
 			userRating: 10,
 			episodes: 1,
+			episodesWatched: 1,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -234,6 +249,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1818/126435.jpg',
 			userRating: 10,
 			episodes: 10,
+			episodesWatched: 10,
 			type: 'ONA',
 			listName: 'Completed',
 			description:
@@ -249,6 +265,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1806/126216.jpg',
 			userRating: 8,
 			episodes: 12,
+			episodesWatched: 12,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -264,6 +281,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1171/109222.jpg',
 			userRating: 9,
 			episodes: 24,
+			episodesWatched: 24,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -279,6 +297,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1830/118780.jpg',
 			userRating: 8,
 			episodes: 24,
+			episodesWatched: 24,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -294,6 +313,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/1286/99889.jpg',
 			userRating: 7,
 			episodes: 26,
+			episodesWatched: 26,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -309,6 +329,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/10/78745.jpg',
 			userRating: 9,
 			episodes: 13,
+			episodesWatched: 13,
 			type: 'TV',
 			listName: 'Completed',
 			description:
@@ -324,6 +345,7 @@ export const user: UserAccount = {
 			image: 'https://cdn.myanimelist.net/images/anime/7/76014.jpg',
 			userRating: 9,
 			episodes: 25,
+			episodesWatched: 25,
 			type: 'TV',
 			listName: 'Completed',
 			description:

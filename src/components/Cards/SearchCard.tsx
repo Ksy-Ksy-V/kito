@@ -5,7 +5,6 @@ import {
 	Typography,
 	Box,
 	useTheme,
-	CardActionArea,
 	Grid2,
 } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
@@ -19,7 +18,7 @@ interface SearchCardProps {
 	genres: JikanResource[];
 	score: number;
 	rating: string;
-	onClick?: () => void;
+	id: number;
 }
 
 const SearchCard: React.FC<SearchCardProps> = ({
@@ -29,7 +28,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 	genres,
 	score,
 	rating,
-	onClick,
+	id,
 }) => {
 	const theme = useTheme();
 
@@ -76,14 +75,17 @@ const SearchCard: React.FC<SearchCardProps> = ({
 						opacity: 0.3,
 					},
 				}}
-				onClick={onClick}
 			>
-				<CardActionArea
-					sx={{
+				<a
+					href={`/anime/${id}`}
+					rel="noopener noreferrer"
+					style={{
 						width: '100%',
 						height: '100%',
+						textDecoration: 'none',
+						color: 'inherit',
+						display: 'block',
 						position: 'relative',
-						overflow: 'hidden',
 					}}
 				>
 					<CardMedia
@@ -247,7 +249,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 							))}
 						</Grid2>
 					</Grid2>
-				</CardActionArea>
+				</a>
 			</Card>
 			<Typography
 				variant="h3"

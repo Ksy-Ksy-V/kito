@@ -4,6 +4,7 @@ export interface Anime {
 	image: string;
 	userRating?: number;
 	episodes: number;
+	episodesWatched: number;
 	type: 'TV' | 'Movie' | 'OVA' | 'Special' | 'ONA';
 	listName:
 		| 'Watching'

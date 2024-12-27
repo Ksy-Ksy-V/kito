@@ -5,7 +5,6 @@ import {
 	Typography,
 	Box,
 	useTheme,
-	CardActionArea,
 	Grid2,
 } from '@mui/material';
 
@@ -17,9 +16,8 @@ interface ListCardProps {
 	genres: string[];
 	score: number;
 	rating: string;
-	list: string;
 	playerScore?: number;
-	onClick?: () => void;
+	id: number;
 }
 
 const ListCard: React.FC<ListCardProps> = ({
@@ -28,9 +26,8 @@ const ListCard: React.FC<ListCardProps> = ({
 	genres,
 	score,
 	rating,
-	list,
 	playerScore,
-	onClick,
+	id,
 }) => {
 	const theme = useTheme();
 
@@ -66,7 +63,6 @@ const ListCard: React.FC<ListCardProps> = ({
 						opacity: 0.3,
 					},
 				}}
-				onClick={onClick}
 			>
 				{playerScore ? (
 					<Box
@@ -117,12 +113,16 @@ const ListCard: React.FC<ListCardProps> = ({
 					</Box>
 				) : null}
 
-				<CardActionArea
-					sx={{
+				<a
+					href={`/anime/${id}`}
+					rel="noopener noreferrer"
+					style={{
 						width: '100%',
 						height: '100%',
+						textDecoration: 'none',
+						color: 'inherit',
+						display: 'block',
 						position: 'relative',
-						overflow: 'hidden',
 					}}
 				>
 					<CardMedia
@@ -248,7 +248,7 @@ const ListCard: React.FC<ListCardProps> = ({
 							))}
 						</Grid2>
 					</Grid2>
-				</CardActionArea>
+				</a>
 			</Card>
 			<Typography
 				variant="h3"

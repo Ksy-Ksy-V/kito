@@ -27,7 +27,7 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				flexDirection: 'colum',
+				flexDirection: 'column',
 				alignContent: 'flex-start',
 			}}
 		>

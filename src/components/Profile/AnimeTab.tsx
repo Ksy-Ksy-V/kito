@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Tabs, Tab, Box, Typography, Grid2 } from '@mui/material';
 import { user } from '../../data/profileInformation';
 import ListCard from '../Cards/ListCard';
-import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 import ScoreCard from '../Cards/ScoreCard';
 import PagePagination from '../PagePagination';
@@ -13,7 +12,6 @@ interface Tab {
 }
 
 const AnimeTabs = () => {
-	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);
@@ -163,11 +161,8 @@ const AnimeTabs = () => {
 										genres={anime.genres}
 										score={anime.score}
 										rating={anime.rating}
-										list={anime.listName}
 										playerScore={anime.userRating}
-										onClick={() =>
-											navigate(`/anime/${anime.id}`)
-										}
+										id={anime.id}
 									/>
 								</Grid2>
 							)
