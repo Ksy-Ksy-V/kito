@@ -1,10 +1,23 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Box, Typography, Grid2 } from '@mui/material';
+import {
+	Tabs,
+	Tab,
+	Box,
+	Typography,
+	Grid2,
+	useMediaQuery,
+	FormControl,
+	Select,
+	MenuItem,
+	InputLabel,
+	SelectChangeEvent,
+} from '@mui/material';
 import { user } from '../../data/profileInformation';
 import ListCard from '../Cards/ListCard';
 import theme from '../../styles/theme';
 import ScoreCard from '../Cards/ScoreCard';
 import PagePagination from '../PagePagination';
+import EmptyList from './EmptyList';
 
 interface Tab {
 	label: string;
@@ -26,6 +39,7 @@ const AnimeTabs = () => {
 	];
 
 	const [activeTab, setActiveTab] = useState<string>(tabs[0].value);
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const getAnimeCount = (tabValue: string) => {
 		if (tabValue === 'Score') {
@@ -39,6 +53,14 @@ const AnimeTabs = () => {
 
 	const handleTabChange = (
 		_event: React.SyntheticEvent,
+		newValue: string
+	) => {
+		setActiveTab(newValue);
+		setPage(1);
+	};
+
+	const handleSelectChange = (
+		_event: SelectChangeEvent<string>,
 		newValue: string
 	) => {
 		setActiveTab(newValue);
@@ -68,61 +90,122 @@ const AnimeTabs = () => {
 	return (
 		<Grid2 container spacing={2} size={12} sx={{ marginTop: '3rem' }}>
 			<Box sx={{ width: '100%' }}>
-				<Tabs
-					value={activeTab}
-					onChange={handleTabChange}
-					centered
-					indicatorColor="secondary"
-					variant="fullWidth"
-					sx={{
-						marginBottom: '2rem',
-						'& .Mui-selected': {
-							color: theme.palette.secondary.main,
-						},
-					}}
-				>
-					{tabs.map((tab) => (
-						<Tab
-							key={tab.value}
-							value={tab.value}
-							label={
-								<>
-									<Typography
-										variant="h5"
-										sx={{
-											textTransform: 'none',
-											color:
-												activeTab === tab.value
-													? theme.palette.secondary
-															.main
-													: theme.palette.text
-															.primary,
-										}}
-									>
-										{tab.label}
-									</Typography>
-									<Typography
-										variant="h5"
-										sx={{
-											marginTop: '0.2rem',
-											color:
-												activeTab === tab.value
-													? theme.palette.secondary
-															.main
-													: theme.palette.text
-															.secondary,
-										}}
-									>
-										{getAnimeCount(tab.value)}
-									</Typography>
-								</>
+				{isMobile ? (
+					<FormControl
+						fullWidth
+						variant="filled"
+						sx={{
+							marginBottom: '2rem',
+							marginTop: '13rem',
+						}}
+					>
+						<InputLabel
+							id="anime-tab-select-label"
+							sx={{
+								color: loading
+									? theme.palette.primary.main
+									: theme.palette.secondary.main,
+								'&:hover': {
+									color: theme.palette.secondary.main,
+								},
+								'&.Mui-focused': {
+									color: theme.palette.secondary.main,
+								},
+								'& .Mui-disabled': {
+									color: theme.palette.primary.main,
+								},
+							}}
+						>
+							List
+						</InputLabel>
+						<Select
+							labelId="anime-tab-select-label"
+							value={activeTab}
+							onChange={(event) =>
+								handleSelectChange(event, event.target.value)
 							}
 							sx={{
-								minWidth: 'auto',
+								height: '3rem',
+								border: 'solid 1px  ',
+								borderRadius: '0.25rem',
+								borderColor: loading
+									? theme.palette.primary.main
+									: theme.palette.secondary.main,
+								'& .Mui-disabled': {
+									borderColor: theme.palette.primary.main,
+								},
 							}}
-						/>
-					))}
-				</Tabs>
+						>
+							{tabs.map((tab) => (
+								<MenuItem key={tab.value} value={tab.value}>
+									{`${tab.label} (${getAnimeCount(
+										tab.value
+									)})`}
+								</MenuItem>
+							))}
+						</Select>
+					</FormControl>
+				) : (
+					<Tabs
+						value={activeTab}
+						onChange={handleTabChange}
+						centered
+						indicatorColor="secondary"
+						variant="fullWidth"
+						sx={{
+							marginBottom: '2rem',
+							'& .Mui-selected': {
+								color: theme.palette.secondary.main,
+							},
+						}}
+					>
+						{tabs.map((tab) => (
+							<Tab
+								key={tab.value}
+								value={tab.value}
+								label={
+									<>
+										<Typography
+											variant="h5"
+											sx={{
+												textTransform: 'none',
+												color:
+													activeTab === tab.value
+														? theme.palette
+																.secondary.main
+														: theme.palette.text
+																.primary,
+											}}
+										>
+											{tab.label}
+										</Typography>
+										<Typography
+											variant="h5"
+											sx={{
+												marginTop: '0.2rem',
+												color:
+													activeTab === tab.value
+														? theme.palette
+																.secondary.main
+														: theme.palette.text
+																.secondary,
+											}}
+										>
+											{getAnimeCount(tab.value)}
+										</Typography>
+									</>
+								}
+								sx={{
+									minWidth: 'auto',
+									marginTop: {
+										sm: '5rem',
+										md: '0rem',
+									},
+								}}
+							/>
+						))}
+					</Tabs>
+				)}
 
 				<Grid2 container spacing={4}>
 					{filteredAnime.length > itemsPerPage ? (
@@ -168,18 +251,7 @@ const AnimeTabs = () => {
 							)
 						)
 					) : (
-						<Typography
-							variant="h3"
-							sx={{
-								color: theme.palette.secondary.main,
-								display: 'flex',
-								textAlign: 'center',
-								justifyContent: 'center',
-								width: '100%',
-							}}
-						>
-							No anime in this category.
-						</Typography>
+						<EmptyList />
 					)}
 				</Grid2>
 				{filteredAnime.length > itemsPerPage ? (
