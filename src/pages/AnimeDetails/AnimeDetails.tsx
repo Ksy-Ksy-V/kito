@@ -32,8 +32,6 @@ function AnimeDetails() {
 		return <Error />;
 	}
 
-	console.log(anime);
-
 	return <AnimeDetail loading={loading} anime={anime} />;
 }
 

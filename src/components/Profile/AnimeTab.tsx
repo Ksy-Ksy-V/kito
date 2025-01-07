@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Tabs,
 	Tab,
@@ -13,69 +13,24 @@ import {
 	SelectChangeEvent,
 } from '@mui/material';
 import { user } from '../../data/profileInformation';
-import ListCard from '../Cards/ListCard';
 import theme from '../../styles/theme';
-import ScoreCard from '../Cards/ScoreCard';
 import PagePagination from '../PagePagination';
-import EmptyList from './EmptyList';
-
-interface Tab {
-	label: string;
-	value: string;
-}
-
-interface RatingOption {
-	label: string;
-	value: string;
-}
-
-interface TypeOption {
-	label: string;
-	value: string;
-}
+import { tabs } from '../../data/tabs';
+import RenderAnimeCards from './RenderAnimeCards';
+import TabFilters from './TabFilters';
 
 const AnimeTabs = () => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);
 
-	const tabs: Tab[] = [
-		{ label: 'Watching', value: 'Watching' },
-		{ label: 'Completed', value: 'Completed' },
-		{ label: 'On-Hold', value: 'On-Hold' },
-		{ label: 'Dropped', value: 'Dropped' },
-		{ label: 'Plan to Watch', value: 'Plan to Watch' },
-		{ label: 'Score', value: 'Score' },
-	];
-
-	const ratingOptions: RatingOption[] = [
-		{ label: 'All', value: 'All' },
-		{ label: 'This is Legendary - 10!!!', value: '10' },
-		{ label: 'Almost Perfect - 9', value: '9' },
-		{ label: 'Impressive - 8', value: '8' },
-		{ label: 'Pretty Good - 7', value: '7' },
-		{ label: 'Decent but Flawed - 6', value: '6' },
-		{ label: 'Just OK - 5', value: '5' },
-		{ label: 'Mediocre at Best - 4', value: '4' },
-		{ label: 'Needs Improvement - 3', value: '3' },
-		{ label: 'Barely Watchable - 2', value: '2' },
-		{ label: 'Complete Disaster - 1', value: '1' },
-	];
-
-	const typeOptions: TypeOption[] = [
-		{ label: 'All', value: 'All' },
-		{ label: 'TV', value: 'TV' },
-		{ label: 'Movie', value: 'Movie' },
-		{ label: 'OVA', value: 'OVA' },
-		{ label: 'Special', value: 'Special' },
-		{ label: 'ONA', value: 'ONA' },
-	];
-
 	const [activeTab, setActiveTab] = useState<string>(tabs[0].value);
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const [ratingFilter, setRatingFilter] = useState<string>('All');
 	const [typeFilter, setTypeFilter] = useState<string>('All');
+
+	const [isFiltrated, setIsFiltrated] = useState(false);
 
 	const getAnimeCount = (tabValue: string) => {
 		if (tabValue === 'Score') {
@@ -123,27 +78,39 @@ const AnimeTabs = () => {
 	};
 
 	const filteredAnime = user.animeList.filter((anime) => {
-		if (activeTab === 'Score' && anime.userRating === undefined)
-			return false;
-		if (activeTab !== 'Score' && anime.listName !== activeTab) return false;
+		const isValidRating =
+			ratingFilter === 'All' ||
+			anime.userRating?.toString() === ratingFilter;
 
-		if (
-			ratingFilter !== 'All' &&
-			anime.userRating?.toString() !== ratingFilter
-		)
-			return false;
+		const isValidType = typeFilter === 'All' || anime.type === typeFilter;
 
-		if (typeFilter !== 'All' && anime.type !== typeFilter) return false;
+		const isInActiveTab =
+			activeTab === 'Score'
+				? anime.userRating !== undefined
+				: anime.listName === activeTab;
 
-		return true;
+		return isValidRating && isValidType && isInActiveTab;
 	});
 
-	const totalPages = Math.ceil(filteredAnime.length / itemsPerPage);
+	useEffect(() => {
+		if (ratingFilter === 'All' && typeFilter === 'All') {
+			setIsFiltrated(false);
+		} else {
+			setIsFiltrated(true);
+		}
+	}, [ratingFilter, typeFilter]);
 
-	const paginatedAnime = filteredAnime.slice(
-		(page - 1) * itemsPerPage,
-		page * itemsPerPage
+	const totalPages = React.useMemo(
+		() => Math.ceil(filteredAnime.length / itemsPerPage),
+		[filteredAnime.length, itemsPerPage]
 	);
+
+	const paginatedAnime = React.useMemo(
+		() =>
+			filteredAnime.slice((page - 1) * itemsPerPage, page * itemsPerPage),
+		[filteredAnime, page, itemsPerPage]
+	);
+
 	return (
 		<Grid2 container spacing={2} size={12} sx={{ marginTop: '3rem' }}>
 			<Box sx={{ width: '100%' }}>
@@ -265,117 +232,23 @@ const AnimeTabs = () => {
 				)}
 
 				<Grid2 container spacing={4}>
-					<Grid2
-						size={{ xs: 12, sm: 4 }}
-						sx={{ display: 'flex', gap: '1rem' }}
-					>
-						<FormControl fullWidth variant="filled">
-							<InputLabel
-								id="rating-filter-label"
-								sx={{
-									color: loading
-										? theme.palette.primary.main
-										: theme.palette.secondary.main,
-									'&:hover': {
-										color: theme.palette.secondary.main,
-									},
-									'&.Mui-focused': {
-										color: theme.palette.secondary.main,
-									},
-									'& .Mui-disabled': {
-										color: theme.palette.primary.main,
-									},
-								}}
-							>
-								Rating
-							</InputLabel>
-							<Select
-								labelId="rating-filter-label"
-								value={ratingFilter}
-								onChange={(event) =>
-									handleFilterChange(event, 'rating')
-								}
-								sx={{
-									height: '3rem',
-									border: 'solid 1px  ',
-									borderRadius: '0.25rem',
-									borderColor: loading
-										? theme.palette.primary.main
-										: theme.palette.secondary.main,
-									'& .Mui-disabled': {
-										borderColor: theme.palette.primary.main,
-									},
-								}}
-							>
-								{ratingOptions.map((option) => (
-									<MenuItem
-										key={option.value}
-										value={option.value}
-									>
-										{option.label}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-					</Grid2>
-					<Grid2
-						size={{ xs: 12, sm: 4 }}
-						sx={{ display: 'flex', gap: '1rem' }}
-					>
-						<FormControl fullWidth variant="filled">
-							<InputLabel
-								id="type-filter-label"
-								sx={{
-									color: loading
-										? theme.palette.primary.main
-										: theme.palette.secondary.main,
-									'&:hover': {
-										color: theme.palette.secondary.main,
-									},
-									'&.Mui-focused': {
-										color: theme.palette.secondary.main,
-									},
-									'& .Mui-disabled': {
-										color: theme.palette.primary.main,
-									},
-								}}
-							>
-								Type
-							</InputLabel>
-							<Select
-								labelId="type-filter-label"
-								value={typeFilter}
-								onChange={(event) =>
-									handleFilterChange(event, 'type')
-								}
-								sx={{
-									height: '3rem',
-									border: 'solid 1px  ',
-									borderRadius: '0.25rem',
-									borderColor: loading
-										? theme.palette.primary.main
-										: theme.palette.secondary.main,
-									'& .Mui-disabled': {
-										borderColor: theme.palette.primary.main,
-									},
-								}}
-							>
-								{typeOptions.map((option) => (
-									<MenuItem
-										key={option.value}
-										value={option.value}
-									>
-										{option.label}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-					</Grid2>
+					<TabFilters
+						loading={loading}
+						ratingFilter={ratingFilter}
+						typeFilter={typeFilter}
+						onFilterChange={handleFilterChange}
+					/>
 
 					{filteredAnime.length > itemsPerPage ? (
 						<Grid2
 							size={{ xs: 12, sm: 4 }}
-							sx={{ display: 'flex', justifyContent: 'flex-end' }}
+							sx={{
+								display: 'flex',
+								justifyContent: {
+									xs: 'center',
+									sm: 'flex-end',
+								},
+							}}
 						>
 							<PagePagination
 								loading={loading}
@@ -391,37 +264,11 @@ const AnimeTabs = () => {
 						></Grid2>
 					)}
 
-					{paginatedAnime.length > 0 ? (
-						paginatedAnime.map((anime) =>
-							activeTab === 'Score' ? (
-								<ScoreCard
-									key={anime.id}
-									image={anime.image}
-									title={anime.name}
-									score={anime.userRating || 0}
-									episodes={`${anime.episodes}/${anime.episodes}`}
-									type={anime.type}
-								/>
-							) : (
-								<Grid2
-									key={anime.id}
-									size={{ xs: 6, sm: 3, md: 3, lg: 2 }}
-								>
-									<ListCard
-										image={anime.image}
-										title={anime.name}
-										genres={anime.genres}
-										score={anime.score}
-										rating={anime.rating}
-										playerScore={anime.userRating}
-										id={anime.id}
-									/>
-								</Grid2>
-							)
-						)
-					) : (
-						<EmptyList />
-					)}
+					<RenderAnimeCards
+						paginatedAnime={paginatedAnime}
+						activeTab={activeTab}
+						isFiltrated={isFiltrated}
+					/>
 				</Grid2>
 				{filteredAnime.length > itemsPerPage ? (
 					<Grid2
@@ -429,7 +276,10 @@ const AnimeTabs = () => {
 						sx={{
 							padding: '1rem',
 							display: 'flex',
-							justifyContent: 'flex-end',
+							justifyContent: {
+								xs: 'center',
+								sm: 'flex-end',
+							},
 						}}
 					>
 						<PagePagination

@@ -17,7 +17,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 	title,
 	score,
 	episodes,
-	type, 
+	type,
 }) => {
 	return (
 		<Grid2
@@ -33,18 +33,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 				borderRadius: '1rem',
 			}}
 		>
-			<Grid2 size={1}>
-				<Typography
-					variant="h6"
-					sx={{
-						textAlign: 'center',
-					}}
-				>
-					1
-				</Typography>
-			</Grid2>
-
-			<Grid2 size={2}>
+			<Grid2 size={{ xs: 4, sm: 2 }}>
 				<Box
 					component="img"
 					src={image}
@@ -54,23 +43,50 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 						height: '10rem',
 						borderRadius: '0.5rem',
 						objectFit: 'cover',
+						margin: '1rem',
 					}}
 				/>
 			</Grid2>
 
-			<Grid2 size={6}>
+			<Grid2
+				size={{ xs: 6, sm: 3, md: 6 }}
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					marginLeft: '2rem',
+				}}
+			>
 				<Typography
 					variant="h6"
 					sx={{
 						marginBottom: '1rem',
 						color: theme.palette.secondary.main,
+						display: 'flex',
+						justifyContent: {
+							xs: 'space-evenly',
+							sm: 'flex-start',
+						},
+						alignContent: 'flex-start',
+						textAlign: {
+							xs: 'center',
+							sm: 'left',
+						},
 					}}
 				>
 					{title}
 				</Typography>
 
-				<Grid2 size={12} sx={{ display: 'flex' }}>
-					<Grid2 size={6} sx={{ marginRight: '1rem' }}>
+				<Grid2
+					size={12}
+					sx={{
+						display: 'flex',
+						justifyContent: {
+							xs: 'space-evenly',
+							sm: 'flex-start',
+						},
+					}}
+				>
+					<Grid2 size={8}>
 						<MainButton
 							sx={{
 								backgroundColor: 'transparent',
@@ -80,21 +96,10 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							Change list
 						</MainButton>
 					</Grid2>
-
-					<Grid2 size={6} sx={{ marginRight: '1rem' }}>
-						<MainButton
-							sx={{
-								backgroundColor: 'transparent',
-								borderColor: 'primary.main',
-							}}
-						>
-							Change my score
-						</MainButton>
-					</Grid2>
 				</Grid2>
 			</Grid2>
 
-			<Grid2 size={1}>
+			<Grid2 size={{ xs: 4, sm: 2, md: 1 }}>
 				<>
 					<Typography
 						variant="body1"
@@ -103,6 +108,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							color: theme.palette.primary.main,
 							display: 'flex',
 							justifyContent: 'center',
+							textAlign: 'center',
 						}}
 					>
 						My score:
@@ -126,7 +132,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 					</Typography>
 				</>
 			</Grid2>
-			<Grid2 size={1}>
+			<Grid2 size={{ xs: 4, sm: 2, md: 1 }}>
 				<>
 					<Typography
 						variant="body1"
@@ -135,6 +141,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							color: theme.palette.primary.main,
 							display: 'flex',
 							justifyContent: 'center',
+							textAlign: 'center',
 						}}
 					>
 						Episodes:
@@ -152,7 +159,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 					</Typography>
 				</>
 			</Grid2>
-			<Grid2 size={1}>
+			<Grid2 size={{ xs: 4, sm: 2, md: 1 }}>
 				<>
 					<Typography
 						variant="body1"
@@ -161,6 +168,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							color: theme.palette.primary.main,
 							display: 'flex',
 							justifyContent: 'center',
+							textAlign: 'center',
 						}}
 					>
 						Type:

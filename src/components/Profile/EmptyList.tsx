@@ -4,7 +4,11 @@ import img from '../../images/notResultFound.png';
 import { useMemo } from 'react';
 import theme from '../../styles/theme';
 
-const EmptyList = () => {
+interface EmptyListProps {
+	isFiltrated: boolean;
+}
+
+const EmptyList: React.FC<EmptyListProps> = ({ isFiltrated }) => {
 	const pulse = useMemo(
 		() => keyframes`
 			0% { transform: scale(1); }
@@ -13,6 +17,13 @@ const EmptyList = () => {
 		`,
 		[]
 	);
+
+	const explanatoryText = useMemo(() => {
+		if (!isFiltrated) {
+			return 'This Cat is not yet ready to share their journey with the world.';
+		}
+		return 'Oops! We couldn’t find any results matching your filters.';
+	}, [isFiltrated]);
 
 	return (
 		<Grid2
@@ -47,8 +58,7 @@ const EmptyList = () => {
 						fontSize: { xs: '1.8rem', md: '2.5rem' },
 					}}
 				>
-					This Cat is not yet ready to share their journey with the
-					world.
+					{explanatoryText}
 				</Typography>
 			</Grid2>
 
