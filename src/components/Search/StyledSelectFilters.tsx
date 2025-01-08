@@ -15,7 +15,7 @@ interface StyledSearchFiltersProps {
 	value: string | undefined;
 	onChange?: (event: SelectChangeEvent<string>) => void;
 	options: string[];
-	clearValue: () => void;
+	clearValue?: () => void;
 	capitalizeOptions?: boolean;
 	defaultValue?: string;
 	upperCaseOptions?: boolean;

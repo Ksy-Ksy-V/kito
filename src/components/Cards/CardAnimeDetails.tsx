@@ -33,7 +33,7 @@ function CardAnimeDetails({
 					},
 					borderRadius: '1rem',
 					border: `0.125rem solid ${theme.palette.secondary.main}`,
-					marginBottom: '2rem',
+
 					background: 'rgba(29, 51, 53, 0.51)',
 					marginTop: { xs: '1rem', md: '0' },
 				}}

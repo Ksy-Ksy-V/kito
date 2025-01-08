@@ -20,6 +20,7 @@ const DetailsInformationAboutAnime: React.FC<
 > = ({ anime, loading, randomizerPage, getRandomize }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	const isMobile = useMediaQuery(theme.breakpoints.up('md'));
+
 	return (
 		<>
 			<BackgroundImg
