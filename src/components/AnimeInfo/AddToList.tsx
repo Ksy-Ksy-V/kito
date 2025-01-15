@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AddButton from '../Buttons/AddButton';
+import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import { Button, Dialog, DialogTitle, Grid2 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import theme from '../../styles/theme';
@@ -27,7 +27,7 @@ const AddToList: React.FC<AddToListProps> = ({ loading }) => {
 
 	return (
 		<>
-			<AddButton
+			<ButtonWithIcon
 				onClick={handleClickOpen}
 				loading={loading}
 				sx={{
@@ -40,7 +40,7 @@ const AddToList: React.FC<AddToListProps> = ({ loading }) => {
 				}}
 			>
 				Add To List
-			</AddButton>
+			</ButtonWithIcon>
 
 			<Dialog
 				open={open}

@@ -2,14 +2,16 @@ import React from 'react';
 import { Button, ButtonProps, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-interface AddButtonProps extends ButtonProps {
+interface ButtonWithIconProps extends ButtonProps {
 	loading?: boolean;
+	icon?: React.ReactNode;
 }
 
-const AddButton: React.FC<AddButtonProps> = ({
+const ButtonWithIcon: React.FC<ButtonWithIconProps> = ({
 	children,
 	sx,
 	loading,
+	icon,
 	...props
 }) => {
 	const theme = useTheme();
@@ -19,16 +21,18 @@ const AddButton: React.FC<AddButtonProps> = ({
 			variant="outlined"
 			fullWidth
 			endIcon={
-				<AddIcon
-					sx={{
-						marginLeft: 'auto',
-						fontSize: {
-							xs: '1rem',
-							sm: '1.25rem',
-							md: '1.5rem',
-						},
-					}}
-				/>
+				icon || (
+					<AddIcon
+						sx={{
+							marginLeft: 'auto',
+							fontSize: {
+								xs: '1rem',
+								sm: '1.25rem',
+								md: '1.5rem',
+							},
+						}}
+					/>
+				)
 			}
 			sx={{
 				display: 'flex',
@@ -61,4 +65,4 @@ const AddButton: React.FC<AddButtonProps> = ({
 	);
 };
 
-export default AddButton;
+export default ButtonWithIcon;

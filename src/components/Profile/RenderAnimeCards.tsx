@@ -9,12 +9,14 @@ interface RenderAnimeCardsProps {
 	paginatedAnime: Anime[];
 	activeTab: string;
 	isFiltrated: boolean;
+	loading: boolean;
 }
 
 const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	paginatedAnime,
 	activeTab,
 	isFiltrated,
+	loading,
 }) => {
 	if (paginatedAnime.length === 0) {
 		return <EmptyList isFiltrated={isFiltrated} />;
@@ -23,11 +25,12 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	return paginatedAnime.map((anime) =>
 		activeTab === 'Score' ? (
 			<ScoreCard
+				loading={loading}
 				key={anime.id}
 				image={anime.image}
 				title={anime.name}
 				score={anime.userRating || 0}
-				episodes={`${anime.episodes}/${anime.episodes}`}
+				episodes={`${anime.episodesWatched}/${anime.episodes}`}
 				type={anime.type}
 			/>
 		) : (

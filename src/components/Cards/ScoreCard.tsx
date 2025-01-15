@@ -1,10 +1,21 @@
-import React from 'react';
-import { Box, Typography, Grid2 } from '@mui/material';
+import React, { useState } from 'react';
+import {
+	Box,
+	Typography,
+	Grid2,
+	Button,
+	DialogTitle,
+	Dialog,
+} from '@mui/material';
 import theme from '../../styles/theme';
-import MainButton from '../Buttons/MainButton';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import CloseIcon from '@mui/icons-material/Close';
+import ChangeList from '../Dialogs/ChangeList';
+import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 
 interface ScoreCardProps {
+	loading: boolean;
 	image: string;
 	title: string;
 	score: number;
@@ -13,12 +24,23 @@ interface ScoreCardProps {
 }
 
 const ScoreCard: React.FC<ScoreCardProps> = ({
+	loading,
 	image,
 	title,
 	score,
 	episodes,
 	type,
 }) => {
+	const [open, setOpen] = useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 	return (
 		<Grid2
 			container
@@ -87,15 +109,58 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 					}}
 				>
 					<Grid2 size={8}>
-						<MainButton
+						<ButtonWithIcon
+							onClick={handleClickOpen}
+							loading={loading}
+							icon={<CreateOutlinedIcon />}
 							sx={{
-								backgroundColor: 'transparent',
-								borderColor: 'primary.main',
+								width: {
+									xs: '11rem',
+									sm: '12rem',
+									md: '14rem',
+								},
+								marginTop: '1rem',
 							}}
 						>
 							Change list
-						</MainButton>
+						</ButtonWithIcon>
 					</Grid2>
+
+					<Dialog
+						open={open}
+						onClose={handleClose}
+						fullWidth
+						disableEnforceFocus
+					>
+						<Grid2
+							container
+							spacing={2}
+							sx={{
+								display: 'flex',
+								justifyContent: 'space-between',
+							}}
+						>
+							<DialogTitle id="dialog-title">
+								Change list
+							</DialogTitle>
+
+							<Button
+								aria-label="close"
+								onClick={handleClose}
+								sx={{
+									color: theme.palette.primary.main,
+									fontSize: '4rem',
+								}}
+							>
+								<CloseIcon />
+							</Button>
+						</Grid2>
+
+						<ChangeList
+							loading={loading}
+							handleClose={() => handleClose()}
+						/>
+					</Dialog>
 				</Grid2>
 			</Grid2>
 

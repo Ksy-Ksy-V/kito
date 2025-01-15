@@ -10,7 +10,7 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
-import AddButton from '../Buttons/AddButton';
+import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import StyledInformation from '../../styles/StyledInformation';
 
 interface AnimeInfoCardProps {
@@ -125,14 +125,14 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						display: 'flex',
 					}}
 				>
-					<AddButton
+					<ButtonWithIcon
 						loading={loading}
 						sx={{
 							width: '10.5rem',
 						}}
 					>
 						Add to list
-					</AddButton>
+					</ButtonWithIcon>
 				</Grid2>
 			</Grid2>
 

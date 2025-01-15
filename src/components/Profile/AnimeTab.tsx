@@ -265,6 +265,7 @@ const AnimeTabs = () => {
 					)}
 
 					<RenderAnimeCards
+						loading={loading}
 						paginatedAnime={paginatedAnime}
 						activeTab={activeTab}
 						isFiltrated={isFiltrated}
