@@ -138,6 +138,7 @@ const PopularSection: React.FC = () => {
 							>
 								<AnimeCard
 									image={anime.images.jpg.image_url}
+									isTitle={true}
 									title={anime.title}
 									mal_id={anime.mal_id}
 								/>

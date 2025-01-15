@@ -5,9 +5,15 @@ interface AnimeCardProps {
 	image: string;
 	title: string;
 	mal_id?: number;
+	isTitle?: boolean;
 }
 
-const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
+const AnimeCard: React.FC<AnimeCardProps> = ({
+	image,
+	title,
+	mal_id,
+	isTitle,
+}) => {
 	const theme = useTheme();
 
 	return (
@@ -77,15 +83,18 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 					/>
 				)}
 			</Grid2>
-			<Typography
-				variant="h5"
-				sx={{
-					textAlign: 'center',
-					color: theme.palette.secondary.main,
-				}}
-			>
-				{title}
-			</Typography>
+
+			{isTitle ? (
+				<Typography
+					variant="h5"
+					sx={{
+						textAlign: 'center',
+						color: theme.palette.secondary.main,
+					}}
+				>
+					{title}
+				</Typography>
+			) : null}
 		</Grid2>
 	);
 };

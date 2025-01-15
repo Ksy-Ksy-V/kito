@@ -103,6 +103,7 @@ const CharacterSection: React.FC<CharacterSectionProps> = ({ anime }) => {
 									image={
 										character.character.images.jpg.image_url
 									}
+									isTitle={true}
 									title={character.character.name}
 								/>
 							</Grid2>

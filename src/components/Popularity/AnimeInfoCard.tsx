@@ -12,6 +12,7 @@ import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import StyledInformation from '../../styles/StyledInformation';
+import AddToList from '../AnimeInfo/AddToList';
 
 interface AnimeInfoCardProps {
 	number: number;
@@ -125,14 +126,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						display: 'flex',
 					}}
 				>
-					<ButtonWithIcon
-						loading={loading}
-						sx={{
-							width: '10.5rem',
-						}}
-					>
-						Add to list
-					</ButtonWithIcon>
+					<AddToList loading={loading} />
 				</Grid2>
 			</Grid2>
 
@@ -157,8 +151,8 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									xs: theme.typography.h5.fontSize,
 									sm: theme.typography.h4.fontSize,
 									md: theme.typography.h4.fontSize,
-									lg: theme.typography.h2.fontSize,
-									xl: theme.typography.h2.fontSize,
+									lg: theme.typography.h3.fontSize,
+									xl: theme.typography.h3.fontSize,
 								},
 							}}
 						>

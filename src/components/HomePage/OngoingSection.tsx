@@ -168,6 +168,7 @@ const OngoingSection: React.FC = () => {
 								<AnimeCard
 									image={anime.images.jpg.image_url}
 									title={anime.title}
+									isTitle={true}
 									mal_id={anime.mal_id}
 								/>
 							</Grid2>
