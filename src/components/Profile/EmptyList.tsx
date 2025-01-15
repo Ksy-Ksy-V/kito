@@ -28,7 +28,7 @@ const EmptyList: React.FC<EmptyListProps> = ({ isFiltrated }) => {
 	return (
 		<Grid2
 			container
-			spacing={2}
+			spacing={0}
 			sx={{
 				display: 'flex',
 				alignItems: 'center',
@@ -63,7 +63,7 @@ const EmptyList: React.FC<EmptyListProps> = ({ isFiltrated }) => {
 			</Grid2>
 
 			<Grid2
-				size={{ xs: 12, md: 4 }}
+				size={{ xs: 12, md: 6 }}
 				sx={{
 					order: { xs: 1, md: 1 },
 					display: 'flex',

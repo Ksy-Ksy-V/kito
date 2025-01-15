@@ -10,7 +10,6 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
-import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import StyledInformation from '../../styles/StyledInformation';
 import AddToList from '../AnimeInfo/AddToList';
 

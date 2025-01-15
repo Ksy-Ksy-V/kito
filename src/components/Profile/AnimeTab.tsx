@@ -48,6 +48,9 @@ const AnimeTabs = () => {
 	) => {
 		setActiveTab(newValue);
 		setPage(1);
+		setIsFiltrated(false);
+		setTypeFilter('All');
+		setRatingFilter('All');
 	};
 
 	const handleSelectChange = (
@@ -86,7 +89,7 @@ const AnimeTabs = () => {
 
 		const isInActiveTab =
 			activeTab === 'Score'
-				? anime.userRating !== undefined
+				? anime.userRating !== null
 				: anime.listName === activeTab;
 
 		return isValidRating && isValidType && isInActiveTab;
@@ -231,13 +234,24 @@ const AnimeTabs = () => {
 					</Tabs>
 				)}
 
-				<Grid2 container spacing={4}>
-					<TabFilters
-						loading={loading}
-						ratingFilter={ratingFilter}
-						typeFilter={typeFilter}
-						onFilterChange={handleFilterChange}
-					/>
+				<Grid2 container spacing={4} size={12}>
+					<Grid2
+						size={{ xs: 12, sm: 8 }}
+						sx={{
+							flexDirection: { xs: 'column', sm: 'row' },
+							display: 'flex',
+						}}
+					>
+						{(filteredAnime.length > 1 ||
+							(filteredAnime.length === 0 && isFiltrated)) && (
+							<TabFilters
+								loading={loading}
+								ratingFilter={ratingFilter}
+								typeFilter={typeFilter}
+								onFilterChange={handleFilterChange}
+							/>
+						)}
+					</Grid2>
 
 					{filteredAnime.length > itemsPerPage ? (
 						<Grid2

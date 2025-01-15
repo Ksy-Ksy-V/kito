@@ -24,7 +24,14 @@ const TabFilters = ({
 	) => void;
 }) => (
 	<>
-		<Grid2 size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', gap: '1rem' }}>
+		<Grid2
+			size={{ xs: 12, sm: 6 }}
+			sx={{
+				display: 'flex',
+				gap: '1rem',
+				marginBottom: { xs: '2rem', sm: '0rem' },
+			}}
+		>
 			<FormControl fullWidth variant="filled">
 				<InputLabel
 					id="rating-filter-label"
@@ -70,7 +77,14 @@ const TabFilters = ({
 			</FormControl>
 		</Grid2>
 
-		<Grid2 size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', gap: '1rem' }}>
+		<Grid2
+			size={{ xs: 12, sm: 6 }}
+			sx={{
+				display: 'flex',
+				gap: '1rem',
+				marginLeft: { sm: '2rem', xs: '0rem' },
+			}}
+		>
 			<FormControl fullWidth variant="filled">
 				<InputLabel
 					id="type-filter-label"
