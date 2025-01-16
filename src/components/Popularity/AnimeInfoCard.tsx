@@ -113,7 +113,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						display: 'flex',
 					}}
 				>
-					<AddToList loading={loading} />
+					{anime && <AddToList loading={loading} anime={anime} />}
 				</Grid2>
 			</Grid2>
 

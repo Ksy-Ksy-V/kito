@@ -7,12 +7,14 @@ import { useAppSelector } from '../../store/hooks';
 import { selectAuth } from '../../store/reducers/authSlice';
 import AddAnimeDialog from '../Dialogs/AddAnimeDialog';
 import AuthRedirect from '../Dialogs/AuthRedirect';
+import { Anime } from '@tutkli/jikan-ts';
 
 interface AddToListProps {
 	loading: boolean;
+	anime: Anime;
 }
 
-const AddToList: React.FC<AddToListProps> = ({ loading }) => {
+const AddToList: React.FC<AddToListProps> = ({ loading, anime }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
 
 	const [open, setOpen] = useState(false);
@@ -71,6 +73,7 @@ const AddToList: React.FC<AddToListProps> = ({ loading }) => {
 					<AddAnimeDialog
 						loading={loading}
 						handleClose={() => handleClose()}
+						anime={anime}
 					/>
 				) : (
 					<AuthRedirect loading={loading} />

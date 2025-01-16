@@ -1,18 +1,21 @@
-import { DialogContent, Grid2, Skeleton } from '@mui/material';
+import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { useState } from 'react';
 import { ratingOptions, tabs } from '../../data/tabs';
+import { Anime } from '@tutkli/jikan-ts';
 
 interface AddAnimeDialogProps {
 	loading?: boolean;
 	handleClose: () => void;
+	anime: Anime;
 }
 
 const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	loading,
 	handleClose,
+	anime,
 }) => {
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
@@ -36,9 +39,15 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 		handleClose();
 	};
 
+	console.log(anime);
+
 	return (
 		<DialogContent>
-			<Grid2 size={12} sx={{ marginTop: '1rem' }}>
+			<Grid2 size={12}>
+				<Typography variant="h3" sx={{ textAlign: 'center' }}>
+					{' '}
+					{anime?.title || anime?.title_english}
+				</Typography>
 				{loading ? (
 					<Skeleton
 						variant="rectangular"

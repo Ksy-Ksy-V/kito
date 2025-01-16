@@ -85,7 +85,9 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 						},
 					}}
 				>
-					<AddToList loading={loading} />
+					{randomAnime && (
+						<AddToList loading={loading} anime={randomAnime} />
+					)}
 				</Grid2>
 			</>
 		</Grid2>

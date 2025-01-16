@@ -1,16 +1,22 @@
-import { DialogContent, Grid2, Skeleton } from '@mui/material';
+import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { ratingOptions, tabs } from '../../data/tabs';
 import { useState } from 'react';
+import { Anime } from '../../models/ProfileModels';
 
 interface ChangeListProps {
 	loading?: boolean;
+	anime: Anime;
 	handleClose: () => void;
 }
 
-const ChangeList: React.FC<ChangeListProps> = ({ loading, handleClose }) => {
+const ChangeList: React.FC<ChangeListProps> = ({
+	loading,
+	anime,
+	handleClose,
+}) => {
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
 	// const [episodesValue, setEpisodesValue] = useState<number>(1);
@@ -35,7 +41,11 @@ const ChangeList: React.FC<ChangeListProps> = ({ loading, handleClose }) => {
 
 	return (
 		<DialogContent>
-			<Grid2 size={12} sx={{ marginTop: '1rem' }}>
+			<Typography variant="h3" sx={{ textAlign: 'center' }}>
+				{' '}
+				{anime.name}
+			</Typography>
+			<Grid2 size={12}>
 				{loading ? (
 					<Skeleton
 						variant="rectangular"

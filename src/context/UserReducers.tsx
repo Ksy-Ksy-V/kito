@@ -1,4 +1,4 @@
-import { UserAccount } from '../models/ProfileModels';
+import { Anime, UserAccount } from '../models/ProfileModels';
 
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
@@ -12,7 +12,7 @@ export interface UserState {
 	avatar: string | undefined;
 	background: string | undefined;
 	isAuthenticated: boolean;
-
+	animeList: Anime[];
 	loading: boolean;
 	error: boolean;
 }
@@ -25,7 +25,7 @@ export const initialUserState: UserState = {
 	avatar: undefined,
 	background: undefined,
 	isAuthenticated: false,
-
+	animeList: [],
 	loading: false,
 	error: false,
 };

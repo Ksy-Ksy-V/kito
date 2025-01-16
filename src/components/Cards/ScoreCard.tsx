@@ -16,30 +16,14 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
+import { Anime } from '../../models/ProfileModels';
 
 interface ScoreCardProps {
-	id: number;
+	anime: Anime;
 	loading: boolean;
-	image: string;
-	title: string;
-	score: number;
-	episodes: string;
-	type: string;
-	genres: string[];
-	description: string;
 }
 
-const ScoreCard: React.FC<ScoreCardProps> = ({
-	id,
-	loading,
-	image,
-	title,
-	score,
-	episodes,
-	type,
-	genres,
-	description,
-}) => {
+const ScoreCard: React.FC<ScoreCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -78,7 +62,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 			>
 				<Grid2
 					component="a"
-					href={`/anime/${id}`}
+					href={`/anime/${anime.id}`}
 					rel="noopener noreferrer"
 					size={{ xs: 12, sm: 3, md: 3 }}
 					sx={{ display: 'flex', justifyContent: 'center' }}
@@ -92,8 +76,8 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 					) : (
 						<Grid2
 							component="img"
-							src={image}
-							alt={title}
+							src={anime.image}
+							alt={anime.name}
 							sx={{
 								width: '10rem',
 								height: '16rem',
@@ -134,7 +118,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 								},
 							}}
 						>
-							{title}
+							{anime.name}
 						</Typography>
 					)}
 
@@ -161,7 +145,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 										gap: '0.5rem',
 									}}
 								>
-									{genres.map((genre) => (
+									{anime.genres.map((genre) => (
 										<Box
 											key={genre}
 											sx={{
@@ -219,7 +203,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 									marginTop: { xs: '0.5rem', sm: '1rem' },
 								}}
 							>
-								{description}
+								{anime.description}
 							</Typography>
 						)}
 						<Box
@@ -304,7 +288,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 										color: theme.palette.secondary.main,
 									}}
 								/>
-								{score}
+								{anime.userRating || '?'}
 							</Typography>
 						</>
 					</Grid2>
@@ -350,7 +334,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 									},
 								}}
 							>
-								{episodes}
+								{`${anime.episodesWatched}/${anime.episodes}`}
 							</Typography>
 						</>
 					</Grid2>
@@ -396,7 +380,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 									},
 								}}
 							>
-								{type}
+								{anime.type}
 							</Typography>
 						</>
 					</Grid2>
@@ -446,6 +430,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							<ChangeList
 								loading={loading}
 								handleClose={() => handleClose()}
+								anime={anime}
 							/>
 						</Dialog>
 					</Grid2>
