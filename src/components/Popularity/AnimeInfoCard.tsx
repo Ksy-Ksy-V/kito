@@ -12,29 +12,17 @@ import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
 import StyledInformation from '../../styles/StyledInformation';
 import AddToList from '../AnimeInfo/AddToList';
+import { Anime } from '@tutkli/jikan-ts';
 
 interface AnimeInfoCardProps {
 	number: number;
-	mal_id: number;
-	image: string;
-	title: string;
-	score: number;
-	genres: string[];
-	description: string;
-	rating: string;
-	onAddToList: () => void;
+	anime: Anime;
 	loading: boolean;
 }
 
 const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	number,
-	mal_id,
-	image,
-	title,
-	score,
-	genres,
-	description,
-	rating,
+	anime,
 	loading,
 }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
@@ -111,9 +99,9 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						/>
 					) : (
 						<AnimeCard
-							image={image}
-							title={title}
-							mal_id={mal_id}
+							image={anime.images.jpg.image_url}
+							title={anime.title}
+							mal_id={anime.mal_id}
 						/>
 					)}
 				</Grid2>
@@ -155,7 +143,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 								},
 							}}
 						>
-							{title}
+							{anime.title}
 						</Typography>
 					)}
 
@@ -189,7 +177,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 										marginRight: '0.5rem',
 									}}
 								/>
-								{score}
+								{anime.score}
 							</Typography>
 						)}
 					</Grid2>
@@ -218,22 +206,25 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									gap: '0.5rem',
 								}}
 							>
-								{genres.map((genre) => (
-									<Box
-										key={genre}
-										sx={{
-											backgroundColor:
-												'rgba(56, 113, 113, 0.7)',
-											padding: '0.25rem 0.5rem',
-											borderRadius: '8px',
-											fontSize: '0.875rem',
-											display: 'inline-block',
-											color: theme.palette.text.primary,
-										}}
-									>
-										{genre}
-									</Box>
-								))}
+								{anime.genres
+									.map((genre) => genre.name)
+									.map((genre) => (
+										<Box
+											key={genre}
+											sx={{
+												backgroundColor:
+													'rgba(56, 113, 113, 0.7)',
+												padding: '0.25rem 0.5rem',
+												borderRadius: '8px',
+												fontSize: '0.875rem',
+												display: 'inline-block',
+												color: theme.palette.text
+													.primary,
+											}}
+										>
+											{genre}
+										</Box>
+									))}
 							</Box>
 						)}
 					</Grid2>
@@ -255,7 +246,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						) : (
 							<StyledInformation
 								label="Score:"
-								value={score.toString() || 'Not score'}
+								value={anime.score.toString() || 'Not score'}
 							/>
 						)}
 					</Grid2>
@@ -296,7 +287,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									marginTop: { xs: '0.5rem', sm: '2rem' },
 								}}
 							>
-								{description}
+								{anime.synopsis}
 							</Typography>
 						)}
 						<Box
@@ -352,7 +343,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 							textAlign: 'center',
 						}}
 					>
-						{rating?.split(' - ')[0]}
+						{anime.rating?.split(' - ')[0]}
 					</Typography>
 				</Box>
 			)}
