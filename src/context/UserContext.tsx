@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import {
 	Action,
 	initialUserState,
@@ -15,6 +15,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const [state, dispatch] = useReducer(userReducer, initialUserState);
+
+	useEffect(() => {
+		dispatch({ type: 'SET_USER', payload: initialUserState.user });
+	}, []);
 
 	return (
 		<UserContext.Provider value={{ state, dispatch }}>

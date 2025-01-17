@@ -1,25 +1,33 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import BackgroundCover from './BackgroundCover';
-import { user } from '../../data/profileInformation';
 
-import ProfileAvatar from '../../images/ProfileAvatar.png';
+import AvatarDef from '../../images/ProfileAvatar.png';
 import theme from '../../styles/theme';
+import { UserAccount } from '../../models/ProfileModels';
 
-const ProfileHeader = () => {
-	const profileAvatar = ProfileAvatar;
-	const { name, status, animeList } = user;
+interface ProfileHeaderProps {
+	user: UserAccount;
+}
+
+const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+	const { name, status, animeList, avatar, background } = user;
 
 	const stats = [
 		{ label: 'Anime', value: animeList.length },
 		{
 			label: 'Episodes',
-			value: animeList.reduce((sum, anime) => sum + anime.episodes, 0),
+			value: animeList.reduce(
+				(sum, anime) => sum + anime.episodesWatched,
+				0
+			),
 		},
 		{
 			label: 'Movies',
 			value: animeList.filter((anime) => anime.type === 'Movie').length,
 		},
 	];
+
+	const ProfileAvatar = avatar || AvatarDef;
 
 	return (
 		<Grid2
@@ -33,7 +41,7 @@ const ProfileHeader = () => {
 				marginTop: '2rem',
 			}}
 		>
-			<BackgroundCover />
+			<BackgroundCover background={background} />
 
 			<Grid2 container spacing={2} size={12}>
 				<Grid2
@@ -46,7 +54,7 @@ const ProfileHeader = () => {
 				>
 					<Box
 						component="img"
-						src={profileAvatar}
+						src={ProfileAvatar}
 						sx={{
 							position: 'relative',
 							width: { xs: '8rem', md: '10rem' },

@@ -1,31 +1,20 @@
-import { Anime, UserAccount } from '../models/ProfileModels';
+import { user } from '../data/profileInformation';
+import { UserAccount } from '../models/ProfileModels';
 
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
-export const RESET = 'RESET';
+export const SET_USER = 'SET_USER';
+export const UPDATE_ANIME = 'UPDATE_ANIME';
 
 export interface UserState {
 	user: UserAccount | null;
-	id: number;
-	name: string;
-	status: string | undefined;
-	avatar: string | undefined;
-	background: string | undefined;
-	isAuthenticated: boolean;
-	animeList: Anime[];
+
 	loading: boolean;
 	error: boolean;
 }
 
 export const initialUserState: UserState = {
-	user: null,
-	id: 0,
-	name: '',
-	status: undefined,
-	avatar: undefined,
-	background: undefined,
-	isAuthenticated: false,
-	animeList: [],
+	user: user,
 	loading: false,
 	error: false,
 };
@@ -33,8 +22,23 @@ export const initialUserState: UserState = {
 export type Action =
 	| { type: 'SET_LOADING'; payload: boolean }
 	| { type: 'SET_ERROR'; payload: boolean }
-	| { type: 'SET_USER'; payload: UserAccount }
-	| { type: 'LOGOUT_USER'; payload: boolean };
+	| { type: 'SET_USER'; payload: UserAccount | null }
+	| {
+			type: 'UPDATE_ANIME';
+			payload: {
+				animeId: number;
+				updates: {
+					userRating?: number;
+					listName?:
+						| 'Watching'
+						| 'Completed'
+						| 'On-Hold'
+						| 'Dropped'
+						| 'Plan to Watch';
+					episodesWatched?: number;
+				};
+			};
+	  };
 
 export function userReducer(state: UserState, action: Action): UserState {
 	switch (action.type) {
@@ -42,10 +46,29 @@ export function userReducer(state: UserState, action: Action): UserState {
 			return { ...state, loading: action.payload };
 		case SET_ERROR:
 			return { ...state, error: action.payload };
-		case 'SET_USER':
-			return { ...state, user: action.payload, isAuthenticated: true };
-		case 'LOGOUT_USER':
-			return { ...state, user: null, isAuthenticated: false };
+		case SET_USER:
+			return {
+				...state,
+				user: action.payload,
+			};
+
+		case UPDATE_ANIME:
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							animeList: state.user.animeList.map((anime) =>
+								anime.id === action.payload.animeId
+									? {
+											...anime,
+											...action.payload.updates,
+									  }
+									: anime
+							),
+					  }
+					: null,
+			};
 		default:
 			return state;
 	}

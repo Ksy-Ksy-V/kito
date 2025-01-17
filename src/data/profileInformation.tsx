@@ -4,7 +4,7 @@ export const user: UserAccount = {
 	id: 1,
 	name: 'Catch Me',
 	status: "Sometimes good people make bad choices. It doesn't mean they are bad people. It means they're human.",
-	avatar: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
+	avatar: '',
 	background: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
 	animeList: [
 		{

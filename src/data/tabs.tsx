@@ -9,6 +9,18 @@ export const tabs: Tab[] = [
 	{ label: 'Score', value: 'Score' },
 ];
 
+export const listNames = [
+	'Watching',
+	'Completed',
+	'On-Hold',
+	'Dropped',
+	'Plan to Watch',
+] as const;
+export type ListName = (typeof listNames)[number];
+
+export const type = ['TV', 'Movie', 'OVA', 'Special', 'ONA'] as const;
+export type type = (typeof type)[number];
+
 export const ratingOptions: RatingOption[] = [
 	{ label: 'All', value: 'All' },
 	{ label: 'This is Legendary - 10!!!', value: '10' },

@@ -1,8 +1,14 @@
 import { Box } from '@mui/material';
-import background from '../../images/accountBackground.jpg';
+import backgroundDef from '../../images/accountBackground.jpg';
 import theme from '../../styles/theme';
 
-const BackgroundCover = () => {
+interface BackgroundCoverProps {
+	background?: string;
+}
+
+const BackgroundCover: React.FC<BackgroundCoverProps> = ({ background }) => {
+	const finalBackground = background || backgroundDef;
+
 	return (
 		<>
 			<Box
@@ -10,7 +16,7 @@ const BackgroundCover = () => {
 					position: 'absolute',
 					width: '100%',
 					height: '100%',
-					backgroundImage: `url(${background})`,
+					backgroundImage: `url(${finalBackground})`,
 					backgroundSize: 'cover',
 					backgroundPosition: 'center',
 					borderRadius: '1rem',

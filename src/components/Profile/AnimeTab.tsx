@@ -12,14 +12,18 @@ import {
 	InputLabel,
 	SelectChangeEvent,
 } from '@mui/material';
-import { user } from '../../data/profileInformation';
 import theme from '../../styles/theme';
 import PagePagination from '../PagePagination';
 import { tabs } from '../../data/tabs';
 import RenderAnimeCards from './RenderAnimeCards';
 import TabFilters from './TabFilters';
+import { UserAccount } from '../../models/ProfileModels';
 
-const AnimeTabs = () => {
+interface AnimeTabsProps {
+	user: UserAccount;
+}
+
+const AnimeTabs: React.FC<AnimeTabsProps> = ({ user }) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);

@@ -2,9 +2,10 @@ import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
-import { ratingOptions, tabs } from '../../data/tabs';
+import { ListName, ratingOptions, tabs } from '../../data/tabs';
 import { useState } from 'react';
 import { Anime } from '../../models/ProfileModels';
+import { useUserContext } from '../../context/UserContext';
 
 interface ChangeListProps {
 	loading?: boolean;
@@ -17,9 +18,16 @@ const ChangeList: React.FC<ChangeListProps> = ({
 	anime,
 	handleClose,
 }) => {
-	const [listValue, setListValue] = useState<string>('');
-	const [scoreValue, setScoreValue] = useState<string>('');
-	// const [episodesValue, setEpisodesValue] = useState<number>(1);
+	const { dispatch } = useUserContext();
+
+	const [listValue, setListValue] = useState<string>(anime.listName);
+	const [scoreValue, setScoreValue] = useState<string>(
+		anime.userRating !== undefined ? String(anime.userRating) : ''
+	);
+
+	const [episodesValue, setEpisodesValue] = useState<string>(
+		anime.episodesWatched !== undefined ? String(anime.episodesWatched) : ''
+	);
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);
@@ -29,15 +37,43 @@ const ChangeList: React.FC<ChangeListProps> = ({
 		setScoreValue(newValue);
 	};
 
+	const handleEpisodeChange = (newValue: string) => {
+		setEpisodesValue(newValue);
+	};
+
 	const handleAdd = () => {
+		dispatch({
+			type: 'UPDATE_ANIME',
+			payload: {
+				animeId: anime.id,
+				updates: {
+					userRating: Number(scoreValue),
+					listName: listValue as ListName,
+					episodesWatched: Number(episodesValue),
+				},
+			},
+		});
+
 		handleClose();
 	};
 
 	const handleCancel = () => {
-		setListValue('');
-		setScoreValue('');
+		setListValue(anime.listName);
+		setScoreValue(
+			anime.userRating !== undefined ? String(anime.userRating) : ''
+		);
+		setEpisodesValue(
+			anime.episodesWatched !== undefined
+				? String(anime.episodesWatched)
+				: ''
+		);
 		handleClose();
 	};
+
+	const episodeOptions = Array.from(
+		{ length: anime?.episodes || 1 },
+		(_, index) => (index + 1).toString()
+	);
 
 	return (
 		<DialogContent>
@@ -81,7 +117,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						label="Your Score"
 						value={scoreValue}
 						onChange={(e) => handleScoreChange(e.target.value)}
-						options={ratingOptions.map((option) => option.label)}
+						options={ratingOptions.map((option) => option.value)}
 						clearValue={() => setScoreValue('')}
 						defaultValue={ratingOptions[0].value}
 						capitalizeOptions={false}
@@ -100,11 +136,11 @@ const ChangeList: React.FC<ChangeListProps> = ({
 				) : (
 					<StyledSearchFilters
 						label="Episodes Watched"
-						value={scoreValue}
-						onChange={(e) => handleScoreChange(e.target.value)}
-						options={ratingOptions.map((option) => option.label)}
-						clearValue={() => setScoreValue('')}
-						defaultValue={ratingOptions[0].value}
+						value={episodesValue}
+						onChange={(e) => handleEpisodeChange(e.target.value)}
+						options={episodeOptions}
+						clearValue={() => setEpisodesValue('')}
+						defaultValue={''}
 						capitalizeOptions={false}
 					/>
 				)}

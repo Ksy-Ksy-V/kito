@@ -9,26 +9,13 @@ import {
 } from '@mui/material';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { Anime } from '../../models/ProfileModels';
 
 interface ListCardProps {
-	image: string;
-	title: string;
-	genres: string[];
-	score: number;
-	rating: string;
-	playerScore?: number;
-	id: number;
+	anime: Anime;
 }
 
-const ListCard: React.FC<ListCardProps> = ({
-	image,
-	title,
-	genres,
-	score,
-	rating,
-	playerScore,
-	id,
-}) => {
+const ListCard: React.FC<ListCardProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	return (
@@ -64,7 +51,7 @@ const ListCard: React.FC<ListCardProps> = ({
 					},
 				}}
 			>
-				{playerScore ? (
+				{anime.userRating ? (
 					<Box
 						className="rating-label"
 						sx={{
@@ -108,13 +95,13 @@ const ListCard: React.FC<ListCardProps> = ({
 									color: theme.palette.secondary.main,
 								}}
 							/>
-							{playerScore}
+							{anime.userRating}
 						</Typography>
 					</Box>
 				) : null}
 
 				<a
-					href={`/anime/${id}`}
+					href={`/anime/${anime.id}`}
 					rel="noopener noreferrer"
 					style={{
 						width: '100%',
@@ -127,8 +114,8 @@ const ListCard: React.FC<ListCardProps> = ({
 				>
 					<CardMedia
 						component="img"
-						image={image}
-						alt={title}
+						image={anime.image}
+						alt={anime.name}
 						className="card-media"
 						sx={{
 							width: '100%',
@@ -173,7 +160,7 @@ const ListCard: React.FC<ListCardProps> = ({
 								},
 							}}
 						>
-							{title}
+							{anime.name}
 						</Typography>
 
 						<Typography
@@ -196,7 +183,7 @@ const ListCard: React.FC<ListCardProps> = ({
 									marginRight: '0.5rem',
 								}}
 							/>
-							{score}
+							{anime.score}
 						</Typography>
 
 						<Typography
@@ -219,7 +206,7 @@ const ListCard: React.FC<ListCardProps> = ({
 								color: theme.palette.secondary.main,
 							}}
 						>
-							{rating}
+							{anime.rating}
 						</Typography>
 
 						<Grid2
@@ -230,7 +217,7 @@ const ListCard: React.FC<ListCardProps> = ({
 								gap: '0.5rem',
 							}}
 						>
-							{genres.slice(0, 2).map((genre) => (
+							{anime.genres.slice(0, 2).map((genre) => (
 								<Box
 									key={genre}
 									sx={{
@@ -266,7 +253,7 @@ const ListCard: React.FC<ListCardProps> = ({
 					},
 				}}
 			>
-				{title}
+				{anime.name}
 			</Typography>
 		</>
 	);

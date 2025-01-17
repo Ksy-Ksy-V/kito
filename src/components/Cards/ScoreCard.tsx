@@ -16,8 +16,8 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
-import { Anime } from '../../models/ProfileModels';
 
+import { Anime } from '../../models/ProfileModels';
 interface ScoreCardProps {
 	anime: Anime;
 	loading: boolean;

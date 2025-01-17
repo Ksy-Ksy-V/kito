@@ -1,3 +1,5 @@
+import { ListName, type } from '../data/tabs';
+
 export interface Anime {
 	id: number;
 	name: string;
@@ -5,13 +7,8 @@ export interface Anime {
 	userRating?: number;
 	episodes: number;
 	episodesWatched: number;
-	type: 'TV' | 'Movie' | 'OVA' | 'Special' | 'ONA';
-	listName:
-		| 'Watching'
-		| 'Completed'
-		| 'On-Hold'
-		| 'Dropped'
-		| 'Plan to Watch';
+	type: type;
+	listName: ListName;
 	description: string;
 	genres: string[];
 	score: number;

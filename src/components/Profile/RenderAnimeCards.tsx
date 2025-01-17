@@ -4,6 +4,7 @@ import ScoreCard from '../Cards/ScoreCard';
 import EmptyList from './EmptyList';
 
 import { Anime } from '../../models/ProfileModels';
+import { useUserContext } from '../../context/UserContext';
 
 interface RenderAnimeCardsProps {
 	paginatedAnime: Anime[];
@@ -18,6 +19,13 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	isFiltrated,
 	loading,
 }) => {
+	const { state } = useUserContext();
+	const { animeList } = state.user || {};
+
+	if (!animeList || animeList.length === 0) {
+		return <p>No anime found</p>;
+	}
+
 	if (paginatedAnime.length === 0) {
 		return <EmptyList isFiltrated={isFiltrated} />;
 	}
@@ -27,15 +35,7 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 			<ScoreCard anime={anime} loading={loading} key={anime.id} />
 		) : (
 			<Grid2 key={anime.id} size={{ xs: 6, sm: 3, md: 3, lg: 2 }}>
-				<ListCard
-					image={anime.image}
-					title={anime.name}
-					genres={anime.genres}
-					score={anime.score}
-					rating={anime.rating}
-					playerScore={anime.userRating}
-					id={anime.id}
-				/>
+				<ListCard anime={anime} />
 			</Grid2>
 		)
 	);

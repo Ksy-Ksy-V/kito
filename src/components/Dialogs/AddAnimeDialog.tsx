@@ -19,7 +19,7 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 }) => {
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
-	// const [episodesValue, setEpisodesValue] = useState<number>(1);
+	const [episodesValue, setEpisodesValue] = useState<string>('');
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);
@@ -29,6 +29,10 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 		setScoreValue(newValue);
 	};
 
+	const handleEpisodeChange = (newValue: string) => {
+		setEpisodesValue(newValue);
+	};
+
 	const handleAdd = () => {
 		handleClose();
 	};
@@ -36,10 +40,14 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	const handleCancel = () => {
 		setListValue('');
 		setScoreValue('');
+		setEpisodesValue('');
 		handleClose();
 	};
 
-	console.log(anime);
+	const episodeOptions = Array.from(
+		{ length: anime?.episodes || 1 },
+		(_, index) => (index + 1).toString()
+	);
 
 	return (
 		<DialogContent>
@@ -102,11 +110,11 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 				) : (
 					<StyledSearchFilters
 						label="Episodes Watched"
-						value={scoreValue}
-						onChange={(e) => handleScoreChange(e.target.value)}
-						options={ratingOptions.map((option) => option.label)}
-						clearValue={() => setScoreValue('')}
-						defaultValue={ratingOptions[0].value}
+						value={episodesValue}
+						onChange={(e) => handleEpisodeChange(e.target.value)}
+						options={episodeOptions}
+						clearValue={() => setEpisodesValue('')}
+						defaultValue={''}
 						capitalizeOptions={false}
 					/>
 				)}
