@@ -3,7 +3,7 @@ import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { ListName, ratingOptions, tabs } from '../../data/tabs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Anime } from '../../models/ProfileModels';
 import { useUserContext } from '../../context/UserContext';
 
@@ -24,7 +24,6 @@ const ChangeList: React.FC<ChangeListProps> = ({
 	const [scoreValue, setScoreValue] = useState<string>(
 		anime.userRating !== undefined ? String(anime.userRating) : ''
 	);
-
 	const [episodesValue, setEpisodesValue] = useState<string>(
 		anime.episodesWatched !== undefined ? String(anime.episodesWatched) : ''
 	);
@@ -69,6 +68,14 @@ const ChangeList: React.FC<ChangeListProps> = ({
 		);
 		handleClose();
 	};
+
+	useEffect(() => {
+		if (listValue === 'Completed') {
+			setEpisodesValue(String(anime.episodes || 1));
+		} else if (episodesValue === String(anime.episodes)) {
+			setListValue('Completed');
+		}
+	}, [listValue, episodesValue, anime.episodes]);
 
 	const episodeOptions = Array.from(
 		{ length: anime?.episodes || 1 },

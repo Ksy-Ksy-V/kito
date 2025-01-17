@@ -16,6 +16,7 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 import { Anime } from '../../models/ProfileModels';
 interface ScoreCardProps {
@@ -433,6 +434,17 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ anime, loading }) => {
 								anime={anime}
 							/>
 						</Dialog>
+
+						<ButtonWithIcon
+							onClick={handleClickOpen}
+							loading={loading}
+							icon={<DeleteOutlineOutlinedIcon />}
+							sx={{
+								marginTop: '1rem',
+							}}
+						>
+							Delete from list
+						</ButtonWithIcon>
 					</Grid2>
 				</Grid2>
 			</Grid2>

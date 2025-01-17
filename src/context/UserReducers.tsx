@@ -8,7 +8,6 @@ export const UPDATE_ANIME = 'UPDATE_ANIME';
 
 export interface UserState {
 	user: UserAccount | null;
-
 	loading: boolean;
 	error: boolean;
 }
