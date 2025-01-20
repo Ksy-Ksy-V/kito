@@ -72,14 +72,9 @@ const MainInformation: React.FC<MainInformationProps> = ({
 						<Grid2 size={12}>
 							<StyledInformation
 								label="Number of Episodes:"
-								value={
-									anime.episodes
-										? `${anime.episodes} episodes, ${
-												anime.duration ||
-												'Unknown duration'
-										  }`
-										: 'Unknown'
-								}
+								value={`${anime?.episodes} episodes, ${
+									anime.duration || 'Unknown duration'
+								}`}
 							/>
 						</Grid2>
 					</>

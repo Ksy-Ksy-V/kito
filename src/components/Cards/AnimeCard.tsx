@@ -20,13 +20,12 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 		>
 			<Grid2
 				sx={{
-					width: '10.625rem',
-					height: '15.625rem',
+					aspectRatio: '11 / 16',
 					borderRadius: '1rem',
 					marginBottom: '0.625rem',
 					boxShadow: 'rgba(29, 51, 53, 0.7)',
 					overflow: 'hidden',
-					cursor: 'pointer',
+					cursor: mal_id ? 'pointer' : null,
 					transition:
 						'transform 0.20s ease-in-out, box-shadow 0.20s ease-in-out, border 0.20s ease-in-out',
 					'&:hover': {
@@ -45,7 +44,8 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 						rel="noopener noreferrer"
 						sx={{
 							width: '100%',
-							height: '100%',
+							maxWidth: '12rem',
+							aspectRatio: '11 / 16',
 							display: 'block',
 						}}
 					>
@@ -55,7 +55,8 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 							alt={title}
 							sx={{
 								width: '100%',
-								height: '100%',
+								maxWidth: '12rem',
+								aspectRatio: '11 / 16',
 								objectFit: 'cover',
 								borderRadius: '0.625rem',
 								transition: 'transform 0.30s ease-in-out',
@@ -69,7 +70,8 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 						alt={title}
 						sx={{
 							width: '100%',
-							height: '100%',
+							maxWidth: '12rem',
+							aspectRatio: '11 / 16',
 							objectFit: 'cover',
 							borderRadius: '0.625rem',
 							transition: 'transform 0.30s ease-in-out',

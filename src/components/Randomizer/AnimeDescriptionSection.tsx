@@ -48,7 +48,10 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 					sx={{
 						marginTop: '1rem',
 						color: 'theme.palette.text.secondary',
-						textAlign: anime.trailer ? 'left' : 'center',
+						textAlign: {
+							xs: 'center',
+							sm: anime.trailer ? 'left' : 'center',
+						},
 					}}
 				>
 					Description
@@ -65,7 +68,9 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 								marginTop: '1rem',
 								overflow: 'hidden',
 								textOverflow: 'ellipsis',
-								textAlign: anime.trailer ? 'left' : 'center',
+								textAlign: anime.trailer
+									? { xs: 'center', sm: 'left' }
+									: 'center',
 							}}
 						>
 							{loading ? (

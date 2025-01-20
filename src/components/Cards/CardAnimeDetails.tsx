@@ -21,16 +21,9 @@ function CardAnimeDetails({
 		return (
 			<Card
 				sx={{
-					width: {
-						xs: '11rem',
-						sm: '12rem',
-						md: '14rem',
-					},
-					height: {
-						xs: '16rem',
-						sm: '18rem',
-						md: '20rem',
-					},
+					width: '100%',
+					maxWidth: '14rem',
+					aspectRatio: '11 / 16',
 					borderRadius: '1rem',
 					border: `0.125rem solid ${theme.palette.secondary.main}`,
 					marginBottom: '2rem',
@@ -43,44 +36,33 @@ function CardAnimeDetails({
 	return (
 		<Card
 			sx={{
-				width: {
-					xs: '11rem',
-					sm: '12rem',
-					md: '14rem',
-				},
-				height: {
-					xs: '16rem',
-					sm: '18rem',
-					md: '20rem',
-				},
+				width: '100%',
+				maxWidth: '14rem',
+				aspectRatio: '11 / 16',
 				borderRadius: '1rem',
 				border: `0.125rem solid ${theme.palette.secondary.main}`,
 			}}
 		>
-			{mal_id ? (
-				<CardMedia
-					component="img"
-					image={imageUrl}
-					alt={title}
-					sx={{
-						width: '100%',
-						height: '100%',
-						transition: 'transform 0.30s ease-in-out',
-					}}
-					onClick={() => navigate(`/anime/${mal_id}`)}
-				/>
-			) : (
-				<CardMedia
-					component="img"
-					image={imageUrl}
-					alt={title}
-					sx={{
-						width: '100%',
-						height: '100%',
-						transition: 'transform 0.30s ease-in-out',
-					}}
-				/>
-			)}
+			<CardMedia
+				component="img"
+				image={imageUrl}
+				alt={title}
+				sx={{
+					width: '100%',
+					height: '100%',
+					objectFit: 'cover',
+					cursor: 'pointer',
+					transition: 'transform 0.3s ease-in-out',
+					'&:hover': mal_id
+						? {
+								transform: 'scale(1.05)',
+						  }
+						: null,
+				}}
+				onClick={
+					mal_id ? () => navigate(`/anime/${mal_id}`) : undefined
+				}
+			/>
 		</Card>
 	);
 }

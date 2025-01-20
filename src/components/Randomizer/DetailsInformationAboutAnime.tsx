@@ -98,6 +98,11 @@ const DetailsInformationAboutAnime: React.FC<
 								sx={{
 									color: theme.palette.text.secondary,
 									display: 'flex',
+									textAlign: 'center',
+									justifyContent: {
+										xs: 'center',
+										sm: 'left',
+									},
 								}}
 							>
 								<StarOutlinedIcon
@@ -114,6 +119,7 @@ const DetailsInformationAboutAnime: React.FC<
 								display: 'flex',
 								flexWrap: 'wrap',
 								gap: '0.5rem',
+								justifyContent: { xs: 'center', sm: 'left' },
 							}}
 						>
 							{anime?.genres.map((genre) => (

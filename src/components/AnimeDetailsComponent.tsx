@@ -19,7 +19,14 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 	const isRandomizerPage = location.pathname === '/randomizer-search';
 
 	return (
-		<Grid2 container spacing={2}>
+		<Grid2
+			container
+			spacing={2}
+			sx={{
+				display: 'flex',
+				justifyContent: { xs: 'center', sm: 'flex-start' },
+			}}
+		>
 			{isRandomizerPage && getRandomize ? (
 				<DetailsInformationAboutAnime
 					loading={loading}
