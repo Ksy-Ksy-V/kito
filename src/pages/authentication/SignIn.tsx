@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { Grid2, Link, TextField, Typography } from '@mui/material';
@@ -32,7 +32,7 @@ const SignIn = () => {
 	});
 
 	const handleSubmit = async (
-		event: React.FormEvent<HTMLFormElement>
+		event: FormEvent<HTMLFormElement>
 	): Promise<void> => {
 		event.preventDefault();
 		const email = data.email;

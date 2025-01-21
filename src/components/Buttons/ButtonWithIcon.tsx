@@ -1,13 +1,9 @@
 import React from 'react';
-import { Button, ButtonProps, useTheme } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import { AddButtonProps } from '../../models/Interfaces';
 
-interface ButtonWithIconProps extends ButtonProps {
-	loading?: boolean;
-	icon?: React.ReactNode;
-}
-
-const ButtonWithIcon: React.FC<ButtonWithIconProps> = ({
+const ButtonWithIcon: React.FC<AddButtonProps> = ({
 	children,
 	sx,
 	loading,

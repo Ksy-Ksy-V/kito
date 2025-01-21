@@ -1,6 +1,6 @@
-import { Tab, RatingOption, TypeOption } from '../models/Tab';
+import { LabeledOption } from '../models/Interfaces';
 
-export const tabs: Tab[] = [
+export const tabs: LabeledOption[] = [
 	{ label: 'Watching', value: 'Watching' },
 	{ label: 'Completed', value: 'Completed' },
 	{ label: 'On-Hold', value: 'On-Hold' },
@@ -9,7 +9,7 @@ export const tabs: Tab[] = [
 	{ label: 'Score', value: 'Score' },
 ];
 
-export const ratingOptions: RatingOption[] = [
+export const ratingOptions: LabeledOption[] = [
 	{ label: 'All', value: 'All' },
 	{ label: 'This is Legendary - 10!!!', value: '10' },
 	{ label: 'Almost Perfect - 9', value: '9' },
@@ -23,7 +23,7 @@ export const ratingOptions: RatingOption[] = [
 	{ label: 'Complete Disaster - 1', value: '1' },
 ];
 
-export const typeOptions: TypeOption[] = [
+export const typeOptions: LabeledOption[] = [
 	{ label: 'All', value: 'All' },
 	{ label: 'TV', value: 'TV' },
 	{ label: 'Movie', value: 'Movie' },

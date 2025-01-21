@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, Dispatch, useContext, useReducer } from 'react';
 
 import {
 	searchReducer,
@@ -11,7 +11,7 @@ import { animeService } from '../services/animeService';
 
 const SearchContext = createContext<{
 	state: SearchState;
-	dispatch: React.Dispatch<Action>;
+	dispatch: Dispatch<Action>;
 	searchAnime: (
 		query: SearchState['query'],
 		limit: number,
