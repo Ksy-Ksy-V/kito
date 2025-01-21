@@ -23,6 +23,7 @@ export interface AnimeCardProps {
 	image: string;
 	title: string;
 	mal_id?: number;
+	isTitle?: boolean;
 }
 
 export interface AnimeAvatarProps {
@@ -34,6 +35,7 @@ export interface AnimeAvatarProps {
 
 export interface KitoCardProps {
 	anime: AnimeKito;
+	loading?: boolean;
 }
 
 export interface AnimeInfoCardProps {
@@ -134,6 +136,7 @@ export interface PasswordFieldProps {
 
 export interface AddButtonProps extends ButtonProps {
 	loading?: boolean;
+	icon?: ReactNode;
 }
 
 export interface SearchButtonsProps {
@@ -203,4 +206,5 @@ export interface RenderAnimeCardsProps {
 	paginatedAnime: AnimeKito[];
 	activeTab: string;
 	isFiltrated: boolean;
+	loading: boolean;
 }
