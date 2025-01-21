@@ -164,15 +164,7 @@ const SeasonAnimePage: React.FC = () => {
 								size={{ xs: 6, sm: 4, md: 4, lg: 3 }}
 								sx={{ justifyContent: 'center' }}
 							>
-								<SearchCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-									description={anime.synopsis as string}
-									genres={anime.genres}
-									score={anime.score}
-									rating={anime.rating}
-									id={anime.mal_id}
-								/>
+								<SearchCard anime={anime} />
 							</Grid2>
 					  ))}
 			</Grid2>

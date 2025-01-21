@@ -6,13 +6,6 @@ import {
 	SortOptions,
 } from '@tutkli/jikan-ts';
 
-export interface AnimeFilters {
-	selectedGenres?: string;
-	selectedFormat?: string;
-	selectedStatus?: string;
-	selectedRating?: string;
-}
-
 export const animeFormats: AnimeType[] = [
 	'TV',
 	'Movie',

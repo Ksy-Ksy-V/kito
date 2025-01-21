@@ -1,10 +1,7 @@
 import React from 'react';
-import { Button, ButtonProps, useTheme } from '@mui/material';
+import { Button, useTheme } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-
-interface AddButtonProps extends ButtonProps {
-	loading?: boolean;
-}
+import { AddButtonProps } from '../../models/Interfaces';
 
 const AddButton: React.FC<AddButtonProps> = ({
 	children,

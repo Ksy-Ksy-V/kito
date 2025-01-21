@@ -3,22 +3,9 @@ import { Box, Typography, Grid2 } from '@mui/material';
 import theme from '../../styles/theme';
 import MainButton from '../Buttons/MainButton';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { KitoCardProps } from '../../models/Interfaces';
 
-interface ScoreCardProps {
-	image: string;
-	title: string;
-	score: number;
-	episodes: string;
-	type: string;
-}
-
-const ScoreCard: React.FC<ScoreCardProps> = ({
-	image,
-	title,
-	score,
-	episodes,
-	type,
-}) => {
+const ScoreCard: React.FC<KitoCardProps> = ({ anime }) => {
 	return (
 		<Grid2
 			container
@@ -36,8 +23,8 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 			<Grid2 size={{ xs: 4, sm: 2 }}>
 				<Box
 					component="img"
-					src={image}
-					alt={title}
+					src={anime.image}
+					alt={anime.name}
 					sx={{
 						width: '6rem',
 						height: '10rem',
@@ -73,7 +60,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 						},
 					}}
 				>
-					{title}
+					{anime.name}
 				</Typography>
 
 				<Grid2
@@ -128,7 +115,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 								color: theme.palette.secondary.main,
 							}}
 						/>
-						{score}
+						{anime.userRating || 0}
 					</Typography>
 				</>
 			</Grid2>
@@ -155,7 +142,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							justifyContent: 'center',
 						}}
 					>
-						{episodes}
+						{`${anime.episodes}/${anime.episodes}`}
 					</Typography>
 				</>
 			</Grid2>
@@ -182,7 +169,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({
 							justifyContent: 'center',
 						}}
 					>
-						{type}
+						{anime.type}
 					</Typography>
 				</>
 			</Grid2>

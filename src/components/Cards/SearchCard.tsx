@@ -7,30 +7,15 @@ import {
 	useTheme,
 	Grid2,
 } from '@mui/material';
-import { JikanResource } from '@tutkli/jikan-ts';
-
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { AnimeSectionProps } from '../../models/Interfaces';
 
-interface SearchCardProps {
-	image: string;
-	title: string;
-	description: string;
-	genres: JikanResource[];
-	score: number;
-	rating: string;
-	id: number;
-}
-
-const SearchCard: React.FC<SearchCardProps> = ({
-	image,
-	title,
-	description,
-	genres,
-	score,
-	rating,
-	id,
-}) => {
+const SearchCard: React.FC<AnimeSectionProps> = ({ anime }) => {
 	const theme = useTheme();
+
+	if (!anime) {
+		return null;
+	}
 
 	return (
 		<>
@@ -77,7 +62,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 				}}
 			>
 				<a
-					href={`/anime/${id}`}
+					href={`/anime/${anime.mal_id}`}
 					rel="noopener noreferrer"
 					style={{
 						width: '100%',
@@ -90,8 +75,8 @@ const SearchCard: React.FC<SearchCardProps> = ({
 				>
 					<CardMedia
 						component="img"
-						image={image}
-						alt={title}
+						image={anime.images.jpg.image_url}
+						alt={anime.title}
 						className="card-media"
 						sx={{
 							width: '100%',
@@ -135,7 +120,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								textAlign: 'center',
 							}}
 						>
-							{rating?.split(' - ')[0]}
+							{anime.rating?.split(' - ')[0]}
 						</Typography>
 					</Box>
 
@@ -174,7 +159,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								},
 							}}
 						>
-							{title}
+							{anime.title}
 						</Typography>
 
 						<Typography
@@ -197,7 +182,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 									marginRight: '0.5rem',
 								}}
 							/>
-							{score}
+							{anime.score}
 						</Typography>
 
 						<Typography
@@ -219,7 +204,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								},
 							}}
 						>
-							{description}
+							{anime.synopsis as string}
 						</Typography>
 
 						<Grid2
@@ -231,7 +216,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								gap: '0.5rem',
 							}}
 						>
-							{genres.map((genre) => (
+							{anime.genres.map((genre) => (
 								<Box
 									key={genre.mal_id}
 									sx={{
@@ -273,7 +258,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 					},
 				}}
 			>
-				{title}
+				{anime.title}
 			</Typography>
 		</>
 	);

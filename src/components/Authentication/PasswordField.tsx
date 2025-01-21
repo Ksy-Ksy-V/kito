@@ -10,13 +10,7 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { textFieldStyles } from '../../styles/AuthStyles';
-
-interface PasswordFieldProps {
-	label: string;
-	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	error?: string;
-}
+import { PasswordFieldProps } from '../../models/Interfaces';
 
 const PasswordField: React.FC<PasswordFieldProps> = ({
 	label,

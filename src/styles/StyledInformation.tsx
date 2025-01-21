@@ -1,15 +1,8 @@
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { LabeledOption } from '../models/Interfaces';
 
-interface StyledInformationProps {
-	label: string;
-	value: string;
-}
-
-const StyledInformation: React.FC<StyledInformationProps> = ({
-	label,
-	value,
-}) => {
+const StyledInformation: React.FC<LabeledOption> = ({ label, value }) => {
 	const theme = useTheme();
 
 	return (

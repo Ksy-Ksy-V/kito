@@ -1,13 +1,7 @@
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
-import { SvgIconProps } from '@mui/material';
-
-interface SocialLink {
-	name: string;
-	icon: React.ReactElement<SvgIconProps>;
-	href: string;
-}
+import { SocialLink } from '../../models/Interfaces';
 
 export const socialLinks: SocialLink[] = [
 	{

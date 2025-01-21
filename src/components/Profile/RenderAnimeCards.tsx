@@ -3,13 +3,7 @@ import ListCard from '../Cards/ListCard';
 import ScoreCard from '../Cards/ScoreCard';
 import EmptyList from './EmptyList';
 
-import { Anime } from '../../models/ProfileModels';
-
-interface RenderAnimeCardsProps {
-	paginatedAnime: Anime[];
-	activeTab: string;
-	isFiltrated: boolean;
-}
+import { RenderAnimeCardsProps } from '../../models/Interfaces';
 
 const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	paginatedAnime,
@@ -22,25 +16,10 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 
 	return paginatedAnime.map((anime) =>
 		activeTab === 'Score' ? (
-			<ScoreCard
-				key={anime.id}
-				image={anime.image}
-				title={anime.name}
-				score={anime.userRating || 0}
-				episodes={`${anime.episodes}/${anime.episodes}`}
-				type={anime.type}
-			/>
+			<ScoreCard key={anime.id} anime={anime} />
 		) : (
 			<Grid2 key={anime.id} size={{ xs: 6, sm: 3, md: 3, lg: 2 }}>
-				<ListCard
-					image={anime.image}
-					title={anime.name}
-					genres={anime.genres}
-					score={anime.score}
-					rating={anime.rating}
-					playerScore={anime.userRating}
-					id={anime.id}
-				/>
+				<ListCard anime={anime} />
 			</Grid2>
 		)
 	);

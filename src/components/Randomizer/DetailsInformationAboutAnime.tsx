@@ -7,17 +7,14 @@ import MainInformation from './MainInformation';
 import BackgroundImg from '../BackgroundImg';
 import RatingLabel from '../AnimeInfo/RatingLabel';
 import RandomizerBtn from '../Buttons/RandomizerBtn';
+import { AbstractAnimeProps } from '../../models/Interfaces';
 
-interface DetailsInformationAboutAnimeProps {
-	anime: AbstractAnime | null;
-	loading: boolean;
-	randomizerPage?: boolean;
-	getRandomize?: (timeout: boolean) => void;
-}
-
-const DetailsInformationAboutAnime: React.FC<
-	DetailsInformationAboutAnimeProps
-> = ({ anime, loading, randomizerPage, getRandomize }) => {
+const DetailsInformationAboutAnime: React.FC<AbstractAnimeProps> = ({
+	anime,
+	loading,
+	randomizerPage,
+	getRandomize,
+}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	const isMobile = useMediaQuery(theme.breakpoints.up('md'));
 	return (
@@ -28,7 +25,7 @@ const DetailsInformationAboutAnime: React.FC<
 				height={'31.25rem'}
 			/>
 
-			<AnimeCardContainer loading={loading} randomAnime={anime} />
+			<AnimeCardContainer loading={loading} anime={anime || null} />
 
 			{randomizerPage && !isLargeScreen && getRandomize && (
 				<Grid2
@@ -41,7 +38,7 @@ const DetailsInformationAboutAnime: React.FC<
 				>
 					<RandomizerBtn
 						loading={loading}
-						randomAnime={anime}
+						anime={anime || null}
 						getRandomize={(timeout) => getRandomize(timeout)}
 					/>
 				</Grid2>
@@ -152,14 +149,16 @@ const DetailsInformationAboutAnime: React.FC<
 				{randomizerPage && isLargeScreen && getRandomize && (
 					<RandomizerBtn
 						loading={loading}
-						randomAnime={anime}
+						anime={anime || null}
 						getRandomize={getRandomize}
 					/>
 				)}
 			</Grid2>
 
 			<Grid2 size={1} sx={{ zIndex: 3, marginTop: '2rem' }}>
-				{isMobile && <RatingLabel anime={anime} loading={loading} />}
+				{isMobile && (
+					<RatingLabel anime={anime || null} loading={loading} />
+				)}
 			</Grid2>
 		</>
 	);

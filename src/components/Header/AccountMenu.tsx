@@ -7,12 +7,9 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
 import { signout } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
+import { MenuProps } from '../../models/Interfaces';
 
-interface AccountMenuProps {
-	onSignOut: () => void;
-}
-
-const AccountMenu: React.FC<AccountMenuProps> = ({ onSignOut }) => {
+const AccountMenu: React.FC<MenuProps> = ({ onSignOut }) => {
 	const dispatch = useAppDispatch();
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 	const theme = useTheme();

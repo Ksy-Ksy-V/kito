@@ -1,7 +1,7 @@
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
-import { SocialLink } from '../models/SocialLink';
+import { SocialLink } from '../models/Interfaces';
 
 export const socialLinks: SocialLink[] = [
 	{

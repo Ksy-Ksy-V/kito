@@ -16,10 +16,7 @@ import { useSearchContext } from '../../context/SearchContext';
 import { useEffect, useState } from 'react';
 import { Genre, GenresClient, JikanResponse } from '@tutkli/jikan-ts';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-
-interface GenresFilterProps {
-	genresOpenValue: boolean;
-}
+import { GenresFilterProps } from '../../models/Interfaces';
 
 const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 	const { state, dispatch } = useSearchContext();

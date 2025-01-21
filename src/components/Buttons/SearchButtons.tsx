@@ -4,11 +4,7 @@ import { useSearchContext } from '../../context/SearchContext';
 import { JikanPagination } from '@tutkli/jikan-ts';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams } from '../../utils/urlParams';
-
-interface SearchButtonsProps {
-	dialogOptions?: boolean;
-	closeDialog?: () => void;
-}
+import { SearchButtonsProps } from '../../models/Interfaces';
 
 const SearchButtons: React.FC<SearchButtonsProps> = ({
 	dialogOptions = false,

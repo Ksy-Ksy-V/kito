@@ -5,21 +5,10 @@ import {
 	InputLabel,
 	InputAdornment,
 	IconButton,
-	SelectChangeEvent,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
-
-interface StyledSearchFiltersProps {
-	label: string;
-	value: string | undefined;
-	onChange?: (event: SelectChangeEvent<string>) => void;
-	options: string[];
-	clearValue: () => void;
-	capitalizeOptions?: boolean;
-	defaultValue?: string;
-	upperCaseOptions?: boolean;
-}
+import { StyledSearchFiltersProps } from '../../models/Interfaces';
 
 const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 	label,

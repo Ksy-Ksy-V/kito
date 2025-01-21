@@ -4,14 +4,9 @@ import AnimeDescriptionSection from './Randomizer/AnimeDescriptionSection';
 import CharacterSection from './AnimeInfo/CharactersSection';
 import SimilarTitlesSection from './AnimeInfo/SimilarTitlesSection';
 import { AbstractAnime } from '../models/AbstractAnime';
+import { AbstractAnimeProps } from '../models/Interfaces';
 
-interface AnimeDetailsProps {
-	anime?: AbstractAnime | null;
-	loading: boolean;
-	getRandomize?: (timeout: boolean) => void;
-}
-
-const AnimeDetails: React.FC<AnimeDetailsProps> = ({
+const AnimeDetails: React.FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 	getRandomize,

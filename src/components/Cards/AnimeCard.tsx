@@ -1,11 +1,6 @@
 import React from 'react';
 import { Grid2, Typography, useTheme } from '@mui/material';
-
-interface AnimeCardProps {
-	image: string;
-	title: string;
-	mal_id?: number;
-}
+import { AnimeCardProps } from '../../models/Interfaces';
 
 const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 	const theme = useTheme();

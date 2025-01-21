@@ -3,10 +3,7 @@ import img from '../../images/notResultFound.png';
 
 import { useMemo } from 'react';
 import theme from '../../styles/theme';
-
-interface EmptyListProps {
-	isFiltrated: boolean;
-}
+import { EmptyListProps } from '../../models/Interfaces';
 
 const EmptyList: React.FC<EmptyListProps> = ({ isFiltrated }) => {
 	const pulse = useMemo(

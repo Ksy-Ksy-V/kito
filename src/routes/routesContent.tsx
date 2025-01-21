@@ -13,11 +13,7 @@ import TermsOfService from '../pages/legal/TermsOfService';
 import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
 import AboutKito from '../pages/legal/AboutKito';
 import PrivateRoute from './PrivateRoute';
-
-interface RouteContent {
-	path: string;
-	element: JSX.Element;
-}
+import { RouteContent } from '../models/Interfaces';
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },

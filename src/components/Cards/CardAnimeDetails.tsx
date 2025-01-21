@@ -1,13 +1,7 @@
 import { Card, CardMedia } from '@mui/material';
 import theme from '../../styles/theme';
 import { useNavigate } from 'react-router-dom';
-
-interface CardAnimeDetailsProps {
-	title?: string;
-	imageUrl?: string;
-	mal_id?: number;
-	loading: boolean;
-}
+import { CardAnimeDetailsProps } from '../../models/Interfaces';
 
 function CardAnimeDetails({
 	title,

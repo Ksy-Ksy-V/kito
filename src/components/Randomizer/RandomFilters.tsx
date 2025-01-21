@@ -22,12 +22,7 @@ import {
 	animeRatings,
 	animeStatuses,
 } from '../../models/AnimeFilters';
-
-interface RandomFiltersProps {
-	loading?: boolean;
-	error?: boolean;
-	animeGenres: Genre[];
-}
+import { RandomFiltersProps } from '../../models/Interfaces';
 
 const RandomFilters: React.FC<RandomFiltersProps> = ({
 	loading,

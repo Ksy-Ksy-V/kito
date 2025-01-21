@@ -1,13 +1,7 @@
 import { Box, Skeleton, Typography } from '@mui/material';
 import React from 'react';
 import theme from '../styles/theme';
-
-interface BackgroundImgProps {
-	backgroundImage?: string;
-	loading?: boolean;
-	title?: string;
-	height?: string | Record<string, string>;
-}
+import { BackgroundImgProps } from '../models/Interfaces';
 
 const BackgroundImg: React.FC<BackgroundImgProps> = ({
 	backgroundImage,

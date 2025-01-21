@@ -81,19 +81,8 @@ function Popularity() {
 				{topList.map((anime, index) => (
 					<AnimeInfoCard
 						key={anime.mal_id}
-						mal_id={anime.mal_id}
+						anime={anime}
 						number={index + 1}
-						image={anime.images.jpg.image_url}
-						title={anime.title}
-						score={anime.score || 0}
-						genres={anime.genres.map((genre) => genre.name)}
-						description={
-							anime.synopsis || 'No description available.'
-						}
-						rating={anime.rating || 'Unknown'}
-						onAddToList={() =>
-							console.log(`Added ${anime.title} to list`)
-						}
 						loading={loading}
 					/>
 				))}

@@ -1,16 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import AnimeCard from '../Cards/AnimeCard';
-import { Anime, Recommendation, AnimeClient } from '@tutkli/jikan-ts';
+import { Recommendation, AnimeClient } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
+import { AnimeSectionProps } from '../../models/Interfaces';
 
-interface SimilarTitlesSectionProps {
-	anime: Anime | null;
-}
-
-const SimilarTitlesSection: React.FC<SimilarTitlesSectionProps> = ({
-	anime,
-}) => {
+const SimilarTitlesSection: React.FC<AnimeSectionProps> = ({ anime }) => {
 	const [recommendationsList, setRecommendationsList] = useState<
 		Recommendation[]
 	>([]);

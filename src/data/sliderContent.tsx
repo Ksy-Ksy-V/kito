@@ -2,7 +2,7 @@ import {
 	sliderPosters,
 	sliderThumbnails,
 } from '../images/homePageSliderImg/index';
-import { SliderItem } from '../models/Slider';
+import { SliderItem } from '../models/Interfaces';
 
 export const sliderItems: SliderItem[] = [
 	{
