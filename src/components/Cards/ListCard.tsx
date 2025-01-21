@@ -47,7 +47,7 @@ const ListCard: React.FC<KitoCardProps> = ({ anime }) => {
 					},
 				}}
 			>
-				{anime.userRating ? (
+				{anime.userRating && (
 					<Box
 						className="rating-label"
 						sx={{
@@ -94,7 +94,7 @@ const ListCard: React.FC<KitoCardProps> = ({ anime }) => {
 							{anime.userRating}
 						</Typography>
 					</Box>
-				) : null}
+				)}
 
 				<a
 					href={`/anime/${anime.id}`}

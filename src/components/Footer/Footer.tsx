@@ -7,7 +7,7 @@ import {
 	AppBar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { importantLinks } from './footerLinksData';
+import { importantLinks } from '../../data/footerLinksData';
 
 import Logo from '../Logo';
 import { socialLinks } from '../../data/SocialLinks';

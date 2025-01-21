@@ -1,5 +1,5 @@
 // Anime-related interfaces
-import { ReactNode } from 'react';
+import { ChangeEvent, ReactElement, ReactNode } from 'react';
 import { AbstractAnime } from './AbstractAnime';
 import { ButtonProps, SelectChangeEvent, SvgIconProps } from '@mui/material';
 import { Anime, Genre, JikanImages } from '@tutkli/jikan-ts';
@@ -98,7 +98,7 @@ export interface PagePaginationProps {
 	loading?: boolean;
 	page?: number;
 	count?: number;
-	onChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
+	onChange?: (event: ChangeEvent<unknown>, page: number) => void;
 }
 
 export interface BackgroundImgProps {
@@ -128,7 +128,7 @@ export interface TextBlockProps {
 export interface PasswordFieldProps {
 	label: string;
 	value: string;
-	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 	error?: string;
 }
 
@@ -185,7 +185,7 @@ export interface LabeledOption {
 
 export interface SocialLink {
 	name: string;
-	icon: React.ReactElement<SvgIconProps>;
+	icon: ReactElement<SvgIconProps>;
 	href: string;
 }
 

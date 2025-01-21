@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Grid2, Checkbox, FormControlLabel, Skeleton } from '@mui/material';
 import {
 	Anime,
@@ -45,10 +45,7 @@ const SeasonAnimePage: React.FC = () => {
 		}
 	};
 
-	const handlePageChange = (
-		_event: React.ChangeEvent<unknown>,
-		value: number
-	) => {
+	const handlePageChange = (_event: ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
 
