@@ -25,7 +25,7 @@ export interface AnimeCardProps {
 	mal_id?: number;
 }
 
-export interface CardAnimeDetailsProps {
+export interface AnimeAvatarProps {
 	title?: string;
 	imageUrl?: string;
 	mal_id?: number;

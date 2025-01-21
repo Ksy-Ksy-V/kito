@@ -1,14 +1,9 @@
 import { Card, CardMedia } from '@mui/material';
 import theme from '../../styles/theme';
 import { useNavigate } from 'react-router-dom';
-import { CardAnimeDetailsProps } from '../../models/Interfaces';
+import { AnimeAvatarProps } from '../../models/Interfaces';
 
-function CardAnimeDetails({
-	title,
-	imageUrl,
-	mal_id,
-	loading,
-}: CardAnimeDetailsProps) {
+function AnimeAvatar({ title, imageUrl, mal_id, loading }: AnimeAvatarProps) {
 	const navigate = useNavigate();
 
 	if (loading) {
@@ -61,4 +56,4 @@ function CardAnimeDetails({
 	);
 }
 
-export default CardAnimeDetails;
+export default AnimeAvatar;

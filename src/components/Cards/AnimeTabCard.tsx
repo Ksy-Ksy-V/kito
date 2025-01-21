@@ -11,7 +11,7 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
 
-const ListCard: React.FC<KitoCardProps> = ({ anime }) => {
+const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	return (
@@ -255,4 +255,4 @@ const ListCard: React.FC<KitoCardProps> = ({ anime }) => {
 	);
 };
 
-export default ListCard;
+export default AnimeTabCard;

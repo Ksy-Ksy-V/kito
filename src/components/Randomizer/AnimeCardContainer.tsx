@@ -1,6 +1,6 @@
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import theme from '../../styles/theme';
-import CardAnimeDetails from '../Cards/CardAnimeDetails';
+import AnimeAvatar from '../Cards/AnimeAvatar';
 import AddButton from '../Buttons/AddButton';
 import YourRatingField from '../Buttons/YourRatingField';
 import { AnimeSectionProps } from '../../models/Interfaces';
@@ -60,7 +60,7 @@ const AnimeCardContainer: React.FC<AnimeSectionProps> = ({
 					marginTop: { xs: '2rem', sm: '1rem' },
 				}}
 			>
-				<CardAnimeDetails
+				<AnimeAvatar
 					title={anime?.title}
 					imageUrl={anime?.images.jpg.image_url}
 					mal_id={anime?.mal_id}

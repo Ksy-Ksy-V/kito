@@ -1,5 +1,5 @@
 import { Grid2 } from '@mui/material';
-import ListCard from '../Cards/ListCard';
+import AnimeTabCard from '../Cards/AnimeTabCard';
 import ScoreCard from '../Cards/ScoreCard';
 import EmptyList from './EmptyList';
 
@@ -19,7 +19,7 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 			<ScoreCard key={anime.id} anime={anime} />
 		) : (
 			<Grid2 key={anime.id} size={{ xs: 6, sm: 3, md: 3, lg: 2 }}>
-				<ListCard anime={anime} />
+				<AnimeTabCard anime={anime} />
 			</Grid2>
 		)
 	);
