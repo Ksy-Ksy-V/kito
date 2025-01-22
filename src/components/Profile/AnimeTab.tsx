@@ -23,13 +23,9 @@ import PagePagination from '../PagePagination';
 import { tabs } from '../../data/tabs';
 import RenderAnimeCards from './RenderAnimeCards';
 import TabFilters from './TabFilters';
-import { UserAccount } from '../../models/ProfileModels';
+import { UserInfoProps } from '../../models/Interfaces';
 
-interface AnimeTabsProps {
-	user: UserAccount;
-}
-
-const AnimeTabs: React.FC<AnimeTabsProps> = ({ user }) => {
+const AnimeTabs: React.FC<UserInfoProps> = ({ user }) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);

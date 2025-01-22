@@ -4,13 +4,7 @@ import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { useState } from 'react';
 import { ratingOptions, tabs } from '../../data/tabs';
-import { Anime } from '@tutkli/jikan-ts';
-
-interface AddAnimeDialogProps {
-	loading?: boolean;
-	handleClose: () => void;
-	anime: Anime;
-}
+import { AddAnimeDialogProps } from '../../models/Interfaces';
 
 const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	loading,

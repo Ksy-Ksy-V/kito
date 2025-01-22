@@ -1,9 +1,8 @@
-// Anime-related interfaces
 import { ChangeEvent, ReactElement, ReactNode } from 'react';
 import { AbstractAnime } from './AbstractAnime';
 import { ButtonProps, SelectChangeEvent, SvgIconProps } from '@mui/material';
 import { Anime, Genre, JikanImages } from '@tutkli/jikan-ts';
-import { AnimeKito } from './ProfileModels';
+import { AnimeKito, UserAccount } from './ProfileModels';
 
 // General Anime Details and Sections
 export interface AbstractAnimeProps {
@@ -16,6 +15,11 @@ export interface AbstractAnimeProps {
 export interface AnimeSectionProps {
 	anime: Anime | null;
 	loading?: boolean;
+}
+
+//User
+export interface UserInfoProps {
+	user: UserAccount;
 }
 
 // Anime Information and Cards
@@ -167,6 +171,18 @@ export interface MenuProps {
 	onSignOut: () => void;
 }
 
+export interface ChangeListProps {
+	loading?: boolean;
+	anime: AnimeKito;
+	handleClose: () => void;
+}
+
+export interface AddAnimeDialogProps {
+	loading?: boolean;
+	handleClose: () => void;
+	anime: Anime;
+}
+
 // Utility and Shared Data
 export interface RouteContent {
 	path: string;
@@ -206,5 +222,9 @@ export interface RenderAnimeCardsProps {
 	paginatedAnime: AnimeKito[];
 	activeTab: string;
 	isFiltrated: boolean;
+	loading: boolean;
+}
+
+export interface LoadingProps {
 	loading: boolean;
 }

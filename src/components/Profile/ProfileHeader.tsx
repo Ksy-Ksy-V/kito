@@ -3,13 +3,9 @@ import BackgroundCover from './BackgroundCover';
 
 import AvatarDef from '../../images/ProfileAvatar.png';
 import theme from '../../styles/theme';
-import { UserAccount } from '../../models/ProfileModels';
+import { UserInfoProps } from '../../models/Interfaces';
 
-interface ProfileHeaderProps {
-	user: UserAccount;
-}
-
-const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
+const ProfileHeader: React.FC<UserInfoProps> = ({ user }) => {
 	const { name, status, animeList, avatar, background } = user;
 
 	const stats = [
@@ -41,7 +37,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ user }) => {
 				marginTop: '2rem',
 			}}
 		>
-			<BackgroundCover background={background} />
+			<BackgroundCover backgroundImage={background} />
 
 			<Grid2 container spacing={2} size={12}>
 				<Grid2

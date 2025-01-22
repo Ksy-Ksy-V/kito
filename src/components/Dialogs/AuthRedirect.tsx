@@ -2,12 +2,9 @@ import { DialogContent, Grid2, Typography } from '@mui/material';
 import MainButton from '../Buttons/MainButton';
 import theme from '../../styles/theme';
 import { useNavigate } from 'react-router-dom';
+import { LoadingProps } from '../../models/Interfaces';
 
-interface AuthRedirectProps {
-	loading: boolean;
-}
-
-const AuthRedirect: React.FC<AuthRedirectProps> = ({ loading }) => {
+const AuthRedirect: React.FC<LoadingProps> = ({ loading }) => {
 	const navigate = useNavigate();
 
 	return (

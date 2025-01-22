@@ -4,14 +4,8 @@ import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { ListName, ratingOptions, tabs } from '../../data/tabs';
 import { useEffect, useState } from 'react';
-import { Anime } from '../../models/ProfileModels';
 import { useUserContext } from '../../context/UserContext';
-
-interface ChangeListProps {
-	loading?: boolean;
-	anime: Anime;
-	handleClose: () => void;
-}
+import { ChangeListProps } from '../../models/Interfaces';
 
 const ChangeList: React.FC<ChangeListProps> = ({
 	loading,

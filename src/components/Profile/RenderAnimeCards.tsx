@@ -24,7 +24,7 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	}
 
 	return paginatedAnime.map((anime) =>
-		activeTab === 'Score' ? (
+		activeTab === 'Score' || activeTab === 'Watching' ? (
 			<ScoreCard key={anime.id} anime={anime} loading={loading} />
 		) : (
 			<Grid2 key={anime.id} size={{ xs: 6, sm: 3, md: 3, lg: 2 }}>

@@ -1,13 +1,10 @@
 import { Box } from '@mui/material';
 import backgroundDef from '../../images/accountBackground.jpg';
 import theme from '../../styles/theme';
+import { BackgroundImgProps } from '../../models/Interfaces';
 
-interface BackgroundCoverProps {
-	background?: string;
-}
-
-const BackgroundCover: React.FC<BackgroundCoverProps> = ({ background }) => {
-	const finalBackground = background || backgroundDef;
+const BackgroundCover: React.FC<BackgroundImgProps> = ({ backgroundImage }) => {
+	const finalBackground = backgroundImage || backgroundDef;
 
 	return (
 		<>
