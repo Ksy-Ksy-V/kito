@@ -13,19 +13,13 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
 import StyledInformation from '../../styles/StyledInformation';
+import { AnimeInfoCardProps } from '../../models/Interfaces';
 import AddToList from '../AnimeInfo/AddToList';
-import { Anime } from '@tutkli/jikan-ts';
 import { useUserContext } from '../../context/UserContext';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import CloseIcon from '@mui/icons-material/Close';
-
-interface AnimeInfoCardProps {
-	number: number;
-	anime: Anime;
-	loading: boolean;
-}
 
 const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	number,
@@ -256,7 +250,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 										marginRight: '0.5rem',
 									}}
 								/>
-								{anime.score}
+								{anime.score || 0}
 							</Typography>
 						)}
 					</Grid2>
@@ -366,7 +360,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									marginTop: { xs: '0.5rem', sm: '2rem' },
 								}}
 							>
-								{anime.synopsis}
+								{anime.synopsis || 'No description available.'}
 							</Typography>
 						)}
 						<Box

@@ -1,12 +1,7 @@
-import React, { ReactNode } from 'react';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import { Container } from '@mui/material';
-
-interface PageWrapperProps {
-	children: ReactNode;
-	fullWidth: boolean;
-}
+import { PageWrapperProps } from '../models/Interfaces';
 
 const PageWrapper: React.FC<PageWrapperProps> = ({ children, fullWidth }) => {
 	return (

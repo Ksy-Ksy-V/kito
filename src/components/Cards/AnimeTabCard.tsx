@@ -9,13 +9,9 @@ import {
 } from '@mui/material';
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import { Anime } from '../../models/ProfileModels';
+import { KitoCardProps } from '../../models/Interfaces';
 
-interface ListCardProps {
-	anime: Anime;
-}
-
-const ListCard: React.FC<ListCardProps> = ({ anime }) => {
+const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	return (
@@ -51,7 +47,7 @@ const ListCard: React.FC<ListCardProps> = ({ anime }) => {
 					},
 				}}
 			>
-				{anime.userRating ? (
+				{anime.userRating && (
 					<Box
 						className="rating-label"
 						sx={{
@@ -98,7 +94,7 @@ const ListCard: React.FC<ListCardProps> = ({ anime }) => {
 							{anime.userRating}
 						</Typography>
 					</Box>
-				) : null}
+				)}
 
 				<a
 					href={`/anime/${anime.id}`}
@@ -259,4 +255,4 @@ const ListCard: React.FC<ListCardProps> = ({ anime }) => {
 	);
 };
 
-export default ListCard;
+export default AnimeTabCard;

@@ -1,13 +1,8 @@
 import { Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import { Anime } from '@tutkli/jikan-ts';
+import { AnimeSectionProps } from '../../models/Interfaces';
 
-interface RatingLabelProps {
-	anime: Anime | null;
-	loading: boolean;
-}
-
-const RatingLabel: React.FC<RatingLabelProps> = ({ anime, loading }) => {
+const RatingLabel: React.FC<AnimeSectionProps> = ({ anime, loading }) => {
 	return (
 		<Grid2
 			sx={{

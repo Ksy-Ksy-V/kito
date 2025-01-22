@@ -1,11 +1,5 @@
 import { Pagination } from '@mui/material';
-
-interface PagePaginationProps {
-	loading?: boolean;
-	page?: number;
-	count?: number;
-	onChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
-}
+import { PagePaginationProps } from '../models/Interfaces';
 
 const PagePagination: React.FC<PagePaginationProps> = ({
 	loading,

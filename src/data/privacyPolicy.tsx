@@ -1,8 +1,4 @@
-export interface legalProps {
-	id: number;
-	title: string;
-	content: string[];
-}
+import { legalProps, WelcomeLegalProps } from '../models/Interfaces';
 
 export const privacyPolicy: legalProps[] = [
 	{
@@ -119,10 +115,6 @@ export const privacyPolicy: legalProps[] = [
 		],
 	},
 ];
-
-export interface WelcomeLegalProps {
-	content: string[];
-}
 
 export const welcomePrivacyPolicy: WelcomeLegalProps[] = [
 	{

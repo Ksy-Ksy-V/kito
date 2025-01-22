@@ -1,15 +1,7 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import theme from '../../styles/theme';
-
-interface YourRatingFieldProps {
-	loading?: boolean;
-	width: {
-		xs: string;
-		sm: string;
-		md: string;
-	};
-}
+import { YourRatingFieldProps } from '../../models/Interfaces';
 
 const YourRatingField: React.FC<YourRatingFieldProps> = ({
 	loading,

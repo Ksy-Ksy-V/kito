@@ -18,13 +18,9 @@ import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
-import { Anime } from '../../models/ProfileModels';
-interface ScoreCardProps {
-	anime: Anime;
-	loading: boolean;
-}
+import { KitoCardProps } from '../../models/Interfaces';
 
-const ScoreCard: React.FC<ScoreCardProps> = ({ anime, loading }) => {
+const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -36,7 +32,6 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ anime, loading }) => {
 	const handleClose = () => {
 		setOpen(false);
 	};
-
 	return (
 		<Card
 			sx={{
@@ -289,7 +284,7 @@ const ScoreCard: React.FC<ScoreCardProps> = ({ anime, loading }) => {
 										color: theme.palette.secondary.main,
 									}}
 								/>
-								{anime.userRating || '?'}
+								{anime.score}
 							</Typography>
 						</>
 					</Grid2>

@@ -1,17 +1,12 @@
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
-import { Anime } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
-import CardAnimeDetails from '../Cards/CardAnimeDetails';
 import AddToList from '../AnimeInfo/AddToList';
+import AnimeAvatar from '../Cards/AnimeAvatar';
+import { AnimeSectionProps } from '../../models/Interfaces';
 
-interface AnimeCardContainerProps {
-	loading: boolean;
-	randomAnime: Anime | null;
-}
-
-const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
+const AnimeCardContainer: React.FC<AnimeSectionProps> = ({
 	loading,
-	randomAnime,
+	anime,
 }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -50,7 +45,7 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 							marginTop: '1.5rem',
 						}}
 					>
-						{randomAnime?.title}
+						{anime?.title}
 					</Typography>
 				)}
 			</Grid2>
@@ -64,11 +59,11 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 					marginTop: { xs: '2rem', sm: '0rem' },
 				}}
 			>
-				<CardAnimeDetails
-					title={randomAnime?.title}
-					imageUrl={randomAnime?.images.jpg.image_url}
-					mal_id={randomAnime?.mal_id}
-					loading={loading}
+				<AnimeAvatar
+					title={anime?.title}
+					imageUrl={anime?.images.jpg.image_url}
+					mal_id={anime?.mal_id}
+					loading={loading || false}
 				/>
 			</Grid2>
 
@@ -85,8 +80,8 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 						},
 					}}
 				>
-					{randomAnime && (
-						<AddToList loading={loading} anime={randomAnime} />
+					{anime && loading !== undefined && (
+						<AddToList loading={loading} anime={anime} />
 					)}
 				</Grid2>
 			</>

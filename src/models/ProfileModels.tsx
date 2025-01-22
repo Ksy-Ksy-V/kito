@@ -1,6 +1,5 @@
 import { ListName, type } from '../data/tabs';
-
-export interface Anime {
+export interface AnimeKito {
 	id: number;
 	name: string;
 	image: string;
@@ -21,5 +20,5 @@ export interface UserAccount {
 	status: string;
 	avatar: string;
 	background: string;
-	animeList: Anime[];
+	animeList: AnimeKito[];
 }

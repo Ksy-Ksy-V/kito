@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
 	Checkbox,
@@ -56,7 +56,7 @@ const SignUp = () => {
 	});
 
 	const handleSubmit = async (
-		e: React.FormEvent<HTMLFormElement>
+		e: FormEvent<HTMLFormElement>
 	): Promise<void> => {
 		e.preventDefault();
 
@@ -103,7 +103,7 @@ const SignUp = () => {
 		}
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value, checked, type } = e.target;
 		let errorMessage = '';
 

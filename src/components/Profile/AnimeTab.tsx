@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import {
+	ChangeEvent,
+	SyntheticEvent,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import {
 	Tabs,
 	Tab,
@@ -46,10 +52,7 @@ const AnimeTabs: React.FC<AnimeTabsProps> = ({ user }) => {
 			.length;
 	};
 
-	const handleTabChange = (
-		_event: React.SyntheticEvent,
-		newValue: string
-	) => {
+	const handleTabChange = (_event: SyntheticEvent, newValue: string) => {
 		setActiveTab(newValue);
 		setPage(1);
 		setIsFiltrated(false);
@@ -65,10 +68,7 @@ const AnimeTabs: React.FC<AnimeTabsProps> = ({ user }) => {
 		setPage(1);
 	};
 
-	const handlePageChange = (
-		_event: React.ChangeEvent<unknown>,
-		value: number
-	) => {
+	const handlePageChange = (_event: ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
 
@@ -107,12 +107,12 @@ const AnimeTabs: React.FC<AnimeTabsProps> = ({ user }) => {
 		}
 	}, [ratingFilter, typeFilter]);
 
-	const totalPages = React.useMemo(
+	const totalPages = useMemo(
 		() => Math.ceil(filteredAnime.length / itemsPerPage),
 		[filteredAnime.length, itemsPerPage]
 	);
 
-	const paginatedAnime = React.useMemo(
+	const paginatedAnime = useMemo(
 		() =>
 			filteredAnime.slice((page - 1) * itemsPerPage, page * itemsPerPage),
 		[filteredAnime, page, itemsPerPage]

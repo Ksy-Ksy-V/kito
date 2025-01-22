@@ -1,13 +1,8 @@
 import { Grid2, Skeleton, Typography } from '@mui/material';
-import { AbstractAnime } from '../../models/AbstractAnime';
 import { useEffect, useState } from 'react';
+import { AbstractAnimeProps } from '../../models/Interfaces';
 
-interface AnimeDescriptionSectionProps {
-	anime: AbstractAnime | null;
-	loading: boolean;
-}
-
-const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
+const AnimeDescriptionSection: React.FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 }) => {
@@ -48,7 +43,10 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 					sx={{
 						marginTop: '1rem',
 						color: 'theme.palette.text.secondary',
-						textAlign: anime.trailer ? 'left' : 'center',
+						textAlign: {
+							xs: 'center',
+							sm: anime.trailer ? 'left' : 'center',
+						},
 					}}
 				>
 					Description
@@ -65,7 +63,9 @@ const AnimeDescriptionSection: React.FC<AnimeDescriptionSectionProps> = ({
 								marginTop: '1rem',
 								overflow: 'hidden',
 								textOverflow: 'ellipsis',
-								textAlign: anime.trailer ? 'left' : 'center',
+								textAlign: anime.trailer
+									? { xs: 'center', sm: 'left' }
+									: 'center',
 							}}
 						>
 							{loading ? (

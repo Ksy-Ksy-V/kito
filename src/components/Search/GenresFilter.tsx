@@ -13,13 +13,10 @@ import {
 import theme from '../../styles/theme';
 import { ExpandMore } from '@mui/icons-material';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { Genre, GenresClient, JikanResponse } from '@tutkli/jikan-ts';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-
-interface GenresFilterProps {
-	genresOpenValue: boolean;
-}
+import { GenresFilterProps } from '../../models/Interfaces';
 
 const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 	const { state, dispatch } = useSearchContext();
@@ -63,7 +60,7 @@ const GenresFilter: React.FC<GenresFilterProps> = ({ genresOpenValue }) => {
 		}
 	}, [isInitialGenres]);
 
-	const handleGenreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleGenreChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value, checked } = event.target;
 
 		const updatedGenres = checked
