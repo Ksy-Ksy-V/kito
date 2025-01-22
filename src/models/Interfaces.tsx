@@ -224,7 +224,3 @@ export interface RenderAnimeCardsProps {
 	isFiltrated: boolean;
 	loading: boolean;
 }
-
-export interface LoadingProps {
-	loading: boolean;
-}

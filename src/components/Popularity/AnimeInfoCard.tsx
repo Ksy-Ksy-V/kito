@@ -6,8 +6,6 @@ import {
 	Skeleton,
 	Grid2,
 	useMediaQuery,
-	Dialog,
-	DialogTitle,
 } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
@@ -15,37 +13,14 @@ import theme from '../../styles/theme';
 import StyledInformation from '../../styles/StyledInformation';
 import { AnimeInfoCardProps } from '../../models/Interfaces';
 import AddToList from '../AnimeInfo/AddToList';
-import { useUserContext } from '../../context/UserContext';
-import ChangeList from '../Dialogs/ChangeList';
-import ButtonWithIcon from '../Buttons/ButtonWithIcon';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import CloseIcon from '@mui/icons-material/Close';
 
 const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 	number,
 	anime,
 	loading,
 }) => {
-	const [open, setOpen] = useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
-
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-	const { state } = useUserContext();
-	const { animeList } = state.user || {};
-
-	const hasInList = animeList?.some((item) => item.id === anime.mal_id);
-	const localAnime = animeList?.find(
-		(localAnime) => localAnime.id === anime.mal_id
-	);
 
 	return (
 		<Grid2
@@ -132,57 +107,9 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						display: 'flex',
 					}}
 				>
-					{anime && hasInList ? (
+					{anime ? (
 						<>
-							<ButtonWithIcon
-								onClick={handleClickOpen}
-								loading={loading}
-								icon={<CreateOutlinedIcon />}
-								sx={{
-									marginTop: '1rem',
-								}}
-							>
-								Change list
-							</ButtonWithIcon>
-
-							<Dialog
-								open={open}
-								onClose={handleClose}
-								fullWidth
-								disableEnforceFocus
-							>
-								<Grid2
-									container
-									spacing={2}
-									sx={{
-										display: 'flex',
-										justifyContent: 'space-between',
-									}}
-								>
-									<DialogTitle id="dialog-title">
-										Change list
-									</DialogTitle>
-
-									<Button
-										aria-label="close"
-										onClick={handleClose}
-										sx={{
-											color: theme.palette.primary.main,
-											fontSize: '4rem',
-										}}
-									>
-										<CloseIcon />
-									</Button>
-								</Grid2>
-
-								{localAnime ? (
-									<ChangeList
-										loading={loading}
-										handleClose={() => handleClose()}
-										anime={localAnime}
-									/>
-								) : null}
-							</Dialog>
+							<AddToList anime={anime} />
 						</>
 					) : (
 						<AddToList loading={loading} anime={anime} />

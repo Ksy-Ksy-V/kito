@@ -16,10 +16,10 @@ const ChangeList: React.FC<ChangeListProps> = ({
 
 	const [listValue, setListValue] = useState<string>(anime.listName);
 	const [scoreValue, setScoreValue] = useState<string>(
-		anime.userRating !== undefined ? String(anime.userRating) : ''
+		String(anime?.userRating)
 	);
 	const [episodesValue, setEpisodesValue] = useState<string>(
-		anime.episodesWatched !== undefined ? String(anime.episodesWatched) : ''
+		String(anime?.userRating || 1)
 	);
 
 	const handleListChange = (newValue: string) => {
@@ -66,10 +66,8 @@ const ChangeList: React.FC<ChangeListProps> = ({
 	useEffect(() => {
 		if (listValue === 'Completed') {
 			setEpisodesValue(String(anime.episodes || 1));
-		} else if (episodesValue === String(anime.episodes)) {
-			setListValue('Completed');
 		}
-	}, [listValue, episodesValue, anime.episodes]);
+	}, [listValue, anime.episodes]);
 
 	const episodeOptions = Array.from(
 		{ length: anime?.episodes || 1 },
@@ -120,7 +118,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						onChange={(e) => handleScoreChange(e.target.value)}
 						options={ratingOptions.map((option) => option.value)}
 						clearValue={() => setScoreValue('')}
-						defaultValue={ratingOptions[0].value}
+						defaultValue={scoreValue}
 						capitalizeOptions={false}
 					/>
 				)}
@@ -156,25 +154,25 @@ const ChangeList: React.FC<ChangeListProps> = ({
 				>
 					<Grid2 size={{ xs: 12, sm: 6 }}>
 						<MainButton
-							onClick={handleAdd}
-							disabled={loading}
-							sx={{
-								marginTop: { sm: '2rem', xs: '1rem' },
-							}}
-						>
-							Add changes
-						</MainButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 12, sm: 6 }}>
-						<MainButton
 							disabled={loading}
 							onClick={handleCancel}
 							sx={{
 								marginTop: { sm: '2rem', xs: '1rem' },
 							}}
 						>
-							Cancel changes
+							Cancel
+						</MainButton>
+					</Grid2>
+
+					<Grid2 size={{ xs: 12, sm: 6 }}>
+						<MainButton
+							onClick={handleAdd}
+							disabled={loading}
+							sx={{
+								marginTop: { sm: '2rem', xs: '1rem' },
+							}}
+						>
+							Add
 						</MainButton>
 					</Grid2>
 				</Grid2>

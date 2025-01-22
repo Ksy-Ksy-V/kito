@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import { Button, Dialog, DialogTitle, Grid2 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,13 +7,21 @@ import { useAppSelector } from '../../store/hooks';
 import { selectAuth } from '../../store/reducers/authSlice';
 import AddAnimeDialog from '../Dialogs/AddAnimeDialog';
 import AuthRedirect from '../Dialogs/AuthRedirect';
-
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { AnimeSectionProps } from '../../models/Interfaces';
+import { useUserContext } from '../../context/UserContext';
+import ChangeList from '../Dialogs/ChangeList';
+import { AnimeKito } from '../../models/ProfileModels';
 
 const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
-
+	const { state } = useUserContext();
+	const { animeList } = state.user || {};
 	const [open, setOpen] = useState(false);
+	const [inList, setInList] = useState(false);
+	const [localAnime, setLocalAnime] = useState<AnimeKito | undefined>(
+		undefined
+	);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -23,11 +31,24 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 		setOpen(false);
 	};
 
+	useEffect(() => {
+		if (anime && animeList) {
+			const foundAnime = animeList.find(
+				(item) => item.id === anime.mal_id
+			);
+			setInList(!!foundAnime);
+			setLocalAnime(foundAnime);
+		}
+	}, [anime, animeList]);
+
+	const btnLabel = inList && isLoggedIn ? 'Change list' : 'Add To List';
+
 	return (
 		<>
 			<ButtonWithIcon
 				onClick={handleClickOpen}
 				loading={loading}
+				icon={inList ? <CreateOutlinedIcon /> : undefined}
 				sx={{
 					width: {
 						xs: '11rem',
@@ -37,7 +58,7 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 					marginTop: '1rem',
 				}}
 			>
-				Add To List
+				{btnLabel}
 			</ButtonWithIcon>
 
 			<Dialog
@@ -51,7 +72,7 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 					spacing={2}
 					sx={{ display: 'flex', justifyContent: 'space-between' }}
 				>
-					<DialogTitle id="dialog-title">Add to list</DialogTitle>
+					<DialogTitle id="dialog-title"> {btnLabel}</DialogTitle>
 
 					<Button
 						aria-label="close"
@@ -66,15 +87,21 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 				</Grid2>
 
 				{isLoggedIn && anime !== null ? (
-					<AddAnimeDialog
-						loading={loading}
-						handleClose={() => handleClose()}
-						anime={anime}
-					/>
+					inList && localAnime ? (
+						<ChangeList
+							loading={loading}
+							handleClose={() => handleClose()}
+							anime={localAnime}
+						/>
+					) : (
+						<AddAnimeDialog
+							loading={loading}
+							handleClose={() => handleClose()}
+							anime={anime}
+						/>
+					)
 				) : (
-					<AuthRedirect
-						loading={loading !== undefined ? loading : false}
-					/>
+					<AuthRedirect />
 				)}
 			</Dialog>
 		</>

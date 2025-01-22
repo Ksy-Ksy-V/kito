@@ -123,18 +123,6 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 				>
 					<Grid2 size={{ xs: 12, sm: 6 }}>
 						<MainButton
-							onClick={handleAdd}
-							disabled={loading}
-							sx={{
-								marginTop: { sm: '2rem', xs: '1rem' },
-							}}
-						>
-							Add
-						</MainButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 12, sm: 6 }}>
-						<MainButton
 							disabled={loading}
 							onClick={handleCancel}
 							sx={{
@@ -142,6 +130,18 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 							}}
 						>
 							Cancel
+						</MainButton>
+					</Grid2>
+
+					<Grid2 size={{ xs: 12, sm: 6 }}>
+						<MainButton
+							onClick={handleAdd}
+							disabled={loading}
+							sx={{
+								marginTop: { sm: '2rem', xs: '1rem' },
+							}}
+						>
+							Add
 						</MainButton>
 					</Grid2>
 				</Grid2>
