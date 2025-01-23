@@ -86,7 +86,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 		<DialogContent>
 			<Typography variant="h3" sx={{ textAlign: 'center' }}>
 				{' '}
-				{anime.name}
+				{anime.title}
 			</Typography>
 			<Grid2 size={12}>
 				{loading ? (

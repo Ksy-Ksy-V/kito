@@ -1,7 +1,8 @@
 import { ListName, type } from '../data/tabs';
 export interface AnimeKito {
 	id: number;
-	name: string;
+	// name: string;
+	title: string;
 	image: string;
 	userRating?: number;
 	episodes: number;

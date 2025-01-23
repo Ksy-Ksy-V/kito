@@ -1,8 +1,5 @@
 import { user } from '../data/profileInformation';
-import {
-	// AnimeKito,
-	UserAccount,
-} from '../models/ProfileModels';
+import { AnimeKito, UserAccount } from '../models/ProfileModels';
 
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
@@ -22,21 +19,6 @@ export const initialUserState: UserState = {
 	loading: false,
 	error: false,
 };
-
-// export const initialAnimeState: AnimeKito = {
-// 	id: 1,
-// 	name: '',
-// 	image: '',
-// 	userRating: 1,
-// 	episodes: 1,
-// 	episodesWatched: 1,
-// 	type: 'TV',
-// 	listName: 'Watching',
-// 	description: '',
-// 	genres: [],
-// 	score: 1,
-// 	rating: '',
-// };
 
 export type Action =
 	| { type: 'SET_LOADING'; payload: boolean }
@@ -61,17 +43,7 @@ export type Action =
 	| {
 			type: 'SET_ADD_ANIME';
 			payload: {
-				animeId: number;
-				updates: {
-					userRating?: number;
-					listName:
-						| 'Watching'
-						| 'Completed'
-						| 'On-Hold'
-						| 'Dropped'
-						| 'Plan to Watch';
-					episodesWatched?: number;
-				};
+				anime: AnimeKito;
 			};
 	  }
 	| { type: 'SET_DELETE_ANIME' };
@@ -106,12 +78,18 @@ export function userReducer(state: UserState, action: Action): UserState {
 					: null,
 			};
 
-		case SET_ADD_ANIME:
+		case 'SET_ADD_ANIME':
 			return {
 				...state,
 				user: state.user
 					? {
 							...state.user,
+							animeList: state.user.animeList
+								? [
+										...state.user.animeList,
+										action.payload.anime,
+								  ]
+								: [action.payload.anime],
 					  }
 					: null,
 			};

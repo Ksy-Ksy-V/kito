@@ -82,7 +82,7 @@ const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 						<Grid2
 							component="img"
 							src={anime.image}
-							alt={anime.name}
+							alt={anime.title}
 							sx={{
 								width: '10rem',
 								height: '16rem',
@@ -123,7 +123,7 @@ const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 								},
 							}}
 						>
-							{anime.name}
+							{anime.title}
 						</Typography>
 					)}
 

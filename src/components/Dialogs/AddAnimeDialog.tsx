@@ -3,9 +3,11 @@ import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { useEffect, useState } from 'react';
-import { ListName, ratingOptions, tabs } from '../../data/tabs';
+import { ListName, ratingOptions, tabs, type } from '../../data/tabs';
 import { AddAnimeDialogProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
+import { Anime } from '@tutkli/jikan-ts';
+import { AnimeKito } from '../../models/ProfileModels';
 
 const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	loading,
@@ -36,16 +38,16 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 		if (listValue === '') {
 			setValidationsErrors(true);
 		} else {
+			const animeKito = createAnimeKitoObject(
+				anime,
+				listValue,
+				Number(scoreValue),
+				Number(episodesValue)
+			);
+
 			dispatch({
 				type: 'SET_ADD_ANIME',
-				payload: {
-					animeId: anime.mal_id,
-					updates: {
-						userRating: Number(scoreValue),
-						listName: listValue as ListName,
-						episodesWatched: Number(episodesValue),
-					},
-				},
+				payload: { anime: animeKito },
 			});
 
 			handleClose();
@@ -69,6 +71,28 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 			setEpisodesValue(String(anime.episodes || 1));
 		}
 	}, [listValue, anime.episodes]);
+
+	const createAnimeKitoObject = (
+		anime: Anime,
+		listName: string,
+		userRating: number,
+		episodesWatched: number
+	): AnimeKito => {
+		return {
+			id: anime.mal_id,
+			title: anime.title,
+			image: anime.images.jpg.image_url,
+			episodes: anime.episodes || 0,
+			type: anime.type as type,
+			description: anime.synopsis as string,
+			genres: anime.genres.map((genre) => genre.name),
+			score: anime.score,
+			rating: anime.rating,
+			userRating,
+			listName: listName as ListName,
+			episodesWatched,
+		};
+	};
 
 	return (
 		<DialogContent>
