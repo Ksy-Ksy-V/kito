@@ -19,9 +19,7 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const { animeList } = state.user || {};
 	const [open, setOpen] = useState(false);
 	const [inList, setInList] = useState(false);
-	const [localAnime, setLocalAnime] = useState<AnimeKito | undefined>(
-		undefined
-	);
+	const [localAnime, setLocalAnime] = useState<AnimeKito | null>(null);
 
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -37,7 +35,7 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 				(item) => item.id === anime.mal_id
 			);
 			setInList(!!foundAnime);
-			setLocalAnime(foundAnime);
+			setLocalAnime(foundAnime ? foundAnime : null);
 		}
 	}, [anime, animeList]);
 

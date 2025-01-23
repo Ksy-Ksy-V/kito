@@ -5,7 +5,7 @@ import AnimeAvatar from '../Cards/AnimeAvatar';
 import { AnimeSectionProps } from '../../models/Interfaces';
 
 const AnimeCardContainer: React.FC<AnimeSectionProps> = ({
-	loading,
+	loading = false,
 	anime,
 }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
@@ -80,9 +80,7 @@ const AnimeCardContainer: React.FC<AnimeSectionProps> = ({
 						},
 					}}
 				>
-					{anime && loading !== undefined && (
-						<AddToList loading={loading} anime={anime} />
-					)}
+					{anime && <AddToList loading={loading} anime={anime} />}
 				</Grid2>
 			</>
 		</Grid2>

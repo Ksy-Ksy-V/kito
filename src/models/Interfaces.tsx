@@ -100,6 +100,10 @@ export interface PageWrapperProps {
 	fullWidth: boolean;
 }
 
+export interface AuthPageLayoutProps {
+	children: ReactNode;
+}
+
 export interface PagePaginationProps {
 	loading?: boolean;
 	page?: number;
@@ -181,6 +185,10 @@ export interface AddAnimeDialogProps {
 	loading?: boolean;
 	handleClose: () => void;
 	anime: Anime;
+}
+
+export interface AuthFormProps {
+	preSignUpPath?: string;
 }
 
 // Utility and Shared Data
