@@ -15,6 +15,9 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	const [scoreValue, setScoreValue] = useState<string>('');
 	const [episodesValue, setEpisodesValue] = useState<string>('');
 
+	const [validateError, setValidationsErrors] = useState<boolean>(false);
+	const validateErrorText = 'Please select a list to add anime';
+
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);
 	};
@@ -28,7 +31,11 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	};
 
 	const handleAdd = () => {
-		handleClose();
+		if (listValue === '') {
+			setValidationsErrors(true);
+		} else {
+			handleClose();
+		}
 	};
 
 	const handleCancel = () => {
@@ -68,6 +75,10 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 						clearValue={() => setListValue('')}
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
+						validationError={
+							validateError ? validateErrorText : undefined
+						}
+						hasValidationError={validateError}
 					/>
 				)}
 

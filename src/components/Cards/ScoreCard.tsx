@@ -284,7 +284,7 @@ const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 										color: theme.palette.secondary.main,
 									}}
 								/>
-								{anime.score}
+								{anime.userRating ? anime.userRating : '?'}
 							</Typography>
 						</>
 					</Grid2>

@@ -68,6 +68,8 @@ export interface StyledSearchFiltersProps {
 	capitalizeOptions?: boolean;
 	defaultValue?: string;
 	upperCaseOptions?: boolean;
+	validationError?: string | undefined;
+	hasValidationError?: boolean;
 }
 
 export interface RandomFiltersProps {

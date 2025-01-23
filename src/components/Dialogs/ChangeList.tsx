@@ -19,8 +19,12 @@ const ChangeList: React.FC<ChangeListProps> = ({
 		String(anime?.userRating)
 	);
 	const [episodesValue, setEpisodesValue] = useState<string>(
-		String(anime?.userRating || 1)
+		String(anime?.episodesWatched || 1)
 	);
+
+	const [validateError, setValidationsErrors] = useState<boolean>(false);
+	const validateErrorText =
+		'If you do not select a list, the anime will be removed from your lists. ';
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);
@@ -35,19 +39,23 @@ const ChangeList: React.FC<ChangeListProps> = ({
 	};
 
 	const handleAdd = () => {
-		dispatch({
-			type: 'UPDATE_ANIME',
-			payload: {
-				animeId: anime.id,
-				updates: {
-					userRating: Number(scoreValue),
-					listName: listValue as ListName,
-					episodesWatched: Number(episodesValue),
+		if (listValue === '') {
+			setValidationsErrors(true);
+		} else {
+			dispatch({
+				type: 'UPDATE_ANIME',
+				payload: {
+					animeId: anime.id,
+					updates: {
+						userRating: Number(scoreValue),
+						listName: listValue as ListName,
+						episodesWatched: Number(episodesValue),
+					},
 				},
-			},
-		});
+			});
 
-		handleClose();
+			handleClose();
+		}
 	};
 
 	const handleCancel = () => {
@@ -99,6 +107,10 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						clearValue={() => setListValue('')}
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
+						validationError={
+							validateError ? validateErrorText : undefined
+						}
+						hasValidationError={validateError}
 					/>
 				)}
 
@@ -139,7 +151,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						onChange={(e) => handleEpisodeChange(e.target.value)}
 						options={episodeOptions}
 						clearValue={() => setEpisodesValue('')}
-						defaultValue={''}
+						defaultValue={episodesValue}
 						capitalizeOptions={false}
 					/>
 				)}

@@ -5,6 +5,7 @@ import {
 	InputLabel,
 	InputAdornment,
 	IconButton,
+	FormHelperText,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
@@ -19,6 +20,8 @@ const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
+	validationError,
+	hasValidationError,
 }) => {
 	const transformOption = (option: string) => {
 		if (capitalizeOptions) {
@@ -73,6 +76,9 @@ const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 					</MenuItem>
 				))}
 			</Select>
+			{hasValidationError && (
+				<FormHelperText>{validationError}</FormHelperText>
+			)}
 		</FormControl>
 	);
 };
