@@ -21,7 +21,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import { KitoCardProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 
-const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
+const AnimeOverviewCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 	const { dispatch } = useUserContext();
 	const [open, setOpen] = useState(false);
 	const [showFullDescription, setShowFullDescription] = useState(false);
@@ -456,4 +456,4 @@ const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 	);
 };
 
-export default ScoreCard;
+export default AnimeOverviewCard;

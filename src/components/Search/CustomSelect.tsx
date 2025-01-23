@@ -9,9 +9,9 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
-import { StyledSearchFiltersProps } from '../../models/Interfaces';
+import { StyledCustomSelectProps } from '../../models/Interfaces';
 
-const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
+const CustomSelect: React.FC<StyledCustomSelectProps> = ({
 	label,
 	value,
 	onChange,
@@ -83,4 +83,4 @@ const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
 	);
 };
 
-export default StyledSearchFilters;
+export default CustomSelect;

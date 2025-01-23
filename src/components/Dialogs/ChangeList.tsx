@@ -1,6 +1,6 @@
 import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import StyledSearchFilters from '../Search/StyledSelectFilters';
+import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
 import { ListName, ratingOptions, tabs } from '../../data/tabs';
 import { useEffect, useState } from 'react';
@@ -99,7 +99,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="List"
 						value={listValue}
 						onChange={(e) => handleListChange(e.target.value)}
@@ -124,7 +124,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="Your Score"
 						value={scoreValue}
 						onChange={(e) => handleScoreChange(e.target.value)}
@@ -145,7 +145,7 @@ const ChangeList: React.FC<ChangeListProps> = ({
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="Episodes Watched"
 						value={episodesValue}
 						onChange={(e) => handleEpisodeChange(e.target.value)}

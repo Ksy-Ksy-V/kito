@@ -1,10 +1,9 @@
 import { Grid2 } from '@mui/material';
 import AnimeTabCard from '../Cards/AnimeTabCard';
-import ScoreCard from '../Cards/ScoreCard';
 import EmptyList from './EmptyList';
-
 import { RenderAnimeCardsProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
+import AnimeOverviewCard from '../Cards/AnimeOverviewCard';
 
 const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 	paginatedAnime,
@@ -25,7 +24,7 @@ const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
 
 	return paginatedAnime.map((anime) =>
 		activeTab === 'Score' || activeTab === 'Watching' ? (
-			<ScoreCard key={anime.id} anime={anime} loading={loading} />
+			<AnimeOverviewCard key={anime.id} anime={anime} loading={loading} />
 		) : (
 			<Grid2 key={anime.id} size={{ xs: 6, sm: 3, md: 3, lg: 2 }}>
 				<AnimeTabCard anime={anime} />

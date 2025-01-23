@@ -59,7 +59,7 @@ export interface CustomSelectProps {
 	upperCaseOptions?: boolean;
 }
 
-export interface StyledSearchFiltersProps {
+export interface StyledCustomSelectProps {
 	label: string;
 	value: string | undefined;
 	onChange?: (event: SelectChangeEvent<string>) => void;
