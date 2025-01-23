@@ -24,10 +24,6 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -382,7 +378,9 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 
 					<Grid2 size={12}>
 						<ButtonWithIcon
-							onClick={handleClickOpen}
+							onClick={() => {
+								setOpen(true);
+							}}
 							loading={loading}
 							icon={<CreateOutlinedIcon />}
 							sx={{
