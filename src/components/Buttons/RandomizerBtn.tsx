@@ -1,10 +1,11 @@
 import { Grid2 } from '@mui/material';
-import React from 'react';
+
 import MainButton from './MainButton';
 import { useNavigate } from 'react-router-dom';
 import { AbstractAnimeProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const RandomizerBtn: React.FC<AbstractAnimeProps> = ({
+const RandomizerBtn: FC<AbstractAnimeProps> = ({
 	loading,
 	anime,
 	getRandomize,

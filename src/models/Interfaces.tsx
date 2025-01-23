@@ -144,7 +144,7 @@ export interface PasswordFieldProps {
 	error?: string;
 }
 
-export interface AddButtonProps extends ButtonProps {
+export interface IconButtonProps extends ButtonProps {
 	loading?: boolean;
 	icon?: ReactNode;
 }

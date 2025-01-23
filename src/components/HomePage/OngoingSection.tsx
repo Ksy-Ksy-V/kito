@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../Cards/AnimeCard';
@@ -7,7 +7,7 @@ import MainButton from '../Buttons/MainButton';
 import Error from '../Error';
 import theme from '../../styles/theme';
 
-const OngoingSection: React.FC = () => {
+const OngoingSection: FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);

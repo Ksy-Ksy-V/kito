@@ -10,8 +10,9 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 import { StyledCustomSelectProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const CustomSelect: React.FC<StyledCustomSelectProps> = ({
+const CustomSelect: FC<StyledCustomSelectProps> = ({
 	label,
 	value,
 	onChange,

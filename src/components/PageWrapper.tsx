@@ -2,8 +2,9 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import { Container } from '@mui/material';
 import { PageWrapperProps } from '../models/Interfaces';
+import { FC } from 'react';
 
-const PageWrapper: React.FC<PageWrapperProps> = ({ children, fullWidth }) => {
+const PageWrapper: FC<PageWrapperProps> = ({ children, fullWidth }) => {
 	return (
 		<>
 			<Container maxWidth="lg">

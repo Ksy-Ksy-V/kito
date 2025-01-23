@@ -8,11 +8,11 @@ import {
 	animeStatuses,
 } from '../../models/AnimeFilters';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Skeleton } from '@mui/material';
 import theme from '../../styles/theme';
 
-const Filters: React.FC = () => {
+const Filters: FC = () => {
 	const { state, dispatch } = useSearchContext();
 
 	useEffect(() => {

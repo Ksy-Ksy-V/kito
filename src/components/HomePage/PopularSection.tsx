@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../Cards/AnimeCard';
@@ -7,7 +7,7 @@ import MainButton from '../Buttons/MainButton';
 import Error from '../Error';
 import theme from '../../styles/theme';
 
-const PopularSection: React.FC = () => {
+const PopularSection: FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);

@@ -1,8 +1,8 @@
 import { Grid2, Skeleton, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { AbstractAnimeProps } from '../../models/Interfaces';
 
-const AnimeDescriptionSection: React.FC<AbstractAnimeProps> = ({
+const AnimeDescriptionSection: FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 }) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -9,7 +9,7 @@ import { signout } from '../../store/reducers/authSlice';
 import { useAppDispatch } from '../../store/hooks';
 import { MenuProps } from '../../models/Interfaces';
 
-const AccountMenu: React.FC<MenuProps> = ({ onSignOut }) => {
+const AccountMenu: FC<MenuProps> = ({ onSignOut }) => {
 	const dispatch = useAppDispatch();
 	const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 	const theme = useTheme();

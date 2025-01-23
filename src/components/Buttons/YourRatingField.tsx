@@ -1,12 +1,9 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import theme from '../../styles/theme';
 import { YourRatingFieldProps } from '../../models/Interfaces';
 
-const YourRatingField: React.FC<YourRatingFieldProps> = ({
-	loading,
-	width,
-}) => {
+const YourRatingField: FC<YourRatingFieldProps> = ({ loading, width }) => {
 	const ratingOptions: string[] = [
 		'This is Legendary - 10!!!',
 		'Almost Perfect - 9',

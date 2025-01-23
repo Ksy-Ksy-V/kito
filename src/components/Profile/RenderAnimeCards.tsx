@@ -4,8 +4,9 @@ import EmptyList from './EmptyList';
 import { RenderAnimeCardsProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 import AnimeOverviewCard from '../Cards/AnimeOverviewCard';
+import { FC } from 'react';
 
-const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
+const RenderAnimeCards: FC<RenderAnimeCardsProps> = ({
 	paginatedAnime,
 	activeTab,
 	isFiltrated,

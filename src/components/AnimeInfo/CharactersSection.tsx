@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import { AnimeCharacter, AnimeClient } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
 import AnimeCard from '../Cards/AnimeCard';
 import { AnimeSectionProps } from '../../models/Interfaces';
 
-const CharacterSection: React.FC<AnimeSectionProps> = ({ anime }) => {
+const CharacterSection: FC<AnimeSectionProps> = ({ anime }) => {
 	const [characters, setCharacters] = useState<AnimeCharacter[]>([]);
 	const [loading, setLoading] = useState(false);
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));

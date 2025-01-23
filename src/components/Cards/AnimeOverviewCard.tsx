@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	Typography,
 	Grid2,
@@ -21,15 +21,11 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import { KitoCardProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 
-const AnimeOverviewCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
+const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const { dispatch } = useUserContext();
 	const [open, setOpen] = useState(false);
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
 
 	const handleClose = () => {
 		setOpen(false);
@@ -392,7 +388,9 @@ const AnimeOverviewCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
 
 					<Grid2 size={12}>
 						<ButtonWithIcon
-							onClick={handleClickOpen}
+							onClick={() => {
+								setOpen(true);
+							}}
 							loading={loading}
 							icon={<CreateOutlinedIcon />}
 							sx={{

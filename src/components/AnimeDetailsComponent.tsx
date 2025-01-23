@@ -5,8 +5,9 @@ import CharacterSection from './AnimeInfo/CharactersSection';
 import SimilarTitlesSection from './AnimeInfo/SimilarTitlesSection';
 import { AbstractAnime } from '../models/AbstractAnime';
 import { AbstractAnimeProps } from '../models/Interfaces';
+import { FC } from 'react';
 
-const AnimeDetails: React.FC<AbstractAnimeProps> = ({
+const AnimeDetails: FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 	getRandomize,

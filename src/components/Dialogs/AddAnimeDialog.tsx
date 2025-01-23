@@ -2,14 +2,14 @@ import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ListName, ratingOptions, tabs, type } from '../../data/tabs';
 import { AddAnimeDialogProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 import { Anime } from '@tutkli/jikan-ts';
 import { AnimeKito } from '../../models/ProfileModels';
 
-const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
+const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 	loading,
 	handleClose,
 	anime,

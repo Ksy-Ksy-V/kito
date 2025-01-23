@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useContext, useReducer } from 'react';
+import { createContext, Dispatch, FC, useContext, useReducer } from 'react';
 
 import {
 	searchReducer,
@@ -20,7 +20,7 @@ const SearchContext = createContext<{
 	) => void;
 } | null>(null);
 
-export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
+export const SearchProvider: FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const [state, dispatch] = useReducer(searchReducer, initialState);

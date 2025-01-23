@@ -8,8 +8,9 @@ import BackgroundImg from '../BackgroundImg';
 import RatingLabel from '../AnimeInfo/RatingLabel';
 import RandomizerBtn from '../Buttons/RandomizerBtn';
 import { AbstractAnimeProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const DetailsInformationAboutAnime: React.FC<AbstractAnimeProps> = ({
+const DetailsInformationAboutAnime: FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 	randomizerPage,

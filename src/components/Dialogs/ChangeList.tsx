@@ -3,15 +3,11 @@ import theme from '../../styles/theme';
 import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
 import { ListName, ratingOptions, tabs } from '../../data/tabs';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import { ChangeListProps } from '../../models/Interfaces';
 
-const ChangeList: React.FC<ChangeListProps> = ({
-	loading,
-	anime,
-	handleClose,
-}) => {
+const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 	const { dispatch } = useUserContext();
 
 	const [listValue, setListValue] = useState<string>(anime.listName);

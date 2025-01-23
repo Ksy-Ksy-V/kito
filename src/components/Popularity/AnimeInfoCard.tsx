@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	Box,
 	Typography,
@@ -14,11 +14,7 @@ import StyledInformation from '../../styles/StyledInformation';
 import { AnimeInfoCardProps } from '../../models/Interfaces';
 import AddToList from '../AnimeInfo/AddToList';
 
-const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
-	number,
-	anime,
-	loading,
-}) => {
+const AnimeInfoCard: FC<AnimeInfoCardProps> = ({ number, anime, loading }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 

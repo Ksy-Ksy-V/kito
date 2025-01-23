@@ -1,9 +1,9 @@
-import React from 'react';
+import { FC } from 'react';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import logo from '../images/logoKito.png';
 
-const Logo: React.FC = () => {
+const Logo: FC = () => {
 	return (
 		<Button
 			component={Link}

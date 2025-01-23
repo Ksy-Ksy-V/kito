@@ -11,7 +11,7 @@ import {
 import { useSearchContext } from '../../context/SearchContext';
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import {
 	animeOrder,
 	animeSorting,
@@ -20,7 +20,7 @@ import {
 import theme from '../../styles/theme';
 import { SearchOrder, SortOptions } from '@tutkli/jikan-ts';
 
-const Sorting: React.FC = () => {
+const Sorting: FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 

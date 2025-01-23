@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Grid2, Checkbox, FormControlLabel, Skeleton } from '@mui/material';
 import {
 	Anime,
@@ -13,7 +13,7 @@ import Error from '../../components/Error';
 import SearchCard from '../../components/Cards/SearchCard';
 import BackgroundImg from '../../components/BackgroundImg';
 
-const SeasonAnimePage: React.FC = () => {
+const SeasonAnimePage: FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
