@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	FormControl,
 	FormHelperText,
@@ -12,7 +12,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { textFieldStyles } from '../../styles/AuthStyles';
 import { PasswordFieldProps } from '../../models/Interfaces';
 
-const PasswordField: React.FC<PasswordFieldProps> = ({
+const PasswordField: FC<PasswordFieldProps> = ({
 	label,
 	value,
 	onChange,

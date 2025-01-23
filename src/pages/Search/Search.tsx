@@ -1,7 +1,7 @@
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
 import SearchInputField from '../../components/Search/SearchInputField';
 import { useSearchContext } from '../../context/SearchContext';
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 
 import { animeService } from '../../services/animeService';
 import { parseQueryParams } from '../../utils/urlParams';
@@ -15,7 +15,7 @@ import PaginationSearch from '../../components/Search/Pagination';
 import ResultSection from '../../components/Search/ResultSection';
 import FiltersMenu from '../../components/Search/FiltersMenu';
 
-const Search: React.FC = () => {
+const Search: FC = () => {
 	const { state, dispatch } = useSearchContext();
 	const { page, loading } = state;
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
@@ -124,14 +124,13 @@ const Search: React.FC = () => {
 
 			<Grid2 size={{ xs: 12, sm: 10, md: 12 }}>
 				<SearchInputField />
-			</Grid2> 
+			</Grid2>
 			{!isLargeScreen && (
 				<Grid2 size={{ xs: 12, sm: 2 }}>
 					<FiltersMenu />
 				</Grid2>
 			)}
-			 
-			
+
 			{isLargeScreen && (
 				<Grid2
 					container

@@ -2,21 +2,13 @@ import { DialogContent, Grid2, Skeleton } from '@mui/material';
 import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { ratingOptions, tabs } from '../../data/tabs';
+import { AddAnimeDialogProps } from '../../models/Interfaces';
 
-interface AddAnimeDialogProps {
-	loading?: boolean;
-	handleClose: () => void;
-}
-
-const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
-	loading,
-	handleClose,
-}) => {
+const AddAnimeDialog: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
-	// const [episodesValue, setEpisodesValue] = useState<number>(1);
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);

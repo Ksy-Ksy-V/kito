@@ -1,8 +1,9 @@
 import { Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import { AnimeSectionProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const RatingLabel: React.FC<AnimeSectionProps> = ({ anime, loading }) => {
+const RatingLabel: FC<AnimeSectionProps> = ({ anime, loading }) => {
 	return (
 		<Grid2
 			sx={{

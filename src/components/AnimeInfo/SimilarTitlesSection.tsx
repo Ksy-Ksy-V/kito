@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Skeleton, useMediaQuery } from '@mui/material';
 import AnimeCard from '../Cards/AnimeCard';
 import { Recommendation, AnimeClient } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
 import { AnimeSectionProps } from '../../models/Interfaces';
 
-const SimilarTitlesSection: React.FC<AnimeSectionProps> = ({ anime }) => {
+const SimilarTitlesSection: FC<AnimeSectionProps> = ({ anime }) => {
 	const [recommendationsList, setRecommendationsList] = useState<
 		Recommendation[]
 	>([]);

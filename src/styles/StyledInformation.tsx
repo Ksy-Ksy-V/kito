@@ -1,8 +1,9 @@
 import { Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { LabeledOption } from '../models/Interfaces';
+import { FC } from 'react';
 
-const StyledInformation: React.FC<LabeledOption> = ({ label, value }) => {
+const StyledInformation: FC<LabeledOption> = ({ label, value }) => {
 	const theme = useTheme();
 
 	return (

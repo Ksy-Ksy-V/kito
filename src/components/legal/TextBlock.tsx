@@ -1,8 +1,9 @@
 import { Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import { TextBlockProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const TextBlock: React.FC<TextBlockProps> = ({ welcomeText, itemText }) => {
+const TextBlock: FC<TextBlockProps> = ({ welcomeText, itemText }) => {
 	return (
 		<Grid2 container spacing={2}>
 			<Typography

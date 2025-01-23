@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	Typography,
 	Grid2,
@@ -19,7 +19,7 @@ import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 
 import { KitoCardProps } from '../../models/Interfaces';
 
-const ScoreCard: React.FC<KitoCardProps> = ({ anime, loading }) => {
+const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));

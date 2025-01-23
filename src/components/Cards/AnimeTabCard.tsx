@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	Card,
 	CardMedia,
@@ -10,8 +9,9 @@ import {
 
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
+const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	return (

@@ -3,17 +3,12 @@ import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
 import { ratingOptions, tabs } from '../../data/tabs';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { AddAnimeDialogProps } from '../../models/Interfaces';
 
-interface ChangeListProps {
-	loading?: boolean;
-	handleClose: () => void;
-}
-
-const ChangeList: React.FC<ChangeListProps> = ({ loading, handleClose }) => {
+const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
-	// const [episodesValue, setEpisodesValue] = useState<number>(1);
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);

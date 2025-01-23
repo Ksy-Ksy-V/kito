@@ -134,7 +134,7 @@ export interface PasswordFieldProps {
 	error?: string;
 }
 
-export interface AddButtonProps extends ButtonProps {
+export interface IconButtonProps extends ButtonProps {
 	loading?: boolean;
 	icon?: ReactNode;
 }
@@ -165,6 +165,15 @@ export interface WidthProps {
 export interface MenuProps {
 	userAuthorized?: boolean;
 	onSignOut: () => void;
+}
+
+export interface LoadingProps {
+	loading: boolean;
+}
+
+export interface AddAnimeDialogProps {
+	loading?: boolean;
+	handleClose: () => void;
 }
 
 // Utility and Shared Data

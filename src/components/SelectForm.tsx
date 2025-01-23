@@ -8,8 +8,9 @@ import {
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import { CustomSelectProps } from '../models/Interfaces';
+import { FC } from 'react';
 
-const SelectForm: React.FC<CustomSelectProps> = ({
+const SelectForm: FC<CustomSelectProps> = ({
 	label,
 	value,
 	onChange,

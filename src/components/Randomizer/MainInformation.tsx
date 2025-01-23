@@ -2,8 +2,9 @@ import { Grid2, Skeleton } from '@mui/material';
 import { JikanResource } from '@tutkli/jikan-ts';
 import StyledInformation from '../../styles/StyledInformation';
 import { AbstractAnimeProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const MainInformation: React.FC<AbstractAnimeProps> = ({ anime, loading }) => {
+const MainInformation: FC<AbstractAnimeProps> = ({ anime, loading }) => {
 	return (
 		<Grid2 container spacing={2} sx={{ marginTop: '1rem' }}>
 			{loading ? (

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
@@ -15,7 +15,7 @@ import { animeService } from '../../services/animeService';
 import { buildQueryParams } from '../../utils/urlParams';
 import { AnimeOptionType, WidthProps } from '../../models/Interfaces';
 
-const SearchInputField: React.FC<WidthProps> = ({ width }) => {
+const SearchInputField: FC<WidthProps> = ({ width }) => {
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();

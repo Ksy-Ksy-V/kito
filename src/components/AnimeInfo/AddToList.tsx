@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import { Button, Dialog, DialogTitle, Grid2 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -7,12 +7,9 @@ import { useAppSelector } from '../../store/hooks';
 import { selectAuth } from '../../store/reducers/authSlice';
 import AddAnimeDialog from '../Dialogs/AddAnimeDialog';
 import AuthRedirect from '../Dialogs/AuthRedirect';
+import { LoadingProps } from '../../models/Interfaces';
 
-interface AddToListProps {
-	loading: boolean;
-}
-
-const AddToList: React.FC<AddToListProps> = ({ loading }) => {
+const AddToList: FC<LoadingProps> = ({ loading }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
 
 	const [open, setOpen] = useState(false);

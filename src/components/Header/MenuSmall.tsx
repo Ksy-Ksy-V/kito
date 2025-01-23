@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../store/hooks';
 import theme from '../../styles/theme';
 import { MenuProps } from '../../models/Interfaces';
 
-const MenuSmall: React.FC<MenuProps> = ({ userAuthorized, onSignOut }) => {
+const MenuSmall: FC<MenuProps> = ({ userAuthorized, onSignOut }) => {
 	const dispatch = useAppDispatch();
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
 		null

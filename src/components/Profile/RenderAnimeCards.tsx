@@ -4,8 +4,9 @@ import ScoreCard from '../Cards/ScoreCard';
 import EmptyList from './EmptyList';
 
 import { RenderAnimeCardsProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const RenderAnimeCards: React.FC<RenderAnimeCardsProps> = ({
+const RenderAnimeCards: FC<RenderAnimeCardsProps> = ({
 	paginatedAnime,
 	activeTab,
 	isFiltrated,

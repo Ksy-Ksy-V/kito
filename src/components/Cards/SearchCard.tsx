@@ -1,4 +1,3 @@
-import React from 'react';
 import {
 	Card,
 	CardMedia,
@@ -9,8 +8,9 @@ import {
 } from '@mui/material';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { AnimeSectionProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const SearchCard: React.FC<AnimeSectionProps> = ({ anime }) => {
+const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	if (!anime) {

@@ -3,11 +3,9 @@ import theme from '../../styles/theme';
 import AddToList from '../AnimeInfo/AddToList';
 import AnimeAvatar from '../Cards/AnimeAvatar';
 import { AnimeSectionProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const AnimeCardContainer: React.FC<AnimeSectionProps> = ({
-	loading,
-	anime,
-}) => {
+const AnimeCardContainer: FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
 	return (

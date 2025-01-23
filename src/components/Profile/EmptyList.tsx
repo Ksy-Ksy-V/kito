@@ -1,11 +1,11 @@
 import { Box, Grid2, keyframes, Typography } from '@mui/material';
 import img from '../../images/notResultFound.png';
 
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import theme from '../../styles/theme';
 import { EmptyListProps } from '../../models/Interfaces';
 
-const EmptyList: React.FC<EmptyListProps> = ({ isFiltrated }) => {
+const EmptyList: FC<EmptyListProps> = ({ isFiltrated }) => {
 	const pulse = useMemo(
 		() => keyframes`
 			0% { transform: scale(1); }

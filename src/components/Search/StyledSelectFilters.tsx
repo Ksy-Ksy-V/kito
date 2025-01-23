@@ -9,8 +9,9 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
 import { StyledSearchFiltersProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const StyledSearchFilters: React.FC<StyledSearchFiltersProps> = ({
+const StyledSearchFilters: FC<StyledSearchFiltersProps> = ({
 	label,
 	value,
 	onChange,
