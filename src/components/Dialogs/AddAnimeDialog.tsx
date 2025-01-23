@@ -2,15 +2,17 @@ import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import StyledSearchFilters from '../Search/StyledSelectFilters';
 import MainButton from '../Buttons/MainButton';
-import { useState } from 'react';
-import { ratingOptions, tabs } from '../../data/tabs';
+import { useEffect, useState } from 'react';
+import { ListName, ratingOptions, tabs } from '../../data/tabs';
 import { AddAnimeDialogProps } from '../../models/Interfaces';
+import { useUserContext } from '../../context/UserContext';
 
 const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 	loading,
 	handleClose,
 	anime,
 }) => {
+	const { dispatch } = useUserContext();
 	const [listValue, setListValue] = useState<string>('');
 	const [scoreValue, setScoreValue] = useState<string>('');
 	const [episodesValue, setEpisodesValue] = useState<string>('');
@@ -34,6 +36,18 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 		if (listValue === '') {
 			setValidationsErrors(true);
 		} else {
+			dispatch({
+				type: 'SET_ADD_ANIME',
+				payload: {
+					animeId: anime.mal_id,
+					updates: {
+						userRating: Number(scoreValue),
+						listName: listValue as ListName,
+						episodesWatched: Number(episodesValue),
+					},
+				},
+			});
+
 			handleClose();
 		}
 	};
@@ -49,6 +63,12 @@ const AddAnimeDialog: React.FC<AddAnimeDialogProps> = ({
 		{ length: anime?.episodes || 1 },
 		(_, index) => (index + 1).toString()
 	);
+
+	useEffect(() => {
+		if (listValue === 'Completed') {
+			setEpisodesValue(String(anime.episodes || 1));
+		}
+	}, [listValue, anime.episodes]);
 
 	return (
 		<DialogContent>
