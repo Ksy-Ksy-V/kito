@@ -9,7 +9,7 @@ export const user: UserAccount = {
 	animeList: [
 		{
 			id: 16498,
-			name: 'Attack on Titan',
+			title: 'Attack on Titan',
 			image: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
 			userRating: 10,
 			episodes: 25,
@@ -24,7 +24,7 @@ export const user: UserAccount = {
 		},
 		{
 			id: 20,
-			name: 'Naruto',
+			title: 'Naruto',
 			image: 'https://cdn.myanimelist.net/images/anime/1141/142503.jpg',
 			episodes: 220,
 			episodesWatched: 112,
@@ -38,7 +38,7 @@ export const user: UserAccount = {
 		},
 		{
 			id: 1535,
-			name: 'Death Note',
+			title: 'Death Note',
 			image: 'https://cdn.myanimelist.net/images/anime/1079/138100.jpg',
 			episodes: 37,
 			episodesWatched: 37,
@@ -53,7 +53,7 @@ export const user: UserAccount = {
 		},
 		{
 			id: 11757,
-			name: 'Sword Art Online',
+			title: 'Sword Art Online',
 			image: 'https://cdn.myanimelist.net/images/anime/11/39717.jpg',
 			userRating: 6,
 			episodes: 10,
@@ -69,7 +69,7 @@ export const user: UserAccount = {
 
 		{
 			id: 52991,
-			name: 'Sousou no Frieren',
+			title: 'Sousou no Frieren',
 			image: 'https://cdn.myanimelist.net/images/anime/1015/138006.jpg',
 			userRating: 10,
 			episodes: 28,
@@ -85,7 +85,7 @@ export const user: UserAccount = {
 
 		{
 			id: 5114,
-			name: 'Fullmetal Alchemist: Brotherhood',
+			title: 'Fullmetal Alchemist: Brotherhood',
 			image: 'https://cdn.myanimelist.net/images/anime/1208/94745.jpg',
 			userRating: 10,
 			episodes: 64,
@@ -101,7 +101,7 @@ export const user: UserAccount = {
 
 		{
 			id: 11061,
-			name: 'Hunter x Hunter (2011)',
+			title: 'Hunter x Hunter (2011)',
 			image: 'https://cdn.myanimelist.net/images/anime/1337/99013.jpg',
 			userRating: 9,
 			episodes: 148,
@@ -117,7 +117,7 @@ export const user: UserAccount = {
 
 		{
 			id: 21,
-			name: 'One Piece',
+			title: 'One Piece',
 			image: 'https://cdn.myanimelist.net/images/anime/1244/138851.jpg',
 			userRating: 10,
 			episodes: 1118,
@@ -133,7 +133,7 @@ export const user: UserAccount = {
 
 		{
 			id: 1575,
-			name: 'Code Geass: Hangyaku no Lelouch',
+			title: 'Code Geass: Hangyaku no Lelouch',
 			image: 'https://cdn.myanimelist.net/images/anime/1032/135088.jpg',
 			userRating: 7,
 			episodes: 25,
@@ -149,7 +149,7 @@ export const user: UserAccount = {
 
 		{
 			id: 54865,
-			name: 'Blue Lock vs. U-20 Japan',
+			title: 'Blue Lock vs. U-20 Japan',
 			image: 'https://cdn.myanimelist.net/images/anime/1584/144860.jpg',
 			userRating: 7,
 			episodes: 14,
@@ -165,7 +165,7 @@ export const user: UserAccount = {
 
 		{
 			id: 13601,
-			name: 'Psycho-Pass',
+			title: 'Psycho-Pass',
 			image: 'https://cdn.myanimelist.net/images/anime/1314/142015.jpg',
 			userRating: 6,
 			episodes: 22,
@@ -181,7 +181,7 @@ export const user: UserAccount = {
 
 		{
 			id: 31478,
-			name: 'Bungou Stray Dogs',
+			title: 'Bungou Stray Dogs',
 			image: 'https://cdn.myanimelist.net/images/anime/3/79409.jpg',
 			userRating: 8,
 			episodes: 12,
@@ -197,7 +197,7 @@ export const user: UserAccount = {
 
 		{
 			id: 40911,
-			name: 'Yuukoku no Moriarty',
+			title: 'Yuukoku no Moriarty',
 			image: 'https://cdn.myanimelist.net/images/anime/1464/108330.jpg',
 			userRating: 9,
 			episodes: 11,
@@ -213,7 +213,7 @@ export const user: UserAccount = {
 
 		{
 			id: 4898,
-			name: 'Black Butler',
+			title: 'Black Butler',
 			image: 'https://cdn.myanimelist.net/images/anime/1467/137783.jpg',
 			userRating: 7,
 			episodes: 24,
@@ -229,7 +229,7 @@ export const user: UserAccount = {
 
 		{
 			id: 60022,
-			name: 'One Piece Fan Letter',
+			title: 'One Piece Fan Letter',
 			image: 'https://cdn.myanimelist.net/images/anime/1455/146229.jpg',
 			userRating: 10,
 			episodes: 1,
@@ -245,7 +245,7 @@ export const user: UserAccount = {
 
 		{
 			id: 42310,
-			name: 'Cyberpunk: Edgerunners',
+			title: 'Cyberpunk: Edgerunners',
 			image: 'https://cdn.myanimelist.net/images/anime/1818/126435.jpg',
 			userRating: 10,
 			episodes: 10,
@@ -261,7 +261,7 @@ export const user: UserAccount = {
 
 		{
 			id: 44511,
-			name: 'Chainsaw Man',
+			title: 'Chainsaw Man',
 			image: 'https://cdn.myanimelist.net/images/anime/1806/126216.jpg',
 			userRating: 8,
 			episodes: 12,
@@ -277,7 +277,7 @@ export const user: UserAccount = {
 
 		{
 			id: 40748,
-			name: 'Jujutsu Kaisen',
+			title: 'Jujutsu Kaisen',
 			image: 'https://cdn.myanimelist.net/images/anime/1171/109222.jpg',
 			userRating: 9,
 			episodes: 24,
@@ -293,7 +293,7 @@ export const user: UserAccount = {
 
 		{
 			id: 37779,
-			name: 'Yakusoku no Neverland',
+			title: 'Yakusoku no Neverland',
 			image: 'https://cdn.myanimelist.net/images/anime/1830/118780.jpg',
 			userRating: 8,
 			episodes: 24,
@@ -309,7 +309,7 @@ export const user: UserAccount = {
 
 		{
 			id: 38000,
-			name: 'Kimetsu no Yaiba',
+			title: 'Kimetsu no Yaiba',
 			image: 'https://cdn.myanimelist.net/images/anime/1286/99889.jpg',
 			userRating: 7,
 			episodes: 26,
@@ -325,7 +325,7 @@ export const user: UserAccount = {
 
 		{
 			id: 31964,
-			name: 'Boku no Hero Academia',
+			title: 'Boku no Hero Academia',
 			image: 'https://cdn.myanimelist.net/images/anime/10/78745.jpg',
 			userRating: 9,
 			episodes: 13,
@@ -341,7 +341,7 @@ export const user: UserAccount = {
 
 		{
 			id: 20583,
-			name: 'Haikyuu!!',
+			title: 'Haikyuu!!',
 			image: 'https://cdn.myanimelist.net/images/anime/7/76014.jpg',
 			userRating: 9,
 			episodes: 25,

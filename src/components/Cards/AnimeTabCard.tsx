@@ -111,7 +111,7 @@ const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
 					<CardMedia
 						component="img"
 						image={anime.image}
-						alt={anime.name}
+						alt={anime.title}
 						className="card-media"
 						sx={{
 							width: '100%',
@@ -156,7 +156,7 @@ const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
 								},
 							}}
 						>
-							{anime.name}
+							{anime.title}
 						</Typography>
 
 						<Typography
@@ -249,7 +249,7 @@ const AnimeTabCard: React.FC<KitoCardProps> = ({ anime }) => {
 					},
 				}}
 			>
-				{anime.name}
+				{anime.title}
 			</Typography>
 		</>
 	);
