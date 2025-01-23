@@ -1,4 +1,4 @@
-import { legalProps, WelcomeLegalProps } from './privacyPolicy';
+import { legalProps, WelcomeLegalProps } from '../models/Interfaces';
 
 export const aboutKito: legalProps[] = [
 	{

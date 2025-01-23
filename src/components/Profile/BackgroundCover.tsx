@@ -23,7 +23,7 @@ const BackgroundCover = () => {
 					position: 'absolute',
 					width: '100%',
 					height: '50%',
-					marginTop: '10rem',
+					marginTop: { xs: '8rem', sm: '10rem' },
 					backgroundColor: theme.palette.background.default,
 					borderRadius: '0.5rem',
 					zIndex: 2,

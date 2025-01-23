@@ -1,8 +1,8 @@
-import React from 'react';
 import { Button, ButtonProps } from '@mui/material';
 import theme from './theme';
+import { FC } from 'react';
 
-const AuthBtnStyled: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
+const AuthBtnStyled: FC<ButtonProps> = ({ children, sx, ...props }) => {
 	return (
 		<Button
 			variant="outlined"

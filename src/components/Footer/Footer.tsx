@@ -7,9 +7,7 @@ import {
 	AppBar,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { importantLinks } from './footerLinksData';
-
-import { socialLinks } from './socialLinksData';
+import { importantLinks, socialLinks } from '../../data/footerLinksData';
 import Logo from '../Logo';
 
 const Footer = () => {

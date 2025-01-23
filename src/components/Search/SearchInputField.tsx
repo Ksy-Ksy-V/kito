@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
 	Autocomplete,
 	debounce,
@@ -8,29 +8,14 @@ import {
 	ListItem,
 	AutocompleteInputChangeReason,
 } from '@mui/material';
-import { JikanImages, JikanPagination } from '@tutkli/jikan-ts';
+import { JikanPagination } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
 import { useSearchContext } from '../../context/SearchContext';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams } from '../../utils/urlParams';
+import { AnimeOptionType, WidthProps } from '../../models/Interfaces';
 
-interface AnimeOptionType {
-	inputValue?: string;
-	title: string;
-	mal_id?: number;
-	images?: JikanImages;
-}
-
-interface SearchInputFieldProps {
-	width?: {
-		xs: string;
-		sm: string;
-		md: string;
-		lg: string;
-	};
-}
-
-const SearchInputField: React.FC<SearchInputFieldProps> = ({ width }) => {
+const SearchInputField: FC<WidthProps> = ({ width }) => {
 	const [animeOptions, setAnimeOptions] = useState<AnimeOptionType[]>([]);
 	const [value, setValue] = useState('');
 	const navigate = useNavigate();

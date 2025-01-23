@@ -1,19 +1,11 @@
 import { Grid2, Skeleton, Typography, useMediaQuery } from '@mui/material';
-import { Anime } from '@tutkli/jikan-ts';
 import theme from '../../styles/theme';
-import CardAnimeDetails from '../Cards/CardAnimeDetails';
-import AddButton from '../Buttons/AddButton';
-import YourRatingField from '../Buttons/YourRatingField';
+import AddToList from '../AnimeInfo/AddToList';
+import AnimeAvatar from '../Cards/AnimeAvatar';
+import { AnimeSectionProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-interface AnimeCardContainerProps {
-	loading: boolean;
-	randomAnime: Anime | null;
-}
-
-const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
-	loading,
-	randomAnime,
-}) => {
+const AnimeCardContainer: FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
 	return (
@@ -27,7 +19,7 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',
-				flexDirection: 'colum',
+				flexDirection: 'column',
 				alignContent: 'flex-start',
 			}}
 		>
@@ -51,7 +43,7 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 							marginTop: '1.5rem',
 						}}
 					>
-						{randomAnime?.title}
+						{anime?.title}
 					</Typography>
 				)}
 			</Grid2>
@@ -62,14 +54,14 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 					display: 'flex',
 					justifyContent: { xs: 'center', sm: 'left' },
 					alignContent: 'flex-start',
-					marginTop: { xs: '2rem', sm: '1rem' },
+					marginTop: { xs: '2rem', sm: '0rem' },
 				}}
 			>
-				<CardAnimeDetails
-					title={randomAnime?.title}
-					imageUrl={randomAnime?.images.jpg.image_url}
-					mal_id={randomAnime?.mal_id}
-					loading={loading}
+				<AnimeAvatar
+					title={anime?.title}
+					imageUrl={anime?.images.jpg.image_url}
+					mal_id={anime?.mal_id}
+					loading={loading || false}
 				/>
 			</Grid2>
 
@@ -86,36 +78,7 @@ const AnimeCardContainer: React.FC<AnimeCardContainerProps> = ({
 						},
 					}}
 				>
-					<AddButton
-						loading={loading}
-						sx={{
-							width: {
-								xs: '11rem',
-								sm: '12rem',
-								md: '14rem',
-							},
-							marginTop: '1rem',
-						}}
-					>
-						Add To List
-					</AddButton>
-				</Grid2>
-				<Grid2
-					size={12}
-					sx={{
-						display: 'flex',
-						justifyContent: { xs: 'center', sm: 'left' },
-						alignItems: 'center',
-					}}
-				>
-					<YourRatingField
-						loading={loading}
-						width={{
-							xs: '11rem',
-							sm: '12rem',
-							md: '14rem',
-						}}
-					/>
+					{loading !== undefined && <AddToList loading={loading} />}
 				</Grid2>
 			</>
 		</Grid2>

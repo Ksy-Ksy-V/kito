@@ -1,7 +1,7 @@
-import React from 'react';
 import { Button, ButtonProps, useTheme } from '@mui/material';
+import { FC } from 'react';
 
-const MainButton: React.FC<ButtonProps> = ({ children, sx, ...props }) => {
+const MainButton: FC<ButtonProps> = ({ children, sx, ...props }) => {
 	const theme = useTheme();
 
 	return (

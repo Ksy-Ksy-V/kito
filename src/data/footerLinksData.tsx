@@ -1,13 +1,13 @@
+import { FooterLink, SocialLink } from '../models/Interfaces';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
-import { SvgIconProps } from '@mui/material';
 
-interface SocialLink {
-	name: string;
-	icon: React.ReactElement<SvgIconProps>;
-	href: string;
-}
+export const importantLinks: FooterLink[] = [
+	{ name: 'About Project', path: '/about' },
+	{ name: 'Privacy Policy', path: '/policy' },
+	{ name: 'Terms of Service', path: '/terms' },
+];
 
 export const socialLinks: SocialLink[] = [
 	{

@@ -1,16 +1,9 @@
-import React from 'react';
 import { Grid2, Typography, useTheme } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { AnimeCardProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-interface AnimeCardProps {
-	image: string;
-	title: string;
-	mal_id?: number;
-}
-
-const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
+const AnimeCard: FC<AnimeCardProps> = ({ image, title, mal_id, isTitle }) => {
 	const theme = useTheme();
-	const navigate = useNavigate();
 
 	return (
 		<Grid2
@@ -22,13 +15,12 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 		>
 			<Grid2
 				sx={{
-					width: '170px',
-					height: '250px',
-					borderRadius: '16px',
-					marginBottom: '10px',
+					aspectRatio: '11 / 16',
+					borderRadius: '1rem',
+					marginBottom: '0.625rem',
 					boxShadow: 'rgba(29, 51, 53, 0.7)',
 					overflow: 'hidden',
-					cursor: 'pointer',
+					cursor: mal_id ? 'pointer' : null,
 					transition:
 						'transform 0.20s ease-in-out, box-shadow 0.20s ease-in-out, border 0.20s ease-in-out',
 					'&:hover': {
@@ -42,18 +34,30 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 			>
 				{mal_id ? (
 					<Grid2
-						component="img"
-						src={image}
-						alt={title}
+						component="a"
+						href={`/anime/${mal_id}`}
+						rel="noopener noreferrer"
 						sx={{
 							width: '100%',
-							height: '100%',
-							objectFit: 'cover',
-							borderRadius: '10px',
-							transition: 'transform 0.30s ease-in-out',
+							maxWidth: '12rem',
+							aspectRatio: '11 / 16',
+							display: 'block',
 						}}
-						onClick={() => navigate(`/anime/${mal_id}`)}
-					/>
+					>
+						<Grid2
+							component="img"
+							src={image}
+							alt={title}
+							sx={{
+								width: '100%',
+								maxWidth: '12rem',
+								aspectRatio: '11 / 16',
+								objectFit: 'cover',
+								borderRadius: '0.625rem',
+								transition: 'transform 0.30s ease-in-out',
+							}}
+						/>
+					</Grid2>
 				) : (
 					<Grid2
 						component="img"
@@ -61,23 +65,27 @@ const AnimeCard: React.FC<AnimeCardProps> = ({ image, title, mal_id }) => {
 						alt={title}
 						sx={{
 							width: '100%',
-							height: '100%',
+							maxWidth: '12rem',
+							aspectRatio: '11 / 16',
 							objectFit: 'cover',
-							borderRadius: '10px',
+							borderRadius: '0.625rem',
 							transition: 'transform 0.30s ease-in-out',
 						}}
 					/>
 				)}
 			</Grid2>
-			<Typography
-				variant="h5"
-				sx={{
-					textAlign: 'center',
-					color: theme.palette.secondary.main,
-				}}
-			>
-				{title}
-			</Typography>
+
+			{isTitle ? (
+				<Typography
+					variant="h5"
+					sx={{
+						textAlign: 'center',
+						color: theme.palette.secondary.main,
+					}}
+				>
+					{title}
+				</Typography>
+			) : null}
 		</Grid2>
 	);
 };

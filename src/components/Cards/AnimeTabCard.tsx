@@ -6,16 +6,13 @@ import {
 	useTheme,
 	Grid2,
 } from '@mui/material';
+
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
-import { AnimeSectionProps } from '../../models/Interfaces';
+import { KitoCardProps } from '../../models/Interfaces';
 import { FC } from 'react';
 
-const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
+const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
-
-	if (!anime) {
-		return null;
-	}
 
 	return (
 		<>
@@ -24,20 +21,9 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 					position: 'relative',
 					display: 'flex',
 					flexDirection: 'column',
-					width: {
-						xs: '8.75rem',
-						sm: '11.8rem',
-						md: '13rem',
-						lg: '13.7rem',
-						xl: '16.25rem',
-					},
-					maxWidth: {
-						xs: '8.75rem',
-						sm: '11.8rem',
-						md: '13rem',
-						lg: '13.7rem',
-						xl: '16.25rem',
-					},
+					width: '100%',
+					aspectRatio: '9 / 16',
+					maxWidth: '16.25rem',
 					overflow: 'hidden',
 					cursor: 'pointer',
 					borderRadius: '1rem',
@@ -61,8 +47,57 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 					},
 				}}
 			>
+				{anime.userRating && (
+					<Box
+						className="rating-label"
+						sx={{
+							position: 'absolute',
+							right: '0.5rem',
+							height: '3rem',
+							width: '4rem',
+							backgroundColor: 'rgba(38, 71, 71)',
+							borderEndStartRadius: '0.5rem',
+							borderEndEndRadius: '0.5rem',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'center',
+							alignItems: 'center',
+							zIndex: 2,
+							opacity: 1,
+							boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+							padding: '1rem',
+						}}
+					>
+						<Typography
+							variant="body1"
+							sx={{
+								color: theme.palette.text.primary,
+								display: 'flex',
+								alignItems: 'center',
+								fontSize: {
+									xs: theme.typography.body1.fontSize,
+									sm: theme.typography.body1.fontSize,
+									md: theme.typography.body1.fontSize,
+									lg: theme.typography.body1.fontSize,
+									xl: theme.typography.body1.fontSize,
+								},
+							}}
+						>
+							<StarOutlinedIcon
+								sx={{
+									marginRight: '0.3rem',
+									marginBottom: '0.15rem',
+									fontSize: '1.15rem',
+									color: theme.palette.secondary.main,
+								}}
+							/>
+							{anime.userRating}
+						</Typography>
+					</Box>
+				)}
+
 				<a
-					href={`/anime/${anime.mal_id}`}
+					href={`/anime/${anime.id}`}
 					rel="noopener noreferrer"
 					style={{
 						width: '100%',
@@ -75,54 +110,18 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 				>
 					<CardMedia
 						component="img"
-						image={anime.images.jpg.image_url}
-						alt={anime.title}
+						image={anime.image}
+						alt={anime.name}
 						className="card-media"
 						sx={{
 							width: '100%',
-							height: {
-								xs: '13.75rem',
-								sm: '17.5rem',
-								md: '19.2rem',
-								lg: '19.5rem',
-								xl: '25.9rem',
-							},
+							height: '100%',
 							objectFit: 'cover',
 							transition:
 								'transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.3s ease-in-out',
 							opacity: 1,
 						}}
 					/>
-
-					<Box
-						className="rating-label"
-						sx={{
-							position: 'absolute',
-							top: '0.5rem',
-							right: '1rem',
-							height: '5rem',
-							width: '3rem',
-							backgroundColor: 'rgba(38, 71, 71)',
-							borderEndStartRadius: '0.5rem',
-							borderEndEndRadius: '0.5rem',
-							display: 'flex',
-							justifyContent: 'center',
-							alignItems: 'center',
-							opacity: 0,
-							transition:
-								'opacity 0.5s ease-in-out, top 0.5s ease-in-out',
-						}}
-					>
-						<Typography
-							variant="h5"
-							sx={{
-								color: theme.palette.text.secondary,
-								textAlign: 'center',
-							}}
-						>
-							{anime.rating?.split(' - ')[0]}
-						</Typography>
-					</Box>
 
 					<Grid2
 						className="content"
@@ -143,8 +142,6 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 						<Typography
 							variant="h3"
 							sx={{
-								display: '-webkit-box',
-								WebkitBoxOrient: 'vertical',
 								overflow: 'hidden',
 								WebkitLineClamp: 3,
 								textOverflow: 'ellipsis',
@@ -154,12 +151,12 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 									xs: theme.typography.h6.fontSize,
 									sm: theme.typography.h6.fontSize,
 									md: theme.typography.h5.fontSize,
-									lg: theme.typography.h4.fontSize,
-									xl: theme.typography.h3.fontSize,
+									lg: theme.typography.h5.fontSize,
+									xl: theme.typography.h5.fontSize,
 								},
 							}}
 						>
-							{anime.title}
+							{anime.name}
 						</Typography>
 
 						<Typography
@@ -202,23 +199,23 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 									lg: theme.typography.body1.fontSize,
 									xl: theme.typography.body1.fontSize,
 								},
+								color: theme.palette.secondary.main,
 							}}
 						>
-							{anime.synopsis as string}
+							{anime.rating}
 						</Typography>
 
 						<Grid2
 							sx={{
 								marginTop: '1rem',
-								marginBottom: '1rem',
 								display: 'flex',
 								flexWrap: 'wrap',
 								gap: '0.5rem',
 							}}
 						>
-							{anime.genres.map((genre) => (
+							{anime.genres.slice(0, 2).map((genre) => (
 								<Box
-									key={genre.mal_id}
+									key={genre}
 									sx={{
 										backgroundColor:
 											'rgba(56, 113, 113, 0.7)',
@@ -229,7 +226,7 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 										color: theme.palette.text.primary,
 									}}
 								>
-									{genre.name}
+									{genre}
 								</Box>
 							))}
 						</Grid2>
@@ -240,13 +237,7 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 				variant="h3"
 				sx={{
 					marginTop: '1rem',
-					width: {
-						xs: '8.75rem',
-						sm: '11.8rem',
-						md: '13rem',
-						lg: '13.7rem',
-						xl: '16.25rem',
-					},
+
 					textAlign: 'center',
 					color: theme.palette.secondary.main,
 					fontSize: {
@@ -258,10 +249,10 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 					},
 				}}
 			>
-				{anime.title}
+				{anime.name}
 			</Typography>
 		</>
 	);
 };
 
-export default SearchCard;
+export default AnimeTabCard;

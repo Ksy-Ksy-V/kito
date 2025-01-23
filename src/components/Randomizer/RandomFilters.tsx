@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import {
 	Grid2,
 	useTheme,
@@ -22,17 +22,9 @@ import {
 	animeRatings,
 	animeStatuses,
 } from '../../models/AnimeFilters';
+import { RandomFiltersProps } from '../../models/Interfaces';
 
-interface RandomFiltersProps {
-	loading?: boolean;
-	error?: boolean;
-	animeGenres: Genre[];
-}
-
-const RandomFilters: React.FC<RandomFiltersProps> = ({
-	loading,
-	animeGenres,
-}) => {
+const RandomFilters: FC<RandomFiltersProps> = ({ loading, animeGenres }) => {
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const [selectedStatus, setSelectedStatus] = useState<
@@ -43,7 +35,7 @@ const RandomFilters: React.FC<RandomFiltersProps> = ({
 	const theme = useTheme();
 
 	const handleGenreChange = (
-		_event: React.SyntheticEvent,
+		_event: SyntheticEvent,
 		newValue: Genre | null
 	) => {
 		setSelectedGenre(newValue);

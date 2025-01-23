@@ -1,13 +1,9 @@
 import { Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import { legalProps, WelcomeLegalProps } from '../../data/privacyPolicy';
+import { TextBlockProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-interface TextBlockProps {
-	welcomeText: WelcomeLegalProps[];
-	itemText: legalProps[];
-}
-
-const TextBlock: React.FC<TextBlockProps> = ({ welcomeText, itemText }) => {
+const TextBlock: FC<TextBlockProps> = ({ welcomeText, itemText }) => {
 	return (
 		<Grid2 container spacing={2}>
 			<Typography

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Grid2, Checkbox, FormControlLabel, Skeleton } from '@mui/material';
 import {
 	Anime,
@@ -11,10 +11,9 @@ import PagePagination from '../../components/PagePagination';
 import theme from '../../styles/theme';
 import Error from '../../components/Error';
 import SearchCard from '../../components/Cards/SearchCard';
-import { useNavigate } from 'react-router-dom';
 import BackgroundImg from '../../components/BackgroundImg';
 
-const SeasonAnimePage: React.FC = () => {
+const SeasonAnimePage: FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -22,7 +21,6 @@ const SeasonAnimePage: React.FC = () => {
 	const [page, setPage] = useState(1);
 	const [paginationData, setPaginationData] =
 		useState<JikanPagination | null>(null);
-	const navigate = useNavigate();
 
 	const fetchSeasonAnime = async () => {
 		setLoading(true);
@@ -47,10 +45,7 @@ const SeasonAnimePage: React.FC = () => {
 		}
 	};
 
-	const handlePageChange = (
-		_event: React.ChangeEvent<unknown>,
-		value: number
-	) => {
+	const handlePageChange = (_event: ChangeEvent<unknown>, value: number) => {
 		setPage(value);
 	};
 
@@ -166,17 +161,7 @@ const SeasonAnimePage: React.FC = () => {
 								size={{ xs: 6, sm: 4, md: 4, lg: 3 }}
 								sx={{ justifyContent: 'center' }}
 							>
-								<SearchCard
-									image={anime.images.jpg.image_url}
-									title={anime.title}
-									description={anime.synopsis as string}
-									genres={anime.genres}
-									score={anime.score}
-									rating={anime.rating}
-									onClick={() =>
-										navigate(`/anime/${anime.mal_id}`)
-									}
-								/>
+								<SearchCard anime={anime} />
 							</Grid2>
 					  ))}
 			</Grid2>

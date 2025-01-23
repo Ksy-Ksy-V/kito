@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	Box,
 	Typography,
@@ -14,7 +14,7 @@ import { sliderItems as items } from '../../data/sliderContent';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../styles/theme';
 
-const Slider: React.FC = () => {
+const Slider: FC = () => {
 	const [currentIndex, setCurrentIndex] = useState(1);
 	const navigate = useNavigate();
 
