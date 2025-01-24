@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Button, Link, TextField, Typography } from '@mui/material';
@@ -65,7 +65,7 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 			});
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setData((prevData) => ({ ...prevData, [name]: value }));
 

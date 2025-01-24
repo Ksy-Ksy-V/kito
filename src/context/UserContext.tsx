@@ -1,4 +1,12 @@
-import { createContext, useContext, useEffect, useReducer } from 'react';
+import {
+	createContext,
+	Dispatch,
+	FC,
+	ReactNode,
+	useContext,
+	useEffect,
+	useReducer,
+} from 'react';
 import {
 	Action,
 	initialUserState,
@@ -8,12 +16,10 @@ import {
 
 const UserContext = createContext<{
 	state: UserState;
-	dispatch: React.Dispatch<Action>;
+	dispatch: Dispatch<Action>;
 } | null>(null);
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-	children,
-}) => {
+export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [state, dispatch] = useReducer(userReducer, initialUserState);
 
 	useEffect(() => {

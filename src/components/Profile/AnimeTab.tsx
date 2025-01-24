@@ -1,5 +1,6 @@
 import {
 	ChangeEvent,
+	FC,
 	SyntheticEvent,
 	useEffect,
 	useMemo,
@@ -25,7 +26,7 @@ import RenderAnimeCards from './RenderAnimeCards';
 import TabFilters from './TabFilters';
 import { UserInfoProps } from '../../models/Interfaces';
 
-const AnimeTabs: React.FC<UserInfoProps> = ({ user }) => {
+const AnimeTabs: FC<UserInfoProps> = ({ user }) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);

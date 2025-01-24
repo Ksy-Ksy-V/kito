@@ -98,7 +98,6 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 		<DialogContent>
 			<Grid2 size={12}>
 				<Typography variant="h3" sx={{ textAlign: 'center' }}>
-					{' '}
 					{anime?.title || anime?.title_english}
 				</Typography>
 				{loading ? (
@@ -120,7 +119,7 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
 						validationError={
-							validateError ? validateErrorText : undefined
+							validateError ? validateErrorText : null
 						}
 						hasValidationError={validateError}
 					/>

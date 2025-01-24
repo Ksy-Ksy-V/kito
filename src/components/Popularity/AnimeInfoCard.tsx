@@ -103,13 +103,7 @@ const AnimeInfoCard: FC<AnimeInfoCardProps> = ({ number, anime, loading }) => {
 						display: 'flex',
 					}}
 				>
-					{anime ? (
-						<>
-							<AddToList anime={anime} />
-						</>
-					) : (
-						<AddToList loading={loading} anime={anime} />
-					)}
+					<AddToList loading={loading} anime={anime} />
 				</Grid2>
 			</Grid2>
 

@@ -68,7 +68,7 @@ export interface StyledCustomSelectProps {
 	capitalizeOptions?: boolean;
 	defaultValue?: string;
 	upperCaseOptions?: boolean;
-	validationError?: string | undefined;
+	validationError?: string | null;
 	hasValidationError?: boolean;
 }
 

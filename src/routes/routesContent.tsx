@@ -24,9 +24,6 @@ export const routes: RouteContent[] = [
 	{ path: '/policy', element: <PrivacyPolicy /> },
 	{ path: '/about', element: <AboutKito /> },
 
-	// { path: '/randomizer-search', element: <RandomizerSearch /> },
-	// { path: '/popular', element: <Popularity /> },
-
 	{
 		path: '/randomizer-search',
 		element: (

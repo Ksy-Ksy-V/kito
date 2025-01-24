@@ -1,11 +1,12 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import BackgroundCover from './BackgroundCover';
 
-import AvatarDef from '../../images/ProfileAvatar.png';
+import AvatarDefault from '../../images/ProfileAvatar.png';
 import theme from '../../styles/theme';
 import { UserInfoProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const ProfileHeader: React.FC<UserInfoProps> = ({ user }) => {
+const ProfileHeader: FC<UserInfoProps> = ({ user }) => {
 	const { name, status, animeList, avatar, background } = user;
 
 	const stats = [
@@ -23,7 +24,7 @@ const ProfileHeader: React.FC<UserInfoProps> = ({ user }) => {
 		},
 	];
 
-	const ProfileAvatar = avatar || AvatarDef;
+	const profileAvatar = avatar || AvatarDefault;
 
 	return (
 		<Grid2
@@ -50,7 +51,7 @@ const ProfileHeader: React.FC<UserInfoProps> = ({ user }) => {
 				>
 					<Box
 						component="img"
-						src={ProfileAvatar}
+						src={profileAvatar}
 						sx={{
 							position: 'relative',
 							width: { xs: '8rem', md: '10rem' },

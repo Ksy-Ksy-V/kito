@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid2 } from '@mui/material';
 import LoadingOverlay from './LoadingOverlay';
 import {
@@ -8,8 +7,9 @@ import {
 import { AuthPageLayoutProps } from '../../models/Interfaces';
 import { useAppSelector } from '../../store/hooks';
 import { selectAuth } from '../../store/reducers/authSlice';
+import { FC } from 'react';
 
-const AuthPageLayout: React.FC<AuthPageLayoutProps> = ({ children }) => {
+const AuthPageLayout: FC<AuthPageLayoutProps> = ({ children }) => {
 	const { loading } = useAppSelector(selectAuth);
 	return (
 		<>

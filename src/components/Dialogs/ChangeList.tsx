@@ -104,7 +104,7 @@ const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
 						validationError={
-							validateError ? validateErrorText : undefined
+							validateError ? validateErrorText : null
 						}
 						hasValidationError={validateError}
 					/>

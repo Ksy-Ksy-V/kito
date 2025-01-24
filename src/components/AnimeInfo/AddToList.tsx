@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import { Button, Dialog, DialogTitle, Grid2 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -13,7 +13,7 @@ import { useUserContext } from '../../context/UserContext';
 import ChangeList from '../Dialogs/ChangeList';
 import { AnimeKito } from '../../models/ProfileModels';
 
-const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
+const AddToList: FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
 	const { state } = useUserContext();
 	const { animeList } = state.user || {};
@@ -46,7 +46,7 @@ const AddToList: React.FC<AnimeSectionProps> = ({ loading, anime }) => {
 			<ButtonWithIcon
 				onClick={handleClickOpen}
 				loading={loading}
-				icon={inList ? <CreateOutlinedIcon /> : undefined}
+				icon={inList && <CreateOutlinedIcon />}
 				sx={{
 					width: {
 						xs: '11rem',

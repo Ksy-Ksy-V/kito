@@ -48,9 +48,7 @@ function AnimeAvatar({ title, imageUrl, mal_id, loading }: AnimeAvatarProps) {
 						  }
 						: null,
 				}}
-				onClick={
-					mal_id ? () => navigate(`/anime/${mal_id}`) : undefined
-				}
+				onClick={() => mal_id && navigate(`/anime/${mal_id}`)}
 			/>
 		</Card>
 	);
