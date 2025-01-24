@@ -11,6 +11,7 @@ import ScrollToTop from './components/Buttons/ScrollToTop';
 import { routes, routesWide } from './routes/routesContent';
 import SignUp from './pages/authentication/SignUp';
 import SignIn from './pages/authentication/SignIn';
+import CustomSelection from './utils/CustomSelection';
 
 function App() {
 	return (
@@ -23,6 +24,7 @@ function App() {
 					v7_startTransition: true,
 				}}
 			>
+				<CustomSelection />
 				<OpenOnTop />
 				<Routes>
 					{routes.map(({ path, element }) => (
