@@ -3,6 +3,7 @@ import BackgroundImg from '../../components/BackgroundImg';
 import heroSectionBackground from '../../images/heroSectionBackground.png';
 import TextBlock from '../../components/legal/TextBlock';
 import { aboutKito, welcomeAboutKito } from '../../data/aboutKito';
+import ContactForm from '../../components/legal/ContactForm';
 
 const AboutKito = () => {
 	return (
@@ -22,6 +23,7 @@ const AboutKito = () => {
 			</Grid2>
 
 			<TextBlock welcomeText={welcomeAboutKito} itemText={aboutKito} />
+			<ContactForm />
 		</Grid2>
 	);
 };
