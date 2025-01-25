@@ -7,7 +7,12 @@ import { FC, useEffect, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import { ChangeListProps } from '../../models/Interfaces';
 
-const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
+const ChangeList: FC<ChangeListProps> = ({
+	loading,
+	anime,
+	handleClose,
+	handleDeleteOpen,
+}) => {
 	const { dispatch } = useUserContext();
 
 	const [listValue, setListValue] = useState<string>(anime.listName);
@@ -19,8 +24,6 @@ const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 	);
 
 	const [validateError, setValidationsErrors] = useState<boolean>(false);
-	const validateErrorText =
-		'If you do not select a list, the anime will be removed from your lists. ';
 
 	const handleListChange = (newValue: string) => {
 		setListValue(newValue);
@@ -80,10 +83,6 @@ const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 
 	return (
 		<DialogContent>
-			<Typography variant="h3" sx={{ textAlign: 'center' }}>
-				{' '}
-				{anime.title}
-			</Typography>
 			<Grid2 size={12}>
 				{loading ? (
 					<Skeleton
@@ -103,12 +102,31 @@ const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 						clearValue={() => setListValue('')}
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
-						validationError={
-							validateError ? validateErrorText : null
-						}
 						hasValidationError={validateError}
 					/>
 				)}
+
+				{validateError ? (
+					<Typography
+						color={theme.palette.text.primary}
+						sx={{
+							textAlign: 'center',
+						}}
+					>
+						<span>
+							If you want to remove anime from lists, click{' '}
+						</span>
+						<span
+							onClick={handleDeleteOpen}
+							style={{
+								color: theme.palette.secondary.main,
+								cursor: 'pointer',
+							}}
+						>
+							confirm
+						</span>
+					</Typography>
+				) : null}
 
 				{loading ? (
 					<Skeleton
@@ -180,7 +198,7 @@ const ChangeList: FC<ChangeListProps> = ({ loading, anime, handleClose }) => {
 								marginTop: { sm: '2rem', xs: '1rem' },
 							}}
 						>
-							Add
+							Save
 						</MainButton>
 					</Grid2>
 				</Grid2>

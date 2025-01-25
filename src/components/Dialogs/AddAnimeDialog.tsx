@@ -1,4 +1,4 @@
-import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
+import { DialogContent, Grid2, Skeleton } from '@mui/material';
 import theme from '../../styles/theme';
 import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
@@ -97,9 +97,6 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 	return (
 		<DialogContent>
 			<Grid2 size={12}>
-				<Typography variant="h3" sx={{ textAlign: 'center' }}>
-					{anime?.title || anime?.title_english}
-				</Typography>
 				{loading ? (
 					<Skeleton
 						variant="rectangular"
@@ -195,7 +192,7 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 								marginTop: { sm: '2rem', xs: '1rem' },
 							}}
 						>
-							Add
+							Save
 						</MainButton>
 					</Grid2>
 				</Grid2>

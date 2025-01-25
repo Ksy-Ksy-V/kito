@@ -49,24 +49,23 @@ export interface AnimeInfoCardProps {
 }
 
 // Filters, Sorting, and Search Options
-export interface CustomSelectProps {
+
+export interface GeneralSelectProps {
 	label: string;
-	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
 	upperCaseOptions?: boolean;
 }
+export interface CustomSelectProps extends GeneralSelectProps {
+	value: string | '';
+	onChange: (event: SelectChangeEvent<string>) => void;
+}
 
-export interface StyledCustomSelectProps {
-	label: string;
+export interface StyledCustomSelectProps extends GeneralSelectProps {
 	value: string | undefined;
-	onChange?: (event: SelectChangeEvent<string>) => void;
-	options: string[];
-	clearValue: () => void;
-	capitalizeOptions?: boolean;
 	defaultValue?: string;
+	onChange?: (event: SelectChangeEvent<string>) => void;
 	upperCaseOptions?: boolean;
 	validationError?: string | null;
 	hasValidationError?: boolean;
@@ -181,6 +180,13 @@ export interface ChangeListProps {
 	loading?: boolean;
 	anime: AnimeKito;
 	handleClose: () => void;
+	handleDeleteOpen?: () => void;
+}
+export interface DeleteListProps {
+	loading?: boolean;
+	anime: AnimeKito;
+	handleClose: () => void;
+	handleCloseDelete: () => void;
 }
 
 export interface AddAnimeDialogProps {

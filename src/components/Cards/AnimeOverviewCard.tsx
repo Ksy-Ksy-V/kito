@@ -17,13 +17,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-
 import { KitoCardProps } from '../../models/Interfaces';
-import { useUserContext } from '../../context/UserContext';
+import DeleteAnime from '../Dialogs/DeleteAnime';
 
 const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
-	const { dispatch } = useUserContext();
 	const [open, setOpen] = useState(false);
+	const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -31,10 +31,13 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 		setOpen(false);
 	};
 
-	const handleDeleteFromList = () => {
-		dispatch({
-			type: 'SET_DELETE_ANIME',
-		});
+	const handleOpenConfirm = () => {
+		setOpenDeleteDialog(true);
+		setOpen(false);
+	};
+
+	const handleCloseConfirm = () => {
+		setOpenDeleteDialog(false);
 	};
 
 	return (
@@ -414,8 +417,11 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 									justifyContent: 'space-between',
 								}}
 							>
-								<DialogTitle id="dialog-title">
-									Change list
+								<DialogTitle
+									id="dialog-title"
+									sx={{ color: theme.palette.secondary.main }}
+								>
+									Change list for "{anime.title}"
 								</DialogTitle>
 
 								<Button
@@ -433,12 +439,15 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 							<ChangeList
 								loading={loading}
 								handleClose={() => handleClose()}
+								handleDeleteOpen={() =>
+									setOpenDeleteDialog(true)
+								}
 								anime={anime}
 							/>
 						</Dialog>
 
 						<ButtonWithIcon
-							onClick={handleDeleteFromList}
+							onClick={handleOpenConfirm}
 							loading={loading}
 							icon={<DeleteOutlineOutlinedIcon />}
 							sx={{
@@ -447,6 +456,20 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 						>
 							Delete from list
 						</ButtonWithIcon>
+
+						<Dialog
+							open={openDeleteDialog}
+							onClose={() => setOpenDeleteDialog(false)}
+							fullWidth
+							disableEnforceFocus
+						>
+							<DeleteAnime
+								loading={loading}
+								handleClose={handleClose}
+								handleCloseDelete={handleCloseConfirm}
+								anime={anime}
+							/>
+						</Dialog>
 					</Grid2>
 				</Grid2>
 			</Grid2>
