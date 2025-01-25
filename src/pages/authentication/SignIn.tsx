@@ -10,7 +10,7 @@ const SignIn = () => {
 					variant="h3"
 					sx={{ textAlign: 'center', marginBottom: '1.5rem' }}
 				>
-					Sign In
+					Welcome Back
 				</Typography>
 				<SignInForm />
 			</Grid2>

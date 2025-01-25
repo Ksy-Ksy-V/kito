@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { Button, Link, TextField, Typography } from '@mui/material';
+import { Link, TextField, Typography } from '@mui/material';
 
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import MainButton from '../../components/Buttons/MainButton';
@@ -48,21 +48,19 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 		);
 
 		if (!isValid) {
-			return;
+			dispatch(signinAsync({ email, password }))
+				.unwrap()
+				.then(() => {
+					if (location.pathname === '/signin') {
+						navigate('/');
+					} else {
+						navigate(location.pathname);
+					}
+				})
+				.catch((_error) => {
+					console.error(_error);
+				});
 		}
-
-		dispatch(signinAsync({ email, password }))
-			.unwrap()
-			.then(() => {
-				if (location.pathname === '/signin') {
-					navigate('/');
-				} else {
-					navigate(location.pathname);
-				}
-			})
-			.catch((_error) => {
-				console.error(_error);
-			});
 	};
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -110,15 +108,6 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 			{error && (
 				<>
 					<Typography
-						color="error"
-						sx={{
-							textAlign: 'center',
-							marginBottom: '1rem',
-						}}
-					>
-						{error}
-					</Typography>
-					<Typography
 						color={theme.palette.primary.main}
 						sx={{
 							margin: '1rem',
@@ -145,15 +134,20 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 				}}
 			>
 				<span>Don’t have an account yet? </span>
-				<Button
+
+				<span
 					onClick={() =>
 						navigate('/signup', {
 							state: { preSignUpPath },
 						})
 					}
+					style={{
+						color: theme.palette.secondary.main,
+						cursor: 'pointer',
+					}}
 				>
 					Sign Up
-				</Button>
+				</span>
 			</Typography>
 
 			<MainButton type="submit" disabled={loading}>
