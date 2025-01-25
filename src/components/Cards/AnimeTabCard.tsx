@@ -10,9 +10,19 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
 import { FC } from 'react';
+import { GenreKitoValues } from '../../data/tabs';
 
 const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
+
+	const mappedGenres = anime.genres
+		.map(
+			(genre) =>
+				GenreKitoValues[
+					genre.toLowerCase() as keyof typeof GenreKitoValues
+				]
+		)
+		.filter((genre) => genre !== undefined);
 
 	return (
 		<>
@@ -213,7 +223,7 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 								gap: '0.5rem',
 							}}
 						>
-							{anime.genres.slice(0, 2).map((genre) => (
+							{mappedGenres.slice(0, 2).map((genre) => (
 								<Box
 									key={genre}
 									sx={{

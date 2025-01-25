@@ -3,7 +3,6 @@ import BackgroundImg from '../images/backgroundKito.png';
 
 export const textFieldStyles: SxProps<Theme> = {
 	marginBottom: '1rem',
-	width: '500px',
 	'& .MuiOutlinedInput-root': {
 		'& fieldset': {
 			borderWidth: '0.15rem',

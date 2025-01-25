@@ -47,7 +47,7 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 			(error) => error === ''
 		);
 
-		if (!isValid) {
+		if (isValid) {
 			dispatch(signinAsync({ email, password }))
 				.unwrap()
 				.then(() => {

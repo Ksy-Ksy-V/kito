@@ -2,7 +2,7 @@ import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
 import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
-import { ListName, ratingOptions, tabs } from '../../data/tabs';
+import { ListName, listNameValues, ratingOptions, tabs } from '../../data/tabs';
 import { FC, useEffect, useState } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import { ChangeListProps } from '../../models/Interfaces';
@@ -15,7 +15,10 @@ const ChangeList: FC<ChangeListProps> = ({
 }) => {
 	const { dispatch } = useUserContext();
 
-	const [listValue, setListValue] = useState<string>(anime.listName);
+	const [listValue, setListValue] = useState<listNameValues>(
+		anime.listName as listNameValues
+	);
+
 	const [scoreValue, setScoreValue] = useState<string>(
 		String(anime?.userRating)
 	);
@@ -25,7 +28,7 @@ const ChangeList: FC<ChangeListProps> = ({
 
 	const [validateError, setValidationsErrors] = useState<boolean>(false);
 
-	const handleListChange = (newValue: string) => {
+	const handleListChange = (newValue: listNameValues) => {
 		setListValue(newValue);
 	};
 
@@ -38,7 +41,7 @@ const ChangeList: FC<ChangeListProps> = ({
 	};
 
 	const handleAdd = () => {
-		if (listValue === '') {
+		if (listValue === ' ') {
 			setValidationsErrors(true);
 		} else {
 			dispatch({
@@ -58,7 +61,7 @@ const ChangeList: FC<ChangeListProps> = ({
 	};
 
 	const handleCancel = () => {
-		setListValue(anime.listName);
+		setListValue(anime.listName as listNameValues);
 		setScoreValue(
 			anime.userRating !== undefined ? String(anime.userRating) : ''
 		);
@@ -97,10 +100,14 @@ const ChangeList: FC<ChangeListProps> = ({
 					<CustomSelect
 						label="List"
 						value={listValue}
-						onChange={(e) => handleListChange(e.target.value)}
-						options={tabs.map((option) => option.value)}
-						clearValue={() => setListValue('')}
-						defaultValue={tabs[0].value}
+						onChange={(e) =>
+							handleListChange(e.target.value as listNameValues)
+						}
+						options={tabs.map(
+							(option) => option.value as listNameValues
+						)}
+						clearValue={() => setListValue(listNameValues.Empty)}
+						defaultValue={tabs[0].value as listNameValues}
 						capitalizeOptions={false}
 						hasValidationError={validateError}
 					/>

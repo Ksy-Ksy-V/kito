@@ -1,12 +1,20 @@
 import { LabeledOption } from '../models/Interfaces';
 
+export enum listNameValues {
+	Watching = 'Watching',
+	Completed = 'Completed',
+	OnHold = 'On-Hold',
+	Dropped = 'Dropped',
+	PlanToWatch = 'Plan to Watch',
+	Empty = ' ',
+}
+
 export const tabs: LabeledOption[] = [
-	{ label: 'Watching', value: 'Watching' },
-	{ label: 'Completed', value: 'Completed' },
-	{ label: 'On-Hold', value: 'On-Hold' },
-	{ label: 'Dropped', value: 'Dropped' },
-	{ label: 'Plan to Watch', value: 'Plan to Watch' },
-	{ label: 'Score', value: 'Score' },
+	{ value: listNameValues.Watching, label: 'Watching' },
+	{ value: listNameValues.Completed, label: 'Completed' },
+	{ value: listNameValues.OnHold, label: 'On-Hold' },
+	{ value: listNameValues.Dropped, label: 'Dropped' },
+	{ value: listNameValues.PlanToWatch, label: 'Plan to Watch' },
 ];
 
 export const listNames = [
@@ -43,3 +51,24 @@ export const typeOptions: LabeledOption[] = [
 	{ label: 'Special', value: 'Special' },
 	{ label: 'ONA', value: 'ONA' },
 ];
+
+export enum GenreKitoValues {
+	action = 'Action',
+	adventure = 'Adventure',
+	avantGarde = 'Avant Garde',
+	awardWinning = 'Award Winning',
+	boysLove = 'Boys Love',
+	comedy = 'Comedy',
+	drama = 'Drama',
+	fantasy = 'Fantasy',
+	girlsLove = 'Girls Love',
+	gourmet = 'Gourmet',
+	horror = 'Horror',
+	mystery = 'Mystery',
+	romance = 'Romance',
+	sciFi = 'Sci-Fi',
+	sliceOfLife = 'Slice of Life',
+	sports = 'Sports',
+	supernatural = 'Supernatural',
+	suspense = 'Suspense',
+}

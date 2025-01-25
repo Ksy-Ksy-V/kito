@@ -3,7 +3,14 @@ import theme from '../../styles/theme';
 import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
 import { FC, useEffect, useState } from 'react';
-import { ListName, ratingOptions, tabs, type } from '../../data/tabs';
+import {
+	GenreKitoValues,
+	ListName,
+	listNameValues,
+	ratingOptions,
+	tabs,
+	type,
+} from '../../data/tabs';
 import { AddAnimeDialogProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 import { Anime } from '@tutkli/jikan-ts';
@@ -15,14 +22,17 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 	anime,
 }) => {
 	const { dispatch } = useUserContext();
-	const [listValue, setListValue] = useState<string>('');
+	const [listValue, setListValue] = useState<listNameValues>(
+		listNameValues.Empty
+	);
 	const [scoreValue, setScoreValue] = useState<string>('');
 	const [episodesValue, setEpisodesValue] = useState<string>('');
 
 	const [validateError, setValidationsErrors] = useState<boolean>(false);
+
 	const validateErrorText = 'Please select a list to add anime';
 
-	const handleListChange = (newValue: string) => {
+	const handleListChange = (newValue: listNameValues) => {
 		setListValue(newValue);
 	};
 
@@ -35,7 +45,7 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 	};
 
 	const handleAdd = () => {
-		if (listValue === '') {
+		if (listValue === listNameValues.Empty) {
 			setValidationsErrors(true);
 		} else {
 			const animeKito = createAnimeKitoObject(
@@ -55,7 +65,7 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 	};
 
 	const handleCancel = () => {
-		setListValue('');
+		setListValue(listNameValues.Empty);
 		setScoreValue('');
 		setEpisodesValue('');
 		handleClose();
@@ -78,6 +88,13 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 		userRating: number,
 		episodesWatched: number
 	): AnimeKito => {
+		const genres = anime.genres
+			.map((genre) => {
+				const genreValue =
+					GenreKitoValues[genre.name as keyof typeof GenreKitoValues];
+				return genreValue || null;
+			})
+			.filter((genre) => genre !== null) as GenreKitoValues[];
 		return {
 			id: anime.mal_id,
 			title: anime.title,
@@ -85,7 +102,7 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 			episodes: anime.episodes || 0,
 			type: anime.type as type,
 			description: anime.synopsis as string,
-			genres: anime.genres.map((genre) => genre.name),
+			genres,
 			score: anime.score,
 			rating: anime.rating,
 			userRating,
@@ -110,9 +127,11 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 					<CustomSelect
 						label="List"
 						value={listValue}
-						onChange={(e) => handleListChange(e.target.value)}
+						onChange={(e) =>
+							handleListChange(e.target.value as listNameValues)
+						}
 						options={tabs.map((option) => option.value)}
-						clearValue={() => setListValue('')}
+						clearValue={() => setListValue(listNameValues.Empty)}
 						defaultValue={tabs[0].value}
 						capitalizeOptions={false}
 						validationError={

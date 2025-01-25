@@ -19,6 +19,7 @@ import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
 import DeleteAnime from '../Dialogs/DeleteAnime';
+import { GenreKitoValues } from '../../data/tabs';
 
 const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
@@ -39,6 +40,15 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const handleCloseConfirm = () => {
 		setOpenDeleteDialog(false);
 	};
+
+	const mappedGenres = anime.genres
+		.map(
+			(genre) =>
+				GenreKitoValues[
+					genre.toLowerCase() as keyof typeof GenreKitoValues
+				]
+		)
+		.filter((genre) => genre !== undefined);
 
 	return (
 		<Card
@@ -149,7 +159,7 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 										gap: '0.5rem',
 									}}
 								>
-									{anime.genres.map((genre) => (
+									{mappedGenres.map((genre) => (
 										<Box
 											key={genre}
 											sx={{
