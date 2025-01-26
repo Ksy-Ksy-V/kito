@@ -43,7 +43,7 @@ const RemoveAnime: FC<RemoveListProps> = ({
 					id="dialog-title"
 					sx={{ color: theme.palette.secondary.main }}
 				>
-					Delete from list "{anime.title}"
+					Remove from list "{anime.title}"
 				</DialogTitle>
 
 				<Button
