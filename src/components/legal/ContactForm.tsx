@@ -1,12 +1,22 @@
 import { Grid2, TextField, Typography } from '@mui/material';
 import { textFieldStyles } from '../../styles/AuthStyles';
 import { useState } from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 import theme from '../../styles/theme';
+import MainButton from '../Buttons/MainButton';
 
 const ContactForm = () => {
+	const [state, handleSubmit] = useForm(process.env.REACT_APP_FORM_ID);
+
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [message, setMessage] = useState('');
+
+	const handleSubmitForm = () => {
+		console.log(name, 'name');
+		console.log(email, 'email');
+		console.log(message, 'message');
+	};
 	return (
 		<>
 			<Grid2 size={12}>
@@ -46,17 +56,15 @@ const ContactForm = () => {
 				</Typography>
 			</Grid2>
 			<Grid2 size={6}>
-				<form
-				// onSubmit={handleSubmit}
-				>
+				<form onSubmit={handleSubmitForm}>
 					<TextField
 						id="name"
 						fullWidth
 						label="Name"
 						type="name"
-						// value={data.email}
+						value={name}
 						name="name"
-						// onChange={handleChange}
+						onChange={(event) => setName(event.target.value)}
 						sx={textFieldStyles}
 					/>
 
@@ -65,9 +73,9 @@ const ContactForm = () => {
 						fullWidth
 						label="Email"
 						type="email"
-						// value={data.email}
+						value={email}
 						name="email"
-						// onChange={handleChange}
+						onChange={(event) => setEmail(event.target.value)}
 						// helperText={validationsErrors.email}
 						sx={textFieldStyles}
 					/>
@@ -77,18 +85,18 @@ const ContactForm = () => {
 						fullWidth
 						label="Message"
 						type="message"
-						// value={data.email}
+						value={message}
 						name="message"
 						multiline
 						rows={7}
-						// onChange={handleChange}
-						// helperText={validationsErrors.message}
+						onChange={(event) => setMessage(event.target.value)}
 						sx={textFieldStyles}
 					/>
+
+					<MainButton onClick={handleSubmitForm}>Send</MainButton>
 				</form>
 			</Grid2>
 		</>
 	);
 };
-
 export default ContactForm;
