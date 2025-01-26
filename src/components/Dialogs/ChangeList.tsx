@@ -11,7 +11,7 @@ const ChangeList: FC<ChangeListProps> = ({
 	loading,
 	anime,
 	handleClose,
-	handleDeleteOpen,
+	handleRemoveOpen,
 }) => {
 	const { dispatch } = useUserContext();
 
@@ -124,7 +124,7 @@ const ChangeList: FC<ChangeListProps> = ({
 							If you want to remove anime from lists, click{' '}
 						</span>
 						<span
-							onClick={handleDeleteOpen}
+							onClick={handleRemoveOpen}
 							style={{
 								color: theme.palette.secondary.main,
 								cursor: 'pointer',

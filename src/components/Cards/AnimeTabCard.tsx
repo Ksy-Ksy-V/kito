@@ -16,12 +16,14 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
 
 	const mappedGenres = anime.genres
-		.map(
-			(genre) =>
-				GenreKitoValues[
-					genre.toLowerCase() as keyof typeof GenreKitoValues
-				]
-		)
+		.map((genre) => {
+			const formattedGenre =
+				genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
+
+			return GenreKitoValues[
+				formattedGenre as keyof typeof GenreKitoValues
+			];
+		})
 		.filter((genre) => genre !== undefined);
 
 	return (

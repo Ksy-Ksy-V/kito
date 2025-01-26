@@ -18,12 +18,12 @@ import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
-import DeleteAnime from '../Dialogs/DeleteAnime';
+import RemoveAnime from '../Dialogs/RemoveAnime';
 import { GenreKitoValues } from '../../data/tabs';
 
 const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
-	const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+	const [openRemoveDialog, setOpenRemoveDialog] = useState<boolean>(false);
 
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -33,23 +33,24 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	};
 
 	const handleOpenConfirm = () => {
-		setOpenDeleteDialog(true);
+		setOpenRemoveDialog(true);
 		setOpen(false);
 	};
 
 	const handleCloseConfirm = () => {
-		setOpenDeleteDialog(false);
+		setOpenRemoveDialog(false);
 	};
 
 	const mappedGenres = anime.genres
-		.map(
-			(genre) =>
-				GenreKitoValues[
-					genre.toLowerCase() as keyof typeof GenreKitoValues
-				]
-		)
-		.filter((genre) => genre !== undefined);
+		.map((genre) => {
+			const formattedGenre =
+				genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
 
+			return GenreKitoValues[
+				formattedGenre as keyof typeof GenreKitoValues
+			];
+		})
+		.filter((genre) => genre !== undefined);
 	return (
 		<Card
 			sx={{
@@ -449,8 +450,8 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 							<ChangeList
 								loading={loading}
 								handleClose={() => handleClose()}
-								handleDeleteOpen={() =>
-									setOpenDeleteDialog(true)
+								handleRemoveOpen={() =>
+									setOpenRemoveDialog(true)
 								}
 								anime={anime}
 							/>
@@ -464,19 +465,19 @@ const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 								marginTop: '1rem',
 							}}
 						>
-							Delete from list
+							Remove from list
 						</ButtonWithIcon>
 
 						<Dialog
-							open={openDeleteDialog}
-							onClose={() => setOpenDeleteDialog(false)}
+							open={openRemoveDialog}
+							onClose={() => setOpenRemoveDialog(false)}
 							fullWidth
 							disableEnforceFocus
 						>
-							<DeleteAnime
+							<RemoveAnime
 								loading={loading}
 								handleClose={handleClose}
-								handleCloseDelete={handleCloseConfirm}
+								handleCloseRemove={handleCloseConfirm}
 								anime={anime}
 							/>
 						</Dialog>

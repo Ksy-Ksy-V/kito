@@ -180,13 +180,13 @@ export interface ChangeListProps {
 	loading?: boolean;
 	anime: AnimeKito;
 	handleClose: () => void;
-	handleDeleteOpen?: () => void;
+	handleRemoveOpen?: () => void;
 }
-export interface DeleteListProps {
+export interface RemoveListProps {
 	loading?: boolean;
 	anime: AnimeKito;
 	handleClose: () => void;
-	handleCloseDelete: () => void;
+	handleCloseRemove: () => void;
 }
 
 export interface AddAnimeDialogProps {

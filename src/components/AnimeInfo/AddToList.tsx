@@ -12,14 +12,14 @@ import { AnimeSectionProps } from '../../models/Interfaces';
 import { useUserContext } from '../../context/UserContext';
 import ChangeList from '../Dialogs/ChangeList';
 import { AnimeKito } from '../../models/ProfileModels';
-import DeleteAnime from '../Dialogs/DeleteAnime';
+import RemoveAnime from '../Dialogs/RemoveAnime';
 
 const AddToList: FC<AnimeSectionProps> = ({ loading, anime }) => {
 	const { isLoggedIn } = useAppSelector(selectAuth);
 	const { state } = useUserContext();
 	const { animeList } = state.user || {};
 	const [open, setOpen] = useState(false);
-	const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false);
+	const [openRemoveDialog, setOpenRemoveDialog] = useState<boolean>(false);
 
 	const [inList, setInList] = useState(false);
 	const [localAnime, setLocalAnime] = useState<AnimeKito | null>(null);
@@ -98,7 +98,7 @@ const AddToList: FC<AnimeSectionProps> = ({ loading, anime }) => {
 							loading={loading}
 							handleClose={() => handleClose()}
 							anime={localAnime}
-							handleDeleteOpen={() => setOpenDeleteDialog(true)}
+							handleRemoveOpen={() => setOpenRemoveDialog(true)}
 						/>
 					) : (
 						<AddAnimeDialog
@@ -111,17 +111,17 @@ const AddToList: FC<AnimeSectionProps> = ({ loading, anime }) => {
 					<AuthRedirect />
 				)}
 
-				{openDeleteDialog && localAnime && (
+				{openRemoveDialog && localAnime && (
 					<Dialog
-						open={openDeleteDialog}
-						onClose={() => setOpenDeleteDialog(false)}
+						open={openRemoveDialog}
+						onClose={() => setOpenRemoveDialog(false)}
 						fullWidth
 						disableEnforceFocus
 					>
-						<DeleteAnime
+						<RemoveAnime
 							loading={loading}
 							handleClose={handleClose}
-							handleCloseDelete={() => setOpenDeleteDialog(false)}
+							handleCloseRemove={() => setOpenRemoveDialog(false)}
 							anime={localAnime}
 						/>
 					</Dialog>

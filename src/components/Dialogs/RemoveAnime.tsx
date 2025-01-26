@@ -6,27 +6,27 @@ import {
 	Typography,
 } from '@mui/material';
 import MainButton from '../Buttons/MainButton';
-import { DeleteListProps } from '../../models/Interfaces';
+import { RemoveListProps } from '../../models/Interfaces';
 import { FC } from 'react';
 import { useUserContext } from '../../context/UserContext';
 import theme from '../../styles/theme';
 
 import CloseIcon from '@mui/icons-material/Close';
 
-const DeleteAnime: FC<DeleteListProps> = ({
+const RemoveAnime: FC<RemoveListProps> = ({
 	loading,
 	anime,
 	handleClose,
-	handleCloseDelete,
+	handleCloseRemove,
 }) => {
 	const { dispatch } = useUserContext();
 
-	const handleDeleteFromList = () => {
+	const handleRemoveFromList = () => {
 		dispatch({
 			type: 'SET_DELETE_ANIME',
 		});
 		handleClose();
-		handleCloseDelete();
+		handleCloseRemove();
 	};
 
 	return (
@@ -48,7 +48,7 @@ const DeleteAnime: FC<DeleteListProps> = ({
 
 				<Button
 					aria-label="close"
-					onClick={handleCloseDelete}
+					onClick={handleCloseRemove}
 					sx={{
 						color: theme.palette.primary.main,
 						fontSize: '4rem',
@@ -60,7 +60,7 @@ const DeleteAnime: FC<DeleteListProps> = ({
 
 			<DialogContent>
 				<Typography sx={{ textAlign: 'center' }}>
-					Confirm that you want to delete anime {anime.title} from
+					Confirm that you want to remove anime {anime.title} from
 					lists
 				</Typography>
 				<Grid2 size={12}>
@@ -75,7 +75,7 @@ const DeleteAnime: FC<DeleteListProps> = ({
 						<Grid2 size={{ xs: 12, sm: 6 }}>
 							<MainButton
 								disabled={loading}
-								onClick={() => handleCloseDelete}
+								onClick={() => handleCloseRemove()}
 								sx={{
 									marginTop: { sm: '2rem', xs: '1rem' },
 								}}
@@ -86,13 +86,13 @@ const DeleteAnime: FC<DeleteListProps> = ({
 
 						<Grid2 size={{ xs: 12, sm: 6 }}>
 							<MainButton
-								onClick={handleDeleteFromList}
+								onClick={handleRemoveFromList}
 								disabled={loading}
 								sx={{
 									marginTop: { sm: '2rem', xs: '1rem' },
 								}}
 							>
-								Delete
+								Remove
 							</MainButton>
 						</Grid2>
 					</Grid2>
@@ -102,4 +102,4 @@ const DeleteAnime: FC<DeleteListProps> = ({
 	);
 };
 
-export default DeleteAnime;
+export default RemoveAnime;

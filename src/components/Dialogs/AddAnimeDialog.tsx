@@ -89,12 +89,11 @@ const AddAnimeDialog: FC<AddAnimeDialogProps> = ({
 		episodesWatched: number
 	): AnimeKito => {
 		const genres = anime.genres
-			.map((genre) => {
-				const genreValue =
-					GenreKitoValues[genre.name as keyof typeof GenreKitoValues];
-				return genreValue || null;
-			})
-			.filter((genre) => genre !== null) as GenreKitoValues[];
+			.map(
+				(genre) =>
+					GenreKitoValues[genre.name as keyof typeof GenreKitoValues]
+			)
+			.filter((genre): genre is GenreKitoValues => genre !== undefined);
 		return {
 			id: anime.mal_id,
 			title: anime.title,
