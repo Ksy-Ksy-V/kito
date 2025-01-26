@@ -5,13 +5,14 @@ import {
 	InputLabel,
 	InputAdornment,
 	IconButton,
+	FormHelperText,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import theme from '../../styles/theme';
-import { StyledSearchFiltersProps } from '../../models/Interfaces';
+import { StyledCustomSelectProps } from '../../models/Interfaces';
 import { FC } from 'react';
 
-const StyledSearchFilters: FC<StyledSearchFiltersProps> = ({
+const CustomSelect: FC<StyledCustomSelectProps> = ({
 	label,
 	value,
 	onChange,
@@ -20,6 +21,8 @@ const StyledSearchFilters: FC<StyledSearchFiltersProps> = ({
 	defaultValue,
 	capitalizeOptions = false,
 	upperCaseOptions = false,
+	validationError,
+	hasValidationError,
 }) => {
 	const transformOption = (option: string) => {
 		if (capitalizeOptions) {
@@ -74,8 +77,11 @@ const StyledSearchFilters: FC<StyledSearchFiltersProps> = ({
 					</MenuItem>
 				))}
 			</Select>
+			{hasValidationError && (
+				<FormHelperText>{validationError}</FormHelperText>
+			)}
 		</FormControl>
 	);
 };
 
-export default StyledSearchFilters;
+export default CustomSelect;

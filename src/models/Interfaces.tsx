@@ -1,9 +1,8 @@
-// Anime-related interfaces
 import { ChangeEvent, ReactElement, ReactNode } from 'react';
 import { AbstractAnime } from './AbstractAnime';
 import { ButtonProps, SelectChangeEvent, SvgIconProps } from '@mui/material';
 import { Anime, Genre, JikanImages } from '@tutkli/jikan-ts';
-import { AnimeKito } from './ProfileModels';
+import { AnimeKito, UserAccount } from './ProfileModels';
 
 // General Anime Details and Sections
 export interface AbstractAnimeProps {
@@ -16,6 +15,11 @@ export interface AbstractAnimeProps {
 export interface AnimeSectionProps {
 	anime: Anime | null;
 	loading?: boolean;
+}
+
+//User
+export interface UserInfoProps {
+	user: UserAccount;
 }
 
 // Anime Information and Cards
@@ -45,25 +49,26 @@ export interface AnimeInfoCardProps {
 }
 
 // Filters, Sorting, and Search Options
-export interface CustomSelectProps {
+
+export interface GeneralSelectProps {
 	label: string;
-	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
 	options: string[];
 	clearValue: () => void;
 	capitalizeOptions?: boolean;
 	upperCaseOptions?: boolean;
 }
+export interface CustomSelectProps extends GeneralSelectProps {
+	value: string | '';
+	onChange: (event: SelectChangeEvent<string>) => void;
+}
 
-export interface StyledSearchFiltersProps {
-	label: string;
+export interface StyledCustomSelectProps extends GeneralSelectProps {
 	value: string | undefined;
-	onChange?: (event: SelectChangeEvent<string>) => void;
-	options: string[];
-	clearValue: () => void;
-	capitalizeOptions?: boolean;
 	defaultValue?: string;
+	onChange?: (event: SelectChangeEvent<string>) => void;
 	upperCaseOptions?: boolean;
+	validationError?: string | null;
+	hasValidationError?: boolean;
 }
 
 export interface RandomFiltersProps {
@@ -94,6 +99,10 @@ export interface AnimeOptionType {
 export interface PageWrapperProps {
 	children: ReactNode;
 	fullWidth: boolean;
+}
+
+export interface AuthPageLayoutProps {
+	children: ReactNode;
 }
 
 export interface PagePaginationProps {
@@ -167,13 +176,27 @@ export interface MenuProps {
 	onSignOut: () => void;
 }
 
-export interface LoadingProps {
-	loading: boolean;
+export interface ChangeListProps {
+	loading?: boolean;
+	anime: AnimeKito;
+	handleClose: () => void;
+	handleRemoveOpen?: () => void;
+}
+export interface RemoveListProps {
+	loading?: boolean;
+	anime: AnimeKito;
+	handleClose: () => void;
+	handleCloseRemove: () => void;
 }
 
 export interface AddAnimeDialogProps {
 	loading?: boolean;
 	handleClose: () => void;
+	anime: Anime;
+}
+
+export interface AuthFormProps {
+	preSignUpPath?: string;
 }
 
 // Utility and Shared Data

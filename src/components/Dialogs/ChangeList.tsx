@@ -1,16 +1,34 @@
-import { DialogContent, Grid2, Skeleton } from '@mui/material';
+import { DialogContent, Grid2, Skeleton, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import StyledSearchFilters from '../Search/StyledSelectFilters';
+import CustomSelect from '../Search/CustomSelect';
 import MainButton from '../Buttons/MainButton';
-import { ratingOptions, tabs } from '../../data/tabs';
-import { FC, useState } from 'react';
-import { AddAnimeDialogProps } from '../../models/Interfaces';
+import { ListName, listNameValues, ratingOptions, tabs } from '../../data/tabs';
+import { FC, useEffect, useState } from 'react';
+import { useUserContext } from '../../context/UserContext';
+import { ChangeListProps } from '../../models/Interfaces';
 
-const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
-	const [listValue, setListValue] = useState<string>('');
-	const [scoreValue, setScoreValue] = useState<string>('');
+const ChangeList: FC<ChangeListProps> = ({
+	loading,
+	anime,
+	handleClose,
+	handleRemoveOpen,
+}) => {
+	const { dispatch } = useUserContext();
 
-	const handleListChange = (newValue: string) => {
+	const [listValue, setListValue] = useState<listNameValues>(
+		anime.listName as listNameValues
+	);
+
+	const [scoreValue, setScoreValue] = useState<string>(
+		String(anime?.userRating)
+	);
+	const [episodesValue, setEpisodesValue] = useState<string>(
+		String(anime?.episodesWatched || 1)
+	);
+
+	const [validateError, setValidationsErrors] = useState<boolean>(false);
+
+	const handleListChange = (newValue: listNameValues) => {
 		setListValue(newValue);
 	};
 
@@ -18,19 +36,57 @@ const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 		setScoreValue(newValue);
 	};
 
+	const handleEpisodeChange = (newValue: string) => {
+		setEpisodesValue(newValue);
+	};
+
 	const handleAdd = () => {
-		handleClose();
+		if (listValue === ' ') {
+			setValidationsErrors(true);
+		} else {
+			dispatch({
+				type: 'UPDATE_ANIME',
+				payload: {
+					animeId: anime.id,
+					updates: {
+						userRating: Number(scoreValue),
+						listName: listValue as ListName,
+						episodesWatched: Number(episodesValue),
+					},
+				},
+			});
+
+			handleClose();
+		}
 	};
 
 	const handleCancel = () => {
-		setListValue('');
-		setScoreValue('');
+		setListValue(anime.listName as listNameValues);
+		setScoreValue(
+			anime.userRating !== undefined ? String(anime.userRating) : ''
+		);
+		setEpisodesValue(
+			anime.episodesWatched !== undefined
+				? String(anime.episodesWatched)
+				: ''
+		);
 		handleClose();
 	};
 
+	useEffect(() => {
+		if (listValue === 'Completed') {
+			setEpisodesValue(String(anime.episodes || 1));
+		}
+	}, [listValue, anime.episodes]);
+
+	const episodeOptions = Array.from(
+		{ length: anime?.episodes || 1 },
+		(_, index) => (index + 1).toString()
+	);
+
 	return (
 		<DialogContent>
-			<Grid2 size={12} sx={{ marginTop: '1rem' }}>
+			<Grid2 size={12}>
 				{loading ? (
 					<Skeleton
 						variant="rectangular"
@@ -41,16 +97,43 @@ const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="List"
 						value={listValue}
-						onChange={(e) => handleListChange(e.target.value)}
-						options={tabs.map((option) => option.value)}
-						clearValue={() => setListValue('')}
-						defaultValue={tabs[0].value}
+						onChange={(e) =>
+							handleListChange(e.target.value as listNameValues)
+						}
+						options={tabs.map(
+							(option) => option.value as listNameValues
+						)}
+						clearValue={() => setListValue(listNameValues.Empty)}
+						defaultValue={tabs[0].value as listNameValues}
 						capitalizeOptions={false}
+						hasValidationError={validateError}
 					/>
 				)}
+
+				{validateError ? (
+					<Typography
+						color={theme.palette.text.primary}
+						sx={{
+							textAlign: 'center',
+						}}
+					>
+						<span>
+							If you want to remove anime from lists, click{' '}
+						</span>
+						<span
+							onClick={handleRemoveOpen}
+							style={{
+								color: theme.palette.secondary.main,
+								cursor: 'pointer',
+							}}
+						>
+							confirm
+						</span>
+					</Typography>
+				) : null}
 
 				{loading ? (
 					<Skeleton
@@ -62,13 +145,13 @@ const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="Your Score"
 						value={scoreValue}
 						onChange={(e) => handleScoreChange(e.target.value)}
-						options={ratingOptions.map((option) => option.label)}
+						options={ratingOptions.map((option) => option.value)}
 						clearValue={() => setScoreValue('')}
-						defaultValue={ratingOptions[0].value}
+						defaultValue={scoreValue}
 						capitalizeOptions={false}
 					/>
 				)}
@@ -83,13 +166,13 @@ const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 						}}
 					/>
 				) : (
-					<StyledSearchFilters
+					<CustomSelect
 						label="Episodes Watched"
-						value={scoreValue}
-						onChange={(e) => handleScoreChange(e.target.value)}
-						options={ratingOptions.map((option) => option.label)}
-						clearValue={() => setScoreValue('')}
-						defaultValue={ratingOptions[0].value}
+						value={episodesValue}
+						onChange={(e) => handleEpisodeChange(e.target.value)}
+						options={episodeOptions}
+						clearValue={() => setEpisodesValue('')}
+						defaultValue={episodesValue}
 						capitalizeOptions={false}
 					/>
 				)}
@@ -104,25 +187,25 @@ const ChangeList: FC<AddAnimeDialogProps> = ({ loading, handleClose }) => {
 				>
 					<Grid2 size={{ xs: 12, sm: 6 }}>
 						<MainButton
-							onClick={handleAdd}
-							disabled={loading}
-							sx={{
-								marginTop: { sm: '2rem', xs: '1rem' },
-							}}
-						>
-							Add changes
-						</MainButton>
-					</Grid2>
-
-					<Grid2 size={{ xs: 12, sm: 6 }}>
-						<MainButton
 							disabled={loading}
 							onClick={handleCancel}
 							sx={{
 								marginTop: { sm: '2rem', xs: '1rem' },
 							}}
 						>
-							Cancel changes
+							Cancel
+						</MainButton>
+					</Grid2>
+
+					<Grid2 size={{ xs: 12, sm: 6 }}>
+						<MainButton
+							onClick={handleAdd}
+							disabled={loading}
+							sx={{
+								marginTop: { sm: '2rem', xs: '1rem' },
+							}}
+						>
+							Save
 						</MainButton>
 					</Grid2>
 				</Grid2>

@@ -10,9 +10,21 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
 import { FC } from 'react';
+import { GenreKitoValues } from '../../data/tabs';
 
 const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 	const theme = useTheme();
+
+	const mappedGenres = anime.genres
+		.map((genre) => {
+			const formattedGenre =
+				genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
+
+			return GenreKitoValues[
+				formattedGenre as keyof typeof GenreKitoValues
+			];
+		})
+		.filter((genre) => genre !== undefined);
 
 	return (
 		<>
@@ -111,7 +123,7 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 					<CardMedia
 						component="img"
 						image={anime.image}
-						alt={anime.name}
+						alt={anime.title}
 						className="card-media"
 						sx={{
 							width: '100%',
@@ -156,7 +168,7 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 								},
 							}}
 						>
-							{anime.name}
+							{anime.title}
 						</Typography>
 
 						<Typography
@@ -213,7 +225,7 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 								gap: '0.5rem',
 							}}
 						>
-							{anime.genres.slice(0, 2).map((genre) => (
+							{mappedGenres.slice(0, 2).map((genre) => (
 								<Box
 									key={genre}
 									sx={{
@@ -249,7 +261,7 @@ const AnimeTabCard: FC<KitoCardProps> = ({ anime }) => {
 					},
 				}}
 			>
-				{anime.name}
+				{anime.title}
 			</Typography>
 		</>
 	);
