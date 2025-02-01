@@ -1,6 +1,12 @@
 import { ChangeEvent, ReactElement, ReactNode } from 'react';
 import { AbstractAnime } from './AbstractAnime';
-import { ButtonProps, SelectChangeEvent, SvgIconProps } from '@mui/material';
+import {
+	ButtonProps,
+	SelectChangeEvent,
+	SvgIconProps,
+	SxProps,
+	Theme,
+} from '@mui/material';
 import { Anime, Genre, JikanImages } from '@tutkli/jikan-ts';
 import { AnimeKito, UserAccount } from './ProfileModels';
 
