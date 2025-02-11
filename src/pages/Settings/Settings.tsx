@@ -1,6 +1,7 @@
 import {
-	Box,
+	Checkbox,
 	Divider,
+	FormControlLabel,
 	Grid2,
 	TextField,
 	Typography,
@@ -9,28 +10,40 @@ import {
 import theme from '../../styles/theme';
 import { useUserContext } from '../../context/UserContext';
 import NotFound from '../Error/NotFound';
-import AvatarDefault from '../../images/ProfileAvatar.png';
-import backgroundDefault from '../../images/accountBackground.jpg';
+// import AvatarDefault from '../../images/ProfileAvatar.png';
+// import backgroundDefault from '../../images/accountBackground.jpg';
 import ButtonWithIcon from '../../components/Buttons/ButtonWithIcon';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import { useState } from 'react';
 import { textFieldStyles } from '../../styles/AuthStyles';
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 import ProfileHeader from '../../components/Profile/ProfileHeader';
+import { useState } from 'react';
 
 function Settings() {
 	const { state } = useUserContext();
 	const { user } = state;
+	const [hideStats, setHideStats] = useState(user?.isPrivate);
 
 	// const [newAvatar, setNewAvatar] = useState('');
 	// const [newCover, setNewCover] = useState('');
-	// const [newName, setNewName] = useState('');
-	// const [newStatus, setNewStatus] = useState('');
+	const [newName, setNewName] = useState(user?.name);
+	const [newStatus, setNewStatus] = useState(user?.status);
 
-	const profileAvatar = user?.avatar || AvatarDefault;
-	const finalBackground = user?.background || backgroundDefault;
+	// const profileAvatar = user?.avatar || AvatarDefault;
+	// const finalBackground = user?.background || backgroundDefault;
+
+	//const [openAvatar, setOpenAvatar] = useState(false);
+	// const [newStatus, setNewStatus] = useState(user?.status);
 
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+
+	const handleNamePreviewChange = (value: string) => {
+		setNewName(value);
+	};
+
+	const handleStatusPreviewChange = (value: string) => {
+		setNewStatus(value);
+	};
 
 	if (!user) return <NotFound />;
 	return (
@@ -54,7 +67,32 @@ function Settings() {
 						Personal information
 					</Typography>
 				</Grid2>
-				<ProfileHeader user={user} />
+
+				<Grid2 size={12}>
+					<Typography
+						variant="body1"
+						sx={{
+							textAlign: 'center',
+							fontSize: {
+								xs: theme.typography.body1.fontSize,
+								sm: theme.typography.body1.fontSize,
+								md: theme.typography.body1.fontSize,
+								lg: theme.typography.body1.fontSize,
+								xl: theme.typography.body1.fontSize,
+							},
+						}}
+					>
+						This is a preview of your profile. Don't forget to click
+						'Save changes' to apply your changes!
+					</Typography>
+				</Grid2>
+				<ProfileHeader
+					user={user}
+					isSettingsPage={true}
+					newName={newName}
+					hideStats={hideStats}
+					newStatus={newStatus}
+				/>
 
 				<Grid2
 					container
@@ -83,6 +121,18 @@ function Settings() {
 					>
 						Change cover photo
 					</ButtonWithIcon>
+					<FormControlLabel
+						control={
+							<Checkbox
+								checked={hideStats}
+								onChange={(e) => setHideStats(e.target.checked)}
+							/>
+						}
+						label="Hide account statistics"
+						sx={{
+							color: theme.palette.text.primary,
+						}}
+					/>
 				</Grid2>
 				<Grid2
 					container
@@ -122,10 +172,14 @@ function Settings() {
 								id="name"
 								fullWidth
 								label="Name"
-								type="name"
-								value={user.name}
-								name="name" // onChange={handleChange}
-								// helperText={validationsErrors.email}
+								type="text"
+								value={newName}
+								name="name"
+								onChange={(e) => {
+									if (e.target.value.length <= 15) {
+										handleNamePreviewChange(e.target.value);
+									}
+								}}
 								sx={textFieldStyles}
 							/>
 							<TextField
@@ -133,13 +187,34 @@ function Settings() {
 								fullWidth
 								label="Status"
 								type="status"
-								value={user.status}
-								inputProps={{ maxLength: 300 }}
-								name="status" // onChange={handleChange}
+								value={newStatus}
+								name="status"
+								onChange={(e) => {
+									const inputValue = e.target.value;
+									const lines = inputValue.split('\n');
+
+									if (
+										lines.length <= 3 &&
+										inputValue.length <= 130
+									) {
+										handleStatusPreviewChange(inputValue);
+									}
+								}}
+								onKeyDown={(e) => {
+									const inputValue = newStatus + e.key;
+									const lines = inputValue.split('\n');
+
+									if (
+										e.key === 'Enter' &&
+										lines.length >= 3
+									) {
+										e.preventDefault();
+									}
+								}}
 								// helperText={validationsErrors.email}
 								sx={textFieldStyles}
 								multiline
-								rows={4}
+								rows={3}
 							/>
 						</form>
 					</Grid2>
