@@ -55,6 +55,18 @@ export const validateForm = (
 	return errors;
 };
 
+export const validateChangePasswordForm = (
+	password: string,
+	confirmPassword: string
+) => {
+	const errors = {
+		password: validatePassword(password),
+		confirmPassword: validateConfirmPassword(password, confirmPassword),
+	};
+
+	return errors;
+};
+
 export const validateFormSingIn = (email: string, password: string) => {
 	const errors = {
 		email: validateEmail(email),

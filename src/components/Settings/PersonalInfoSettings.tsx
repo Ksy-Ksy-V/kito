@@ -4,12 +4,12 @@ import {
 	FormControlLabel,
 	Grid2,
 	TextField,
+	Typography,
 	useMediaQuery,
 } from '@mui/material';
 import ProfileHeader from '../Profile/ProfileHeader';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import theme from '../../styles/theme';
-
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { textFieldStyles } from '../../styles/AuthStyles';
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
@@ -91,6 +91,43 @@ const PersonalInfoSettings = () => {
 	};
 	return (
 		<>
+			<Grid2 size={12}>
+				<Typography
+					variant="h2"
+					sx={{
+						textAlign: 'center',
+						marginTop: '2rem',
+						fontSize: {
+							xs: theme.typography.h4.fontSize,
+							sm: theme.typography.h3.fontSize,
+							md: theme.typography.h3.fontSize,
+							lg: theme.typography.h2.fontSize,
+							xl: theme.typography.h2.fontSize,
+						},
+					}}
+				>
+					Personal information
+				</Typography>
+			</Grid2>
+
+			<Grid2 size={12}>
+				<Typography
+					variant="body1"
+					sx={{
+						textAlign: 'center',
+						fontSize: {
+							xs: theme.typography.body1.fontSize,
+							sm: theme.typography.body1.fontSize,
+							md: theme.typography.body1.fontSize,
+							lg: theme.typography.body1.fontSize,
+							xl: theme.typography.body1.fontSize,
+						},
+					}}
+				>
+					This is a preview of your profile. Don't forget to click
+					'Save changes' to apply your changes!
+				</Typography>
+			</Grid2>
 			<ProfileHeader
 				user={user as UserAccount}
 				isSettingsPage={true}

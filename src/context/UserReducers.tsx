@@ -70,6 +70,7 @@ export function userReducer(state: UserState, action: Action): UserState {
 				...state,
 				user: action.payload,
 			};
+
 		case UPDATE_USER_INFO:
 			return {
 				...state,
