@@ -10,42 +10,89 @@ import {
 import theme from '../../styles/theme';
 import { useUserContext } from '../../context/UserContext';
 import NotFound from '../Error/NotFound';
-// import AvatarDefault from '../../images/ProfileAvatar.png';
-// import backgroundDefault from '../../images/accountBackground.jpg';
+
 import ButtonWithIcon from '../../components/Buttons/ButtonWithIcon';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import { textFieldStyles } from '../../styles/AuthStyles';
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 import ProfileHeader from '../../components/Profile/ProfileHeader';
-import { useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 
 function Settings() {
-	const { state } = useUserContext();
+	const { state, dispatch } = useUserContext();
 	const { user } = state;
-	const [hideStats, setHideStats] = useState(user?.isPrivate);
 
-	// const [newAvatar, setNewAvatar] = useState('');
-	// const [newCover, setNewCover] = useState('');
+	const [hideStats, setHideStats] = useState(user?.isPrivate);
 	const [newName, setNewName] = useState(user?.name);
 	const [newStatus, setNewStatus] = useState(user?.status);
 
-	// const profileAvatar = user?.avatar || AvatarDefault;
-	// const finalBackground = user?.background || backgroundDefault;
-
-	//const [openAvatar, setOpenAvatar] = useState(false);
-	// const [newStatus, setNewStatus] = useState(user?.status);
+	const [newAvatar, setNewAvatar] = useState(user?.avatar);
+	const [newCover, setNewCover] = useState(user?.background);
 
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+	const fileInputRef = useRef<HTMLInputElement>(null);
+	const coverInputRef = useRef<HTMLInputElement>(null);
 
-	const handleNamePreviewChange = (value: string) => {
-		setNewName(value);
+	const handleNamePreviewChange = (e: ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value.length <= 15) {
+			setNewName(e.target.value);
+		}
 	};
 
-	const handleStatusPreviewChange = (value: string) => {
-		setNewStatus(value);
+	const handleStatusPreviewChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const inputValue = e.target.value;
+		const lines = inputValue.split('\n');
+
+		if (lines.length <= 3 && inputValue.length <= 130) {
+			setNewStatus(inputValue);
+		}
+	};
+
+	const handleStatusKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		const inputValue = newStatus + e.key;
+		const lines = inputValue.split('\n');
+
+		if (e.key === 'Enter' && lines.length >= 3) {
+			e.preventDefault();
+		}
+	};
+
+	const handleImageChange = (
+		e: ChangeEvent<HTMLInputElement>,
+		type: 'avatar' | 'cover'
+	) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			const imageUrl = URL.createObjectURL(file);
+			if (type === 'avatar') {
+				setNewAvatar(imageUrl);
+			} else {
+				setNewCover(imageUrl);
+			}
+		}
+	};
+
+	const handleSaveSubmit = () => {
+		console.log('user:', user);
+
+		const updatedUser = {
+			name: newName || user?.name,
+			status: newStatus || user?.status,
+			avatar: newAvatar || user?.avatar,
+			background: newCover || user?.background,
+			isPrivate: hideStats,
+		};
+
+		dispatch({
+			type: 'UPDATE_USER_INFO',
+			payload: updatedUser,
+		});
+
+		console.log('Updated user data:', updatedUser);
 	};
 
 	if (!user) return <NotFound />;
+
 	return (
 		<>
 			<Grid2 container spacing={2} size={12}>
@@ -92,6 +139,8 @@ function Settings() {
 					newName={newName}
 					hideStats={hideStats}
 					newStatus={newStatus}
+					newAvatar={newAvatar}
+					newCover={newCover}
 				/>
 
 				<Grid2
@@ -103,20 +152,31 @@ function Settings() {
 						marginTop: { xs: '17rem', sm: '10rem', md: '4rem' },
 					}}
 				>
+					<input
+						type="file"
+						accept="image/*"
+						style={{ display: 'none' }}
+						ref={fileInputRef}
+						onChange={(e) => handleImageChange(e, 'avatar')}
+					/>
 					<ButtonWithIcon
-						// onClick={() => {
-						// 	setOpen(true);
-						// }}
-						// loading={loading}
+						onClick={() => {
+							fileInputRef.current?.click();
+						}}
 						icon={<CreateOutlinedIcon />}
 					>
 						Change avatar
 					</ButtonWithIcon>
+
+					<input
+						type="file"
+						accept="image/*"
+						style={{ display: 'none' }}
+						ref={coverInputRef}
+						onChange={(e) => handleImageChange(e, 'cover')}
+					/>
 					<ButtonWithIcon
-						// onClick={() => {
-						// 	setOpen(true);
-						// }}
-						// loading={loading}
+						onClick={() => coverInputRef.current?.click()}
 						icon={<CreateOutlinedIcon />}
 					>
 						Change cover photo
@@ -134,6 +194,7 @@ function Settings() {
 						}}
 					/>
 				</Grid2>
+
 				<Grid2
 					container
 					size={1}
@@ -164,59 +225,29 @@ function Settings() {
 					}}
 				>
 					<Grid2 size={12} sx={{ width: '100%' }}>
-						<form
-							style={{ width: '100%' }}
-							// onSubmit={handleSubmit}
-						>
-							<TextField
-								id="name"
-								fullWidth
-								label="Name"
-								type="text"
-								value={newName}
-								name="name"
-								onChange={(e) => {
-									if (e.target.value.length <= 15) {
-										handleNamePreviewChange(e.target.value);
-									}
-								}}
-								sx={textFieldStyles}
-							/>
-							<TextField
-								id="status"
-								fullWidth
-								label="Status"
-								type="status"
-								value={newStatus}
-								name="status"
-								onChange={(e) => {
-									const inputValue = e.target.value;
-									const lines = inputValue.split('\n');
-
-									if (
-										lines.length <= 3 &&
-										inputValue.length <= 130
-									) {
-										handleStatusPreviewChange(inputValue);
-									}
-								}}
-								onKeyDown={(e) => {
-									const inputValue = newStatus + e.key;
-									const lines = inputValue.split('\n');
-
-									if (
-										e.key === 'Enter' &&
-										lines.length >= 3
-									) {
-										e.preventDefault();
-									}
-								}}
-								// helperText={validationsErrors.email}
-								sx={textFieldStyles}
-								multiline
-								rows={3}
-							/>
-						</form>
+						<TextField
+							id="name"
+							fullWidth
+							label="Name"
+							type="text"
+							value={newName}
+							name="name"
+							onChange={handleNamePreviewChange}
+							sx={textFieldStyles}
+						/>
+						<TextField
+							id="status"
+							fullWidth
+							label="Status"
+							type="status"
+							value={newStatus}
+							name="status"
+							onChange={handleStatusPreviewChange}
+							onKeyDown={handleStatusKeyDown}
+							sx={textFieldStyles}
+							multiline
+							rows={3}
+						/>
 					</Grid2>
 				</Grid2>
 				<Grid2
@@ -230,10 +261,9 @@ function Settings() {
 					}}
 				>
 					<ButtonWithIcon
-						// onClick={() => {
-						// 	setOpen(true);
-						// }}
-						// loading={loading}
+						onClick={() => {
+							handleSaveSubmit();
+						}}
 						icon={<DoneOutlineOutlinedIcon />}
 						sx={{
 							minWidth: '10rem',

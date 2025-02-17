@@ -12,6 +12,8 @@ const ProfileHeader: FC<UserInfoProps> = ({
 	isSettingsPage,
 	newName,
 	newStatus,
+	newAvatar,
+	newCover,
 }) => {
 	const { name, status, animeList, avatar, background, isPrivate } = user;
 
@@ -33,7 +35,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 				},
 		  ];
 
-	const profileAvatar = avatar || AvatarDefault;
+	const profileAvatar = newAvatar || avatar || AvatarDefault;
 	const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	return (
 		<Grid2
@@ -47,7 +49,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 				marginTop: isSettingsPage ? '0rem' : '2rem',
 			}}
 		>
-			<BackgroundCover backgroundImage={background} />
+			<BackgroundCover backgroundImage={newCover || background} />
 
 			<Grid2 container spacing={2} size={12}>
 				<Grid2
@@ -79,7 +81,10 @@ const ProfileHeader: FC<UserInfoProps> = ({
 						sx={{
 							zIndex: 3,
 							position: 'relative',
-							marginTop: { xs: '0rem', md: '10rem' },
+							marginTop: {
+								xs: '0rem',
+								md: newName === '' ? '12.8rem' : '10rem',
+							},
 							marginLeft: { xs: '0rem', md: '2rem', lg: '0rem' },
 							display: 'flex',
 							justifyContent: { xs: 'center', md: 'left' },
@@ -115,7 +120,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 					</Typography>
 				</Grid2>
 
-				{isPrivate && (
+				{!isPrivate && (
 					<Grid2
 						size={{ xs: 12, md: 3 }}
 						sx={{

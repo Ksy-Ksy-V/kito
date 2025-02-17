@@ -23,6 +23,8 @@ export interface UserInfoProps {
 	hideStats?: boolean;
 	newName?: string;
 	newStatus?: string;
+	newAvatar?: string;
+	newCover?: string;
 	isSettingsPage?: boolean;
 }
 
