@@ -15,7 +15,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 	newAvatar,
 	newCover,
 }) => {
-	const { name, status, animeList, avatar, background, isPrivate } = user;
+	const { name, status, animeList, avatar, background } = user;
 
 	const stats = hideStats
 		? []
