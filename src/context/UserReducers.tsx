@@ -8,6 +8,7 @@ export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 export const SET_ADD_ANIME = 'UPDATE_ANIME';
 export const UPDATE_ANIME = 'UPDATE_ANIME';
 export const SET_DELETE_ANIME = 'SET_DELETE_ANIME';
+export const SET_DELETE_ACCOUNT = 'SET_DELETE_ACCOUNT';
 
 export interface UserState {
 	user: UserAccount | null;
@@ -57,7 +58,8 @@ export type Action =
 				anime: AnimeKito;
 			};
 	  }
-	| { type: 'SET_DELETE_ANIME' };
+	| { type: 'SET_DELETE_ANIME' }
+	| { type: 'SET_DELETE_ACCOUNT' };
 
 export function userReducer(state: UserState, action: Action): UserState {
 	switch (action.type) {
@@ -116,7 +118,7 @@ export function userReducer(state: UserState, action: Action): UserState {
 					: null,
 			};
 
-		case SET_DELETE_ANIME:
+		case 'SET_DELETE_ANIME':
 			return initialUserState;
 
 		default:
