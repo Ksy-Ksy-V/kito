@@ -72,8 +72,6 @@ const PersonalInfoSettings = () => {
 	};
 
 	const handleSaveSubmit = () => {
-		console.log('user:', user);
-
 		const updatedUser = {
 			name: newName || user?.name,
 			status: newStatus || user?.status,
@@ -86,8 +84,6 @@ const PersonalInfoSettings = () => {
 			type: 'UPDATE_USER_INFO',
 			payload: updatedUser,
 		});
-
-		console.log('Updated user data:', updatedUser);
 	};
 	return (
 		<>
@@ -242,6 +238,8 @@ const PersonalInfoSettings = () => {
 						onChange={handleNamePreviewChange}
 						sx={textFieldStyles}
 					/>
+				</Grid2>
+				<Grid2 size={12} sx={{ width: '100%', marginTop: '0.5rem' }}>
 					<TextField
 						id="status"
 						fullWidth
@@ -261,7 +259,7 @@ const PersonalInfoSettings = () => {
 				size={4}
 				offset={{ xs: 0, sm: 6, md: 8 }}
 				sx={{
-					marginTop: '2rem',
+					marginTop: '1rem',
 					width: '100%',
 					display: 'flex',
 					justifyContent: 'flex-end',

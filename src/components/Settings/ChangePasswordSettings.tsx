@@ -120,7 +120,7 @@ const ChangePasswordSettings = () => {
 					size={4}
 					offset={{ xs: 0, sm: 6, md: 8 }}
 					sx={{
-						marginTop: '2rem',
+						marginTop: '1rem',
 						width: '100%',
 						display: 'flex',
 						justifyContent: 'flex-end',

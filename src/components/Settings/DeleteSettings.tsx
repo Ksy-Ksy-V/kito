@@ -19,7 +19,6 @@ import { useUserContext } from '../../context/UserContext';
 
 const DeleteSettings = () => {
 	const { state, dispatch } = useUserContext();
-	// const isDeleted = state.user?.isDeleted || false;
 	const [isDeletedState, setIsDeletedState] = useState(
 		state.user?.isDeleted || false
 	);
@@ -231,9 +230,7 @@ const DeleteSettings = () => {
 								<Grid2 size={{ xs: 12, sm: 6 }}>
 									<MainButton
 										onClick={handleDelete}
-										disabled={
-											!isDeletedState && !agreeToTerms
-										}
+										disabled={!agreeToTerms}
 										sx={{
 											marginTop: {
 												sm: '2rem',

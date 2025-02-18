@@ -120,7 +120,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 					</Typography>
 				</Grid2>
 
-				{isPrivate && (
+				{!(hideStats || user.isPrivate) && (
 					<Grid2
 						size={{ xs: 12, md: 3 }}
 						sx={{
