@@ -11,12 +11,18 @@ import {
 import theme from '../../styles/theme';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 
 import MainButton from '../Buttons/MainButton';
+import { useUserContext } from '../../context/UserContext';
 
 const DeleteSettings = () => {
+	const { state, dispatch } = useUserContext();
+	// const isDeleted = state.user?.isDeleted || false;
+	const [isDeletedState, setIsDeletedState] = useState(
+		state.user?.isDeleted || false
+	);
 	const [open, setOpen] = useState(false);
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
 
@@ -29,9 +35,19 @@ const DeleteSettings = () => {
 	};
 
 	const handleDelete = () => {
+		dispatch({
+			type: isDeletedState
+				? 'CANCEL_DELETE_ACCOUNT'
+				: 'SET_DELETE_ACCOUNT',
+		});
+
 		setOpen(false);
 		setAgreeToTerms(false);
 	};
+
+	useEffect(() => {
+		setIsDeletedState(state.user?.isDeleted || false);
+	}, [state.user?.isDeleted]);
 
 	return (
 		<Grid2 container spacing={2} size={12}>
@@ -57,7 +73,9 @@ const DeleteSettings = () => {
 						},
 					}}
 				>
-					Delete account
+					{isDeletedState
+						? 'Cancel Account Deletion'
+						: 'Delete Account'}
 				</Typography>
 			</Grid2>
 
@@ -67,17 +85,11 @@ const DeleteSettings = () => {
 					sx={{
 						textAlign: { xs: 'center', md: 'left' },
 						marginTop: { xs: '0rem', md: '0.75rem' },
-						fontSize: {
-							xs: theme.typography.body1.fontSize,
-							sm: theme.typography.body1.fontSize,
-							md: theme.typography.body1.fontSize,
-							lg: theme.typography.body1.fontSize,
-							xl: theme.typography.body1.fontSize,
-						},
 					}}
 				>
-					If you want to delete your account, please click “delete”
-					button.
+					{isDeletedState
+						? 'Your account is scheduled for deletion. You can cancel this action before the 14-day period expires.'
+						: 'If you want to delete your account, please click the “Delete” button.'}
 				</Typography>
 			</Grid2>
 
@@ -91,13 +103,19 @@ const DeleteSettings = () => {
 			>
 				<ButtonWithIcon
 					onClick={handleClickOpen}
-					icon={<DeleteOutlineOutlinedIcon />}
+					icon={
+						isDeletedState ? (
+							<CloseIcon />
+						) : (
+							<DeleteOutlineOutlinedIcon />
+						)
+					}
 					sx={{
 						minWidth: '10rem',
 						ml: 'auto',
 					}}
 				>
-					Delete
+					{isDeletedState ? 'Cancel deletion' : 'Delete'}
 				</ButtonWithIcon>
 
 				<Dialog
@@ -120,7 +138,9 @@ const DeleteSettings = () => {
 							id="dialog-title"
 							sx={{ color: theme.palette.secondary.main }}
 						>
-							Delete account
+							{isDeletedState
+								? 'Cancel Account Deletion'
+								: 'Delete Account'}
 						</DialogTitle>
 
 						<Button
@@ -146,7 +166,9 @@ const DeleteSettings = () => {
 									textAlign: 'center',
 								}}
 							>
-								Are you sure you want to delete your account?{' '}
+								{isDeletedState
+									? 'Do you want to cancel the account deletion?'
+									: 'Are you sure you want to delete your account?'}
 							</Typography>
 							<Typography
 								variant="body1"
@@ -154,17 +176,12 @@ const DeleteSettings = () => {
 									textAlign: 'center',
 									marginTop: '1rem',
 									marginBottom: '1rem',
+									whiteSpace: 'pre-line',
 								}}
 							>
-								Your account will be permanently deleted in 14
-								days. <br />
-								If you change your mind, you can log in to
-								cancel the deletion before this period expires.{' '}
-								<br />
-								This action is irreversible after the deadline.{' '}
-								<br />
-								To continue, please confirm your agreement to
-								the deletion of your account.
+								{isDeletedState
+									? 'Your account is scheduled for deletion.\n\nIf you cancel now, your account will remain active.\n\nThis action cannot be undone after the 14-day period expires.'
+									: 'Your account will be permanently deleted in 14 days.\n\nIf you change your mind, you can log in to cancel the deletion before this period expires.\n\nThis action is irreversible after the deadline.\n\nTo continue, please confirm your agreement.'}
 							</Typography>
 
 							<FormControlLabel
@@ -178,7 +195,11 @@ const DeleteSettings = () => {
 										}}
 									/>
 								}
-								label="I still want to delete my account "
+								label={
+									isDeletedState
+										? 'I want to cancel the account deletion'
+										: 'I still want to delete my account'
+								}
 							/>
 
 							<Grid2
@@ -210,7 +231,9 @@ const DeleteSettings = () => {
 								<Grid2 size={{ xs: 12, sm: 6 }}>
 									<MainButton
 										onClick={handleDelete}
-										disabled={!agreeToTerms}
+										disabled={
+											!isDeletedState && !agreeToTerms
+										}
 										sx={{
 											marginTop: {
 												sm: '2rem',
@@ -218,7 +241,9 @@ const DeleteSettings = () => {
 											},
 										}}
 									>
-										Delete account
+										{isDeletedState
+											? 'Cancel deletion'
+											: 'Delete account'}
 									</MainButton>
 								</Grid2>
 							</Grid2>

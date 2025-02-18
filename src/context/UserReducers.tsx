@@ -9,6 +9,7 @@ export const SET_ADD_ANIME = 'UPDATE_ANIME';
 export const UPDATE_ANIME = 'UPDATE_ANIME';
 export const SET_DELETE_ANIME = 'SET_DELETE_ANIME';
 export const SET_DELETE_ACCOUNT = 'SET_DELETE_ACCOUNT';
+export const CANCEL_DELETE_ACCOUNT = 'CANCEL_DELETE_ACCOUNT';
 
 export interface UserState {
 	user: UserAccount | null;
@@ -59,7 +60,8 @@ export type Action =
 			};
 	  }
 	| { type: 'SET_DELETE_ANIME' }
-	| { type: 'SET_DELETE_ACCOUNT' };
+	| { type: 'SET_DELETE_ACCOUNT' }
+	| { type: 'CANCEL_DELETE_ACCOUNT' };
 
 export function userReducer(state: UserState, action: Action): UserState {
 	switch (action.type) {
@@ -120,6 +122,28 @@ export function userReducer(state: UserState, action: Action): UserState {
 
 		case 'SET_DELETE_ANIME':
 			return initialUserState;
+
+		case 'SET_DELETE_ACCOUNT':
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							isDeleted: true,
+					  }
+					: null,
+			};
+
+		case 'CANCEL_DELETE_ACCOUNT':
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							isDeleted: false,
+					  }
+					: null,
+			};
 
 		default:
 			return state;
