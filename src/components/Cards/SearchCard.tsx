@@ -9,9 +9,14 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { AnimeSectionProps } from '../../models/Interfaces';
 import { FC } from 'react';
+import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 
 const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 	const theme = useTheme();
+
+	const isDefaultApiImage =
+		anime?.images.jpg.image_url ===
+		'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
 
 	if (!anime) {
 		return null;
@@ -75,7 +80,11 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 				>
 					<CardMedia
 						component="img"
-						image={anime.images.jpg.image_url}
+						image={
+							isDefaultApiImage
+								? defaultAnimeImage
+								: anime.images.jpg.image_url
+						}
 						alt={anime.title}
 						className="card-media"
 						sx={{

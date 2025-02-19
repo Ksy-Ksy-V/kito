@@ -4,6 +4,7 @@ import AddToList from '../AnimeInfo/AddToList';
 import AnimeAvatar from '../Cards/AnimeAvatar';
 import { AnimeSectionProps } from '../../models/Interfaces';
 import { FC } from 'react';
+import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 
 const AnimeCardContainer: FC<AnimeSectionProps> = ({
 	loading = false,
@@ -11,6 +12,9 @@ const AnimeCardContainer: FC<AnimeSectionProps> = ({
 }) => {
 	{
 		const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+		const isDefaultApiImage =
+			anime?.images.jpg.image_url ===
+			'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
 
 		return (
 			<Grid2
@@ -67,7 +71,11 @@ const AnimeCardContainer: FC<AnimeSectionProps> = ({
 				>
 					<AnimeAvatar
 						title={anime?.title}
-						imageUrl={anime?.images.jpg.image_url}
+						imageUrl={
+							isDefaultApiImage
+								? defaultAnimeImage
+								: anime?.images.jpg.image_url
+						}
 						mal_id={anime?.mal_id}
 						loading={loading || false}
 					/>
