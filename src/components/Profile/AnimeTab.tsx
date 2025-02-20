@@ -1,5 +1,6 @@
 import {
 	ChangeEvent,
+	FC,
 	SyntheticEvent,
 	useEffect,
 	useMemo,
@@ -18,14 +19,14 @@ import {
 	InputLabel,
 	SelectChangeEvent,
 } from '@mui/material';
-import { user } from '../../data/profileInformation';
 import theme from '../../styles/theme';
 import PagePagination from '../PagePagination';
 import { tabs } from '../../data/tabs';
 import RenderAnimeCards from './RenderAnimeCards';
 import TabFilters from './TabFilters';
+import { UserInfoProps } from '../../models/Interfaces';
 
-const AnimeTabs = () => {
+const AnimeTabs: FC<UserInfoProps> = ({ user }) => {
 	const [page, setPage] = useState(1);
 	const [itemsPerPage] = useState<number>(18);
 	const [loading] = useState(false);

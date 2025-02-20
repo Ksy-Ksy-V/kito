@@ -1,6 +1,6 @@
 import { Grid2, Typography } from '@mui/material';
 import theme from '../../styles/theme';
-import errorImg from '../../images/errorImg.png';
+import errorImg from '../../images/error.png';
 import MainButton from '../Buttons/MainButton';
 
 const ErrorSection = () => {

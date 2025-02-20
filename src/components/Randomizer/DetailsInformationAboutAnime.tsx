@@ -9,6 +9,7 @@ import RatingLabel from '../AnimeInfo/RatingLabel';
 import RandomizerBtn from '../Buttons/RandomizerBtn';
 import { AbstractAnimeProps } from '../../models/Interfaces';
 import { FC } from 'react';
+import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 
 const DetailsInformationAboutAnime: FC<AbstractAnimeProps> = ({
 	anime,
@@ -22,7 +23,12 @@ const DetailsInformationAboutAnime: FC<AbstractAnimeProps> = ({
 	return (
 		<>
 			<BackgroundImg
-				backgroundImage={anime?.images.jpg.large_image_url}
+				backgroundImage={
+					anime?.images.jpg.image_url ===
+					'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
+						? defaultAnimeImage
+						: anime?.images.jpg.image_url
+				}
 				loading={loading}
 				height={'31.25rem'}
 			/>

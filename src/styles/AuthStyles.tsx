@@ -16,7 +16,7 @@ export const textFieldStyles: SxProps<Theme> = {
 		},
 	},
 	'& .MuiFormHelperText-root': {
-		color: 'red',
+		color: '#d32f2f',
 	},
 	'& .MuiInputLabel-root': {
 		color: 'text.primary',

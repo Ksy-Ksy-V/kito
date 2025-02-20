@@ -14,26 +14,50 @@ import PrivacyPolicy from '../pages/legal/PrivacyPolicy';
 import AboutKito from '../pages/legal/AboutKito';
 import PrivateRoute from './PrivateRoute';
 import { RouteContent } from '../models/Interfaces';
+import { UserProvider } from '../context/UserContext';
 
 export const routes: RouteContent[] = [
 	{ path: '/', element: <Home /> },
-	{ path: '/popular', element: <Popularity /> },
 	{ path: '/randomizer', element: <Randomizer /> },
-	{ path: '/randomizer-search', element: <RandomizerSearch /> },
 	{ path: '/airing', element: <Airing /> },
-
-	{ path: '/anime/:id', element: <AnimeDetails /> },
-	{ path: '/profile', element: <Profile /> },
-
 	{ path: '/terms', element: <TermsOfService /> },
 	{ path: '/policy', element: <PrivacyPolicy /> },
 	{ path: '/about', element: <AboutKito /> },
 
 	{
+		path: '/randomizer-search',
+		element: (
+			<UserProvider>
+				<RandomizerSearch />
+			</UserProvider>
+		),
+	},
+
+	{
+		path: '/popular',
+		element: (
+			<UserProvider>
+				<Popularity />
+			</UserProvider>
+		),
+	},
+
+	{
+		path: '/anime/:id',
+		element: (
+			<UserProvider>
+				<AnimeDetails />
+			</UserProvider>
+		),
+	},
+
+	{
 		path: '/settings',
 		element: (
 			<PrivateRoute>
-				<Settings />
+				<UserProvider>
+					<Settings />
+				</UserProvider>
 			</PrivateRoute>
 		),
 	},
@@ -41,7 +65,9 @@ export const routes: RouteContent[] = [
 		path: '/profile',
 		element: (
 			<PrivateRoute>
-				<Profile />
+				<UserProvider>
+					<Profile />
+				</UserProvider>
 			</PrivateRoute>
 		),
 	},

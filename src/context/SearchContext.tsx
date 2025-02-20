@@ -1,4 +1,11 @@
-import { createContext, Dispatch, FC, useContext, useReducer } from 'react';
+import {
+	createContext,
+	Dispatch,
+	FC,
+	ReactNode,
+	useContext,
+	useReducer,
+} from 'react';
 
 import {
 	searchReducer,
@@ -20,9 +27,7 @@ const SearchContext = createContext<{
 	) => void;
 } | null>(null);
 
-export const SearchProvider: FC<{ children: React.ReactNode }> = ({
-	children,
-}) => {
+export const SearchProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [state, dispatch] = useReducer(searchReducer, initialState);
 
 	const searchAnime = async (

@@ -87,7 +87,7 @@ const Sorting: FC = () => {
 				<FormControl
 					sx={{
 						display: 'flex',
-						flexDirection: { xs: 'colom', md: 'row' },
+						flexDirection: { xs: 'column', md: 'row' },
 						paddingLeft: '1rem',
 					}}
 				>

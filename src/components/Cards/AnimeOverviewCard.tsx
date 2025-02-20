@@ -16,17 +16,41 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import CloseIcon from '@mui/icons-material/Close';
 import ChangeList from '../Dialogs/ChangeList';
 import ButtonWithIcon from '../Buttons/ButtonWithIcon';
-
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { KitoCardProps } from '../../models/Interfaces';
+import RemoveAnime from '../Dialogs/RemoveAnime';
+import { GenreKitoValues } from '../../data/tabs';
 
-const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
+const AnimeOverviewCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	const [open, setOpen] = useState(false);
+	const [openRemoveDialog, setOpenRemoveDialog] = useState<boolean>(false);
+
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const handleClose = () => {
 		setOpen(false);
 	};
+
+	const handleOpenConfirm = () => {
+		setOpenRemoveDialog(true);
+		setOpen(false);
+	};
+
+	const handleCloseConfirm = () => {
+		setOpenRemoveDialog(false);
+	};
+
+	const mappedGenres = anime.genres
+		.map((genre) => {
+			const formattedGenre =
+				genre.charAt(0).toUpperCase() + genre.slice(1).toLowerCase();
+
+			return GenreKitoValues[
+				formattedGenre as keyof typeof GenreKitoValues
+			];
+		})
+		.filter((genre) => genre !== undefined);
 	return (
 		<Card
 			sx={{
@@ -68,7 +92,7 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 						<Grid2
 							component="img"
 							src={anime.image}
-							alt={anime.name}
+							alt={anime.title}
 							sx={{
 								width: '10rem',
 								height: '16rem',
@@ -109,7 +133,7 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 								},
 							}}
 						>
-							{anime.name}
+							{anime.title}
 						</Typography>
 					)}
 
@@ -136,7 +160,7 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 										gap: '0.5rem',
 									}}
 								>
-									{anime.genres.map((genre) => (
+									{mappedGenres.map((genre) => (
 										<Box
 											key={genre}
 											sx={{
@@ -279,7 +303,7 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 										color: theme.palette.secondary.main,
 									}}
 								/>
-								{anime.score}
+								{anime.userRating ? anime.userRating : '?'}
 							</Typography>
 						</>
 					</Grid2>
@@ -404,8 +428,11 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 									justifyContent: 'space-between',
 								}}
 							>
-								<DialogTitle id="dialog-title">
-									Change list
+								<DialogTitle
+									id="dialog-title"
+									sx={{ color: theme.palette.secondary.main }}
+								>
+									Change list for "{anime.title}"
 								</DialogTitle>
 
 								<Button
@@ -423,6 +450,35 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 							<ChangeList
 								loading={loading}
 								handleClose={() => handleClose()}
+								handleRemoveOpen={() =>
+									setOpenRemoveDialog(true)
+								}
+								anime={anime}
+							/>
+						</Dialog>
+
+						<ButtonWithIcon
+							onClick={handleOpenConfirm}
+							loading={loading}
+							icon={<DeleteOutlineOutlinedIcon />}
+							sx={{
+								marginTop: '1rem',
+							}}
+						>
+							Remove from list
+						</ButtonWithIcon>
+
+						<Dialog
+							open={openRemoveDialog}
+							onClose={() => setOpenRemoveDialog(false)}
+							fullWidth
+							disableEnforceFocus
+						>
+							<RemoveAnime
+								loading={loading}
+								handleClose={handleClose}
+								handleCloseRemove={handleCloseConfirm}
+								anime={anime}
 							/>
 						</Dialog>
 					</Grid2>
@@ -432,4 +488,4 @@ const ScoreCard: FC<KitoCardProps> = ({ anime, loading }) => {
 	);
 };
 
-export default ScoreCard;
+export default AnimeOverviewCard;

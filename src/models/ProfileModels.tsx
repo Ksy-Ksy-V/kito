@@ -1,17 +1,13 @@
+import { ListName, type } from '../data/tabs';
 export interface AnimeKito {
 	id: number;
-	name: string;
+	title: string;
 	image: string;
 	userRating?: number;
 	episodes: number;
 	episodesWatched: number;
-	type: 'TV' | 'Movie' | 'OVA' | 'Special' | 'ONA';
-	listName:
-		| 'Watching'
-		| 'Completed'
-		| 'On-Hold'
-		| 'Dropped'
-		| 'Plan to Watch';
+	type: type;
+	listName: ListName;
 	description: string;
 	genres: string[];
 	score: number;

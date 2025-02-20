@@ -1,7 +1,7 @@
 import { useSearchContext } from '../../context/SearchContext';
 
 import { buildQueryParams, parseQueryParams } from '../../utils/urlParams';
-import StyledSearchFilters from './StyledSelectFilters';
+import CustomSelect from './CustomSelect';
 import {
 	animeFormats,
 	animeRatings,
@@ -108,7 +108,7 @@ const Filters: FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSearchFilters
+				<CustomSelect
 					label="Format"
 					value={state.filtersValue.format}
 					defaultValue={state.filtersValue.format}
@@ -131,7 +131,7 @@ const Filters: FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSearchFilters
+				<CustomSelect
 					label="Status"
 					value={state.filtersValue.status}
 					defaultValue={state.filtersValue.status}
@@ -155,7 +155,7 @@ const Filters: FC = () => {
 					}}
 				/>
 			) : (
-				<StyledSearchFilters
+				<CustomSelect
 					label="Rating"
 					value={state.filtersValue.rating}
 					defaultValue={state.filtersValue.rating}

@@ -1,25 +1,30 @@
 import { Box, Grid2, Typography } from '@mui/material';
 import BackgroundCover from './BackgroundCover';
-import { user } from '../../data/profileInformation';
 
-import ProfileAvatar from '../../images/ProfileAvatar.png';
+import AvatarDefault from '../../images/ProfileAvatar.png';
 import theme from '../../styles/theme';
+import { UserInfoProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-const ProfileHeader = () => {
-	const profileAvatar = ProfileAvatar;
-	const { name, status, animeList } = user;
+const ProfileHeader: FC<UserInfoProps> = ({ user }) => {
+	const { name, status, animeList, avatar, background } = user;
 
 	const stats = [
 		{ label: 'Anime', value: animeList.length },
 		{
 			label: 'Episodes',
-			value: animeList.reduce((sum, anime) => sum + anime.episodes, 0),
+			value: animeList.reduce(
+				(sum, anime) => sum + anime.episodesWatched,
+				0
+			),
 		},
 		{
 			label: 'Movies',
 			value: animeList.filter((anime) => anime.type === 'Movie').length,
 		},
 	];
+
+	const profileAvatar = avatar || AvatarDefault;
 
 	return (
 		<Grid2
@@ -33,7 +38,7 @@ const ProfileHeader = () => {
 				marginTop: '2rem',
 			}}
 		>
-			<BackgroundCover />
+			<BackgroundCover backgroundImage={background} />
 
 			<Grid2 container spacing={2} size={12}>
 				<Grid2
