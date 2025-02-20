@@ -1,5 +1,5 @@
 import { Box, Grid2, keyframes, Typography } from '@mui/material';
-import img from '../../images/notResultFound.png';
+import img from '../../images/notFound.png';
 
 import { FC, useMemo } from 'react';
 import theme from '../../styles/theme';
