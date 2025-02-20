@@ -12,9 +12,6 @@ const AnimeCardContainer: FC<AnimeSectionProps> = ({
 }) => {
 	{
 		const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
-		const isDefaultApiImage =
-			anime?.images.jpg.image_url ===
-			'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
 
 		return (
 			<Grid2
@@ -72,7 +69,8 @@ const AnimeCardContainer: FC<AnimeSectionProps> = ({
 					<AnimeAvatar
 						title={anime?.title}
 						imageUrl={
-							isDefaultApiImage
+							anime?.images.jpg.image_url ===
+							'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
 								? defaultAnimeImage
 								: anime?.images.jpg.image_url
 						}

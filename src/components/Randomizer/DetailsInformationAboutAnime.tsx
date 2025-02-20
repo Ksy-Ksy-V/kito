@@ -19,17 +19,15 @@ const DetailsInformationAboutAnime: FC<AbstractAnimeProps> = ({
 }) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	const isMobile = useMediaQuery(theme.breakpoints.up('md'));
-	const isDefaultApiImage =
-		anime?.images.jpg.image_url ===
-		'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
 
 	return (
 		<>
 			<BackgroundImg
 				backgroundImage={
-					isDefaultApiImage
+					anime?.images.jpg.image_url ===
+					'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
 						? defaultAnimeImage
-						: anime?.images.jpg.large_image_url
+						: anime?.images.jpg.image_url
 				}
 				loading={loading}
 				height={'31.25rem'}

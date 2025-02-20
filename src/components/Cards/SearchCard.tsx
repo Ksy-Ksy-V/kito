@@ -14,10 +14,6 @@ import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 	const theme = useTheme();
 
-	const isDefaultApiImage =
-		anime?.images.jpg.image_url ===
-		'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
-
 	if (!anime) {
 		return null;
 	}
@@ -81,7 +77,8 @@ const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 					<CardMedia
 						component="img"
 						image={
-							isDefaultApiImage
+							anime?.images.jpg.image_url ===
+							'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
 								? defaultAnimeImage
 								: anime.images.jpg.image_url
 						}
