@@ -124,7 +124,7 @@ const AnimeTabs: FC<UserInfoProps> = ({ user }) => {
 						variant="filled"
 						sx={{
 							marginBottom: '2rem',
-							marginTop: '13rem',
+							marginTop: user?.isPrivate ? '5rem' : '13rem',
 						}}
 					>
 						<InputLabel
@@ -226,7 +226,7 @@ const AnimeTabs: FC<UserInfoProps> = ({ user }) => {
 								sx={{
 									minWidth: 'auto',
 									marginTop: {
-										sm: '5rem',
+										sm: user?.isPrivate ? '0rem' : '5rem',
 										md: '0rem',
 									},
 								}}

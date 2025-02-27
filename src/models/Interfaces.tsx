@@ -20,6 +20,12 @@ export interface AnimeSectionProps {
 //User
 export interface UserInfoProps {
 	user: UserAccount;
+	hideStats?: boolean;
+	newName?: string;
+	newStatus?: string;
+	newAvatar?: string;
+	newCover?: string;
+	isSettingsPage?: boolean;
 }
 
 // Anime Information and Cards
