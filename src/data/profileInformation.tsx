@@ -8,8 +8,7 @@ export const user: UserAccount = {
 	avatar: '',
 	background: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
 	isPrivate: false,
-	isDeleted: true,
-	deleteAt: '2025-03-01T12:00:00Z',
+	deleteAt: null,
 
 	animeList: [
 		{

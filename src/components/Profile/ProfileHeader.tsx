@@ -1,7 +1,7 @@
 import { Box, Grid2, Typography, useMediaQuery } from '@mui/material';
 import BackgroundCover from './BackgroundCover';
 
-import AvatarDefault from '../../images/ProfileAvatar.png';
+import avatarDefault from '../../images/ProfileAvatar.png';
 import theme from '../../styles/theme';
 import { UserInfoProps } from '../../models/Interfaces';
 import { FC } from 'react';
@@ -35,7 +35,7 @@ const ProfileHeader: FC<UserInfoProps> = ({
 				},
 		  ];
 
-	const profileAvatar = newAvatar || avatar || AvatarDefault;
+	const profileAvatar = newAvatar || avatar || avatarDefault;
 	const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	return (
 		<Grid2

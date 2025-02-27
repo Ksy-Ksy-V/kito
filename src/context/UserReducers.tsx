@@ -129,7 +129,9 @@ export function userReducer(state: UserState, action: Action): UserState {
 				user: state.user
 					? {
 							...state.user,
-							isDeleted: true,
+							deleteAt: new Date(
+								Date.now() + 14 * 24 * 60 * 60 * 1000
+							).toISOString(),
 					  }
 					: null,
 			};
@@ -140,7 +142,7 @@ export function userReducer(state: UserState, action: Action): UserState {
 				user: state.user
 					? {
 							...state.user,
-							isDeleted: false,
+							deleteAt: null,
 					  }
 					: null,
 			};

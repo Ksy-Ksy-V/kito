@@ -22,6 +22,5 @@ export interface UserAccount {
 	avatar: string;
 	background: string;
 	animeList: AnimeKito[];
-	isDeleted: boolean;
 	deleteAt: string | null;
 }

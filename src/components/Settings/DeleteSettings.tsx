@@ -20,7 +20,7 @@ import { useUserContext } from '../../context/UserContext';
 const DeleteSettings = () => {
 	const { state, dispatch } = useUserContext();
 	const [isDeletedState, setIsDeletedState] = useState(
-		state.user?.isDeleted || false
+		state.user?.deleteAt !== null
 	);
 	const [open, setOpen] = useState(false);
 	const [agreeToTerms, setAgreeToTerms] = useState(false);
@@ -45,8 +45,8 @@ const DeleteSettings = () => {
 	};
 
 	useEffect(() => {
-		setIsDeletedState(state.user?.isDeleted || false);
-	}, [state.user?.isDeleted]);
+		setIsDeletedState(state.user?.deleteAt !== null);
+	}, [state.user?.deleteAt]);
 
 	return (
 		<Grid2 container spacing={2} size={12}>
