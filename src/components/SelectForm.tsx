@@ -5,21 +5,12 @@ import {
 	InputLabel,
 	InputAdornment,
 	IconButton,
-	SelectChangeEvent,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+import { CustomSelectProps } from '../models/Interfaces';
+import { FC } from 'react';
 
-interface CustomSelectProps {
-	label: string;
-	value: string | '';
-	onChange: (event: SelectChangeEvent<string>) => void;
-	options: string[];
-	clearValue: () => void;
-	capitalizeOptions?: boolean;
-	upperCaseOptions?: boolean;
-}
-
-const SelectForm: React.FC<CustomSelectProps> = ({
+const SelectForm: FC<CustomSelectProps> = ({
 	label,
 	value,
 	onChange,

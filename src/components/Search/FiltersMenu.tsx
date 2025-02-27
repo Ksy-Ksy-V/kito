@@ -14,14 +14,14 @@ import Sorting from './Sorting';
 import Filters from './Filters';
 import GenresFilter from './GenresFilter';
 import SearchButtons from '../Buttons/SearchButtons';
-import React from 'react';
-import StyledButton from '../Buttons/StyledButton';
+
+import MainButton from '../Buttons/MainButton';
 import { useSearchContext } from '../../context/SearchContext';
 
 const FiltersMenu = () => {
 	const { state } = useSearchContext();
 	const [open, setOpen] = useState(false);
-	const [scroll, setScroll] = React.useState<DialogProps['scroll']>('body');
+	const [scroll, setScroll] = useState<DialogProps['scroll']>('body');
 
 	const handleClickOpen = (scrollType: DialogProps['scroll']) => () => {
 		setOpen(true);
@@ -34,7 +34,7 @@ const FiltersMenu = () => {
 
 	return (
 		<>
-			<StyledButton
+			<MainButton
 				onClick={handleClickOpen('body')}
 				startIcon={<TuneOutlinedIcon />}
 				disabled={state.loading}
@@ -44,7 +44,7 @@ const FiltersMenu = () => {
 				}}
 			>
 				Filters
-			</StyledButton>
+			</MainButton>
 
 			<Dialog
 				scroll="body"

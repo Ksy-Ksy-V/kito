@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../Cards/AnimeCard';
 import { Anime, JikanResponse, SeasonsClient } from '@tutkli/jikan-ts';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import Error from '../Error';
 import theme from '../../styles/theme';
 
-const OngoingSection: React.FC = () => {
+const OngoingSection: FC = () => {
 	const [animeList, setAnimeList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
@@ -110,7 +110,7 @@ const OngoingSection: React.FC = () => {
 							textDecoration: 'none',
 						}}
 					>
-						<StyledButton
+						<MainButton
 							sx={{
 								backgroundColor: 'transparent',
 								color: 'primary.main',
@@ -125,7 +125,7 @@ const OngoingSection: React.FC = () => {
 							}}
 						>
 							See more
-						</StyledButton>
+						</MainButton>
 					</Link>
 				</Grid2>
 			</Grid2>
@@ -168,6 +168,7 @@ const OngoingSection: React.FC = () => {
 								<AnimeCard
 									image={anime.images.jpg.image_url}
 									title={anime.title}
+									isTitle={true}
 									mal_id={anime.mal_id}
 								/>
 							</Grid2>

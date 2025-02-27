@@ -1,5 +1,5 @@
 import { Grid2, Typography } from '@mui/material';
-import notFoundImg from '../../images/notResultFound.png';
+import notFoundImg from '../../images/notFound.png';
 import theme from '../../styles/theme';
 
 const EmptyResult = () => {

@@ -2,14 +2,8 @@ import {
 	sliderPosters,
 	sliderThumbnails,
 } from '../images/homePageSliderImg/index';
+import { SliderItem } from '../models/Interfaces';
 
-export interface SliderItem {
-	title: string;
-	description: string;
-	backgroundImage: string;
-	thumbnailImage: string;
-	mal_id: number;
-}
 export const sliderItems: SliderItem[] = [
 	{
 		title: 'One Piece',

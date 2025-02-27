@@ -3,9 +3,9 @@ import { Typography, Grid2, Skeleton } from '@mui/material';
 import { TopClient, JikanResponse, Anime } from '@tutkli/jikan-ts';
 import AnimeInfoCard from '../../components/Popularity/AnimeInfoCard';
 
-import Slyder from '../../components/Popularity/Slider';
 import Error from '../../components/Error';
 import theme from '../../styles/theme';
+import Slider from '../../components/Popularity/Slider';
 
 function Popularity() {
 	const top = new TopClient();
@@ -45,7 +45,7 @@ function Popularity() {
 
 	return (
 		<>
-			<Slyder />
+			<Slider />
 
 			{loading ? (
 				<Skeleton
@@ -81,19 +81,8 @@ function Popularity() {
 				{topList.map((anime, index) => (
 					<AnimeInfoCard
 						key={anime.mal_id}
-						mal_id={anime.mal_id}
+						anime={anime}
 						number={index + 1}
-						image={anime.images.jpg.image_url}
-						title={anime.title}
-						score={anime.score || 0}
-						genres={anime.genres.map((genre) => genre.name)}
-						description={
-							anime.synopsis || 'No description available.'
-						}
-						rating={anime.rating || 'Unknown'}
-						onAddToList={() =>
-							console.log(`Added ${anime.title} to list`)
-						}
 						loading={loading}
 					/>
 				))}

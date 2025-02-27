@@ -1,24 +1,21 @@
 import { Grid2 } from '@mui/material';
-import React from 'react';
-import StyledButton from './StyledButton';
-import { Anime } from '@tutkli/jikan-ts';
+
+import MainButton from './MainButton';
 import { useNavigate } from 'react-router-dom';
+import { AbstractAnimeProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-interface RandomizerBtnProps {
-	loading: boolean;
-	randomAnime: Anime | null;
-	getRandomize: (timeout: boolean) => void;
-}
-
-const RandomizerBtn: React.FC<RandomizerBtnProps> = ({
+const RandomizerBtn: FC<AbstractAnimeProps> = ({
 	loading,
-	randomAnime,
+	anime,
 	getRandomize,
 }) => {
 	const navigate = useNavigate();
 
 	const handleRandomize = () => {
-		getRandomize(randomAnime !== null);
+		if (getRandomize) {
+			getRandomize(anime !== null);
+		}
 	};
 
 	const handleReturnToFilter = () => {
@@ -28,27 +25,27 @@ const RandomizerBtn: React.FC<RandomizerBtnProps> = ({
 	return (
 		<Grid2 container spacing={2}>
 			<Grid2 size={{ sm: 6, xs: 12 }}>
-				<StyledButton
+				<MainButton
 					onClick={handleRandomize}
-					disabled={loading || !randomAnime}
+					disabled={loading || !anime}
 					sx={{
 						marginTop: { sm: '2rem', xs: '1rem' },
 					}}
 				>
 					Randomize
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 
 			<Grid2 size={{ sm: 6, xs: 12 }}>
-				<StyledButton
+				<MainButton
 					onClick={handleReturnToFilter}
 					sx={{
 						marginTop: { sm: '2rem', xs: '0rem' },
 					}}
-					disabled={loading || !randomAnime}
+					disabled={loading || !anime}
 				>
 					New Filter
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 		</Grid2>
 	);

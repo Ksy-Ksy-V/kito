@@ -1,12 +1,10 @@
 import { Grid2 } from '@mui/material';
 import SearchCard from '../Cards/SearchCard';
-import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useSearchContext } from '../../context/SearchContext';
 
 const CardSection = () => {
 	const { state } = useSearchContext();
-	const navigate = useNavigate();
 
 	const uniqueAnimeList = useMemo(() => {
 		return state.animeList.filter(
@@ -29,15 +27,7 @@ const CardSection = () => {
 						key={anime.mal_id}
 						size={{ xs: 6, sm: 4, md: 4, lg: 3 }}
 					>
-						<SearchCard
-							image={anime.images.jpg.image_url}
-							title={anime.title}
-							description={anime.synopsis}
-							genres={anime.genres}
-							score={anime.score}
-							rating={anime.rating}
-							onClick={() => navigate(`/anime/${anime.mal_id}`)}
-						/>
+						<SearchCard anime={anime} />
 					</Grid2>
 				))}
 			</Grid2>

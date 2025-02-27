@@ -72,9 +72,8 @@ export const parseQueryParams = (): SearchState['filters'] &
 	return {
 		query: queryParams.get('q') || '',
 		orderBy:
-			(queryParams.get('order') as SearchOrder | undefined) ||
-			'popularity',
-		sort: (queryParams.get('sort') as SortOptions | undefined) || 'asc',
+			(queryParams.get('order') as SearchOrder | undefined) || 'score',
+		sort: (queryParams.get('sort') as SortOptions | undefined) || 'desc',
 		genres: queryParams.get('genres') || '',
 		format: format || undefined,
 		status: queryParams.get('status') as AnimeSearchStatus | undefined,

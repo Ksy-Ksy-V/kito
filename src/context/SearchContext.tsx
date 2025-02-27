@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer } from 'react';
+import {
+	createContext,
+	Dispatch,
+	FC,
+	ReactNode,
+	useContext,
+	useReducer,
+} from 'react';
 
 import {
 	searchReducer,
@@ -11,7 +18,7 @@ import { animeService } from '../services/animeService';
 
 const SearchContext = createContext<{
 	state: SearchState;
-	dispatch: React.Dispatch<Action>;
+	dispatch: Dispatch<Action>;
 	searchAnime: (
 		query: SearchState['query'],
 		limit: number,
@@ -20,9 +27,7 @@ const SearchContext = createContext<{
 	) => void;
 } | null>(null);
 
-export const SearchProvider: React.FC<{ children: React.ReactNode }> = ({
-	children,
-}) => {
+export const SearchProvider: FC<{ children: ReactNode }> = ({ children }) => {
 	const [state, dispatch] = useReducer(searchReducer, initialState);
 
 	const searchAnime = async (

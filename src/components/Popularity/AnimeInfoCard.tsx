@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import {
 	Box,
 	Typography,
@@ -10,33 +10,11 @@ import {
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import AnimeCard from '../Cards/AnimeCard';
 import theme from '../../styles/theme';
-import AddButton from '../Buttons/AddButton';
-import StyledInformation from '../StyledInformation';
+import StyledInformation from '../../styles/StyledInformation';
+import { AnimeInfoCardProps } from '../../models/Interfaces';
+import AddToList from '../AnimeInfo/AddToList';
 
-interface AnimeInfoCardProps {
-	number: number;
-	mal_id: number;
-	image: string;
-	title: string;
-	score: number;
-	genres: string[];
-	description: string;
-	rating: string;
-	onAddToList: () => void;
-	loading: boolean;
-}
-
-const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
-	number,
-	mal_id,
-	image,
-	title,
-	score,
-	genres,
-	description,
-	rating,
-	loading,
-}) => {
+const AnimeInfoCard: FC<AnimeInfoCardProps> = ({ number, anime, loading }) => {
 	const [showFullDescription, setShowFullDescription] = useState(false);
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -111,9 +89,9 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						/>
 					) : (
 						<AnimeCard
-							image={image}
-							title={title}
-							mal_id={mal_id}
+							image={anime.images.jpg.image_url}
+							title={anime.title}
+							mal_id={anime.mal_id}
 						/>
 					)}
 				</Grid2>
@@ -125,14 +103,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						display: 'flex',
 					}}
 				>
-					<AddButton
-						loading={loading}
-						sx={{
-							width: '10.5rem',
-						}}
-					>
-						Add to list
-					</AddButton>
+					<AddToList loading={loading} anime={anime} />
 				</Grid2>
 			</Grid2>
 
@@ -157,12 +128,12 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									xs: theme.typography.h5.fontSize,
 									sm: theme.typography.h4.fontSize,
 									md: theme.typography.h4.fontSize,
-									lg: theme.typography.h2.fontSize,
-									xl: theme.typography.h2.fontSize,
+									lg: theme.typography.h3.fontSize,
+									xl: theme.typography.h3.fontSize,
 								},
 							}}
 						>
-							{title}
+							{anime.title}
 						</Typography>
 					)}
 
@@ -196,7 +167,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 										marginRight: '0.5rem',
 									}}
 								/>
-								{score}
+								{anime.score || 0}
 							</Typography>
 						)}
 					</Grid2>
@@ -225,22 +196,25 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									gap: '0.5rem',
 								}}
 							>
-								{genres.map((genre) => (
-									<Box
-										key={genre}
-										sx={{
-											backgroundColor:
-												'rgba(56, 113, 113, 0.7)',
-											padding: '0.25rem 0.5rem',
-											borderRadius: '8px',
-											fontSize: '0.875rem',
-											display: 'inline-block',
-											color: theme.palette.text.primary,
-										}}
-									>
-										{genre}
-									</Box>
-								))}
+								{anime.genres
+									.map((genre) => genre.name)
+									.map((genre) => (
+										<Box
+											key={genre}
+											sx={{
+												backgroundColor:
+													'rgba(56, 113, 113, 0.7)',
+												padding: '0.25rem 0.5rem',
+												borderRadius: '8px',
+												fontSize: '0.875rem',
+												display: 'inline-block',
+												color: theme.palette.text
+													.primary,
+											}}
+										>
+											{genre}
+										</Box>
+									))}
 							</Box>
 						)}
 					</Grid2>
@@ -262,7 +236,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 						) : (
 							<StyledInformation
 								label="Score:"
-								value={score.toString() || 'Not score'}
+								value={anime.score.toString() || 'Not score'}
 							/>
 						)}
 					</Grid2>
@@ -303,7 +277,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 									marginTop: { xs: '0.5rem', sm: '2rem' },
 								}}
 							>
-								{description}
+								{anime.synopsis || 'No description available.'}
 							</Typography>
 						)}
 						<Box
@@ -359,7 +333,7 @@ const AnimeInfoCard: React.FC<AnimeInfoCardProps> = ({
 							textAlign: 'center',
 						}}
 					>
-						{rating?.split(' - ')[0]}
+						{anime.rating?.split(' - ')[0]}
 					</Typography>
 				</Box>
 			)}

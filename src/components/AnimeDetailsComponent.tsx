@@ -4,14 +4,10 @@ import AnimeDescriptionSection from './Randomizer/AnimeDescriptionSection';
 import CharacterSection from './AnimeInfo/CharactersSection';
 import SimilarTitlesSection from './AnimeInfo/SimilarTitlesSection';
 import { AbstractAnime } from '../models/AbstractAnime';
+import { AbstractAnimeProps } from '../models/Interfaces';
+import { FC } from 'react';
 
-interface AnimeDetailsProps {
-	anime?: AbstractAnime | null;
-	loading: boolean;
-	getRandomize?: (timeout: boolean) => void;
-}
-
-const AnimeDetails: React.FC<AnimeDetailsProps> = ({
+const AnimeDetails: FC<AbstractAnimeProps> = ({
 	anime,
 	loading,
 	getRandomize,
@@ -19,7 +15,14 @@ const AnimeDetails: React.FC<AnimeDetailsProps> = ({
 	const isRandomizerPage = location.pathname === '/randomizer-search';
 
 	return (
-		<Grid2 container spacing={2}>
+		<Grid2
+			container
+			spacing={2}
+			sx={{
+				display: 'flex',
+				justifyContent: { xs: 'center', sm: 'flex-start' },
+			}}
+		>
 			{isRandomizerPage && getRandomize ? (
 				<DetailsInformationAboutAnime
 					loading={loading}

@@ -1,16 +1,13 @@
 import { Grid2 } from '@mui/material';
-import StyledButton from './StyledButton';
+import MainButton from './MainButton';
 import { useSearchContext } from '../../context/SearchContext';
 import { JikanPagination } from '@tutkli/jikan-ts';
 import { animeService } from '../../services/animeService';
 import { buildQueryParams } from '../../utils/urlParams';
+import { SearchButtonsProps } from '../../models/Interfaces';
+import { FC } from 'react';
 
-interface SearchButtonsProps {
-	dialogOptions?: boolean;
-	closeDialog?: () => void;
-}
-
-const SearchButtons: React.FC<SearchButtonsProps> = ({
+const SearchButtons: FC<SearchButtonsProps> = ({
 	dialogOptions = false,
 	closeDialog,
 }) => {
@@ -72,16 +69,16 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 		<>
 			{' '}
 			<Grid2 size={12}>
-				<StyledButton
+				<MainButton
 					onClick={() => handleApplyFilters()}
 					disabled={loading}
 					sx={{ marginTop: { xs: '0', md: '0.5rem' } }}
 				>
 					Apply Filters
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 			<Grid2 size={12}>
-				<StyledButton
+				<MainButton
 					onClick={handleClearFilters}
 					disabled={loading}
 					sx={{
@@ -90,7 +87,7 @@ const SearchButtons: React.FC<SearchButtonsProps> = ({
 					}}
 				>
 					Reset Filters
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 		</>
 	);

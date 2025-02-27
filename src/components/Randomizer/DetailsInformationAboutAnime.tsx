@@ -7,28 +7,33 @@ import MainInformation from './MainInformation';
 import BackgroundImg from '../BackgroundImg';
 import RatingLabel from '../AnimeInfo/RatingLabel';
 import RandomizerBtn from '../Buttons/RandomizerBtn';
+import { AbstractAnimeProps } from '../../models/Interfaces';
+import { FC } from 'react';
+import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 
-interface DetailsInformationAboutAnimeProps {
-	anime: AbstractAnime | null;
-	loading: boolean;
-	randomizerPage?: boolean;
-	getRandomize?: (timeout: boolean) => void;
-}
-
-const DetailsInformationAboutAnime: React.FC<
-	DetailsInformationAboutAnimeProps
-> = ({ anime, loading, randomizerPage, getRandomize }) => {
+const DetailsInformationAboutAnime: FC<AbstractAnimeProps> = ({
+	anime,
+	loading,
+	randomizerPage,
+	getRandomize,
+}) => {
 	const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
 	const isMobile = useMediaQuery(theme.breakpoints.up('md'));
+
 	return (
 		<>
 			<BackgroundImg
-				anime={anime}
+				backgroundImage={
+					anime?.images.jpg.image_url ===
+					'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
+						? defaultAnimeImage
+						: anime?.images.jpg.image_url
+				}
 				loading={loading}
 				height={'31.25rem'}
 			/>
 
-			<AnimeCardContainer loading={loading} randomAnime={anime} />
+			<AnimeCardContainer loading={loading} anime={anime || null} />
 
 			{randomizerPage && !isLargeScreen && getRandomize && (
 				<Grid2
@@ -41,7 +46,7 @@ const DetailsInformationAboutAnime: React.FC<
 				>
 					<RandomizerBtn
 						loading={loading}
-						randomAnime={anime}
+						anime={anime || null}
 						getRandomize={(timeout) => getRandomize(timeout)}
 					/>
 				</Grid2>
@@ -98,6 +103,11 @@ const DetailsInformationAboutAnime: React.FC<
 								sx={{
 									color: theme.palette.text.secondary,
 									display: 'flex',
+									textAlign: 'center',
+									justifyContent: {
+										xs: 'center',
+										sm: 'left',
+									},
 								}}
 							>
 								<StarOutlinedIcon
@@ -114,6 +124,7 @@ const DetailsInformationAboutAnime: React.FC<
 								display: 'flex',
 								flexWrap: 'wrap',
 								gap: '0.5rem',
+								justifyContent: { xs: 'center', sm: 'left' },
 							}}
 						>
 							{anime?.genres.map((genre) => (
@@ -146,14 +157,16 @@ const DetailsInformationAboutAnime: React.FC<
 				{randomizerPage && isLargeScreen && getRandomize && (
 					<RandomizerBtn
 						loading={loading}
-						randomAnime={anime}
+						anime={anime || null}
 						getRandomize={getRandomize}
 					/>
 				)}
 			</Grid2>
 
 			<Grid2 size={1} sx={{ zIndex: 3, marginTop: '2rem' }}>
-				{isMobile && <RatingLabel anime={anime} loading={loading} />}
+				{isMobile && (
+					<RatingLabel anime={anime || null} loading={loading} />
+				)}
 			</Grid2>
 		</>
 	);

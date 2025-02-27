@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { FC, SyntheticEvent, useState } from 'react';
 import {
 	Grid2,
 	useTheme,
@@ -14,25 +14,17 @@ import {
 	AnimeRating,
 } from '@tutkli/jikan-ts';
 import { useNavigate } from 'react-router-dom';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import SelectForm from '../SelectForm';
 import ClearIcon from '@mui/icons-material/Clear';
 import {
 	animeFormats,
 	animeRatings,
 	animeStatuses,
-} from '../../models/animeFilters';
+} from '../../models/AnimeFilters';
+import { RandomFiltersProps } from '../../models/Interfaces';
 
-interface RandomFiltersProps {
-	loading?: boolean;
-	error?: boolean;
-	animeGenres: Genre[];
-}
-
-const RandomFilters: React.FC<RandomFiltersProps> = ({
-	loading,
-	animeGenres,
-}) => {
+const RandomFilters: FC<RandomFiltersProps> = ({ loading, animeGenres }) => {
 	const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 	const [selectedType, setSelectedType] = useState<AnimeType | ''>('');
 	const [selectedStatus, setSelectedStatus] = useState<
@@ -43,7 +35,7 @@ const RandomFilters: React.FC<RandomFiltersProps> = ({
 	const theme = useTheme();
 
 	const handleGenreChange = (
-		_event: React.SyntheticEvent,
+		_event: SyntheticEvent,
 		newValue: Genre | null
 	) => {
 		setSelectedGenre(newValue);
@@ -166,13 +158,13 @@ const RandomFilters: React.FC<RandomFiltersProps> = ({
 					/>
 				)}
 
-				<StyledButton
+				<MainButton
 					disabled={loading}
 					onClick={handleRandomize}
 					sx={{ marginTop: '3rem', marginBottom: '2rem' }}
 				>
 					Randomize
-				</StyledButton>
+				</MainButton>
 			</Grid2>
 		</Grid2>
 	);

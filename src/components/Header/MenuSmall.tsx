@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { Divider, IconButton, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { menuStyles, menuItemStyles } from '../../styles/menuStyles';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import theme from '../../styles/theme';
 
-const MenuSmall = () => {
+import { signout } from '../../store/reducers/authSlice';
+import { useAppDispatch } from '../../store/hooks';
+import theme from '../../styles/theme';
+import { MenuProps } from '../../models/Interfaces';
+
+const MenuSmall: FC<MenuProps> = ({ userAuthorized, onSignOut }) => {
+	const dispatch = useAppDispatch();
 	const [anchorElBrowse, setAnchorElBrowse] = useState<null | HTMLElement>(
 		null
 	);
@@ -16,6 +21,12 @@ const MenuSmall = () => {
 
 	const handleMenuClose = () => {
 		setAnchorElBrowse(null);
+	};
+
+	const handleSignOut = () => {
+		dispatch(signout());
+		setAnchorElBrowse(null);
+		onSignOut();
 	};
 
 	return (
@@ -44,23 +55,45 @@ const MenuSmall = () => {
 					horizontal: 'right',
 				}}
 			>
-				<MenuItem
-					component={Link}
-					to="/profile"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Profile
-				</MenuItem>
+				{userAuthorized ? (
+					<MenuItem
+						component={Link}
+						to="/profile"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Profile
+					</MenuItem>
+				) : (
+					<MenuItem
+						component={Link}
+						to="/signin"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Sign In
+					</MenuItem>
+				)}
 
-				<MenuItem
-					component={Link}
-					to="/settings"
-					onClick={handleMenuClose}
-					sx={menuItemStyles(theme)}
-				>
-					Settings
-				</MenuItem>
+				{userAuthorized ? (
+					<MenuItem
+						component={Link}
+						to="/settings"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Settings
+					</MenuItem>
+				) : (
+					<MenuItem
+						component={Link}
+						to="/signup"
+						onClick={handleMenuClose}
+						sx={menuItemStyles(theme)}
+					>
+						Sign Up
+					</MenuItem>
+				)}
 
 				<Divider
 					variant="middle"
@@ -107,7 +140,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/about"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -116,7 +149,7 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/policy"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
@@ -125,12 +158,28 @@ const MenuSmall = () => {
 
 				<MenuItem
 					component={Link}
-					to="/"
+					to="/terms"
 					onClick={handleMenuClose}
 					sx={menuItemStyles(theme)}
 				>
 					Terms of Service
 				</MenuItem>
+
+				{userAuthorized && (
+					<Divider
+						variant="middle"
+						sx={{ backgroundColor: theme.palette.primary.main }}
+					/>
+				)}
+
+				{userAuthorized && (
+					<MenuItem
+						onClick={handleSignOut}
+						sx={menuItemStyles(theme)}
+					>
+						Sign out
+					</MenuItem>
+				)}
 			</Menu>
 		</>
 	);

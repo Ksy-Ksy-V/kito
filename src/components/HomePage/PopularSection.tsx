@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Typography, Grid2, Box, Link, Skeleton } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AnimeCard from '../Cards/AnimeCard';
 import { Anime, JikanResponse, TopClient } from '@tutkli/jikan-ts';
-import StyledButton from '../Buttons/StyledButton';
+import MainButton from '../Buttons/MainButton';
 import Error from '../Error';
 import theme from '../../styles/theme';
 
-const PopularSection: React.FC = () => {
+const PopularSection: FC = () => {
 	const [topList, setTopList] = useState<Anime[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(false);
@@ -81,7 +81,7 @@ const PopularSection: React.FC = () => {
 							textDecoration: 'none',
 						}}
 					>
-						<StyledButton
+						<MainButton
 							sx={{
 								backgroundColor: 'transparent',
 								color: 'primary.main',
@@ -96,7 +96,7 @@ const PopularSection: React.FC = () => {
 							}}
 						>
 							See more
-						</StyledButton>
+						</MainButton>
 					</Link>
 				</Grid2>
 			</Grid2>
@@ -138,6 +138,7 @@ const PopularSection: React.FC = () => {
 							>
 								<AnimeCard
 									image={anime.images.jpg.image_url}
+									isTitle={true}
 									title={anime.title}
 									mal_id={anime.mal_id}
 								/>

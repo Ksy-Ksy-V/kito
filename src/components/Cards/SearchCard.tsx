@@ -1,37 +1,22 @@
-import React from 'react';
 import {
 	Card,
 	CardMedia,
 	Typography,
 	Box,
 	useTheme,
-	CardActionArea,
 	Grid2,
 } from '@mui/material';
-import { JikanResource } from '@tutkli/jikan-ts';
-
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
+import { AnimeSectionProps } from '../../models/Interfaces';
+import { FC } from 'react';
+import defaultAnimeImage from '../../images/defaultAnimeImage.jpg';
 
-interface SearchCardProps {
-	image: string;
-	title: string;
-	description: string;
-	genres: JikanResource[];
-	score: number;
-	rating: string;
-	onClick?: () => void;
-}
-
-const SearchCard: React.FC<SearchCardProps> = ({
-	image,
-	title,
-	description,
-	genres,
-	score,
-	rating,
-	onClick,
-}) => {
+const SearchCard: FC<AnimeSectionProps> = ({ anime }) => {
 	const theme = useTheme();
+
+	if (!anime) {
+		return null;
+	}
 
 	return (
 		<>
@@ -76,20 +61,28 @@ const SearchCard: React.FC<SearchCardProps> = ({
 						opacity: 0.3,
 					},
 				}}
-				onClick={onClick}
 			>
-				<CardActionArea
-					sx={{
+				<a
+					href={`/anime/${anime.mal_id}`}
+					rel="noopener noreferrer"
+					style={{
 						width: '100%',
 						height: '100%',
+						textDecoration: 'none',
+						color: 'inherit',
+						display: 'block',
 						position: 'relative',
-						overflow: 'hidden',
 					}}
 				>
 					<CardMedia
 						component="img"
-						image={image}
-						alt={title}
+						image={
+							anime?.images.jpg.image_url ===
+							'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png'
+								? defaultAnimeImage
+								: anime.images.jpg.image_url
+						}
+						alt={anime.title}
 						className="card-media"
 						sx={{
 							width: '100%',
@@ -133,7 +126,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								textAlign: 'center',
 							}}
 						>
-							{rating?.split(' - ')[0]}
+							{anime.rating?.split(' - ')[0]}
 						</Typography>
 					</Box>
 
@@ -172,7 +165,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								},
 							}}
 						>
-							{title}
+							{anime.title}
 						</Typography>
 
 						<Typography
@@ -195,7 +188,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 									marginRight: '0.5rem',
 								}}
 							/>
-							{score}
+							{anime.score}
 						</Typography>
 
 						<Typography
@@ -217,7 +210,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								},
 							}}
 						>
-							{description}
+							{anime.synopsis as string}
 						</Typography>
 
 						<Grid2
@@ -229,7 +222,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 								gap: '0.5rem',
 							}}
 						>
-							{genres.map((genre) => (
+							{anime.genres.map((genre) => (
 								<Box
 									key={genre.mal_id}
 									sx={{
@@ -247,7 +240,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 							))}
 						</Grid2>
 					</Grid2>
-				</CardActionArea>
+				</a>
 			</Card>
 			<Typography
 				variant="h3"
@@ -271,7 +264,7 @@ const SearchCard: React.FC<SearchCardProps> = ({
 					},
 				}}
 			>
-				{title}
+				{anime.title}
 			</Typography>
 		</>
 	);
