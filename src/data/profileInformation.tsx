@@ -7,6 +7,9 @@ export const user: UserAccount = {
 	status: "Sometimes good people make bad choices. It doesn't mean they are bad people. It means they're human.",
 	avatar: '',
 	background: 'https://cdn.myanimelist.net/images/anime/10/47347.jpg',
+	isPrivate: false,
+	deleteAt: null,
+
 	animeList: [
 		{
 			id: 16498,

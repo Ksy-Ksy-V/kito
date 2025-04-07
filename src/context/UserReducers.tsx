@@ -4,9 +4,12 @@ import { AnimeKito, UserAccount } from '../models/ProfileModels';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_USER = 'SET_USER';
+export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 export const SET_ADD_ANIME = 'UPDATE_ANIME';
 export const UPDATE_ANIME = 'UPDATE_ANIME';
 export const SET_DELETE_ANIME = 'SET_DELETE_ANIME';
+export const SET_DELETE_ACCOUNT = 'SET_DELETE_ACCOUNT';
+export const CANCEL_DELETE_ACCOUNT = 'CANCEL_DELETE_ACCOUNT';
 
 export interface UserState {
 	user: UserAccount | null;
@@ -24,6 +27,16 @@ export type Action =
 	| { type: 'SET_LOADING'; payload: boolean }
 	| { type: 'SET_ERROR'; payload: boolean }
 	| { type: 'SET_USER'; payload: UserAccount | null }
+	| {
+			type: 'UPDATE_USER_INFO';
+			payload: {
+				name?: string;
+				status?: string;
+				avatar?: string;
+				background?: string;
+				isPrivate?: boolean;
+			};
+	  }
 	| {
 			type: 'UPDATE_ANIME';
 			payload: {
@@ -46,7 +59,9 @@ export type Action =
 				anime: AnimeKito;
 			};
 	  }
-	| { type: 'SET_DELETE_ANIME' };
+	| { type: 'SET_DELETE_ANIME' }
+	| { type: 'SET_DELETE_ACCOUNT' }
+	| { type: 'CANCEL_DELETE_ACCOUNT' };
 
 export function userReducer(state: UserState, action: Action): UserState {
 	switch (action.type) {
@@ -58,6 +73,17 @@ export function userReducer(state: UserState, action: Action): UserState {
 			return {
 				...state,
 				user: action.payload,
+			};
+
+		case UPDATE_USER_INFO:
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							...action.payload,
+					  }
+					: null,
 			};
 
 		case UPDATE_ANIME:
@@ -94,8 +120,32 @@ export function userReducer(state: UserState, action: Action): UserState {
 					: null,
 			};
 
-		case SET_DELETE_ANIME:
+		case 'SET_DELETE_ANIME':
 			return initialUserState;
+
+		case 'SET_DELETE_ACCOUNT':
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							deleteAt: new Date(
+								Date.now() + 14 * 24 * 60 * 60 * 1000
+							).toISOString(),
+					  }
+					: null,
+			};
+
+		case 'CANCEL_DELETE_ACCOUNT':
+			return {
+				...state,
+				user: state.user
+					? {
+							...state.user,
+							deleteAt: null,
+					  }
+					: null,
+			};
 
 		default:
 			return state;

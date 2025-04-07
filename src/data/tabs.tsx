@@ -15,6 +15,7 @@ export const tabs: LabeledOption[] = [
 	{ value: listNameValues.OnHold, label: 'On-Hold' },
 	{ value: listNameValues.Dropped, label: 'Dropped' },
 	{ value: listNameValues.PlanToWatch, label: 'Plan to Watch' },
+	{ value: 'Score', label: 'Score' },
 ];
 
 export const listNames = [

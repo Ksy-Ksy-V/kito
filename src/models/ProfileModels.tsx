@@ -16,9 +16,11 @@ export interface AnimeKito {
 
 export interface UserAccount {
 	id: number;
+	isPrivate: boolean;
 	name: string;
 	status: string;
 	avatar: string;
 	background: string;
 	animeList: AnimeKito[];
+	deleteAt: string | null;
 }
