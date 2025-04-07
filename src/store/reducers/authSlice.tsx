@@ -35,9 +35,23 @@ export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 				userRegister.email,
 				userRegister.password
 			);
-			if (response.status === 200) {
-				return response;
+			if (!response.accessToken) {
+				return thunkApi.rejectWithValue('Invalid response from server');
 			}
+
+			const authState = {
+				user: {
+					token: response.accessToken,
+					refreshToken: response.refreshToken,
+				},
+				isLoggedIn: true,
+				error: '',
+				loading: false,
+			};
+
+			tokenService.setUser(authState);
+
+			return authState;
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
 			if (axios.isAxiosError(error)) {
@@ -73,9 +87,18 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 				userCredentials.email,
 				userCredentials.password
 			);
-			if (response.token) {
-				return response;
+			if (!response.accessToken) {
+				return thunkApi.rejectWithValue('Invalid response from server');
 			}
+			return {
+				user: {
+					token: response.accessToken,
+					refreshToken: response.refreshToken,
+				},
+				isLoggedIn: true,
+				error: '',
+				loading: false,
+			};
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
 			if (axios.isAxiosError(error)) {
@@ -112,7 +135,7 @@ const authSlice = createSlice({
 			state.error = action.payload;
 		},
 		refreshToken: (state, { payload }) => {
-			state.user.token = payload.acessToken;
+			state.user.token = payload.accessToken;
 			state.user.refreshToken = payload.refreshToken;
 		},
 	},
@@ -134,8 +157,10 @@ const authSlice = createSlice({
 			.addCase(signupAsync.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(signupAsync.fulfilled, (state) => {
+			.addCase(signupAsync.fulfilled, (state, { payload }) => {
 				state.loading = false;
+				state.isLoggedIn = true;
+				state.user = payload.user;
 				state.error = '';
 			})
 			.addCase(signupAsync.rejected, (state) => {

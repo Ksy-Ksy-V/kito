@@ -8,11 +8,11 @@ class AuthService {
 				email,
 				password,
 			})
+
 			.then((response) => {
 				if (response.data.token) {
 					TokenService.setUser(response.data);
 				}
-
 				return response.data;
 			});
 	}
@@ -29,6 +29,17 @@ class AuthService {
 				password,
 			})
 			.then((response) => {
+				if (response.data.accessToken) {
+					TokenService.setUser({
+						isLoggedIn: true,
+						user: {
+							token: response.data.accessToken,
+							refreshToken: response.data.refreshToken,
+						},
+						error: '',
+						loading: false,
+					});
+				}
 				return response.data;
 			});
 	}

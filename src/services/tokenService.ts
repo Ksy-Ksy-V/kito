@@ -25,7 +25,10 @@ class TokenService {
 
 	getUser() {
 		const userJson = localStorage.getItem('user');
-		const user = userJson !== null ? JSON.parse(userJson) : [];
+		const user =
+			userJson !== null
+				? JSON.parse(userJson)
+				: { token: '', refreshToken: '' };
 		return user;
 	}
 
