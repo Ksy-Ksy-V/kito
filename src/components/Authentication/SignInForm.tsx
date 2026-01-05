@@ -108,6 +108,15 @@ const SignInForm: FC<AuthFormProps> = ({ preSignUpPath }) => {
 			{error && (
 				<>
 					<Typography
+						color="error"
+						sx={{
+							textAlign: 'center',
+							marginBottom: '1rem',
+						}}
+					>
+						{error}
+					</Typography>
+					<Typography
 						color={theme.palette.primary.main}
 						sx={{
 							margin: '1rem',
