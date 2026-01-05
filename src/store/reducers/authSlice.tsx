@@ -14,17 +14,17 @@ import {
 const user: User = tokenService.getUser();
 const initialState: AuthState = user.token
 	? {
-			isLoggedIn: true,
-			user: user,
-			error: '',
-			loading: false,
-	  }
+		isLoggedIn: true,
+		user: user,
+		error: '',
+		loading: false,
+	}
 	: {
-			isLoggedIn: false,
-			user: { token: '', refreshToken: '' },
-			error: '',
-			loading: false,
-	  };
+		isLoggedIn: false,
+		user: { token: '', refreshToken: '' },
+		error: '',
+		loading: false,
+	};
 
 export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 	'auth/signup',
@@ -35,8 +35,18 @@ export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 				userRegister.email,
 				userRegister.password
 			);
-			if (response.status === 200) {
-				return response;
+
+			if (response) {
+				return {
+					isLoggedIn: false,
+					user: { token: '', refreshToken: '' },
+					error: '',
+					loading: false,
+				};
+			} else {
+				const errorMessage = 'Registration failed. Please try again.';
+				thunkApi.dispatch(setError(errorMessage));
+				return thunkApi.rejectWithValue(errorMessage);
 			}
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
@@ -51,13 +61,10 @@ export const signupAsync = createAsyncThunk<AuthState, UserRegister>(
 						'Email is already in use. Please choose another one.'
 					);
 				}
-				thunkApi.dispatch(
-					setError(
-						error.response?.data.message ||
-							'Email is already in use. Please choose another one.'
-					)
-				);
-				return thunkApi.rejectWithValue(error.response?.data.message);
+				const errorMessage = error.response?.data?.message ||
+					'Email is already in use. Please choose another one.';
+				thunkApi.dispatch(setError(errorMessage));
+				return thunkApi.rejectWithValue(errorMessage);
 			}
 			thunkApi.dispatch(setError(error.message));
 			return thunkApi.rejectWithValue(error.message);
@@ -73,8 +80,24 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 				userCredentials.email,
 				userCredentials.password
 			);
-			if (response.token) {
-				return response;
+
+			const token = response?.token || response?.accessToken || response?.access_token;
+			const refreshToken = response?.refreshToken || response?.refresh_token || '';
+
+			if (response && token) {
+				return {
+					isLoggedIn: true,
+					user: {
+						token: token,
+						refreshToken: refreshToken,
+					},
+					error: '',
+					loading: false,
+				};
+			} else {
+				const errorMessage = 'Invalid response from server. Please try again.';
+				thunkApi.dispatch(setError(errorMessage));
+				return thunkApi.rejectWithValue(errorMessage);
 			}
 		} catch (_error) {
 			const error = _error as Error | AxiosError;
@@ -87,12 +110,9 @@ export const signinAsync = createAsyncThunk<AuthState, UserCredentials>(
 						'Invalid email or password. Please try again.'
 					);
 				}
-				thunkApi.dispatch(
-					setError(
-						error.response?.data.message || 'An error occurred.'
-					)
-				);
-				return thunkApi.rejectWithValue(error.response?.data.message);
+				const errorMessage = error.response?.data?.message || 'An error occurred.';
+				thunkApi.dispatch(setError(errorMessage));
+				return thunkApi.rejectWithValue(errorMessage);
 			}
 			thunkApi.dispatch(setError(error.message));
 			return thunkApi.rejectWithValue(error.message);
@@ -120,10 +140,11 @@ const authSlice = createSlice({
 		builder
 			.addCase(signinAsync.pending, (state) => {
 				state.loading = true;
+				state.error = '';
 			})
 			.addCase(signinAsync.fulfilled, (state, { payload }) => {
 				state.loading = false;
-				state.isLoggedIn = true;
+				state.isLoggedIn = payload.isLoggedIn;
 				state.user = payload.user;
 				state.error = '';
 			})
@@ -133,6 +154,7 @@ const authSlice = createSlice({
 			})
 			.addCase(signupAsync.pending, (state) => {
 				state.loading = true;
+				state.error = '';
 			})
 			.addCase(signupAsync.fulfilled, (state) => {
 				state.loading = false;
