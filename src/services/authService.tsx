@@ -9,8 +9,17 @@ class AuthService {
 				password,
 			})
 			.then((response) => {
-				if (response.data.token) {
-					TokenService.setUser(response.data);
+				if (response.data && response.data.token) {
+					const userData = {
+						token: response.data.token,
+						refreshToken: response.data.refreshToken || response.data.refresh_token || '',
+					};
+					TokenService.setUser({
+						isLoggedIn: true,
+						user: userData,
+						error: '',
+						loading: false,
+					});
 				}
 
 				return response.data;
